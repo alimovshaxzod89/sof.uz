@@ -1,0 +1,84 @@
+Sayt bo’yicha mavjud kamchiliklar va takliflar
+
+Ishlar, takliflar, kamchiliklar	Hozirgi sayt	Yangi sayt
+1. Sayt shablonini optimallashtirish	-	+
+2. Rasmlarni avtomat siqish va kesish	-	+
+3. Qidiruv tizimiga sozlash (SEO)	-	+
+4. Lotin/Kirill variantini yuritish	-	+
+5. Foto va videoyangiliklarni oson yuklash	-	+
+6. Google Analytics statistikasini sozlash	-	+
+7. Saytda reklama joylarini yaratish va boshqarish imkoniyatini ishlab chiqish	-	+
+8. Murojaatlarni qabul qilish (Virtual Qabul)	+	+
+9. Hatolik haqida xabar qoldirish	+	+
+10. Ijtimoiy tarmoqlar bilan integratsiyalash	-	+
+11. Xabarlar lentasi	-	+
+12. Muallif maqolalari	-	+
+13. O’xshash xabarlar	-	+
+14. Eng ko’p o’qilgan maqolalar	-	+
+15. Asosiy menyu va saydbar qo’zg’almas	-	+
+14. Audioxabarlarni yuklash	-	+
+15. Xabarlarni ulashish	-	+
+16. Rasmlarga vodnyznak avtomat qo’yish	-	+
+17. Saytning telegram kanal va facebook sahifalarini yuritish	+	+
+18. Sayt uchun server*	-	+
+19. SSL sertifikat qo’yish	-	+
+20. Orfografik hatoliklarni tekshirish imkoniyati	-	+
+
+Mantiqiy bloklar va asosiy rubrikalar
+- Dolzarb xabarlar
+- So’nggi yangiliklar
+- Ommabop (eng ko’p o’qilgan) xabarlar
+- Hududiy xabarlar
+- O’zbekiston xabarlari
+- Dunyo yangiliklari
+- Fotoxabarlar
+- Videoxabarlar
+- Mushtariy fikri
+- Quloqqa chalingan gaplar
+- Ishonch telefoniga aytishlaricha...
+- Kim qiladi shugunaniya ...
+- Vijdonning bugungi so’rog’i
+- Oila davrasida
+- So’ragan edingiz
+- Muharrir tanlovi
+- Maslahat
+- Tadbirkor minbari
+- Mualliflar
+- Kurs/Ob-havo
+- Aloqador maqolalar
+- Muallif maqolalari
+- Kun hikmati
+- Mulohaza uchun mavzu
+
+Asosiy talablar
+Foni oq rangda, rasmlar kamroq, audio va video malumotlar bo’lsin. Sodda va tez yuklanadigan dizayn. Dunyo, O’zbekiston, Hududiy xabarlar kabi yuroqida berilgan asosiy rubrikalar qo’yiladi (viloyat matbuot kotibi).
+
+Asosiy takliflar
+Sayt tezkor va qulay ishlashi uchun alohida VPS (vidilenny) server olinishi kerak. Quyidagi minimal parametrli server talab etiladi (Tarif VDS 50 - o’rtacha 220ming so’m):
+- Protsessor yadrosi (CPU): 1 ta
+- Operativ xotira (RAM): 2GB
+- Doimiy disk xajmi (SSD): 50GB
+- Oylik trafik miqdori (tashqi internet trafik): 5GB
+- Internet ulanish tezligi: 1mbit (tashqi) va 100mbit (TAS-IX)
+
+Amaldagi 5GB SSD hosting yangi sayt uchun qo’yiladigan talablarga javob bermaydi. Yillik to’lov farqi o’rtacha 1.5mln so’m
+Boshqaruv paneli imkoniyatlari
+- Oʻzbek lotin va kirill imlo qoidalariga binoan kiritilayotgan matnlarni avtomatik transliteratsiya qilish;
+- Bitta yangilikni parallel ravishda bir nechta tilda kiritib borish (bunda tarjima qilinadigan maydonlari - sarlavhasi va matni alohida-alohida va umumiy maydonlari - rasmi, teglari, holati, yaratilgan sanasi, koʻrishlar soni, kommentaryalari, sahifa manzili kabilar bitta qilib tashkil etiladi);
+- Yangiliklar kategoryasi va teg (kalit jumla)larni oson boshqarish; 
+- Matn, fotoyangilik, videoyangilik formatidagi yangiliklarni oson kiritish; 
+- Saytning bir vaqtda bir necha tilda yuritish (masalan: rus, ingiliz ...); 
+- Saytning qidiruv tizimlari (Google, Yandex) ga integratsiyalash;
+- Saytda yangiliklarning koʻrishlar sonini yuritish;
+- Saytda qidiruvni samarali tashkil etish
+- Saytda reklamalar qoʻyish va reklamalar hisobotini yuritish; 
+- Saytning brauzerlar va mobil qurilmalarda yuklanish tezligini oshirish; 
+- Saytning kunlik zahira nusxalarini avtomatik yaratish va bizning arxiv serverimizda saqlab borish
+- Sayt boshqaruvchilari tomonidan bajarilayotgan amallar jurnalini yuritish
+- Virtual qabulxona imkoniyati
+- qidiruv tizimlariga integratsiyalash (SEO optimizatsiya)
+- hamkor saytlarda banner almashinuvlari
+- saytning ijtimoiy tarmoqlardagi sahifalarini yuritish
+- yangiliklarni kopirayting asosida boshqa saytlarga taqdim etish
+- reklama joylari yaratish
+- PRmaqolalar joylashtirish

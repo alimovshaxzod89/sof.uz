@@ -1,0 +1,31 @@
+version: '2'
+services:
+  php:
+    image: rustamwin/yii2-advanced:5.6-apache
+    container_name: xabar
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app:delegated
+      - ./docker/vhosts:/etc/apache2/sites-enabled:delegated
+      - ./docker/logs:/var/log/apache2:delegated
+    ports:
+      - '0.0.0.0:8080:80'
+    extra_hosts:
+      - "xabar.lc:127.0.0.1"
+      - "api.xabar.lc:127.0.0.1"
+      - "static.xabar.lc:127.0.0.1"
+      - "backend.xabar.lc:127.0.0.1"
+      - "lite.xabar.lc:127.0.0.1"
+    links:
+          - mongo
+          - redis
+  mongo:
+    image: mongo:latest
+    container_name: xabar_mongo
+    volumes:
+      - /var/www/docker/mongodb/xabar:/data/db
+  redis:
+    image: redis:latest
+    container_name: xabar_redis
+    volumes:
+      - /var/www/docker/redis/xabar:/data
