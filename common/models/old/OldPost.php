@@ -1,31 +1,29 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models\old;
 
 use yii\db\ActiveRecord;
 
 /**
- * Class Currency
- * @package common\models
  * @property string id
  * @property string title
- * @property string description
- * @property string author
- * @property string poster_w
- * @property string text
- * @property string date
- * @property string lan
- * @property string dolzorab
+ * @property string full
+ * @property string views
  * @property string category_id
- * @property string link
- * @property string viewed
- * @property string keyword
- * @property string descrept
+ * @property string date
+ * @property string img
+ * @property string user_id
+ * @property string comment
+ * @property string lang
+ * @property string status
+ * @property string top
+ * @property string from_user
+ * @property string slug
+ * @property string short
+ * @property string photo
+ * @property string mobile
+ *
+ * @package common\models
  */
 class OldPost extends ActiveRecord
 {

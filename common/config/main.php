@@ -10,11 +10,11 @@ $config = [
     'timeZone'   => 'Asia/Tashkent',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap'  => ['log', 'config'],
-    'aliases' => [
+    'aliases'    => [
         '@bower' => '@vendor/bower-asset'
     ],
     'components' => [
-        'i18n'         => [
+        'i18n'   => [
             'translations' => [
                 'app*' => [
                     'class'                 => 'common\components\MongoMessageSource',
@@ -27,7 +27,7 @@ $config = [
                         'handleMissingTranslation',
                     ],
                 ],
-                'yii' => [
+                'yii'  => [
                     'class'                 => 'common\components\MongoMessageSource',
                     'forceTranslation'      => true,
                     'enableCaching'         => true,
@@ -40,7 +40,7 @@ $config = [
                 ],
             ],
         ],
-        'mailer'       => [
+        'mailer' => [
             'class'            => 'yii\swiftmailer\Mailer',
             'viewPath'         => '@common/mail',
             'transport'        => [
@@ -53,7 +53,7 @@ $config = [
             ],
             'useFileTransport' => false,
         ],
-        'db'           => require(__DIR__ . '/db.php'),
+        'db'     => require(__DIR__ . '/db.php'),
 
         'assetManager' => array(
             'linkAssets'      => true,
@@ -72,11 +72,11 @@ $config = [
             'timeZone'          => 'Asia/Tashkent',
             'defaultTimeZone'   => 'Asia/Tashkent',
         ],
-        'mongodb'     => [
+        'mongodb'      => [
             'class' => '\yii\mongodb\Connection',
             'dsn'   => getenv('MONGODB_DSN'),
         ],
-        'fileStorage' => [
+        'fileStorage'  => [
             'class'      => '\trntv\filekit\Storage',
             'baseUrl'    => '@staticUrl/uploads',
             'filesystem' => [
@@ -84,32 +84,32 @@ $config = [
                 'path'  => '@static/uploads',
             ],
         ],
-        'reCaptcha'   => [
+        'reCaptcha'    => [
             'name'    => 'reCaptcha',
             'class'   => 'himiklab\yii2\recaptcha\ReCaptcha',
             'siteKey' => getenv('RE_CAPTCHA_KEY'),
             'secret'  => getenv('RE_CAPTCHA_SECRET'),
         ],
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => 'localhost',
-            'port' => 6379,
-            'database' => 0,
+        'redis'        => [
+            'class'    => 'yii\redis\Connection',
+            'hostname' => getenv('REDIS_HOSTNAME'),
+            'port'     => getenv('REDIS_PORT'),
+            'database' => getenv('REDIS_DB'),
         ],
-        'session' => [
+        'session'      => [
             'class' => 'yii\redis\Session',
             'redis' => [
-                'hostname' => 'localhost',
-                'port' => 6379,
-                'database' => 0,
+                'hostname' => getenv('REDIS_HOSTNAME'),
+                'port'     => getenv('REDIS_PORT'),
+                'database' => getenv('REDIS_DB'),
             ],
         ],
-        'cache' => [
+        'cache'        => [
             'class' => 'yii\redis\Cache',
             'redis' => [
-                'hostname' => 'localhost',
-                'port' => 6379,
-                'database' => 0,
+                'hostname' => getenv('REDIS_HOSTNAME'),
+                'port'     => getenv('REDIS_PORT'),
+                'database' => getenv('REDIS_DB'),
             ],
         ]
     ],

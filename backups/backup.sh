@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /var/www/minbar/backups/
+cd /var/www/sof/backups/
 
 OUTPUT="$(ls -t mon*5\-*\-*\_*_*.bak.tgz | head -1)"
 if [ -f $OUTPUT ]; then
@@ -14,7 +14,7 @@ if [ -f $OUTPUT ]; then
 fi
 
 THE_DATE=$(date +"%d-%m-%Y_%H_%M")
-/usr/bin/mongodump --db=minbar --out=./
-tar -czvf mongo_mnbr_${THE_DATE}.bak.tgz ./minbar/
-rm -rf ./minbar
+/usr/bin/mongodump --db=sof --out=./
+tar -czvf mongo_mnbr_${THE_DATE}.bak.tgz ./sof/
+rm -rf ./sof
 find ./mongo_*.bak.* -mtime +15 -exec rm {} \;

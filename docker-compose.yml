@@ -1,31 +1,43 @@
-version: '2'
+version: '3'
 services:
   php:
-    image: rustamwin/yii2-advanced:5.6-apache
-    container_name: xabar
+    image: yiisoftware/yii2-php:7.2-apache
     volumes:
+      - ./:/var/www/html:delegated
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      - ./:/app:delegated
-      - ./docker/vhosts:/etc/apache2/sites-enabled:delegated
-      - ./docker/logs:/var/log/apache2:delegated
-    ports:
-      - '0.0.0.0:8080:80'
+      - ./.docker/vhosts:/etc/apache2/sites-enabled:delegated
+      - ./.docker/logs:/var/log/apache2:delegated
+    networks:
+      vpcbr:
+        ipv4_address: 172.23.0.3
     extra_hosts:
-      - "xabar.lc:127.0.0.1"
-      - "api.xabar.lc:127.0.0.1"
-      - "static.xabar.lc:127.0.0.1"
-      - "backend.xabar.lc:127.0.0.1"
-      - "lite.xabar.lc:127.0.0.1"
+      - "sof.lc:172.23.0.3"
+      - "backend.sof.lc:172.23.0.3"
+      - "api.sof.lc:172.23.0.3"
+      - "static.sof.lc:172.23.0.3"
     links:
-          - mongo
-          - redis
+      - mongo
+      - redis
+
   mongo:
-    image: mongo:latest
-    container_name: xabar_mongo
+    image: mongo:4.0.9
+    networks:
+      vpcbr:
+        ipv4_address: 172.23.0.4
     volumes:
-      - /var/www/docker/mongodb/xabar:/data/db
+      - ./backups:/backups/sof
+      - /var/www/docker/mongodb/sof:/data/db
+
   redis:
-    image: redis:latest
-    container_name: xabar_redis
-    volumes:
-      - /var/www/docker/redis/xabar:/data
+    image: redis:5.0.5
+    restart: always
+    networks:
+      vpcbr:
+        ipv4_address: 172.23.0.5
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.23.0.0/24

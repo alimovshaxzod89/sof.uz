@@ -1,8 +1,8 @@
 #!/bin/sh
-rm -rf ./minbar/
+rm -rf ./sof/
 OUTPUT="$(ls -t *.tgz | head -1)"
 echo "${OUTPUT}"
 tar -xzvf "${OUTPUT}" ./
-/usr/bin/mongo minbar --eval "db.dropDatabase();"
-/usr/bin/mongorestore --db=minbar ./minbar --noIndexRestore
+/usr/bin/mongo sof --eval "db.dropDatabase();"
+/usr/bin/mongorestore --db=sof ./sof --noIndexRestore
 ../yii indexer/create-index

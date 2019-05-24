@@ -24,14 +24,6 @@ class View extends \yii\web\View
                     'label' => 'Posts',
                     'url'   => 'post/index',
                 ],
-                'post/photo'     => [
-                    'label' => 'Photo News',
-                    'url'   => 'post/photo',
-                ],
-                'post/video'     => [
-                    'label' => 'Video News',
-                    'url'   => 'post/video',
-                ],
                 'category/index' => [
                     'label' => 'Categories',
                     'url'   => 'category/index',
@@ -43,10 +35,6 @@ class View extends \yii\web\View
                 'post/draft'     => [
                     'label' => 'Drafts',
                     'url'   => 'post/draft',
-                ],
-                'post/bbc'       => [
-                    'label' => 'BBC Links',
-                    'url'   => 'post/bbc',
                 ],
                 'post/stat'      => [
                     'label' => 'Stat',

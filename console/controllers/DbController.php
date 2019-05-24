@@ -30,7 +30,6 @@ use yii\db\Exception;
  */
 class DbController extends Controller
 {
-
     public function actionCatSave()
     {
         foreach (Category::find()->all() as $category) {
@@ -85,7 +84,6 @@ class DbController extends Controller
         }
         fclose($handle);
     }
-
 
     public function actionUpdatePostTitle()
     {
@@ -319,7 +317,6 @@ class DbController extends Controller
         }
     }
 
-
     static $img        = [];
     static $firstImage = null;
 
@@ -380,7 +377,6 @@ class DbController extends Controller
 
         return $content;
     }
-
 
     public function actionPage()
     {

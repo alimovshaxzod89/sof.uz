@@ -10,7 +10,7 @@ use yii\web\Request;
 
 class Config extends Component
 {
-    const EVENT_CONFIG_INIT      = 'eventConfigInit';
+    const EVENT_CONFIG_INIT = 'eventConfigInit';
     const CONFIG_PUSH_TO_ANDROID = 'push_android';
 
     protected static $_configurations = [];
@@ -62,22 +62,22 @@ class Config extends Component
     }
 
 
-    const LANGUAGE_DEFAULT  = 'cy-UZ';
-    const LANGUAGE_UZBEK    = 'uz-UZ';
+    const LANGUAGE_DEFAULT = 'cy-UZ';
+    const LANGUAGE_UZBEK = 'uz-UZ';
     const LANGUAGE_CYRILLIC = 'cy-UZ';
-    const LANGUAGE_RUSSIAN  = 'ru-RU';
+    const LANGUAGE_RUSSIAN = 'ru-RU';
 
     const CONFIG_WEB_COMPRESS_ASSETS = 'web_compress_assets';
 
     const CONFIG_SYS_DEV_TOOLBAR_ENABLE = 'sys_dev_toolbar_enable';
-    const CONFIG_SYS_DEV_TOOLBAR_IP     = 'sys_dev_toolbar_ip';
-    const CONFIG_SYS_DEV_EMAILS         = 'sys_dev_emails';
+    const CONFIG_SYS_DEV_TOOLBAR_IP = 'sys_dev_toolbar_ip';
+    const CONFIG_SYS_DEV_EMAILS = 'sys_dev_emails';
 
     const CONFIG_USER_EMAIL_CONFIRM = 'user_email_confirm';
 
     const CONFIG_CATALOG_POST = 'post_category';
-    const CONFIG_BLOCKED_IPS  = 'blocked_ips';
-    const CONFIG_ROLES        = 'roles';
+    const CONFIG_BLOCKED_IPS = 'blocked_ips';
+    const CONFIG_ROLES = 'roles';
 
     const PASSWORD_FAKE_VALUE = '**************';
 
@@ -86,6 +86,7 @@ class Config extends Component
     public static $languages = [
         self::LANGUAGE_UZBEK    => self::LANGUAGE_UZBEK,
         self::LANGUAGE_CYRILLIC => self::LANGUAGE_CYRILLIC,
+        self::LANGUAGE_RUSSIAN  => self::LANGUAGE_RUSSIAN,
     ];
 
     public static function getLanguageOptions()
@@ -93,6 +94,7 @@ class Config extends Component
         return [
             self::LANGUAGE_UZBEK    => __('Uzbek'),
             self::LANGUAGE_CYRILLIC => __('Cyrillic'),
+            self::LANGUAGE_RUSSIAN  => __('Russian'),
         ];
     }
 
@@ -101,6 +103,7 @@ class Config extends Component
         return [
             self::LANGUAGE_UZBEK    => __('O‘z'),
             self::LANGUAGE_CYRILLIC => __('Ўз'),
+            self::LANGUAGE_RUSSIAN  => __('Ru'),
         ];
     }
 
@@ -109,6 +112,7 @@ class Config extends Component
         return [
             self::LANGUAGE_UZBEK    => null,
             self::LANGUAGE_CYRILLIC => null,
+            self::LANGUAGE_RUSSIAN  => null,
         ];
     }
 
@@ -117,6 +121,7 @@ class Config extends Component
         $langs = [
             self::LANGUAGE_UZBEK    => 'uz-UZ',
             self::LANGUAGE_CYRILLIC => 'uz',
+            self::LANGUAGE_RUSSIAN  => 'ru',
         ];
 
         return $langs[$lang];
@@ -127,6 +132,7 @@ class Config extends Component
         return [
             'uz' => __('Uzbek'),
             'cy' => __('Cyrillic'),
+            'ru' => __('Russian'),
         ];
     }
 
@@ -135,6 +141,7 @@ class Config extends Component
         $lang = [
             self::LANGUAGE_UZBEK    => 'uz',
             self::LANGUAGE_CYRILLIC => 'cy',
+            self::LANGUAGE_RUSSIAN  => 'ru',
         ];
         return isset($lang[Yii::$app->language]) ? $lang[Yii::$app->language] : 'uz';
     }
@@ -144,6 +151,7 @@ class Config extends Component
         $lang = [
             self::LANGUAGE_UZBEK    => 'uz',
             self::LANGUAGE_CYRILLIC => 'cy',
+            self::LANGUAGE_RUSSIAN  => 'ru',
         ];
         return isset($lang[Yii::$app->language]) ? Yii::$app->language : 'cy-UZ';
     }

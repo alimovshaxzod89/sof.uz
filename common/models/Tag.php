@@ -21,6 +21,7 @@ use yii\helpers\Url;
  * @property string  name_cy
  * @property string  name_ru
  * @property string  slug
+ * @property string  old_id
  * @property integer count_l5d
  * @property integer count
  * @property string  name
@@ -102,6 +103,7 @@ class Tag extends MongoModel
             'name_ru',
             'slug',
             'count',
+            'old_id',
             'count_l5d',
             'is_topic',
             'created_at',
