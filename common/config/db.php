@@ -5,7 +5,7 @@ return [
     'dsn'                 => getenv('DB_DSN'),
     'username'            => getenv('DB_USERNAME'),
     'password'            => getenv('DB_PASSWORD'),
-    'tablePrefix'         => 'wp_',
+    'tablePrefix'         => getenv('DB_TABLE_PREFIX'),
     'charset'             => 'utf8',
     'enableSchemaCache'   => true,
     'enableQueryCache'    => false,

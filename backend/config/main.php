@@ -29,7 +29,7 @@ return [
         ],
         'urlManager'   => [
             'class'                     => 'codemix\localeurls\UrlManager',
-            'languages'                 => ['cy' => 'ru-RU', 'uz' => 'uz-UZ'],
+            'languages'                 => ['uz' => 'uz-UZ', 'cy' => 'ru-RU'],
             'enableLanguageDetection'   => false,
             'enableLanguagePersistence' => false,
             'showScriptName'            => false,

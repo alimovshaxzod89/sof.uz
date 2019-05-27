@@ -2,6 +2,7 @@
 
 namespace console\models;
 
+use common\models\Post as NewPost;
 use MongoDB\BSON\Timestamp;
 
 /**
@@ -57,19 +58,20 @@ class Post extends \common\models\old\OldPost
     public function toMongo()
     {
         $categories = $this->getCategoriesArray();
-        $status     = $this->status ? \common\models\Post::STATUS_PUBLISHED : \common\models\Post::STATUS_DRAFT;
-        $new        = new \common\models\Post([
-                                                  'old_id'      => $this->id,
-                                                  'title'       => $this->title,
-                                                  'content'     => $this->full,
-                                                  'views'       => $this->views,
-                                                  'url'         => $this->slug,
-                                                  'status'      => $status,
-                                                  'type'        => \common\models\Post::TYPE_NEWS,
-                                                  '_categories' => $categories,
-                                                  '_tags'       => $this->getNewTagsIds(),
-                                                  'created_at'  => new Timestamp(1, $this->date),
-                                              ]);
+        $tags = $this->getNewTagsIds();
+        $status     = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
+        $new        = new NewPost([
+                                      'old_id'      => $this->id,
+                                      'title'       => $this->title,
+                                      'content'     => $this->full,
+                                      'views'       => $this->views,
+                                      'url'         => $this->slug,
+                                      'status'      => $status,
+                                      'type'        => NewPost::TYPE_NEWS,
+                                      '_categories' => $categories,
+                                      '_tags'       => $tags,
+                                      'created_at'  => new Timestamp(1, $this->date),
+                                  ]);
 
         if ($new->save()) {
             //$this->stdout("Created `{$new->title}` post successfully.\n", Console::FG_GREEN);
