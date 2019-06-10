@@ -25,22 +25,39 @@ class CategoryProvider extends Category
     public static function getTrending($limit = 6)
     {
         return self::find()
-                   ->where(['_domain' => Config::getDomain(), 'is_hidden' => ['$ne' => true]])
+                   ->where(['is_hidden' => ['$ne' => true]])
                    ->orderBy(['count_posts' => SORT_DESC])
                    ->limit($limit)
                    ->all();
     }
 
+    public static function getFooterTopCategory()
+    {
+        $cat = Config::get(Config::CONFIG_FOOTER_TOP_POSTS);
+        return CategoryProvider::findOne($cat);
+    }
+
     /**
+     * @param bool $limit
      * @return PostProvider[]
      * @throws \yii\base\InvalidConfigException
      */
-    public function getPosts()
+    public function getPosts($limit = false)
     {
-        return PostProvider::find()
-                           ->active()
-                           ->andWhere(['_categories' => ['$elemMatch' => ['$in' => [$this->id]]]])
-                           ->all();
+        $query = PostProvider::find()
+                             ->active()
+                             ->andWhere([
+                                            '_categories' => [
+                                                '$elemMatch' => [
+                                                    '$eq' => $this->_id
+                                                ]
+                                            ]
+                                        ]);
+
+        if ($limit)
+            $query->limit($limit);
+
+        return $query->all();
     }
 
     public function getChildren()
@@ -51,7 +68,7 @@ class CategoryProvider extends Category
     /**
      * @return Category[]
      */
-    public static function getHomeCategories($limit = 2)
+    public static function getHomeCategories($limit = 4)
     {
         $domainCats = self::getCategoryTree([], Config::getRootCatalog());
 
@@ -73,7 +90,7 @@ class CategoryProvider extends Category
         }
         ksort($cats);
 
-        return array_slice($cats,0,$limit);
+        return array_slice($cats, 0, $limit);
     }
 
 }

@@ -2,7 +2,9 @@
 
 namespace console\models;
 
+use common\models\Category as NewCategory;
 use common\models\Post as NewPost;
+use common\models\Tag as NewTag;
 use MongoDB\BSON\Timestamp;
 
 /**
@@ -29,8 +31,8 @@ class Post extends \common\models\old\OldPost
         $ids = [];
         if (is_array($this->tags) && count($this->tags)) {
             $ids = array_map(function (Tag $tag) {
-                $new = \common\models\Tag::find()->where(['old_id' => $tag->id])->one();
-                if ($new instanceof \common\models\Tag) {
+                $new = NewTag::find()->where(['old_id' => $tag->id])->one();
+                if ($new instanceof NewTag) {
                     return $new->getId();
                 }
 
@@ -46,9 +48,9 @@ class Post extends \common\models\old\OldPost
     {
         $categories = [];
         if ($this->category instanceof Category) {
-            $cat = \common\models\Category::find()->where(['old_id' => $this->category->id])->one();
-            if ($cat instanceof \common\models\Category) {
-                $categories[] = $cat->getId();
+            $cat = NewCategory::find()->where(['old_id' => $this->category->id])->one();
+            if ($cat instanceof NewCategory) {
+                $categories[] = $cat->_id;
             }
         }
 
@@ -57,21 +59,26 @@ class Post extends \common\models\old\OldPost
 
     public function toMongo()
     {
-        $categories = $this->getCategoriesArray();
-        $tags = $this->getNewTagsIds();
-        $status     = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
-        $new        = new NewPost([
-                                      'old_id'      => $this->id,
-                                      'title'       => $this->title,
-                                      'content'     => $this->full,
-                                      'views'       => $this->views,
-                                      'url'         => $this->slug,
-                                      'status'      => $status,
-                                      'type'        => NewPost::TYPE_NEWS,
-                                      '_categories' => $categories,
-                                      '_tags'       => $tags,
-                                      'created_at'  => new Timestamp(1, $this->date),
-                                  ]);
+        $image             = [];
+        $categories        = $this->getCategoriesArray();
+        $tags              = $this->getNewTagsIds();
+        $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
+        $image['path']     = str_replace('http://sof.uz/files/uploads/', '', $this->img);
+        $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
+        $new               = new NewPost([
+                                             'old_id'      => $this->id,
+                                             'title'       => $this->title,
+                                             'info'        => $this->short,
+                                             'content'     => $this->full,
+                                             'views'       => $this->views,
+                                             'url'         => $this->slug,
+                                             'status'      => $status,
+                                             'image'       => $image,
+                                             'type'        => NewPost::TYPE_NEWS,
+                                             '_categories' => $categories,
+                                             '_tags'       => $tags,
+                                             'created_at'  => new Timestamp(1, $this->date),
+                                         ]);
 
         if ($new->save()) {
             //$this->stdout("Created `{$new->title}` post successfully.\n", Console::FG_GREEN);

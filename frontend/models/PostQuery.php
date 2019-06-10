@@ -23,34 +23,32 @@ class PostQuery extends ActiveQuery
     public function active($fields = [])
     {
         return $this->select(
-            array_merge(
-                [
-                    'title',
-                    'url',
-                    'short_id',
-                    'is_main',
-                    'status',
-                    'info',
-                    'image',
-                    '_categories',
-                    'published_on',
-                    'audio',
-                    'views',
-                    'views_l3d',
-                    'views_l7d',
-                    'read_min',
-                    'is_tagged',
-                    'is_bbc',
-                    'hide_image',
-                    '_translations.title_uz',
-                    '_translations.title_cy',
-                    '_translations.info_uz',
-                    '_translations.info_cy',
-                ],
-                $fields))
+            array_merge([
+                            'title',
+                            'url',
+                            'short_id',
+                            'is_main',
+                            'status',
+                            'info',
+                            'image',
+                            '_categories',
+                            'published_on',
+                            'audio',
+                            'views',
+                            'views_l3d',
+                            'views_l7d',
+                            'read_min',
+                            'is_tagged',
+                            'is_bbc',
+                            'hide_image',
+                            '_translations.title_uz',
+                            '_translations.title_cy',
+                            '_translations.info_uz',
+                            '_translations.info_cy',
+                        ], $fields))
                     ->andFilterWhere([
-                        'status' => PostProvider::STATUS_PUBLISHED,
-                    ]);
+                                         'status' => PostProvider::STATUS_PUBLISHED,
+                                     ]);
     }
 
     public function domain()

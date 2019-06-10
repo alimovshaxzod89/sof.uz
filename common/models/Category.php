@@ -53,6 +53,12 @@ class Category extends MongoModel
     public $child  = [];
     public $_posts = [];
 
+    public static function getAsOption()
+    {
+        $all = self::find()->all();
+        return ArrayHelper::map($all, 'id', 'name');
+    }
+
     public function init()
     {
 
@@ -281,11 +287,11 @@ class Category extends MongoModel
         $query = self::find()->where(['parent' => $parent]);
 
         $dataProvider = new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
+                                                   'query'      => $query,
+                                                   'pagination' => [
+                                                       'pageSize' => 5,
+                                                   ],
+                                               ]);
 
         return $dataProvider;
     }

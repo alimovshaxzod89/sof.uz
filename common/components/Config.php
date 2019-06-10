@@ -76,6 +76,7 @@ class Config extends Component
     const CONFIG_USER_EMAIL_CONFIRM = 'user_email_confirm';
 
     const CONFIG_CATALOG_POST = 'post_category';
+    const CONFIG_FOOTER_TOP_POSTS = 'footer_top_posts';
     const CONFIG_BLOCKED_IPS = 'blocked_ips';
     const CONFIG_ROLES = 'roles';
 
@@ -243,6 +244,13 @@ class Config extends Component
                     'type'    => 'category',
                     'help'    => __('Select root category for posts'),
                     'options' => $rootCats,
+                ],
+                [
+                    'label'   => __('Footer top Category'),
+                    'path'    => self::CONFIG_FOOTER_TOP_POSTS,
+                    'type'    => 'category',
+                    'help'    => __('Select category'),
+                    'options' => Category::getAsOption(),
                 ],
             ],
 

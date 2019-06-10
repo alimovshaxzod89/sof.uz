@@ -1,22 +1,9 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 12/11/17
- * Time: 1:17 AM
- */
 
 namespace frontend\models;
 
-
 use common\components\Config;
 use common\models\Blogger;
-use common\models\Category;
 use common\models\Post;
 use common\models\Tag;
 use Imagine\Image\ManipulatorInterface;
@@ -26,6 +13,11 @@ use yii\data\ActiveDataProvider;
 
 class PostProvider extends Post
 {
+    public function hasCategory()
+    {
+        return $this->category instanceof CategoryProvider;
+    }
+
     /**
      * @return PostQuery|object
      * @throws \yii\base\InvalidConfigException
@@ -140,11 +132,11 @@ class PostProvider extends Post
 
         if ($batch) {
             return new ActiveDataProvider([
-                'query'      => $query,
-                'pagination' => [
-                    'pageSize' => $limit,
-                ],
-            ]);
+                                              'query'      => $query,
+                                              'pagination' => [
+                                                  'pageSize' => $limit,
+                                              ],
+                                          ]);
         }
 
         return $query->all();
@@ -172,8 +164,8 @@ class PostProvider extends Post
         $result = self::find()
                       ->active()
                       ->andWhere([
-                          'published_on' => ['$gte' => new Timestamp(1, time() - 5 * 24 * 3600)],
-                      ])
+                                     'published_on' => ['$gte' => new Timestamp(1, time() - 5 * 24 * 3600)],
+                                 ])
                       ->addOrderBy(['views_l3d' => SORT_DESC])
                       ->limit($limit)
                       ->all();
@@ -200,11 +192,11 @@ class PostProvider extends Post
 
         if ($provider) {
             return new ActiveDataProvider([
-                'query'      => $query,
-                'pagination' => [
-                    'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-                ],
-            ]);
+                                              'query'      => $query,
+                                              'pagination' => [
+                                                  'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                              ],
+                                          ]);
         }
         return $query->all();
     }
@@ -214,13 +206,13 @@ class PostProvider extends Post
      * @return PostProvider[]
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getTopPost($limit = 4)
+    public static function getTopPost($limit = 5)
     {
         $result = self::find()
                       ->active()
                       ->andWhere([
-                          'is_main' => ['$eq' => true],
-                      ])
+                                     'is_main' => ['$eq' => true],
+                                 ])
                       ->addOrderBy(['published_on' => SORT_DESC])
                       ->limit($limit)
                       ->all();
@@ -260,11 +252,11 @@ class PostProvider extends Post
             return $query->all();
         }
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     /**
@@ -301,8 +293,8 @@ class PostProvider extends Post
         return static::find()
                      ->active()
                      ->andWhere([
-                         '_author' => ['$nin' => [null, ""]],
-                     ])
+                                    '_author' => ['$nin' => [null, ""]],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC])
                      ->limit($limit)
                      ->all();
@@ -315,11 +307,11 @@ class PostProvider extends Post
                      ->orderBy(['published_on' => SORT_DESC]);
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     /**
@@ -333,8 +325,8 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere([
-                         'has_video' => ['$eq' => true],
-                     ])
+                                    'has_video' => ['$eq' => true],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         if (\count($exclude)) {
@@ -342,11 +334,11 @@ class PostProvider extends Post
         }
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     /**
@@ -360,8 +352,8 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere([
-                         'has_gallery' => ['$eq' => true],
-                     ])
+                                    'has_gallery' => ['$eq' => true],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         if (\count($exclude)) {
@@ -369,11 +361,11 @@ class PostProvider extends Post
         }
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
 
@@ -386,25 +378,25 @@ class PostProvider extends Post
 
 
         $query->orFilterWhere([
-            "_translations.title_uz" => ['$regex' => $string, '$options' => 'si'],
-        ]);
+                                  "_translations.title_uz" => ['$regex' => $string, '$options' => 'si'],
+                              ]);
 
         $query->orFilterWhere([
-            "_translations.title_cy" => ['$regex' => $string, '$options' => 'si'],
-        ]);
+                                  "_translations.title_cy" => ['$regex' => $string, '$options' => 'si'],
+                              ]);
 
         $query->orFilterWhere([
-            "_translations.content_$title" => ['$regex' => $string, '$options' => 'si'],
-        ]);
+                                  "_translations.content_$title" => ['$regex' => $string, '$options' => 'si'],
+                              ]);
 
         $query->active(["_translations.content_$title"]);
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     public static function getPostsByTag(Tag $tag, $limit)
@@ -414,20 +406,20 @@ class PostProvider extends Post
         $query = self::find()
                      ->active(["_translations.content_$title"])
                      ->andWhere([
-                         '_tags' => [
-                             '$elemMatch' => [
-                                 '$in' => [$tag->_id, $tag->id],
-                             ],
-                         ],
-                     ])
+                                    '_tags' => [
+                                        '$elemMatch' => [
+                                            '$in' => [$tag->_id, $tag->id],
+                                        ],
+                                    ],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     public static function dataProvider($posts = [], $exclude = [], $limit = 10)
@@ -448,11 +440,11 @@ class PostProvider extends Post
         }
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     public static function getLastNews()
@@ -469,12 +461,12 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere([
-                         '_categories' => [
-                             '$elemMatch' => [
-                                 '$eq' => $category->id,
-                             ],
-                         ],
-                     ])
+                                    '_categories' => [
+                                        '$elemMatch' => [
+                                            '$eq' => $category->id,
+                                        ],
+                                    ],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         if (\count($exclude)) {
@@ -482,11 +474,11 @@ class PostProvider extends Post
         }
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     public static function getPostsExcludeCategory(Category $category, $limit = 10)
@@ -494,20 +486,20 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere([
-                         '_categories' => [
-                             '$elemMatch' => [
-                                 '$ne' => $category->id,
-                             ],
-                         ],
-                     ])
+                                    '_categories' => [
+                                        '$elemMatch' => [
+                                            '$ne' => $category->id,
+                                        ],
+                                    ],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
 
@@ -516,12 +508,12 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere([
-                         '_categories' => [
-                             '$elemMatch' => [
-                                 '$in' => Category::$MINBAR,
-                             ],
-                         ],
-                     ])
+                                    '_categories' => [
+                                        '$elemMatch' => [
+                                            '$in' => Category::$MINBAR,
+                                        ],
+                                    ],
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         if (\count($exclude)) {
@@ -529,11 +521,11 @@ class PostProvider extends Post
         }
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     public static function getAuthorPosts(Blogger $model, $limit = 10)
@@ -541,16 +533,16 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere([
-                         '_author' => $model->id,
-                     ])
+                                    '_author' => $model->id,
+                                ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
         return new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-            ],
-        ]);
+                                          'query'      => $query,
+                                          'pagination' => [
+                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                          ],
+                                      ]);
     }
 
     public static function getTopics()

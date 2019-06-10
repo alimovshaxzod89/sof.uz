@@ -894,12 +894,17 @@ class Post extends MongoModel
 
     public function getTagsData()
     {
-        return array_map(function (Tag $tag) {
-            return [
-                'v' => $tag->getId(),
-                't' => $tag->name,
-            ];
-        }, Tag::find()->where(['_id' => $this->getConvertedTags()])->all());
+        $tags = Tag::find()->where(['_id' => $this->getConvertedTags()])->all();
+        if (count($tags)) {
+            return array_map(function (Tag $tag) {
+                return [
+                    'v' => $tag->getId(),
+                    't' => $tag->name_uz,
+                ];
+            }, $tags);
+        }
+
+        return [];
     }
 
     /**
@@ -1063,7 +1068,7 @@ class Post extends MongoModel
             return Yii::$app->formatter->asDate($this->published_on->getTimestamp());
         }
 
-        return Yii::$app->formatter->asDate($this->created_at->getTimestamp());
+        return Yii::$app->formatter->asDate($this->created_at instanceof Timestamp ? $this->created_at->getTimestamp() : $this->created_at);
     }
 
     public function getViewLabel()
