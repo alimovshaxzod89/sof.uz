@@ -463,7 +463,6 @@
 
             <div class="actions">
                 <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
-                <div class="burger"></div>
             </div>
         </div>
     </div>

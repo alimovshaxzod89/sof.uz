@@ -1,4 +1,9 @@
-/*
-!compress.sh
-!.htaccess
+*
+assets/*
+!assets
+crop/*
+!crop
+uploads/*
+!uploads
 !.gitignore
+!.htaccess

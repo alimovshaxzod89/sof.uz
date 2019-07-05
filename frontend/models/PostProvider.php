@@ -10,6 +10,7 @@ use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use yii\data\ActiveDataProvider;
+use yii\helpers\StringHelper;
 
 class PostProvider extends Post
 {
@@ -623,12 +624,5 @@ class PostProvider extends Post
     public function getAuthorPostUrl()
     {
         return linkTo(['author/post', 'login' => $this->author->login, 'slug' => $this->url], true);
-    }
-
-    public function getShareLinks()
-    {
-        return [
-
-        ];
     }
 }

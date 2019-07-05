@@ -20,9 +20,7 @@ use yii\web\NotFoundHttpException;
  */
 class PostController extends BaseController
 {
-
     public $layout = 'site';
-
 
     public function behaviors()
     {
@@ -68,7 +66,7 @@ class PostController extends BaseController
             }
         }
 
-        return $this->render($model->getViewTemplate(), [
+        return $this->render('view', [
             'model'       => $model,
             'showReplies' => $this->get('replies', false),
         ]);

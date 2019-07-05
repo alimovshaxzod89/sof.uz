@@ -67,11 +67,11 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
               href="<?= $this->getImageUrl('/favicon/apple-icon-152x152.png') ?>">
         <link rel="apple-touch-icon" sizes="180x180"
               href="<?= $this->getImageUrl('/favicon/apple-icon-180x180.png') ?>">
-        <link rel="icon" type="image/png" sizes="192x192"
+        <!--<link rel="icon" type="image/png" sizes="192x192"
               href="<?= $this->getImageUrl('/favicon/android-icon-192x192.png') ?>">
-        <link rel="icon" type="image/png" sizes="32x32" href="<?= $this->getImageUrl('/favicon/favicon-32x32.png') ?>">
-        <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->getImageUrl('/favicon/favicon-96x96.png') ?>">
-        <link rel="icon" type="image/png" sizes="16x16" href="<?= $this->getImageUrl('/favicon/favicon-16x16.png') ?>">
+        <link rel="icon" type="image/png" sizes="32x32" href="<? /*= $this->getImageUrl('/favicon/favicon-32x32.png') */ ?>">
+        <link rel="icon" type="image/png" sizes="96x96" href="<? /*= $this->getImageUrl('/favicon/favicon-96x96.png') */ ?>">
+        <link rel="icon" type="image/png" sizes="16x16" href="<? /*= $this->getImageUrl('/favicon/favicon-16x16.png') */ ?>">-->
         <link rel="manifest" href="<?= $this->getImageUrl('/favicon/manifest.json') ?>">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="<?= $this->getImageUrl('/favicon/ms-icon-144x144.png') ?>">
@@ -85,13 +85,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
     <body class="<?= $this->getBodyClass() ?> lazy-smart has-lb">
     <?php $this->beginBody() ?>
 
-    <div class="site-content">
-        <div class="content-area">
-            <main class="site-main">
-                <?= $content ?>
-            </main>
-        </div>
-    </div>
+    <?= $content ?>
 
     <?php $this->endBody() ?>
     </body>

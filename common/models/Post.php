@@ -229,7 +229,7 @@ class Post extends MongoModel
             [['info', 'image_source', 'content_source'], 'string', 'max' => 500],
             [['info', 'image_source', 'content_source'], 'safe', 'on' => self::SCENARIO_CREATE],
 
-            [['title', 'info', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', '_author', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'has_uzbek', 'has_russian', 'published_on', 'is_main', 'is_instant', '_creator', 'is_bbc'],
+            [['title', 'info', 'url', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', '_author', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'has_uzbek', 'has_russian', 'published_on', 'is_main', 'is_instant', '_creator', 'is_bbc'],
              'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
 
             [['url'], 'match', 'skipOnEmpty' => true, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
@@ -1207,7 +1207,10 @@ class Post extends MongoModel
         echo "Execution time: $time seconds\n";
     }
 
-
+    /**
+     * @param int $limit
+     * @return array|self[]
+     */
     public function getSimilarPosts($limit = 2)
     {
         $categories = $this->getOldAttribute('_tags');
@@ -1225,6 +1228,11 @@ class Post extends MongoModel
         } else {
             return [];
         }
+    }
+
+    public function getInfoView($limit=180)
+    {
+        return StringHelper::truncate($this->info, $limit);
     }
 
     const IMAGE_WIDTH = 720;
@@ -1425,5 +1433,15 @@ class Post extends MongoModel
     public static function getLockedPosts(Admin $user)
     {
         return self::find()->where(['_editor' => $user->_id])->all();
+    }
+
+    public function hasAuthor()
+    {
+        return $this->author instanceof Blogger;
+    }
+
+    public function hasCategory()
+    {
+        return $this->category instanceof Category;
     }
 }

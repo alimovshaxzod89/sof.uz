@@ -83,3 +83,11 @@
 .footer-block .type-post .entry-title {
     font-size: 20px;
 }
+
+.site-content .bottom-area{
+    padding: 0;
+}
+
+.site-content .bottom-area .related-posts{
+    padding: 60px 0;
+}

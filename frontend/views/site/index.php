@@ -12,10 +12,11 @@ use frontend\models\PostProvider;
  * @var $limit int
  */
 $this->_canonical = linkTo(['/'], true);
-$this->addBodyClass('page-template page-template-page-modular page-template-page-modular-php page page-id-487 navbar-sticky sidebar-none pagination-infinite_button modular-title-1');
+$this->addBodyClass('page-template page-template-page-modular page-template-page-modular-php page navbar-sticky sidebar-none pagination-infinite_button modular-title-1');
 $mainList          = PostProvider::getTopPost();
-$latestPosts       = PostProvider::getLastPosts();
+$latestPosts       = PostProvider::getLastPosts(3);
 $footerTopCategory = CategoryProvider::getFooterTopCategory();
+$mainPosts         = PostProvider::getTopics();
 ?>
     <div class="section post_big_list">
         <div class="container">
@@ -35,14 +36,7 @@ $footerTopCategory = CategoryProvider::getFooterTopCategory();
                                                         <div class="placeholder" style="padding-bottom: 70.25%;">
                                                             <a href="<?= $one->getViewUrl() ?>">
                                                                 <img class="lazyload"
-                                                                     data-srcset="
-                                                                 <?= $one->getCroppedImage(800, 562) ?> 800w,
-                                                                 <?= $one->getCroppedImage(300, 211) ?> 300w,
-                                                                 <?= $one->getCroppedImage(768, 539) ?> 768w,
-                                                                 <?= $one->getCroppedImage(1024, 719) ?> 1024w,
-                                                                 <?= $one->getCroppedImage(30, 20) ?> 30w,
-                                                                 <?= $one->getCroppedImage(400, 281) ?> 400w,
-                                                                 <?= $one->getCroppedImage(1160, 814) ?> 1160w"
+                                                                     data-srcset="<?= $one->getCroppedImage(800, 562) ?> 800w, <?= $one->getCroppedImage(300, 211) ?> 300w, <?= $one->getCroppedImage(768, 539) ?> 768w, <?= $one->getCroppedImage(1024, 719) ?> 1024w, <?= $one->getCroppedImage(30, 20) ?> 30w, <?= $one->getCroppedImage(400, 281) ?> 400w, <?= $one->getCroppedImage(1160, 814) ?> 1160w"
                                                                      data-sizes="auto"
                                                                      src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                                                                      alt="">
@@ -114,14 +108,7 @@ $footerTopCategory = CategoryProvider::getFooterTopCategory();
                                                     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
                                                         <a href="<?= $post->getViewUrl() ?>">
                                                             <img class="lazyload"
-                                                                 data-srcset="
-                                                             <?= $post->getCroppedImage(300, 200) ?> 300w,
-                                                             <?= $post->getCroppedImage(768, 512) ?> 768w,
-                                                             <?= $post->getCroppedImage(1024, 683) ?> 1024w,
-                                                             <?= $post->getCroppedImage(30, 20) ?> 30w,
-                                                             <?= $post->getCroppedImage(400, 267) ?> 400w,
-                                                             <?= $post->getCroppedImage(800, 533) ?> 800w,
-                                                             <?= $post->getCroppedImage(1160, 773) ?> 1160w"
+                                                                 data-srcset="<?= $post->getCroppedImage(300, 200) ?> 300w,<?= $post->getCroppedImage(768, 512) ?> 768w,<?= $post->getCroppedImage(1024, 683) ?> 1024w,<?= $post->getCroppedImage(30, 20) ?> 30w,<?= $post->getCroppedImage(400, 267) ?> 400w,<?= $post->getCroppedImage(800, 533) ?> 800w,<?= $post->getCroppedImage(1160, 773) ?> 1160w"
                                                                  data-sizes="auto"
                                                                  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                                                                  alt="">
@@ -150,12 +137,12 @@ $footerTopCategory = CategoryProvider::getFooterTopCategory();
                                                         </h2>
                                                     </header>
                                                     <div class="entry-excerpt u-text-format">
-                                                        <p><?= $post->info ?></p>
+                                                        <p><?= $post->getInfoView() ?></p>
                                                     </div>
                                                     <div class="entry-footer">
                                                         <a href="<?= $post->getViewUrl() ?>">
                                                             <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                                                <?= $post->getPublishedOnSeconds() ?>
+                                                                <?= $post->getShortFormattedDate() ?>
                                                             </time>
                                                         </a>
                                                     </div>
@@ -202,7 +189,7 @@ $footerTopCategory = CategoryProvider::getFooterTopCategory();
                                                 <span class="meta-date">
                                                     <a href="<?= $news->getViewUrl() ?>">
                                                         <time datetime="<?= $news->getPublishedTimeIso() ?>">
-                                                            <?= $news->getPublishedOnSeconds() ?>
+                                                            <?= $news->getShortFormattedDate() ?>
                                                         </time>
                                                     </a>
                                                 </span>
@@ -238,50 +225,33 @@ $footerTopCategory = CategoryProvider::getFooterTopCategory();
                                 </ul>
                             </div>
                         <?php endif; ?>
-                        <div id="magsy_picks_widget-2" class="widget widget_magsy_picks_widget">
-                            <h5 class="widget-title">Hand Picked Articles</h5>
-                            <div class="picks-wrapper">
-                                <div class="icon" data-icon="&#xf238"></div>
-                                <div class="picked-posts owl">
-                                    <article class="post">
-                                        <div class="entry-thumbnail">
-                                            <img class="lazyload"
-                                                 data-src="2018/08/priscilla-du-preez-228220-unsplash-150x150.jpg">
-                                        </div>
 
-                                        <header class="entry-header">
-                                            <h6 class="entry-title">Designing a Closet with a Budget in
-                                                Mind</h6>
-                                        </header>
-                                        <a class="u-permalink" href="../index.html%3Fp=172.html"></a>
-                                    </article>
-                                    <article class="post">
-                                        <div class="entry-thumbnail">
-                                            <img class="lazyload"
-                                                 data-src="2018/08/andrew-neel-369701-unsplash-150x150.jpg">
-                                        </div>
-
-                                        <header class="entry-header">
-                                            <h6 class="entry-title">Men&#8217;s Suits Are Back in Trend</h6>
-                                        </header>
-                                        <a class="u-permalink" href="../index.html%3Fp=162.html"></a>
-                                    </article>
-                                    <article class="post">
-                                        <div class="entry-thumbnail">
-                                            <img class="lazyload"
-                                                 data-src="2018/07/alex-378877-unsplash-150x150.jpg">
-                                        </div>
-
-                                        <header class="entry-header">
-                                            <h6 class="entry-title">A Piece of Art in Utrecht, Netherlands</h6>
-                                        </header>
-                                        <a class="u-permalink" href="../justified_gallery_post.html"></a>
-                                    </article>
+                        <?php if (count($latestPosts)): ?>
+                            <div id="magsy_picks_widget-2" class="widget widget_magsy_picks_widget">
+                                <h5 class="widget-title">Hand Picked Articles</h5>
+                                <div class="picks-wrapper">
+                                    <div class="icon" data-icon="&#xf238"></div>
+                                    <div class="picked-posts owl">
+                                        <?php foreach ($latestPosts as $post): ?>
+                                            <article class="post">
+                                                <div class="entry-thumbnail">
+                                                    <img class="lazyload"
+                                                         data-src="<?= $post->getCroppedImage(150, 150) ?>">
+                                                </div>
+                                                <header class="entry-header">
+                                                    <h6 class="entry-title">
+                                                        <?= $post->title ?>
+                                                    </h6>
+                                                </header>
+                                                <a class="u-permalink" href="<?= $post->getViewUrl() ?>"></a>
+                                            </article>
+                                        <?php endforeach; ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div id="magsy_social_widget-2" class="widget widget_magsy_social_widget"><h5
-                                    class="widget-title">Social Links</h5>
+                        <?php endif; ?>
+                        <div id="magsy_social_widget-2" class="widget widget_magsy_social_widget">
+                            <h5 class="widget-title">Social Links</h5>
                             <div class="links">
                                 <a style="background-color: #3b5998;" href="http://facebook.com"
                                    target="_blank">
@@ -329,14 +299,7 @@ $footerTopCategory = CategoryProvider::getFooterTopCategory();
                                         <div class="placeholder" style="padding-bottom: 66.75%;">
                                             <a href="<?= $post->getViewUrl() ?>">
                                                 <img class="lazyload"
-                                                     data-srcset="
-                                             <?= $post->getCroppedImage(400, 267) ?> 400w,
-                                             <?= $post->getCroppedImage(300, 200) ?> 300w,
-                                             <?= $post->getCroppedImage(768, 512) ?> 768w,
-                                             <?= $post->getCroppedImage(1024, 683) ?> 1024w,
-                                             <?= $post->getCroppedImage(30, 20) ?> 30w,
-                                             <?= $post->getCroppedImage(800, 533) ?> 800w,
-                                             <?= $post->getCroppedImage(1160, 773) ?> 1160w"
+                                                     data-srcset="<?= $post->getCroppedImage(400, 267) ?> 400w,<?= $post->getCroppedImage(300, 200) ?> 300w,<?= $post->getCroppedImage(768, 512) ?> 768w,<?= $post->getCroppedImage(1024, 683) ?> 1024w,<?= $post->getCroppedImage(30, 20) ?> 30w,<?= $post->getCroppedImage(800, 533) ?> 800w,<?= $post->getCroppedImage(1160, 773) ?> 1160w"
                                                      data-sizes="auto"
                                                      src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                                                      alt="">

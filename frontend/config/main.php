@@ -68,8 +68,12 @@ return [
                 'yii\bootstrap\BootstrapPluginAsset' => false,
                 'yii\web\JqueryAsset'                => [
                     'sourcePath' => '@frontend/assets/app',
+                    'jsOptions'  => [
+                        'position' => \frontend\components\View::POS_HEAD
+                    ],
                     'js'         => [
                         'js/jquery.min.js',
+                        'js/jquery-migrate.min.js',
                     ],
                 ],
             ],

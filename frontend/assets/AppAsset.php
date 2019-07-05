@@ -14,7 +14,7 @@ class AppAsset extends AssetBundle
         'https://fonts.googleapis.com/css?family=Lato:400,400i,700,900|Merriweather:400,700&subset=latin,latin-ext&amp;ver=1.3.0',
         'css/app.min.css',
     ] : [
-        'https://fonts.googleapis.com/css?family=Lato:400,400i,700,900|Merriweather:400,700&subset=latin,latin-ext&amp;ver=1.3.0',
+        //'https://fonts.googleapis.com/css?family=Lato:400,400i,700,900|Merriweather:400,700&subset=latin,latin-ext&amp;ver=1.3.0',
         'css/block-library.css',
         'css/main.css',
         'css/style.css',

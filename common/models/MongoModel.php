@@ -139,7 +139,7 @@ class MongoModel extends ActiveRecord
                     $this->setAttribute($attribute, boolval($value));
                 } else if (in_array($attribute, $this->_integerAttributes)) {
                     $this->setAttribute($attribute, intval($value));
-                } else if (in_array($attribute, $this->_idAttributes) && !($value instanceof ObjectId)) {
+                } else if (!empty($value) && in_array($attribute, $this->_idAttributes) && !($value instanceof ObjectId)) {
                     $this->setAttribute($attribute, new ObjectId($value));
                 }
             }
@@ -252,72 +252,47 @@ class MongoModel extends ActiveRecord
         return "$img$url$end";
     }
 
-
     public static function getCropImage($img = [], $width = 270, $height = 347, $manipulation = ManipulatorInterface::THUMBNAIL_INSET, $watermark = false, $quality = 80)
     {
         $dir     = \Yii::getAlias("@static") . DS . 'uploads' . DS;
         $cropDir = \Yii::getAlias("@static") . DS . 'crop' . DS;
 
-        $img = (array)$img;
-
-        if (!empty(array_filter($img, 'is_array'))) {
-            //$img = array_shift(array_filter($img, 'is_array'));
-        }
-
         if (!is_dir($cropDir)) {
             FileHelper::createDirectory($cropDir, 0777);
         }
 
-        $default = 'img=self&';
-        if (!empty($img) && is_array($img) && isset($img['path'])) {
-
-            if (!file_exists($dir . $img['path'])) {
-                $img['path'] = 'img-placeholder.png';
-                $img['name'] = 'img-placeholder.png';
-                $quality     = 95;
-            }
-
-            if (strpos($img['name'], 'placeholder')) {
-                $default = 'img=placeholder&';
-            }
-
-            $img['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $img['path']);
-            $imagePath   = $dir . $img['path'];
-            $info        = pathinfo($imagePath);
-
-            $imageName = md5($img['path']) . '.' . $info['extension'];
-
-            $cropPath = $imageName[0] . DS . $imageName[1] . DS;
-            $cropName = $width . '_' . $height . '_' . $quality . '_' . $imageName;
-            $cropFull = $cropDir . $cropPath . $cropName;
-
-            $cropUrl = \Yii::getAlias('@staticUrl/crop/') . $cropPath . $cropName;
-
-            if (!file_exists($cropFull)) {
-                if (!is_dir($cropDir . $cropPath)) {
-                    FileHelper::createDirectory($cropDir . $cropPath, 0777);
-                }
-
-                if (file_exists($imagePath)) {
-
-                    if ($watermark) {
-                        InterlacedImage::thumbnailWithWatermark($imagePath, $width, $height, $manipulation)
-                                       ->save($cropFull, ['quality' => $quality]);
-                    } else {
-                        InterlacedImage::thumbnail($imagePath, $width, $height, $manipulation)
-                                       ->save($cropFull, ['quality' => $quality]);
-                    }
-                } else {
-                    return null;
-                }
-            }
-
-            return $cropUrl . "?{$default}v=" . filemtime($cropFull);
-        } else {
-            $img['path'] = 'img-placeholder.png';
-            $img['name'] = 'img-placeholder.png';
-            return self::getCropImage($img, $width, $height);
+        $imagePath = Yii::getAlias('@frontend/assets/app/images/002.jpg');
+        $filename  = pathinfo($imagePath)['filename'];
+        if (is_array($img) && isset($img['path']) && file_exists($dir . $img['path'])) {
+            $imagePath = $dir . $img['path'];
+            $filename  = $img['name'];
         }
+
+        $info      = pathinfo($imagePath);
+        $imageName = crc32($filename) . '.' . $info['extension'];
+
+        $cropPath = $imageName[0] . DS . $imageName[1] . DS;
+        $cropName = $width . '_' . $height . '_' . $quality . '_' . $imageName;
+        $cropFull = $cropDir . $cropPath . $cropName;
+
+        $cropUrl = \Yii::getAlias('@staticUrl/crop/') . $cropPath . $cropName;
+
+        if (!file_exists($cropFull)) {
+            if (!is_dir($cropDir . $cropPath)) {
+                FileHelper::createDirectory($cropDir . $cropPath, 0777);
+            }
+
+            if (file_exists($imagePath)) {
+                if ($watermark) {
+                    InterlacedImage::thumbnailWithWatermark($imagePath, $width, $height, $manipulation)
+                                   ->save($cropFull, ['quality' => $quality]);
+                } else {
+                    InterlacedImage::thumbnail($imagePath, $width, $height, $manipulation)
+                                   ->save($cropFull, ['quality' => $quality]);
+                }
+            }
+        }
+        return $cropUrl;
     }
 
 

@@ -1,15 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use common\models\Comment;
 use frontend\components\View;
 use frontend\models\PostProvider;
-use frontend\widgets\SocialSharer;
-use ymaker\social\share\drivers\Telegram;
 
 /**
  * @var $this    View
@@ -17,15 +10,9 @@ use ymaker\social\share\drivers\Telegram;
  * @var $post    PostProvider
  * @var $comment Comment
  */
-$author   = $model->author;
-$category = isset($this->params['category']) ? $this->params['category'] : $model->category;
-
-if ($author) {
-    $this->_canonical = $model->getAuthorPostUrl();
-} else {
-    $this->_canonical = $model->getViewUrl();
-}
-
+$author           = $model->author;
+$category         = isset($this->params['category']) ? $this->params['category'] : $model->category;
+$this->_canonical = $author ? $model->getAuthorPostUrl() : $model->getViewUrl();
 if (count($model->tags)) {
     $tags = [];
     foreach ($model->tags as $tag) {
@@ -40,400 +27,421 @@ $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
 $empty = $this->getImageUrl('img-placeholder.png');
-
-$this->addBodyClass('post-template-default single single-post no-sidebar ');
-$this->addBodyClass('post-' . $model->short_id);
-
-$comments = false;
-
+$this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-none with-hero hero-wide hero-image pagination-infinite_button');
 if (mb_strpos($model->content, 'twitter') !== false) {
     $this->registerJsFile('https://platform.twitter.com/widgets.js', ['async' => true, 'charset' => 'utf-8']);
 }
+
+$similarPosts = $model->getSimilarPosts(4);
 ?>
-
-<div class="ts-row cf">
-    <div class="col-8 main-content cf">
-        <article class="the-post-modern the-post post">
-            <header class="post-header the-post-header cf">
-                <div class="post-meta post-meta-b the-post-meta <?= $model->canDisplayImage() ? '' : 'center-full' ?>">
-                    <?php if ($model->is_bbc): ?>
-                        <div class="bbc-wrap">
-                            <div class="bbc-brand"><span><?= __("O'zbek") ?></span></div>
-                        </div>
-                    <?php endif; ?>
-                    <h1 class="post-title-alt">
-                        <?= $model->title ?>
-                    </h1>
-                    <div class="below">
-                        <time class="post-date"><?= $model->getShortFormattedDate() ?></time>
-                        <span class="meta-sep"></span>
-                        <span class="meta-item read-time"><?= $model->getReadMinLabel() ?></span>
-                        <?php if ($model->category): ?>
-                            <span class="meta-sep"></span>
-                            <span class="post-cat">
-                                <a href="<?= $model->category->getViewUrl() ?>" class="category">
-                                    <?= $model->category->name ?>
-                                </a>
-                            </span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php if ($model->canDisplayImage()): $full = $model->getImageWidth() > 1000; ?>
-                    <div class="featured <?= $full ? '' : 'featured-small' ?>">
-                        <img src="<?= $model->getImage($full ? 1170 : 720, $full ? 620 : 420) ?>"
-                             class="attachment-contentberg-main-full size-contentberg-main-full"
-                             title="<?= $model->title ?>"/>
-                        <?php if ($model->image_caption): ?>
-                            <div class="img-caption"><?= nl2br($model->image_caption) ?></div>
-                        <?php endif; ?>
-                    </div>
+<div class="hero lazyload visible" data-bg="<?= $model->getFileUrl('image') ?>">
+    <div class="container small">
+        <header class="entry-header white">
+            <div class="entry-meta">
+                <?php if ($model->hasAuthor()): ?>
+                    <span class="meta-author">
+                    <a href="<?= $model->author->getViewUrl() ?>">
+                        <img alt='<?= $model->author->fullname ?>'
+                             src='<?= $model->author->getImageUrl(40, 40) ?>'
+                             srcset='<?= $model->author->getImageUrl(80, 80) ?> 2x'
+                             class='avatar avatar-40 photo' height='40' width='40'/><?= $model->author->fullname ?>
+                    </a>
+                </span>
                 <?php endif; ?>
-            </header>
-            <div>
-                <div class="post-share-float share-float-a is-hidden cf">
-                    <span class="share-text"><?= __('Ulashish') ?></span>
-                    <div class="services">
-                        <?= $shares = SocialSharer::widget([
-                                                               'configurator'         => 'socialShare',
-                                                               'containerOptions'     => [
-                                                                   'tag' => false,
-                                                               ],
-                                                               'linkContainerOptions' => ['tag' => false],
-                                                               'url'                  => $model->getShortViewUrl(),
-                                                               'title'                => $model->title,
-                                                               'imageUrl'             => $model->getCroppedImage(736, 736),
-                                                               'driverProperties'     => [
-                                                                   Telegram::class => [
-                                                                   ],
-                                                               ],
-                                                           ]); ?>
-                    </div>
-                </div>
-            </div>
-            <div class="post-content description cf entry-content has-share-float content-spacious-full js-mediator-article">
-                <?= $model->content ?>
-
-                <?php if ($model->gallery): ?>
-
-                    <?php
-                    $gallery = $model->getGalleryItemsModel();
-                    $count   = [4, 3, 2, 4, 3, 4, 4];
-                    shuffle($count);
-                    $start         = 1;
-                    ?>
-                    <?php foreach ($count as $limit): ?>
-                        <?php
-                        if ($start < count($gallery)):
-                            $items = array_slice($gallery, $start - 1, $limit);
-                            $start += $limit;
-                            ?>
-                            <ul class="wp-block-gallery columns-<?= count($items) ?> is-cropped">
-                                <?php foreach ($items as $item): ?>
-                                    <li class="blocks-gallery-item">
-                                        <figure>
-                                            <a
-                                                    href="<?= $item->getImageCropped(1100, null) ?>"
-                                                    class="lightbox-gallery-img">
-                                                <img
-                                                        alt="<?= $item->caption ?>"
-                                                        data-image-title="<?= $item->caption ?>"
-                                                        title="<?= $item->caption ?>"
-                                                        src="<?= $item->getImageCropped(545, 390) ?>"
-                                                />
-                                            </a>
-                                        </figure>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php endif ?>
-                    <?php endforeach; ?>
-                <?php endif ?>
-            </div>
-            <?= $this->render('partials/_mediator.php') ?>
-            <div class="the-post-foot cf">
-                <div class="tag-share cf">
-                    <?php if (count($model->tags)): ?>
-                        <div class="post-tags">
-                            <?php foreach ($model->tags as $tag): ?>
-                                <a href="<?= $tag->getViewUrl() ?>"
-                                   rel="tag"><?= $tag->name ?></a>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-                    <div class="post-share">
-
-                        <div class="post-share-icons cf">
-                            <!--<span class="counters">
-                                <a href="#" class="likes-count ui-heart">
-                                    <span class="number">47</span>
-                                </a>
-
-                            </span>-->
-                            <?= $shares ?>
-                            <a href="#" class="service social copy" title="<?= $model->getShortViewUrl() ?>"
-                               onclick="copyToClipboard('<?= $model->getShortViewUrl() ?>');return false">
-                                <i class="ui-doc"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <?php if ($model->author): ?>
-                    <div class="author-box">
-                        <div class="image">
-                            <img alt='<?= $model->author->fullname ?>'
-                                 src='<?= $model->author->getImageUrl(82, 82) ?>'
-                                 class='avatar avatar-82 photo'/>
-                        </div>
-                        <div class="content">
-                        <span class="author"> <span><?= __('Muallif') ?></span>
-                            <a href="<?= $model->author->getViewUrl() ?>"
-                               title="<?= __('{author}ning maqolalari', ['author' => $model->author->fullname]) ?>"
-                               rel="author">
-                                <?= $model->author->fullname ?>
-                            </a>
-                        </span>
-                            <p class="text author-bio">
-                                <?= $model->author->intro ?>
-                            </p>
-                            <ul class="social-icons">
-                                <?php if ($model->author->email): ?>
-                                    <li>
-                                        <a href="mailto:<?= $model->author->email ?>" class="ui-mail" title="Email">
-                                            <span class="visuallyhidden">Email</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if ($model->author->facebook): ?>
-                                    <li>
-                                        <a href="<?= $model->author->facebook ?>" class="ui-facebook" title="Facebook">
-                                            <span class="visuallyhidden">Facebook</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if ($model->author->twitter): ?>
-                                    <li>
-                                        <a href="<?= $model->author->twitter ?>" class="ui-twitter" title="Twitter">
-                                            <span class="visuallyhidden">Twitter</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                                <?php if ($model->author->telegram): ?>
-                                    <li>
-                                        <a href="<?= $model->author->telegram ?>" class="ui-paper-plane"
-                                           title="Telegram">
-                                            <span class="visuallyhidden">Telegram</span>
-                                        </a>
-                                    </li>
-                                <?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
+                <?php if ($model->hasCategory()): ?>
+                    <span class="meta-category">
+                    <a href="<?= $model->category->getViewUrl() ?>" rel="category">
+                        <i class="dot" style="background-color: #ff7473;"></i>
+                        <?= $model->category->name ?>
+                    </a>
+                </span>
                 <?php endif; ?>
+                <span class="meta-date">
+                    <span>
+                        <time datetime="<?= $model->getPublishedTimeIso() ?>">
+                            <?= $model->getShortFormattedDate() ?>
+                        </time>
+                    </span>
+                </span>
+            </div>
 
-                <?php
-                $title = __('Aloqador maqolalar');
-                $posts = $model->getSimilarPosts(6);
-                $count = count($posts);
-                if ($count < 2) {
-                    $posts = PostProvider::getLastPosts(6, false, [$model->_id]);
-                    $title = __('So\'nggi yangiliklar');
+            <h1 class="entry-title"><?= $model->title ?></h1>
+        </header>
+    </div>
+</div>
+<div class="site-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content-area">
+                    <main class="site-main">
+                        <article
+                                class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
 
-                    $count = count($posts);
-                }
-                ?>
-                <?php if ($count > 1): ?>
-                    <section class="related-posts grid-3 <?= $comments ? '' : 'no-margins' ?>">
-                        <h4 class="section-head">
-                            <span class="title"><?= $title ?></span>
-                        </h4>
-                        <div class="ts-row posts cf">
-                            <?php foreach ($posts as $i => $post): ?>
-                                <article class="post col-<?= $count == 2 ? '6' : '4' ?>" data-pos="<?= $i ?>"
-                                         data-id="<?= $post->id ?>">
-                                    <?php if ($i < 3): ?>
+                            <div class="container small">
 
-                                        <a href="<?= $post->getViewUrl() ?>"
-                                           title="<?= $post->title ?>" class="image-link">
-                                            <img class="image"
-                                                 src="<?= $post->getImage($count == 2 ? 570 : 370, $count == 2 ? 330 : 220) ?>"
-                                                 title="<?= $post->title ?>">
-                                        </a>
+                                <div class="entry-wrapper">
+                                    <div class="entry-content u-text-format u-clearfix">
+                                        <?= $model->content ?>
+                                    </div>
+
+                                    <?php if (1): ?>
+                                        <div class="entry-action">
+                                            <div class="action-count">
+                                                <a class="like" data-id="88" href="">
+                                                    <span class="icon">
+                                                        <i class="mdi mdi-thumb-up"></i>
+                                                    </span>
+                                                    <span class="count">2</span><span>&nbsp;likes</span>
+                                                </a>
+                                                <a class="view">
+                                                    <span class="icon">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </span>
+                                                    <span class="count">231</span><span>&nbsp;views</span>
+                                                </a>
+                                                <?php if (0): ?>
+                                                    <a class="comment" href="#comments">
+                                                    <span class="icon">
+                                                        <i class="mdi mdi-comment"></i>
+                                                    </span>
+                                                        <span class="count">3</span>
+                                                        <span>&nbsp;comments</span>
+                                                    </a>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="action-share">
+                                                <a class="facebook"
+                                                   href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-facebook"></i>
+                                                </a>
+                                                <a class="twitter"
+                                                   href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;text=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-twitter"></i>
+                                                </a>
+                                                <a class="google"
+                                                   href="https://plus.google.com/share?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;text=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-google-plus"></i>
+                                                </a>
+                                                <a class="linkedin"
+                                                   href="https://www.linkedin.com/shareArticle?mini=true&#038;url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;title=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-linkedin"></i>
+                                                </a>
+                                                <a class="pinterest"
+                                                   href="https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;media=https%3A%2F%2Fmagsy.mondotheme.com%2Fwp-content%2Fuploads%2F2018%2F07%2Ftoa-heftiba-526264-unsplash-1160x773.jpg&#038;description=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-pinterest"></i>
+                                                </a>
+                                                <a class="reddit"
+                                                   href="https://reddit.com/submit?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;title=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-reddit"></i>
+                                                </a>
+                                                <a class="tumblr"
+                                                   href="https://www.tumblr.com/widgets/share/tool?canonicalUrl=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;title=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-tumblr"></i>
+                                                </a>
+                                                <a class="vk"
+                                                   href="http://vk.com/share.php?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;title=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-vk"></i>
+                                                </a>
+                                                <a class="pocket"
+                                                   href="https://getpocket.com/edit?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-pocket"></i>
+                                                </a>
+                                                <a class="telegram"
+                                                   href="https://t.me/share/url?url=https%3A%2F%2Fmagsy.mondotheme.com%2F2018%2F09%2F29%2Fthe-art-of-hiring-a-product-designer%2F&#038;text=The+Art+of+Hiring+a+Product+Designer"
+                                                   target="_blank">
+                                                    <i class="mdi mdi-telegram"></i>
+                                                </a>
+                                            </div>
+                                        </div>
                                     <?php endif; ?>
-                                    <div class="content">
-                                        <h3 class="post-title">
 
-                                            <a href="<?= $post->getViewUrl() ?>"
-                                               class="post-link">
-                                                <?= $post->title ?>
+                                    <?php if ($model->hasAuthor()): ?>
+                                        <div class="author-box">
+                                            <div class="author-image">
+                                                <img alt='Nancy Welch' src='<?= $model->getCroppedImage(140, 140) ?>'
+                                                     srcset='<?= $model->author->getFileUrl('image') ?> 2x'
+                                                     class='avatar avatar-140 photo'
+                                                     height='140' width='140'/>
+                                            </div>
+
+                                            <div class="author-info">
+                                                <h4 class="author-name">
+                                                    <a href="<?= $model->author->getViewUrl() ?>">
+                                                        <?= $model->author->fullname ?>
+                                                    </a>
+                                                </h4>
+
+                                                <div class="author-bio">
+                                                    <?= $model->author->description ?>
+                                                </div>
+
+                                                <div class="author-meta">
+                                                    <a class="website"
+                                                       href="https://themeforest.net/user/mondotheme/portfolio"
+                                                       target="_blank">
+                                                        <i class="mdi mdi-web"></i>
+                                                    </a>
+                                                    <a class="facebook" href="https://www.facebook.com" target="_blank">
+                                                        <i class="mdi mdi-facebook-box"></i>
+                                                    </a>
+                                                    <a class="twitter" href="https://www.twitter.com" target="_blank">
+                                                        <i class="mdi mdi-twitter-box"></i>
+                                                    </a>
+                                                    <a class="instagram" href="https://www.instagram.com"
+                                                       target="_blank">
+                                                        <i class="mdi mdi-instagram"></i>
+                                                    </a>
+                                                    <a class="google" href="https://plus.google.com" target="_blank">
+                                                        <i class="mdi mdi-google-plus-box"></i>
+                                                    </a>
+                                                    <a class="linkedin" href="https://www.linkedin.com" target="_blank">
+                                                        <i class="mdi mdi-linkedin-box"></i>
+                                                    </a>
+                                                    <a class="more" href="author/nancy/index.html">More</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </article>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-area">
+        <div class="container medium">
+            <?php if (count($similarPosts)): ?>
+                <div class="related-posts">
+                    <h3 class="u-border-title"><?= __('You might also like') ?></h3>
+                    <div class="row">
+                        <?php foreach ($similarPosts as $similarPost) : ?>
+                            <div class="col-lg-6">
+                                <article class="post">
+                                    <div class="entry-media">
+                                        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+                                            <a href="<?= $similarPost->getViewUrl() ?>">
+                                                <img class="lazyload"
+                                                     data-srcset="<?= $model->getCroppedImage(300, 200) ?> 300w, <?= $model->getCroppedImage(768, 512) ?> 768w, <?= $model->getCroppedImage(1024, 683) ?> 1024w, <?= $model->getCroppedImage(30, 20) ?> 30w, <?= $model->getCroppedImage(400, 267) ?> 400w, <?= $model->getCroppedImage(800, 533) ?> 800w, <?= $model->getCroppedImage(1160, 773) ?> 1160w"
+                                                     data-sizes="auto"
+                                                     src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                                     alt="">
                                             </a>
-                                        </h3>
-                                        <div class="post-meta">
-                                            <time class="post-date">
-                                                <?= $post->getShortFormattedDate() ?>
-                                            </time>
-                                            <span class="meta-sep"></span>
-                                            <span class="meta-item read-time">
-                                                <?= $post->getReadMinLabel() ?>
-                                            </span>
+                                        </div>
+                                        <div class="entry-format">
+                                            <i class="mdi mdi-image-multiple"></i>
+                                        </div>
+                                    </div>
+                                    <div class="entry-wrapper">
 
+                                        <header class="entry-header">
+                                            <h4 class="entry-title">
+                                                <a href="<?= $similarPost->getViewUrl() ?>" rel="bookmark">
+                                                    <?= $similarPost->title ?>
+                                                </a>
+                                            </h4>
+                                        </header>
+                                        <div class="entry-excerpt u-text-format">
+                                            <?= $similarPost->getInfoView() ?>
                                         </div>
                                     </div>
                                 </article>
-                            <?php endforeach; ?>
-                        </div>
-                    </section>
-                <?php endif; ?>
-                <?php if ($comments): ?>
-                    <div class="comments">
-                        <div id="comments" class="comments-area">
-                            <div class="comments-wrap"><h4 class="section-head cf"><span class="title"> <span
-                                                class="number">3</span> Comments </span></h4>
-                                <ol class="comments-list add-separator">
-                                    <li class="comment even thread-even depth-1" id="li-comment-13">
-                                        <article id="comment-13" class="comment the-comment" itemscope
-                                                 itemtype="http://schema.org/UserComments">
-                                            <div class="comment-avatar"><img alt=''
-                                                                             src='https://contentberg.theme-sphere.com/wp-content/uploads/2018/09/other.jpg'
-                                                                             srcset='https://contentberg.theme-sphere.com/wp-content/uploads/2018/09/other.jpg 2x'
-                                                                             class='avatar avatar-60 photo avatar-default'
-                                                                             height='60' width='60'/></div>
-                                            <div class="comment-content">
-                                                <div class="comment-meta"><span class="comment-author"
-                                                                                itemprop="creator" itemscope
-                                                                                itemtype="http://schema.org/Person"> <span
-                                                                itemprop="name"><a href='http://theme-sphere.com'
-                                                                                   rel='external nofollow' class='url'>Groot Will</a></span> </span>
-                                                    <a href="https://contentberg.theme-sphere.com/blog/2018/07/15/how-i-met-derpina/#comment-13"
-                                                       class="comment-time">
-                                                        <time itemprop="commentTime"
-                                                              datetime="2018-09-17T07:31:48+00:00"> 5 months ago
-                                                        </time>
-                                                    </a> <span class="reply"> <a rel='nofollow'
-                                                                                 class='comment-reply-link'
-                                                                                 href='#comment-13'
-                                                                                 onclick='return addComment.moveForm( "comment-13", "13", "respond", "1256" )'
-                                                                                 aria-label='Reply to Groot Will'>Reply</a> </span>
-                                                </div>
-                                                <div class="text">
-                                                    <div itemprop="commentText" class="comment-text"><p>That far ground
-                                                            rat pure from newt far panther crane lorikeet overlay alas
-                                                            cobra
-                                                            across much gosh less goldfinch ruthlessly alas examined and
-                                                            that more and the ouch jeez.</p></div>
-                                                </div>
-                                            </div>
-                                        </article>
-                                        <ul class="children">
-                                            <li class="comment odd alt depth-2" id="li-comment-14">
-                                                <article id="comment-14" class="comment the-comment" itemscope
-                                                         itemtype="http://schema.org/UserComments">
-                                                    <div class="comment-avatar"><img alt=''
-                                                                                     src='https://cheerup.theme-sphere.com/wp-content/uploads/2016/05/jane-doe.jpg'
-                                                                                     srcset='https://cheerup.theme-sphere.com/wp-content/uploads/2016/05/jane-doe.jpg 2x'
-                                                                                     class='avatar avatar-60 photo avatar-default'
-                                                                                     height='60' width='60'/></div>
-                                                    <div class="comment-content">
-                                                        <div class="comment-meta"><span class="comment-author"
-                                                                                        itemprop="creator" itemscope
-                                                                                        itemtype="http://schema.org/Person"> <span
-                                                                        itemprop="name"><a
-                                                                            href='http://theme-sphere.com'
-                                                                            rel='external nofollow'
-                                                                            class='url'>Jane Doe</a></span> </span>
-                                                            <a href="https://contentberg.theme-sphere.com/blog/2018/07/15/how-i-met-derpina/#comment-14"
-                                                               class="comment-time">
-                                                                <time itemprop="commentTime"
-                                                                      datetime="2018-09-18T07:31:49+00:00"> 5 months ago
-                                                                </time>
-                                                            </a> <span class="reply"> <a rel='nofollow'
-                                                                                         class='comment-reply-link'
-                                                                                         href='#comment-14'
-                                                                                         onclick='return addComment.moveForm( "comment-14", "14", "respond", "1256" )'
-                                                                                         aria-label='Reply to Jane Doe'>Reply</a> </span>
-                                                        </div>
-                                                        <div class="text">
-                                                            <div itemprop="commentText" class="comment-text"><p>
-                                                                    Coquettish darn pernicious foresaw therefore much
-                                                                    amongst lingeringly shed much due antagonistically
-                                                                    alongside so then more and about turgid.</p></div>
-                                                        </div>
-                                                    </div>
-                                                </article>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="comment even thread-odd thread-alt depth-1" id="li-comment-15">
-                                        <article id="comment-15" class="comment the-comment" itemscope
-                                                 itemtype="http://schema.org/UserComments">
-                                            <div class="comment-avatar"><img alt=''
-                                                                             src='https://contentberg.theme-sphere.com/wp-content/uploads/2018/09/other.jpg'
-                                                                             srcset='https://contentberg.theme-sphere.com/wp-content/uploads/2018/09/other.jpg 2x'
-                                                                             class='avatar avatar-60 photo avatar-default'
-                                                                             height='60' width='60'/></div>
-                                            <div class="comment-content">
-                                                <div class="comment-meta"><span class="comment-author"
-                                                                                itemprop="creator" itemscope
-                                                                                itemtype="http://schema.org/Person"> <span
-                                                                itemprop="name"><a href='http://theme-sphere.com'
-                                                                                   rel='external nofollow' class='url'>Groot Will</a></span> </span>
-                                                    <a href="https://contentberg.theme-sphere.com/blog/2018/07/15/how-i-met-derpina/#comment-15"
-                                                       class="comment-time">
-                                                        <time itemprop="commentTime"
-                                                              datetime="2018-09-18T07:40:09+00:00"> 5 months ago
-                                                        </time>
-                                                    </a> <span class="reply"> <a rel='nofollow'
-                                                                                 class='comment-reply-link'
-                                                                                 href='#comment-15'
-                                                                                 onclick='return addComment.moveForm( "comment-15", "15", "respond", "1256" )'
-                                                                                 aria-label='Reply to Groot Will'>Reply</a> </span>
-                                                </div>
-                                                <div class="text">
-                                                    <div itemprop="commentText" class="comment-text"><p>Crud much
-                                                            unstinting violently pessimistically far camel inanimately a
-                                                            remade dove disagreed hellish one concisely before with this
-                                                            erotic frivolous.</p></div>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </li>
-                                </ol>
                             </div>
-                            <div id="respond" class="comment-respond">
-                                <h3 id="reply-title" class="comment-reply-title"><span class="section-head"><span
-                                                class="title">Write A Comment</span></span>
-                                    <small><a rel="nofollow" id="cancel-comment-reply-link"
-                                              href="/blog/2018/07/15/how-i-met-derpina/#respond" style="display:none;">Cancel
-                                            Reply</a></small>
-                                </h3>
-                                <form action="https://contentberg.theme-sphere.com/wp-comments-post.php" method="post"
-                                      id="commentform" class="comment-form">
-                                    <div class="inline-field"><input name="author" id="author" type="text" value=""
-                                                                     aria-required="true" placeholder="Name" required/>
-                                    </div>
-                                    <div class="inline-field"><input name="email" id="email" type="text" value=""
-                                                                     aria-required="true" placeholder="Email" required/>
-                                    </div>
-                                    <div class="inline-field"><input name="url" id="url" type="text" value=""
-                                                                     placeholder="Website"/></div>
-                                    <div class="reply-field cf"><textarea name="comment" id="comment" cols="45" rows="7"
-                                                                          placeholder="Enter your comment here.."
-                                                                          aria-required="true" required></textarea>
-                                    </div>
-                                    <p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent"
-                                                                                   name="wp-comment-cookies-consent"
-                                                                                   type="checkbox" value="yes"/> <label
-                                                for="wp-comment-cookies-consent">Save my name, email, and website in
-                                            this
-                                            browser for the next time I comment. </label></p>
-                                    <p class="form-submit"><input name="submit" type="submit" id="comment-submit"
-                                                                  class="submit" value="Post Comment"/> <input
-                                                type='hidden' name='comment_post_ID' value='1256' id='comment_post_ID'/>
-                                        <input type='hidden' name='comment_parent' id='comment_parent' value='0'/></p>
-                                </form>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endif; ?>
-        </article>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
+
+    <?php if (0): ?>
+        <!--comment-->
+        <div class="bottom-area">
+            <div class="container small">
+                <div id="comments" class="comments-area">
+                    <h3 class="comments-title">3 comments </h3>
+
+                    <ol class="comment-list">
+
+                        <li id="comment-7"
+                            class="comment byuser comment-author-kathryn even thread-even depth-1 parent">
+                            <article id="div-comment-7" class="comment-wrapper u-clearfix" itemscope
+                                     itemtype="https://schema.org/Comment">
+                                <div class="comment-author-avatar vcard">
+                                    <img class="lazyload" data-src="2018/08/kathryn-hughes-96x96.jpg">
+                                </div>
+
+                                <div class="comment-content">
+                                    <div class="comment-author-name vcard" itemprop="author">
+                                        <cite class="fn"><a href='https://themeforest.net/user/mondotheme/portfolio'
+                                                            rel='external nofollow' class='url'>Kathryn
+                                                Hughes</a></cite></div>
+
+                                    <div class="comment-metadata">
+                                        <time datetime="2018-09-01T14:44:17+00:00" itemprop="datePublished">
+                                            September 1, 2018 at 2:44 pm
+                                        </time>
+
+                                        <span class="reply-link"><a rel='nofollow' class='comment-reply-link'
+                                                                    href='2018/09/29/the-art-of-hiring-a-product-designer/index.html%3Freplytocom=7.html#respond'
+                                                                    onclick='return addComment.moveForm( "div-comment-7", "7", "respond", "88" )'
+                                                                    aria-label='Reply to Kathryn Hughes'>Reply</a></span>
+                                    </div>
+
+                                    <div class="comment-body" itemprop="comment">
+                                        <p>Credibly reintermediate backend ideas for cross-platform models. Continually
+                                            reintermediate integrated processes through technically sound intellectual
+                                            capital.</p>
+                                    </div>
+
+                                </div>
+                            </article>
+                            <ol class="children">
+
+                                <li id="comment-8" class="comment byuser comment-author-daniel odd alt depth-2">
+                                    <article id="div-comment-8" class="comment-wrapper u-clearfix" itemscope
+                                             itemtype="https://schema.org/Comment">
+                                        <div class="comment-author-avatar vcard">
+                                            <img class="lazyload" data-src="2018/08/daniel-wade-96x96.jpg">
+                                        </div>
+
+                                        <div class="comment-content">
+                                            <div class="comment-author-name vcard" itemprop="author">
+                                                <cite class="fn"><a
+                                                            href='https://themeforest.net/user/mondotheme/portfolio'
+                                                            rel='external nofollow' class='url'>Daniel Wade</a></cite>
+                                            </div>
+
+                                            <div class="comment-metadata">
+                                                <time datetime="2018-09-01T14:44:17+00:00" itemprop="datePublished">
+                                                    September 1, 2018 at 2:44 pm
+                                                </time>
+
+                                                <span class="reply-link"><a rel='nofollow' class='comment-reply-link'
+                                                                            href='2018/09/29/the-art-of-hiring-a-product-designer/index.html%3Freplytocom=8.html#respond'
+                                                                            onclick='return addComment.moveForm( "div-comment-8", "8", "respond", "88" )'
+                                                                            aria-label='Reply to Daniel Wade'>Reply</a></span>
+                                            </div>
+
+                                            <div class="comment-body" itemprop="comment">
+                                                <p>Globally incubate standards compliant channels before scalable
+                                                    benefits 🙌🏼</p>
+                                            </div>
+
+                                        </div>
+                                    </article>
+                                </li><!-- #comment-## -->
+                            </ol><!-- .children -->
+                        </li><!-- #comment-## -->
+
+                        <li id="comment-9"
+                            class="comment byuser comment-author-nancy bypostauthor even thread-odd thread-alt depth-1">
+                            <article id="div-comment-9" class="comment-wrapper u-clearfix" itemscope
+                                     itemtype="https://schema.org/Comment">
+                                <div class="comment-author-avatar vcard">
+                                    <img class="lazyload" data-src="2018/08/nancy-welch-96x96.jpg">
+                                </div>
+
+                                <div class="comment-content">
+                                    <div class="comment-author-name vcard" itemprop="author">
+                                        <cite class="fn"><a href='https://themeforest.net/user/mondotheme/portfolio'
+                                                            rel='external nofollow' class='url'>Nancy Welch</a></cite>
+                                    </div>
+
+                                    <div class="comment-metadata">
+                                        <time datetime="2018-09-01T14:44:17+00:00" itemprop="datePublished">
+                                            September 1, 2018 at 2:44 pm
+                                        </time>
+
+                                        <span class="reply-link"><a rel='nofollow' class='comment-reply-link'
+                                                                    href='2018/09/29/the-art-of-hiring-a-product-designer/index.html%3Freplytocom=9.html#respond'
+                                                                    onclick='return addComment.moveForm( "div-comment-9", "9", "respond", "88" )'
+                                                                    aria-label='Reply to Nancy Welch'>Reply</a></span>
+                                    </div>
+
+                                    <div class="comment-body" itemprop="comment">
+                                        <p>Interactively procrastinate high-payoff content without backward-compatible
+                                            data. Quickly cultivate optimal processes and tactical architectures.
+                                            Completely iterate covalent strategic theme areas via accurate e-markets
+                                            👍</p>
+                                    </div>
+
+                                </div>
+                            </article>
+                        </li><!-- #comment-## -->
+                    </ol>
+
+
+                    <div id="respond" class="comment-respond">
+                        <h3 id="reply-title" class="comment-reply-title">Leave a Reply
+                            <small><a rel="nofollow" id="cancel-comment-reply-link" href="full_hero_post.html#respond"
+                                      style="display:none;">Cancel reply</a></small>
+                        </h3>
+                        <form action="https://magsy.mondotheme.com/wp-comments-post.php" method="post" id="commentform"
+                              class="comment-form" novalidate>
+                            <p class="comment-form-comment"><textarea
+                                        onfocus="if(!this._s==true){var _i=document.createElement('input');_i.setAttribute('type','hidden');_i.setAttribute('name','ssc_key_3cf27bfce5417982');_i.setAttribute('value','0536516bffb02642');var _p=this.parentNode;_p.insertBefore(_i,this);this._s=true;}"
+                                        id="comment" name="comment" rows="8" aria-required="true"></textarea></p>
+                            <div class="row comment-author-inputs">
+                                <div class="col-md-4 input"><p class="comment-form-author"><label
+                                                for="author">Name*</label><input id="author" name="author" type="text"
+                                                                                 value=""
+                                                                                 size="30" aria-required='true'></p>
+                                </div>
+                                <div class="col-md-4 input"><p class="comment-form-email"><label
+                                                for="email">E-mail*</label><input id="email" name="email" type="text"
+                                                                                  value=""
+                                                                                  size="30" aria-required='true'></p>
+                                </div>
+                                <div class="col-md-4 input"><p class="comment-form-url"><label
+                                                for="url">Website</label><input
+                                                id="url" name="url" type="text" value="" size="30"></p></div>
+                            </div>
+                            <p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent"
+                                                                           name="wp-comment-cookies-consent"
+                                                                           type="checkbox" value="yes"> <label
+                                        for="wp-comment-cookies-consent">Save my name, email, and website in this
+                                    browser
+                                    for the next time I comment.</label></p>
+                            <p class="form-submit"><input name="submit" type="submit" id="submit" class="button"
+                                                          value="Post Comment"/> <input type='hidden'
+                                                                                        name='comment_post_ID'
+                                                                                        value='88'
+                                                                                        id='comment_post_ID'/>
+                                <input type='hidden' name='comment_parent' id='comment_parent' value='0'/>
+                            </p>
+                            <p style="display: none;"><input type="hidden" id="akismet_comment_nonce"
+                                                             name="akismet_comment_nonce" value="b902d19b2a"/></p>
+                            <p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="244"/></p>
+                            <style>.ssc_notice_3cf27bfce5417982 strong {
+                                    display: none;
+                                }
+
+                                .ssc_notice_3cf27bfce5417982:after {
+                                    content: '\2018\0030\0035\0033\0036\0035\0031\0036\0062\0066\0066\0062\0030\0032\0036\0034\0032\0033\0063\0066\0032\0037\0062\0066\0063\0065\0035\0034\0031\0037\0039\0038\0032\2019';
+                                    font-weight: bold;
+                                }</style>
+                            <noscript><p class="ssc_notice_3cf27bfce5417982">Notice: It seems you have Javascript
+                                    disabled in your Browser. In order to submit a comment to this post, please write
+                                    this
+                                    code along with your comment: <strong aria-hidden="true">fbcc725680644e56121f7f9bb2f33250</strong>
+                                </p></noscript>
+                        </form>
+                    </div><!-- #respond -->
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
