@@ -60,7 +60,6 @@ use yii\helpers\Url;
  * @property mixed      _editor
  * @property mixed      _creator
  * @property string     editor_session
- * @property string[]   _domain
  * @property integer    short_id
  * @property boolean    has_audio
  * @property boolean    has_video
@@ -156,7 +155,6 @@ class Post extends MongoModel
             '_editor',
             '_creator',
             'author_type',
-            '_domain',
 
             'auto_publish_time',
             'published_on',
@@ -237,7 +235,7 @@ class Post extends MongoModel
             [['youtube_url'], 'validateYoutube', 'skipOnEmpty' => true, 'message' => __('Invalid Youtube url')],
             [['mover_url'], 'validateMover', 'skipOnEmpty' => true, 'message' => __('Invalid Mover url')],
 
-            [['search', 'user', 'post_type', '_domain'], 'safe', 'on' => 'search'],
+            [['search', 'user', 'post_type'], 'safe', 'on' => 'search'],
             [$this->_booleanAttributes, 'safe'],
 
             [['title', 'url', 'info', '_categories'], 'required', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO], 'when' => function ($model) {
@@ -395,9 +393,9 @@ class Post extends MongoModel
 
 
         if ($this->search) {
-            $query->orFilterWhere(['_translations.title_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_cy' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_ru' => ['$regex' => $this->search, '$options' => 'si']]);
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(['_translations.title_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+            }
             $query->orFilterWhere(['slug' => ['$regex' => $this->search, '$options' => 'si']]);
         }
         if ($this->status) {
@@ -405,9 +403,6 @@ class Post extends MongoModel
         }
         if ($this->post_type) {
             $query->andFilterWhere(['type' => $this->post_type]);
-        }
-        if ($this->_domain) {
-            $query->andFilterWhere(['_domain' => ['$elemMatch' => ['$in' => [$this->_domain]]]]);
         }
 
         $query->andFilterWhere(['status' => ['$ne' => self::STATUS_IN_TRASH]]);
@@ -434,9 +429,9 @@ class Post extends MongoModel
                                                ]);
 
         if ($this->search) {
-            $query->orFilterWhere(['_translations.title_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_cy' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_ru' => ['$regex' => $this->search, '$options' => 'si']]);
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(['_translations.title_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+            }
         }
         $query->andFilterWhere(['status' => ['$eq' => self::STATUS_IN_TRASH]]);
 
@@ -493,7 +488,6 @@ class Post extends MongoModel
         $this->processContent($force);
         $this->prepareMobilePost($force);
 
-        if (!$this->_domain) $this->_domain = [];
         if (isRussian()) {
             $this->has_russian = true;
             $this->has_uzbek   = false;
@@ -637,7 +631,7 @@ class Post extends MongoModel
 
     public function getImageCaption($image)
     {
-        $lang = Config::getLanguageShortName();
+        $lang = Config::getLanguageCode();
         if (isset($image['caption']) && isset($image['caption'][$lang])) {
             return $image['caption'][$lang];
         }
@@ -899,7 +893,7 @@ class Post extends MongoModel
             return array_map(function (Tag $tag) {
                 return [
                     'v' => $tag->getId(),
-                    't' => $tag->name_uz,
+                    't' => $tag->name,
                 ];
             }, $tags);
         }
@@ -1014,6 +1008,7 @@ class Post extends MongoModel
 
     /**
      * @param $event Event
+     * @throws \yii\mongodb\Exception
      */
     public static function onComment($event)
     {
@@ -1230,7 +1225,7 @@ class Post extends MongoModel
         }
     }
 
-    public function getInfoView($limit=180)
+    public function getInfoView($limit = 180)
     {
         return StringHelper::truncate($this->info, $limit);
     }

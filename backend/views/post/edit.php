@@ -273,7 +273,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                                 'maxNumberOfFiles' => 1,
                                 'multiple'         => false,
                                 'useCaption'       => true,
-                                'languages'        => array_keys(Config::getShortLanguageOptions()),
+                                'languages'        => Config::getLanguageCodes(),
                                 'clientOptions'    => [],
                             ]
                         )->label(); ?>

@@ -2,6 +2,7 @@
 
 namespace console\controllers;
 
+use common\components\Config;
 use common\components\Translator;
 use common\models\Category;
 use common\models\Post;
@@ -32,15 +33,12 @@ class HelloController extends Controller
             $root = Category::find()->where(['slug' => 'bolimlar'])->one();
             if (!($root instanceof Category)) {
                 $root = new Category([
-                                         'scenario'      => 'insert',
-                                         'name'          => "Бўлимлар",
-                                         'slug'          => 'bolimlar',
-                                         '_translations' => [
-                                             'name_uz' => "Бўлимлар",
-                                             'name_ru' => "Рубрики",
-                                         ],
+                                         'scenario' => Category::SCENARIO_INSERT,
+                                         'name'     => "Бўлимлар",
+                                         'slug'     => 'bolimlar',
                                      ]);
                 if ($root->save()) {
+                    $root->syncLatinCyrill(Config::LANGUAGE_UZBEK, 1);
                     $this->stdout("Created `{$root->name}` root category successfully.\n", Console::FG_GREEN);
                 } else {
                     $this->stderr("Cannot saved root category.\n", Console::FG_RED);
@@ -51,17 +49,14 @@ class HelloController extends Controller
             Console::startProgress(0, count($categories), 'Start Convert Categories');
             foreach ($categories as $i => $category) {
                 $cat = new Category([
-                                        'scenario'      => 'insert',
-                                        'name'          => $category->name ?: $category->ru,
-                                        'old_id'        => $category->id,
-                                        'slug'          => $category->url,
-                                        '_translations' => [
-                                            'name_uz' => $category->name ?: $category->ru,
-                                            'name_ru' => $category->ru ?: $category->name,
-                                        ],
-                                        'parent'        => $root->getId()
+                                        'scenario' => Category::SCENARIO_INSERT,
+                                        'name'     => $category->name ?: $category->ru,
+                                        'old_id'   => $category->id,
+                                        'slug'     => $category->url,
+                                        'parent'   => $root->getId()
                                     ]);
                 if ($cat->save()) {
+                    $cat->syncLatinCyrill(Config::LANGUAGE_UZBEK, 1);
                     //$this->stdout("-- Created `{$cat->name}` category successfully.\n", Console::FG_GREEN);
                 }
 
@@ -88,13 +83,13 @@ class HelloController extends Controller
             foreach ($tags as $i => $tag) {
                 $slug = Translator::getInstance()->translateToLatin($tag->text);
                 $new  = new Tag([
-                                    'scenario' => 'insert',
+                                    'scenario' => Tag::SCENARIO_INSERT,
                                     'name'     => $tag->text,
-                                    'name_uz'  => $tag->text,
                                     'old_id'   => $tag->id,
                                     'slug'     => $tag->slug ?: $slug,
                                 ]);
                 if ($new->save()) {
+                    $new->syncLatinCyrill(Config::LANGUAGE_UZBEK, 1);
                     //$this->stdout("Created `{$new->name}` tag successfully.\n", Console::FG_GREEN);
                 }
 

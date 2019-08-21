@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\controllers;
 
@@ -15,7 +10,6 @@ use common\models\Post;
 use common\models\SystemDictionary;
 use common\models\SystemMessage;
 use Yii;
-use yii\data\ArrayDataProvider;
 use yii\helpers\BaseFileHelper;
 use yii\mongodb\Exception;
 
@@ -26,6 +20,7 @@ class SystemController extends BackendController
 
     /**
      * @return string|void|\yii\web\Response
+     * @throws \yii\base\InvalidConfigException
      * @resource System | System Backups | system/backup
      */
     public function actionBackup()
@@ -36,12 +31,13 @@ class SystemController extends BackendController
                 return Yii::$app->response->sendFile($dir . $name);
             }
         }
+
         if ($name = $this->get('rem')) {
             if (file_exists($dir . $name)) {
                 $time = time() - intval(filemtime($dir . $name));
                 if ($time < 3600 * 24 * 7) {
                     if (unlink($dir . $name)) {
-                        $this->addSuccess(__('File {file} has removed', ['file' => $name]));
+                        $this->addSuccess(__('File `{file}` has removed.', ['file' => $name]));
                     }
                 } else {
                     $this->addError(__('You cannot delete backups after a week'));
@@ -49,29 +45,25 @@ class SystemController extends BackendController
                 return $this->redirect('backup');
             }
         }
-        $data = [];
-        foreach (glob($dir . '*.bak.*') as $file) {
-            $data[] = [
-                'name' => basename($file),
-                'size' => Yii::$app->formatter->asSize(filesize($file)),
-                'time' => Yii::$app->formatter->asDatetime(filemtime($file)),
-                'date' => intval(filemtime($file)),
-            ];
-        }
 
-        $provider = new ArrayDataProvider([
-                                              'allModels'  => $data,
-                                              'sort'       => [
-                                                  'attributes'   => ['name', 'size', 'time', 'date'],
-                                                  'defaultOrder' => ['date' => SORT_DESC],
-                                              ],
-                                              'pagination' => [
-                                                  'pageSize' => 20,
-                                              ],
-                                          ]);
-        return $this->render('backup', ['dataProvider' => $provider]);
+        return $this->render('backup', [
+            'dataProvider' => Config::getBackupProvider()
+        ]);
     }
 
+    /**
+     * @return string
+     * @resource System | System Logs | system/logs
+     */
+    public function actionLogs()
+    {
+        $searchModel = new SystemLog();
+
+        return $this->render('logs', [
+            'searchModel'  => $searchModel,
+            'dataProvider' => $searchModel->search(Yii::$app->request->get()),
+        ]);
+    }
 
     /**
      * @param $id
@@ -88,6 +80,7 @@ class SystemController extends BackendController
     }
 
     /**
+     * @param $id
      * @return string
      * @resource System | Manage Translations | system/translate
      */
@@ -112,13 +105,15 @@ class SystemController extends BackendController
      */
     public function actionTranslation($convert = false)
     {
-        $searchModel = new SystemMessage(['scenario' => 'search']);
+        $searchModel = new SystemMessage(['scenario' => SystemMessage::SCENARIO_SEARCH]);
 
         $model = new FormUploadTrans();
         if ($this->_user()->canAccessToResource('system/upload-trans')) {
             if ($model->load(Yii::$app->request->post())) {
                 if ($data = $model->uploadData()) {
-                    $this->addSuccess(__('{count} message updated successfully', ['count' => count($data)]));
+                    $this->addSuccess(
+                        __('Inserted: `{inserted}` and Updated: `{updated}` successfully', $data)
+                    );
                 } else {
                     $errors = $model->getFirstErrors();
                     $this->addError(array_pop($errors));
@@ -177,7 +172,7 @@ class SystemController extends BackendController
             $result[] = $data;
         }
 
-        $fileName = Yii::getAlias('@runtime') . DS . DS . 'trans_' . time() . '.csv';
+        $fileName = Yii::getAlias('@runtime') . DS . 'trans_' . time() . '.csv';
         if ($handle = fopen($fileName, 'w+')) {
             foreach ($result as $row)
                 fputcsv($handle, $row, ",", '"');
@@ -189,41 +184,44 @@ class SystemController extends BackendController
 
 
     /**
-     * @param bool|string $id
+     * @param mixed $id
      * @return SystemDictionary|array|string
-     * @resource System | Manage Dictionary | tag/index
+     * @throws \yii\db\StaleObjectException
+     * @resource System | Manage Dictionary | system/dictionary
      */
     public function actionDictionary($id = false)
     {
-        if ($id) {
-            $model = SystemDictionary::findOne($id);
-        } else {
-            $model = new SystemDictionary();
-        }
-
         $searchModel = new SystemDictionary();
+        $model       = $id ? SystemDictionary::findOne($id) : new SystemDictionary();
 
         if ($this->get('save')) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                if ($id) {
-                    $this->addSuccess(__('Dictionary {name} updated successfully', ['name' => $model->latin]));
-                } else {
-                    $this->addSuccess(__('Dictionary {name} created successfully', ['name' => $model->latin]));
-                }
+                $this->addSuccess(
+                    __('Dictionary {name} updated successfully', [
+                        'name'   => $model->latin,
+                        'action' => __($id ? 'updated' : 'created')
+                    ])
+                );
 
                 if (!$this->isAjax())
-                    return $this->redirect(['index', 'id' => $model->id]);
+                    return $this->redirect(['index', 'id' => $model->getId()]);
             }
         }
+
         if ($this->get('delete')) {
             try {
                 $model->delete();
-                $this->addSuccess(__('Dictionary {name} deleted successfully', ['name' => $model->latin]));
+                $this->addSuccess(
+                    __('Dictionary `{name}` deleted successfully', [
+                        'name' => $model->latin
+                    ])
+                );
                 return $this->redirect(['system/dictionary']);
             } catch (Exception $exception) {
                 $exception->getMessage();
             }
         }
+
         return $this->render('dictionary', [
             'model'        => $model,
             'searchModel'  => $searchModel,
@@ -265,6 +263,10 @@ class SystemController extends BackendController
         return $this->redirect(['system/backup']);
     }
 
+    /**
+     * @return \yii\web\Response
+     * @throws \yii\base\ErrorException
+     */
     public function actionCache()
     {
         $dirs = [
@@ -286,9 +288,9 @@ class SystemController extends BackendController
 
     /**
      * @return string
-     * @resource System | Login History | system/logins
+     * @resource System | Login History | system/login
      */
-    public function actionLogins()
+    public function actionLogin()
     {
         $searchModel = new Login(['scenario' => 'search']);
 
@@ -299,7 +301,9 @@ class SystemController extends BackendController
     }
 
     /**
+     * @param $id
      * @return string
+     * @throws \yii\db\StaleObjectException
      * @resource System | Login History | system/del-login
      */
     public function actionDelLogin($id)
@@ -327,31 +331,4 @@ class SystemController extends BackendController
         ]);
     }
 
-    /**
-     * @return string
-     * @resource System | User Logs | system/user-logs
-     */
-    public function actionUserLogs()
-    {
-        $searchModel = new SystemLog();
-
-        return $this->render('user-logs', [
-            'dataProvider' => $searchModel->search(Yii::$app->request->get()),
-            'searchModel'  => $searchModel,
-        ]);
-    }
-
-
-    /**
-     * @return string
-     * @resource System | User Logs | system/user-logs-view
-     */
-    public function actionUserLogsView($id)
-    {
-        $model = SystemLog::findOne($id);
-
-        return $this->render('user-logs-view', [
-            'model' => $model,
-        ]);
-    }
 }

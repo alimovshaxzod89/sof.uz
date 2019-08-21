@@ -85,9 +85,9 @@ class PostController extends ApiController
 
         } else {
             $result->orFilterWhere(["_translations.title_uz" => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.title_cy" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.title_uz" => ['$regex' => $query, '$options' => 'si']]);
             $result->orFilterWhere(["_translations.content_uz" => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.content_cy" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.content_oz" => ['$regex' => $query, '$options' => 'si']]);
             $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
             $result->andWhere(['has_uzbek' => true]);
         }

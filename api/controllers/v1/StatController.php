@@ -40,14 +40,14 @@ class StatController extends BaseController
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $tags = Tag::find()
-                   ->select(['name_uz', 'name_cy', 'name_ru', 'count', 'slug'])
+                   ->select(['name_uz', 'name_oz', 'name_ru', 'count', 'slug'])
                    ->orderBy(['count' => SORT_DESC])
                    ->limit(20);
 
         if ($q) {
             $tags->orFilterWhere(['name_uz' => ['$regex' => $q, '$options' => 'si']]);
             $tags->orFilterWhere(['name_ru' => ['$regex' => $q, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_cy' => ['$regex' => $q, '$options' => 'si']]);
+            $tags->orFilterWhere(['name_oz' => ['$regex' => $q, '$options' => 'si']]);
         }
         $tags->andFilterWhere(['count' => ['$gt' => 0]]);
 

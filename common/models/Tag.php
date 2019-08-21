@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
 
@@ -17,14 +12,11 @@ use yii\helpers\Url;
 /**
  * Class Tag
  * @package common\models
- * @property string  name_uz
- * @property string  name_cy
- * @property string  name_ru
+ * @property string  name
  * @property string  slug
  * @property string  old_id
  * @property integer count_l5d
  * @property integer count
- * @property string  name
  * @property Post[]  posts
  */
 class Tag extends MongoModel
@@ -48,16 +40,13 @@ class Tag extends MongoModel
 
     public static function createTag($name)
     {
-
         if ($name = trim($name)) {
             $slug = Translator::getInstance()->translateToLatin($name);
             $slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
 
             $old = self::find()
-                       ->orFilterWhere(['$eq', 'name_uz', $name])
-                       ->orFilterWhere(['$eq', 'name_cy', $name])
-                       ->orFilterWhere(['$eq', 'name_ru', $name])
-                       ->orFilterWhere(['$eq', 'slug', $slug])
+                       ->orFilterWhere(['name' => ['$regex' => $name, '$options' => 'si']])
+                       ->orFilterWhere(['slug' => ['$regex' => $name, '$options' => 'si']])
                        ->one();
             if ($old) {
                 return $old->_id;
@@ -66,17 +55,14 @@ class Tag extends MongoModel
             $tag = new Tag();
 
             if (Yii::$app->language == Config::LANGUAGE_CYRILLIC) {
-                $tag->name_cy = $name;
-                $tag->name_ru = $tag->name_cy;
-                $tag->name_uz = Translator::getInstance()->translateToLatin($name);
+                $tag->name = Translator::getInstance()->translateToLatin($name);
             } else if (Yii::$app->language == Config::LANGUAGE_UZBEK) {
-                $tag->name_uz = $name;
-                $tag->name_cy = Translator::getInstance()->translateToCyrillic($name);
-                $tag->name_ru = $tag->name_cy;
+                $tag->_translations['name_oz'] = Translator::getInstance()->translateToCyrillic($name);
             } else {
-                $tag->name_uz = $name;
-                $tag->name_cy = $name;
-                $tag->name_ru = $name;
+                foreach (Config::getLanguageCodes() as $code) {
+                    $attr                      = self::getLanguageAttributeCode('name', $code);
+                    $tag->_translations[$attr] = $name;
+                }
             }
 
             $tag->slug      = $slug;
@@ -99,7 +85,7 @@ class Tag extends MongoModel
             '_id',
             'name',
             'name_uz',
-            'name_cy',
+            'name_oz',
             'name_ru',
             'slug',
             'count',
@@ -122,7 +108,7 @@ class Tag extends MongoModel
             [['count'], 'default', 'value' => 0],
             [['name_uz', 'slug'], 'required'],
             [['slug', 'name_uz'], 'unique'],
-            [['name_uz', 'name_cy', 'slug', 'is_topic'], 'safe', 'on' => ['insert', 'update']],
+            [['name_uz', 'name_oz', 'slug', 'is_topic'], 'safe', 'on' => ['insert', 'update']],
             [['is_topic'], 'default', 'value' => false],
             [['search'], 'safe', 'on' => 'search'],
             //[['name_uz'], 'match', 'pattern' => '/^[a-zA-Z0-9-]{3,32}$/', 'message' => __('Use friendly character')],
@@ -141,14 +127,14 @@ class Tag extends MongoModel
 
 
         $dataProvider = new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => $pageSize,
-            ],
-            'sort'       => [
-                'defaultOrder' => 'is_topic',
-            ],
-        ]);
+                                                   'query'      => $query,
+                                                   'pagination' => [
+                                                       'pageSize' => $pageSize,
+                                                   ],
+                                                   'sort'       => [
+                                                       'defaultOrder' => 'is_topic',
+                                                   ],
+                                               ]);
 
         $this->load($params);
 
@@ -165,20 +151,20 @@ class Tag extends MongoModel
                      ->addOrderBy(['is_topic' => -1]);
 
         $dataProvider = new ActiveDataProvider([
-            'query'      => $query,
-            'sort'       => [
-                'defaultOrder' => ['count_l5d' => SORT_DESC],
-            ],
-            'pagination' => [
-                'pageSize' => 30,
-            ],
-        ]);
+                                                   'query'      => $query,
+                                                   'sort'       => [
+                                                       'defaultOrder' => ['count_l5d' => SORT_DESC],
+                                                   ],
+                                                   'pagination' => [
+                                                       'pageSize' => 30,
+                                                   ],
+                                               ]);
 
         $this->load($params);
         if ($this->search) {
             $query->orFilterWhere(['like', 'name_uz', $this->search]);
             $query->orFilterWhere(['like', 'name_ru', $this->search]);
-            $query->orFilterWhere(['like', 'name_cy', $this->search]);
+            $query->orFilterWhere(['like', 'name_oz', $this->search]);
         }
 
         return $dataProvider;
@@ -214,8 +200,9 @@ class Tag extends MongoModel
 
     public function afterFind()
     {
-        $att        = 'name_' . Config::getLanguageShortName();
-        $this->name = $this->$att ? $this->$att : $this->name_cy;
+        $att        = 'name_' . Config::getLanguageCode();
+        $this->name = $this->$att ? $this->$att : $this->name_oz;
+
         parent::afterFind();
     }
 
@@ -266,8 +253,8 @@ class Tag extends MongoModel
         $posts = Post::find()
                      ->where(['status' => Post::STATUS_PUBLISHED])
                      ->where([
-                         'published_on' => ['$gt' => new Timestamp(1, time() - 5 * 24 * 3600)],
-                     ])
+                                 'published_on' => ['$gt' => new Timestamp(1, time() - 5 * 24 * 3600)],
+                             ])
                      ->orderBy(['published_on' => SORT_DESC])
                      ->all();
 

@@ -3,6 +3,7 @@
 use common\components\Config;
 use yii\widgets\ActiveForm;
 
+/* @var $model \common\models\SystemMessage */
 $len = strlen($model->message);
 ?>
 

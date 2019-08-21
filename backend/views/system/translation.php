@@ -1,9 +1,9 @@
 <?php
 
 use backend\components\View;
+use backend\widgets\GridView;
 use common\components\Config;
 use common\models\SystemMessage;
-use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -23,51 +23,81 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-heading">
         <div class="row">
             <?php $form = ActiveForm::begin(['options' => ['id' => "data-grid-filters"]]); ?>
-            <div class="col col-md-6 col-md-2">
-                <?= $form->field($searchModel, 'language')->widget(ChosenSelect::className(), [
-                    'items'         => Config::getLanguageOptions(),
-                    'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => false, 'disable_search' => true],
-                ])->label(false); ?>
+            <div class="col-md-2">
+                <?= $form->field($searchModel, 'language')
+                         ->widget(ChosenSelect::className(), [
+                             'items'         => Config::getLanguageOptions(),
+                             'pluginOptions' => [
+                                 'width'                 => '100%',
+                                 'allow_single_deselect' => true,
+                                 'disable_search'        => true
+                             ],
+                         ])->label(false); ?>
             </div>
-            <div class="col col-md-6 col-md-6">
-                <?= $form->field($searchModel, 'search', ['labelOptions' => ['class' => 'invisible']])->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('search')])->label(false) ?>
+            <div class="col-md-2">
+                <?= $form->field($searchModel, 'category')
+                         ->widget(ChosenSelect::className(), [
+                             'items'         => SystemMessage::getCategoriesArray(),
+                             'pluginOptions' => [
+                                 'width'                 => '100%',
+                                 'allow_single_deselect' => true,
+                                 'disable_search'        => true
+                             ],
+                         ])->label(false); ?>
+            </div>
+            <div class="col-md-6">
+                <?= $form->field($searchModel, 'search', [
+                    'labelOptions' => ['class' => 'invisible']
+                ])->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('search')])->label(false) ?>
             </div>
             <?php ActiveForm::end(); ?>
             <?php if ($this->_user()->canAccessToResource('system/upload-trans')): ?>
-                <?php $form = ActiveForm::begin(['action' => ['system/translation'], 'options' => ['id' => 'upload_form', 'method' => 'post', 'enctype' => 'multipart/form-data', 'data-pjax' => false]]); ?>
-                <div class="col col-md-6 col-md-4 text-right">
+                <?php $form = ActiveForm::begin([
+                                                    'action'  => ['system/translation'],
+                                                    'options' => [
+                                                        'data-pjax' => false,
+                                                        'method'    => 'post',
+                                                        'id'        => 'upload_form',
+                                                        'enctype'   => 'multipart/form-data',
+                                                    ]
+                                                ]); ?>
+                <div class="col col-md-2 text-right">
                     <?php if (Config::isLatinCyrill()): ?>
                         <a onclick="return confirm('<?= htmlentities(__('Are you sure to transliterate all messages?')) ?>')"
                            data-pjax="0" href="<?= Url::to(['system/translation', 'convert' => 1]) ?>"
                            class="btn btn-default"><i class='fa fa-refresh'></i></a>
                     <?php endif; ?>
-                    <a data-pjax="0" href="<?= Url::to(['system/download']) ?>" class="btn btn-default"><i
-                            class='fa fa-download'></i></a>
-
+                    <a data-pjax="0" href="<?= Url::to(['system/download']) ?>" class="btn btn-default">
+                        <i class='fa fa-download'></i>
+                    </a>
                     <div class="file-wrapper">
-                        <?= $form->field($model, 'file', ['template' => '{input}'])->fileInput(['onchange' => 'if(confirm("' . htmlentities(__('Are your sure upload all translations?')) . '"))$("#upload_form").submit()']) ?>
-                        <button type="button" onclick="$('#formuploadtrans-file').click()" class="btn btn-default"><i
-                                class='fa fa-upload'></i></button>
+                        <?= $form->field($model, 'file', [
+                            'template' => '{input}'
+                        ])->fileInput(['onchange' => 'if(confirm("' . htmlentities(__('Are your sure upload all translations?')) . '"))$("#upload_form").submit()']) ?>
+                        <button type="button" onclick="$('#formuploadtrans-file').click()" class="btn btn-default">
+                            <i class='fa fa-upload'></i>
+                        </button>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
             <?php endif; ?>
-
         </div>
     </div>
     <?= GridView::widget([
-                             'dataProvider' => $dataProvider,
                              'id'           => 'data-grid',
-                             'layout'       => "{items}\n<div class='panel-footer'>{pager}<div class='clearfix'></div></div>",
-                             'tableOptions' => ['class' => 'table table-striped table-hover'],
+                             'dataProvider' => $dataProvider,
                              'columns'      => [
                                  [
                                      'attribute' => 'message',
                                      'format'    => 'raw',
-                                     'value'     => function ($data) {
-                                         return Html::a($data->message, '#' . $data->message, ['message-id' => $data->id, 'onClick' => "showTranslation('{$data->id}')"]);
+                                     'value'     => function (SystemMessage $data) {
+                                         return Html::a($data->message, '#' . $data->message, [
+                                             'message-id' => $data->getId(),
+                                             'onClick'    => "showTranslation('{$data->id}')"
+                                         ]);
                                      },
                                  ],
+                                 'category',
                                  [
                                      'attribute' => $searchModel->language,
                                  ],
@@ -80,17 +110,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span
-                        aria-hidden="true">&times;</span><span
-                        class="sr-only"><?= __('Close') ?></span></button>
-                <h4 class="modal-title" id="myModalLabel"><?= __('Translate Message') ?></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?= __('Close') ?></span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <?= __('Translate Message') ?>
+                </h4>
             </div>
             <div class="modal-body" id="translation_body">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" id="delete-button"
                         onclick="deleteTranslation()"><?= __('Delete') ?></button>
-
                 <button type="button" class="btn btn-default"
                         onclick="closeTranslation()"><?= __('Close') ?></button>
                 <button type="button" class="btn btn-primary"
@@ -101,7 +133,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script type="application/javascript">
-
     function showTranslation(id) {
         $('#translation_body').load('<?=Url::to(["system/translate"])?>/' + id, function (data) {
             $('#modal_translation').modal('show');
@@ -129,6 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
             );
         }
     }
+
     function saveTranslation() {
         var form = $('#translation-form');
         $.post(form.attr('action'), form.serialize(), function () {
@@ -140,5 +172,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
         return false;
     }
-
 </script>

@@ -94,7 +94,7 @@ class Poll extends MongoModel
 
         if ($this->search) {
             $query->orFilterWhere(['_translations.question_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.question_cy' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['_translations.question_oz' => ['$regex' => $this->search, '$options' => 'si']]);
             $query->orFilterWhere(['_translations.question_ru' => ['$regex' => $this->search, '$options' => 'si']]);
         }
 

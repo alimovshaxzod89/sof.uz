@@ -43,7 +43,7 @@ class PostController extends BackendController
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $tags = Tag::find()
-                   ->select(['name_uz', 'name_cy', 'name_ru', 'count', 'slug'])
+                   ->select(['name_uz', 'name_oz', 'name_ru', 'count', 'slug'])
                    ->orderBy(['count' => SORT_DESC])
                    ->limit(20);
 
@@ -51,12 +51,12 @@ class PostController extends BackendController
         if ($query) {
             $tags->orFilterWhere(['name_uz' => ['$regex' => $query, '$options' => 'si']]);
             $tags->orFilterWhere(['name_ru' => ['$regex' => $query, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_cy' => ['$regex' => $query, '$options' => 'si']]);
+            $tags->orFilterWhere(['name_oz' => ['$regex' => $query, '$options' => 'si']]);
 
             $query1 = (new Translator())->translateToLatin($query);
             $tags->orFilterWhere(['name_uz' => ['$regex' => $query1, '$options' => 'si']]);
             $tags->orFilterWhere(['name_ru' => ['$regex' => $query1, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_cy' => ['$regex' => $query1, '$options' => 'si']]);
+            $tags->orFilterWhere(['name_oz' => ['$regex' => $query1, '$options' => 'si']]);
         }
 
         $result = [];
@@ -64,8 +64,8 @@ class PostController extends BackendController
         foreach ($tags->all() as $tag) {
             $result[] = [
                 'v' => $tag->getId(),
-                't' => $tag->name ?: $tag->name_cy,
-                's' => implode("#", [$tag->name_uz, $tag->name_cy, $tag->name_ru]),
+                't' => $tag->name ?: $tag->name_oz,
+                's' => implode("#", [$tag->name_uz, $tag->name_oz, $tag->name_ru]),
             ];
         }
 

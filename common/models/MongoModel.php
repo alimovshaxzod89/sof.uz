@@ -1,12 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
-
 
 use common\components\Config;
 use common\components\InterlacedImage;
@@ -110,14 +104,14 @@ class MongoModel extends ActiveRecord
         $query = self::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query'      => $query,
-            'sort'       => [
-                'defaultOrder' => ['created_at' => 'DESC'],
-            ],
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+                                                   'query'      => $query,
+                                                   'sort'       => [
+                                                       'defaultOrder' => ['created_at' => 'DESC'],
+                                                   ],
+                                                   'pagination' => [
+                                                       'pageSize' => 20,
+                                                   ],
+                                               ]);
 
 
         if ($this->search) {
@@ -147,10 +141,11 @@ class MongoModel extends ActiveRecord
 
         if ($this->hasAttribute('_translations')) {
             $translations = $this->_translations;
-            $language     = Config::getLanguageShortName();
+            $language     = Config::getLanguageCode();
             foreach ($this->_translatedAttributes as $attributeCode) {
-                if ($this->isAttributeChanged($attributeCode)) {
-                    $translations[$attributeCode . '_' . $language] = $this->getAttribute($attributeCode);
+                $translationAttribute = self::getLanguageAttributeCode($attributeCode, $language);
+                if ($this->isAttributeChanged($attributeCode) && !$this->isNewRecord) {
+                    $translations[$translationAttribute] = $this->getAttribute($attributeCode);
                 }
             }
 
@@ -166,7 +161,7 @@ class MongoModel extends ActiveRecord
     {
         if ($this->hasAttribute('_translations')) {
             $translations = $this->_translations;
-            $language     = Config::getLanguageShortName();
+            $language     = Config::getLanguageCode();
 
             foreach ($this->_translatedAttributes as $attributeCode) {
                 $t = $attributeCode . '_' . $language;
@@ -182,22 +177,22 @@ class MongoModel extends ActiveRecord
     public function setTranslation($attributeCode, $value, $language)
     {
         if ($this->hasAttribute('_translations')) {
-            if (strlen($language) > 2) $language = substr($language, 0, 2);
-            $translations                                   = $this->_translations;
-            $translations[$attributeCode . '_' . $language] = $value;
-            $this->_translations                            = $translations;
+            $translations                 = $this->_translations;
+            $languageCode                 = Config::getLanguageCode($language);
+            $attributeName                = self::getLanguageAttributeCode($attributeCode, $languageCode);
+            $translations[$attributeName] = $value;
+            $this->_translations          = $translations;
         }
     }
 
     public function getTranslation($attributeCode, $language, $empty = false)
     {
         if ($this->hasAttribute('_translations')) {
-            if (strlen($language) > 2) $language = substr($language, 0, 2);
-
-            $t            = $attributeCode . '_' . $language;
-            $translations = $this->_translations;
-            if (isset($translations[$t]) && isset($translations[$t])) {
-                return $translations[$t];
+            $languageCode  = Config::getLanguageCode($language);
+            $attributeName = self::getLanguageAttributeCode($attributeCode, $languageCode);
+            $translations  = $this->_translations;
+            if (isset($translations[$attributeName]) && isset($translations[$attributeName])) {
+                return $translations[$attributeName];
             }
 
             if ($empty) return '';
@@ -313,39 +308,44 @@ class MongoModel extends ActiveRecord
         return $value;
     }
 
+
+    protected static $letters = [
+        "o'"       => "o‘",
+        "o`"       => "o‘",
+        "o’"       => "o‘",
+        "o&rsquo;" => "o‘",
+        "o&lsquo;" => "o‘",
+        "O'"       => "O‘",
+        "O`"       => "O‘",
+        "O’"       => "O‘",
+        "O&rsquo;" => "O‘",
+        "O&lsquo;" => "O‘",
+        "g'"       => "g‘",
+        "g`"       => "g‘",
+        "g’"       => "g‘",
+        "g&rsquo;" => "g‘",
+        "g&lsquo;" => "g‘",
+        "G'"       => "G‘",
+        "G`"       => "G‘",
+        "G’"       => "G‘",
+        "G&rsquo;" => "G‘",
+        "G&lsquo;" => "G‘",
+        "`"        => "’",
+        "'"        => "’",
+        "&lsquo;"  => "’",
+        "&rsquo;"  => "’",
+    ];
+
     private function _convertLatinQuotas($value)
     {
-        foreach ([
-                     "o'"       => "o‘",
-                     "o`"       => "o‘",
-                     "o’"       => "o‘",
-                     "o&rsquo;" => "o‘",
-                     "o&lsquo;" => "o‘",
-                     "O'"       => "O‘",
-                     "O`"       => "O‘",
-                     "O’"       => "O‘",
-                     "O&rsquo;" => "O‘",
-                     "O&lsquo;" => "O‘",
-                     "g'"       => "g‘",
-                     "g`"       => "g‘",
-                     "g’"       => "g‘",
-                     "g&rsquo;" => "g‘",
-                     "g&lsquo;" => "g‘",
-                     "G'"       => "G‘",
-                     "G`"       => "G‘",
-                     "G’"       => "G‘",
-                     "G&rsquo;" => "G‘",
-                     "G&lsquo;" => "G‘",
-                     "`"        => "’",
-                     "'"        => "’",
-                     "&lsquo;"  => "’",
-                     "&rsquo;"  => "’",
-                 ] as $s => $r) {
-            $value = str_replace($s, $r, $value);
-        }
+        $value = str_replace(array_keys(self::$letters), array_values(self::$letters), $value);
         return $value;
     }
 
+    public static function getLanguageAttributeCode($attr, $lang, $prefix = '_')
+    {
+        return $attr . $prefix . $lang;
+    }
 
     public function syncLatinCyrill($toLanguage, $update = false)
     {
@@ -419,7 +419,6 @@ class MongoModel extends ActiveRecord
 
         return $result;
     }
-
 
     /**
      * @return \yii\mongodb\Connection

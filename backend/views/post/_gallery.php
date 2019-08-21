@@ -60,7 +60,7 @@ use yii\widgets\ActiveForm;
     'multiple'         => true,
     'sortable'         => true,
     'maxNumberOfFiles' => 100,
-    'languages'        => array_keys(Config::getShortLanguageOptions()),
+    'languages'        => Config::getLanguageCodes(),
     'clientOptions'    => [],
     'value'            => $model->gallery,
 ]) ?>

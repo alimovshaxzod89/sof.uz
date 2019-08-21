@@ -144,10 +144,10 @@ class IndexerController extends Controller
                             if ($exists = Weather::findOne(['cityId' => $weather['city']['id'], 'day' => $data['day']])) {
                                 $wu++;
                                 $exists->updateAttributes([
-                                    'temperature' => $data['temperature'],
-                                    'status'      => $data['status'],
-                                    'info'        => $data['info'],
-                                ]);
+                                                              'temperature' => $data['temperature'],
+                                                              'status'      => $data['status'],
+                                                              'info'        => $data['info'],
+                                                          ]);
                             } else {
                                 $wc++;
                                 $model = new Weather($data);
@@ -226,10 +226,10 @@ class IndexerController extends Controller
         $time = (int)$date->format('U') - 30 * 24 * 3600;
         $post = Post::find()
                     ->where([
-                        'created_at' => ['$lt' => new Timestamp($time)],
-                        'status'     => Post::STATUS_DRAFT,
-                        'title'      => ['$in' => [null, '']],
-                    ])
+                                'created_at' => ['$lt' => new Timestamp(1, $time)],
+                                'status'     => Post::STATUS_DRAFT,
+                                'title'      => ['$in' => [null, '']],
+                            ])
                     ->all();
 
         foreach ($post as $post) {
@@ -263,7 +263,7 @@ class IndexerController extends Controller
         echo $collection->createIndex(['count_l5d' => -1]);
         echo $collection->createIndex(['name_uz' => 1]);
         echo $collection->createIndex(['name_ru' => 1]);
-        echo $collection->createIndex(['name_cy' => 1]);
+        echo $collection->createIndex(['name_oz' => 1]);
 
         $collection = Ad::getCollection();
         echo $collection->createIndex(['views' => -1]);
@@ -322,11 +322,9 @@ class IndexerController extends Controller
         foreach (Post::findAll(['status' => Post::STATUS_PUBLISHED]) as $post) {
             $post->prepareMobilePost();
             $post->updateAttributes([
-                'mobile_image'  => $post->mobile_image,
-                'gallery_items' => $post->gallery_items,
-            ]);
+                                        'mobile_image'  => $post->mobile_image,
+                                        'gallery_items' => $post->gallery_items,
+                                    ]);
         }
     }
-
-
 }

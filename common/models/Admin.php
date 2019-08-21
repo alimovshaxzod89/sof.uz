@@ -287,7 +287,7 @@ class Admin extends MongoModel implements IdentityInterface
 
         if ($this->search) {
             $query->orFilterWhere(['_translations.fullname_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.fullname_cy' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['_translations.fullname_oz' => ['$regex' => $this->search, '$options' => 'si']]);
             $query->orFilterWhere(['_translations.fullname_ru' => ['$regex' => $this->search, '$options' => 'si']]);
             $query->orFilterWhere(['like', 'login', $this->search]);
             $query->orFilterWhere(['like', 'email', $this->search]);

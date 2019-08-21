@@ -145,7 +145,7 @@ return [
         ],
         'urlManager'           => [
             'class'                     => 'codemix\localeurls\UrlManager',
-            'languages'                 => ['uz' => 'uz-UZ', 'k' => 'cy-UZ'],
+            'languages'                 => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
             'enableLanguageDetection'   => false,
             'enableLanguagePersistence' => true,
             'showScriptName'            => false,

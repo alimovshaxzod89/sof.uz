@@ -37,10 +37,13 @@ return [
             'class' => Queue::className(),
         ],
         'urlManager' => [
-            'class'           => 'yii\web\UrlManager',
-            'showScriptName'  => false,
-            'enablePrettyUrl' => true,
-            'baseUrl'         => Yii::getAlias('@frontendUrl'),
+            'class'                     => 'codemix\localeurls\UrlManager',
+            'languages'                 => ['uz' => 'uz-UZ', 'oz' => 'oz-UZ'],
+            'enableLanguageDetection'   => false,
+            'enableLanguagePersistence' => false,
+            'showScriptName'            => false,
+            'enablePrettyUrl'           => true,
+            'baseUrl'                   => Yii::getAlias('@frontendUrl'),
             'rules'                     => [
                 '/'                                                => 'site/index',
                 '/weather'                                         => 'site/weather',

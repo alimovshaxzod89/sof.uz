@@ -2,6 +2,7 @@
 
 namespace console\models;
 
+use common\components\Config;
 use common\models\Category as NewCategory;
 use common\models\Post as NewPost;
 use common\models\Tag as NewTag;
@@ -81,6 +82,7 @@ class Post extends \common\models\old\OldPost
                                          ]);
 
         if ($new->save()) {
+            $new->syncLatinCyrill(Config::LANGUAGE_UZBEK, 1);
             //$this->stdout("Created `{$new->title}` post successfully.\n", Console::FG_GREEN);
             return true;
         }

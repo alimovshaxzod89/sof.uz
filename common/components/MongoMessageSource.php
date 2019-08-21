@@ -12,6 +12,7 @@ use Exception;
 use Yii;
 use yii\caching\Cache;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\i18n\MessageSource;
 use yii\i18n\MissingTranslationEvent;
 use yii\mongodb\Connection;
@@ -88,20 +89,20 @@ class MongoMessageSource extends MessageSource
             self::$messages[$event->category] = [];
         }
 
+        /* @var $mongodb \yii\mongodb\Connection */
+        $mongodb = Yii::$app->mongodb;
+
         self::$messages[$event->category] = self::loadCategoryMessagesFromDb($event->category, $event->language);
 
         if (!isset(self::$messages[$event->category][$message])) {
-            $collection = Yii::$app->mongodb->getCollection('_system_message');
+            $collection = $mongodb->getCollection('_system_message');
 
             try {
                 $collection->insert(
-                    array_merge(
-                        [
-                            'category' => $event->category,
-                            'message'  => $message,
-                        ],
-                        Config::getLanguagesTrans()
-                    )
+                    ArrayHelper::merge([
+                                           'category' => $event->category,
+                                           'message'  => $message,
+                                       ], Config::getLanguagesTrans())
                 );
 
                 $key = [
@@ -124,7 +125,6 @@ class MongoMessageSource extends MessageSource
     {
         if ($this->enableCaching) {
             $key      = [
-                Config::getDomain(),
                 __CLASS__,
                 $category,
                 $language,

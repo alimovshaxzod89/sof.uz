@@ -42,9 +42,9 @@ class PostQuery extends ActiveQuery
                             'is_bbc',
                             'hide_image',
                             '_translations.title_uz',
-                            '_translations.title_cy',
+                            '_translations.title_oz',
                             '_translations.info_uz',
-                            '_translations.info_cy',
+                            '_translations.info_oz',
                         ], $fields))
                     ->andFilterWhere([
                                          'status' => PostProvider::STATUS_PUBLISHED,

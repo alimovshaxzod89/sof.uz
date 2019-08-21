@@ -372,7 +372,7 @@ class PostProvider extends Post
 
     public static function getPostsByQuery($string, $limit)
     {
-        $title = Config::getLanguageShortName();
+        $title = Config::getLanguageCode();
 
         $query = self::find()
                      ->orderBy(['published_on' => SORT_DESC]);
@@ -383,7 +383,7 @@ class PostProvider extends Post
                               ]);
 
         $query->orFilterWhere([
-                                  "_translations.title_cy" => ['$regex' => $string, '$options' => 'si'],
+                                  "_translations.title_oz" => ['$regex' => $string, '$options' => 'si'],
                               ]);
 
         $query->orFilterWhere([
@@ -402,7 +402,7 @@ class PostProvider extends Post
 
     public static function getPostsByTag(Tag $tag, $limit)
     {
-        $title = Config::getLanguageShortName();
+        $title = Config::getLanguageCode();
 
         $query = self::find()
                      ->active(["_translations.content_$title"])

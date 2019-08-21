@@ -44,7 +44,7 @@ $user                          = $this->context->_user();
                 </div>
                 <div class="panel-body">
                     <?= $form->field($model, 'name_uz')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'name_cy')->textInput(['maxlength' => true, 'placeholder' => __('Will be generated automatically')]) ?>
+                    <?= $form->field($model, 'name_oz')->textInput(['maxlength' => true, 'placeholder' => __('Will be generated automatically')]) ?>
                     <?= $form->field($model, 'slug')->textInput(['maxlength' => true])->label() ?>
                     <div class="row">
                         <div class="col col-md-6">
@@ -84,9 +84,9 @@ $this->registerJs('
 $(\'#tag-name_uz\').blur(function () {
     if ($(\'#tag-slug\').val().length < 2)$(\'#tag-slug\').val(convertToSlug($(this).val()));
 }).keyup(function () {
-    $(\'#tag-name_cy\').val(convertToCyrill($(this).val()));
+    $(\'#tag-name_oz\').val(convertToCyrill($(this).val()));
 });
-$(\'#tag-name_cy\').keyup(function () {
+$(\'#tag-name_oz\').keyup(function () {
     if ($(\'#tag-name_uz\').val().length < 2)$(\'#tag-name_uz\').val(convertToLatin($(this).val()));
 })
 $(document).ready(function () {

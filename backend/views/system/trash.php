@@ -11,9 +11,9 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
-
 use yii2mod\chosen\ChosenSelect;
-/* @var $this View */
+
+/* @var $this \backend\components\View */
 /* @var $searchModel Login */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                          if ($data->has_gallery)
                                              $label .= "<i class='fa fa-image'></i> ";
 
-                                         if ($data->has_russian)
+                                         if ($data->has_ozbek)
                                              $label .= "<i class='fa fa-language'></i> ";
 
                                          if ($data->label == Post::LABEL_EDITOR_CHOICE)

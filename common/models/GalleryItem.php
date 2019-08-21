@@ -29,7 +29,7 @@ class GalleryItem
      */
     public function __construct($data)
     {
-        $this->caption = $data['caption'][Config::getLanguageShortName()];
+        $this->caption = $data['caption'][Config::getLanguageCode()];
         $this->image   = $data;
     }
 

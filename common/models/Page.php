@@ -127,7 +127,7 @@ class Page extends MongoModel
         $this->load($params);
         if ($this->search) {
             $query->orFilterWhere(['_translations.title_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_cy' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['_translations.title_oz' => ['$regex' => $this->search, '$options' => 'si']]);
             $query->orFilterWhere(['_translations.title_ru' => ['$regex' => $this->search, '$options' => 'si']]);
         }
 

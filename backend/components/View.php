@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\components;
 
@@ -14,6 +9,8 @@ use yii\web\IdentityInterface;
 
 class View extends \yii\web\View
 {
+    /** @var  ContextInterface */
+    public    $context;
     protected $_menu = [
         'news'   => [
             'icon'  => 'globe',
@@ -139,17 +136,6 @@ class View extends \yii\web\View
             ],
         ],
     ];
-    /** @var  ContextInterface */
-    public $context;
-
-    /**
-     * @return Admin|IdentityInterface
-     */
-    public function _user()
-    {
-        return $this->context->_user();
-    }
-
 
     public function getMenuItems()
     {
@@ -184,6 +170,14 @@ class View extends \yii\web\View
         }
 
         return $menu;
+    }
+
+    /**
+     * @return Admin|IdentityInterface
+     */
+    public function _user()
+    {
+        return $this->context->_user();
     }
 
     public function getFullPath()

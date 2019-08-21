@@ -109,7 +109,7 @@ class Upload extends InputWidget
         if (!$this->files && $this->value) {
             $this->files = $this->multiple ? $this->value : [$this->value];
         }
-        $this->language = Config::getLanguageShortName();
+        $this->language = Config::getLanguageCode();
 
         $this->clientOptions = ArrayHelper::merge(
             [
