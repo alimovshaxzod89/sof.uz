@@ -30,7 +30,7 @@ class Config extends Component
     const CONFIG_SYS_DEV_EMAILS = 'sys_dev_emails';
     const CONFIG_USER_EMAIL_CONFIRM = 'user_email_confirm';
     const CONFIG_CATALOG_POST = 'post_category';
-    const CONFIG_FOOTER_TOP_POSTS = 'footer_top_posts';
+    const CONFIG_MENU_CATEGORY = 'main_menu_category';
     const CONFIG_BLOCKED_IPS = 'blocked_ips';
 
     const CONFIG_ROLES = 'roles';
@@ -396,8 +396,8 @@ return [
                     'options' => $rootCats,
                 ],
                 [
-                    'label'   => __('Menu Category'),
-                    'path'    => self::CONFIG_FOOTER_TOP_POSTS,
+                    'label'   => __('Main Menu Category'),
+                    'path'    => self::CONFIG_MENU_CATEGORY,
                     'type'    => 'category',
                     'help'    => __('Select category'),
                     'options' => $rootCats,
@@ -423,12 +423,12 @@ return [
                     'type'  => 'text',
                     'help'  => __('link social'),
                 ],
-                /*[
+                [
                     'label' => __('Instagram link'),
                     'path'  => self::CONFIG_SOCIAL_INSTAGRAM_LINK,
                     'type'  => 'text',
                     'help'  => __('link social'),
-                ],*/
+                ],
                 [
                     'label' => __('Telegram link'),
                     'path'  => self::CONFIG_SOCIAL_TELEGRAM_LINK,
@@ -442,7 +442,7 @@ return [
     const CONFIG_SOCIAL_FACEBOOK_LINK = 'social_facebook_link';
     const CONFIG_SOCIAL_YOUTUBE_LINK = 'social_youtube_link';
     const CONFIG_SOCIAL_TWITTER_LINK = 'social_twitter_link';
-    //const CONFIG_SOCIAL_INSTAGRAM_LINK = 'social_instagram_link';
+    const CONFIG_SOCIAL_INSTAGRAM_LINK = 'social_instagram_link';
     const CONFIG_SOCIAL_TELEGRAM_LINK = 'social_telegram_link';
 
     public static function getConfigs()

@@ -294,8 +294,8 @@ class PostProvider extends Post
     {
         return static::find()
                      ->active()
-                     ->andWhere(['has_gallery' => true])
-                     ->orderBy(['label' => SORT_ASC, 'published_on' => SORT_DESC])
+                     ->andWhere(['type' => self::TYPE_GALLERY])
+                     ->orderBy(['published_on' => SORT_DESC])
                      ->limit($limit)
                      ->all();
     }
@@ -611,7 +611,6 @@ class PostProvider extends Post
 
     public function highlightKeywords($text, $keyword, $dots = true)
     {
-
         $keyword = (trim($keyword));
         $wrapped = "<span class='search_text'>$keyword</span>";
         $text    = preg_replace('/' . strtolower($keyword) . '/iu', $wrapped, $text);
@@ -623,6 +622,6 @@ class PostProvider extends Post
 
     public function getAuthorPostUrl()
     {
-        return linkTo(['author/post', 'login' => $this->author->login, 'slug' => $this->url], true);
+        return linkTo(['author/post', 'login' => $this->creator->login, 'slug' => $this->url], true);
     }
 }

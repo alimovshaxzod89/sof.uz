@@ -58,7 +58,10 @@ $this->addBodyClass('category-' . $model->slug)
                     <?= $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+                        'title' => __('Most read'),
+                        'posts' => \frontend\models\PostProvider::getTopPosts()
+                    ]) ?>
                 </aside>
             </div>
         </div>

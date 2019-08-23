@@ -180,7 +180,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                             </div>
                                             <div class="entry-footer">
                                                 <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                                    <?= $post->getPublishedOnSeconds() ?>
+                                                    <?= $post->getShortFormattedDate() ?>
                                                 </time>
                                             </div>
                                         </article>

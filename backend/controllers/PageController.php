@@ -20,7 +20,7 @@ class PageController extends BackendController
      */
     public function actionIndex()
     {
-        $searchModel = new Page(['scenario' => 'search']);
+        $searchModel = new Page(['scenario' => Page::SCENARIO_SEARCH]);
 
         return $this->render('index', [
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
@@ -42,21 +42,18 @@ class PageController extends BackendController
     }
 
     /**
-     * @param $id
+     * @param bool $id
      * @return array|string|Response
+     * @throws NotFoundHttpException
      * @resource Web-site | Manage Pages | page/edit
      */
     public function actionEdit($id = false)
     {
-        if ($id) {
-            $model = $this->findModel($id);
-        } else {
-            $model = new Page();
-        }
+        $model = $id ? $this->findModel($id) : new Page();
+        $model->setScenario($id ? Page::SCENARIO_UPDATE : Page::SCENARIO_INSERT);
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-
             return ActiveForm::validate($model);
         }
 
@@ -65,28 +62,29 @@ class PageController extends BackendController
             $changed = false;
             $lang    = Yii::$app->language;
 
-            if ($lang == Config::LANGUAGE_CYRILLIC) {
-                $lang    = Config::LANGUAGE_UZBEK;
-                $changed = $model->syncLatinCyrill($lang, true);
-
-            } else if ($lang == Config::LANGUAGE_UZBEK) {
-                $lang    = Config::LANGUAGE_CYRILLIC;
+            if (in_array($lang, [Config::LANGUAGE_CYRILLIC, Config::LANGUAGE_UZBEK])) {
+                $lang    = $lang == Config::LANGUAGE_CYRILLIC ? Config::LANGUAGE_UZBEK : Config::LANGUAGE_CYRILLIC;
                 $changed = $model->syncLatinCyrill($lang, true);
             }
 
             if ($changed) {
-                $this->addSuccess(__('Page converted to {language} successfully', ['language' => Config::getLanguageLabel($lang)]));
+                $this->addSuccess(
+                    __('Page converted to `{language}` successfully.', [
+                        'language' => Config::getLanguageLabel($lang)
+                    ])
+                );
             }
 
             return $this->redirect(['edit', 'id' => $model->getId(), 'language' => $lang]);
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->updatePage()) {
-            if ($id) {
-                $this->addSuccess(__('Page {title} updated successfully', ['title' => $model->title]));
-            } else {
-                $this->addSuccess(__('Page {title} created successfully', ['title' => $model->title]));
-            }
+            $this->addSuccess(
+                __('Page `{title}` {action} successfully', [
+                    'title'  => $model->title,
+                    'action' => __($id ? 'updated' : 'created')
+                ])
+            );
 
             return $this->redirect(['edit', 'id' => $model->getId()]);
         }
@@ -109,15 +107,17 @@ class PageController extends BackendController
 
         try {
             if ($model->delete()) {
-
-                $this->addSuccess(__('Page {title} deleted successfully', ['title' => $model->title]));
+                $this->addSuccess(
+                    __('Page `{title}` deleted successfully.', [
+                        'title' => $model->title
+                    ])
+                );
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());
 
             return $this->redirect(['edit', 'id' => $model->getId()]);
         }
-
 
         return $this->redirect(['index']);
     }
@@ -136,5 +136,4 @@ class PageController extends BackendController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

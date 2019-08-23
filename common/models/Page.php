@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: shavkat
- * Date: 8/9/16
- * Time: 1:45 PM
- */
 
 namespace common\models;
-
 
 use common\components\Config;
 use Imagine\Image\ManipulatorInterface;
@@ -33,10 +26,10 @@ class Page extends MongoModel
     public    $search;
     protected $_translatedAttributes = ['title', 'content'];
 
-    const STATUS_DRAFT     = 'draft';
+    const STATUS_DRAFT = 'draft';
     const STATUS_PUBLISHED = 'published';
 
-    const TYPE_PAGE  = 'page';
+    const TYPE_PAGE = 'page';
     const TYPE_BLOCK = 'block';
     const TYPE_SLIDE = 'slide';
 
@@ -108,7 +101,10 @@ class Page extends MongoModel
             [['type'], 'in', 'range' => array_keys(self::getTypeArray())],
             [['title'], 'string', 'max' => 255],
             [['content', 'image'], 'safe'],
-            [['search'], 'safe', 'on' => 'search'],
+            [['title', 'url'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['search'], 'safe', 'on' => self::SCENARIO_SEARCH],
+            ['status', 'default', 'value' => self::STATUS_DRAFT],
+            ['type', 'default', 'value' => self::TYPE_PAGE],
             [['url'], 'match', 'skipOnEmpty' => false, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
         ];
     }

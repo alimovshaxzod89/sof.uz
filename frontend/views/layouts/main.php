@@ -1,15 +1,15 @@
 <?php
 
-/**
- * @var $this View
- * @var $content string
- */
-
 use common\components\Config;
 use common\models\Category;
 use frontend\assets\AppAsset;
 use frontend\components\View;
 use yii\helpers\Html;
+
+/**
+ * @var $this View
+ * @var $content string
+ */
 
 AppAsset::register($this);
 

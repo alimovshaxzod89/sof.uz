@@ -61,7 +61,7 @@ class PostController extends BaseController
             }
         }
 
-        return $this->render('view', [
+        return $this->render($model->type, [
             'model'       => $model,
             'showReplies' => $this->get('replies', false),
         ]);
@@ -119,7 +119,7 @@ class PostController extends BaseController
         if ($slug) {
             $model = PostProvider::find()
                                  ->orFilterWhere(['short_id' => $slug])
-                                 ->orFilterWhere([ 'url' => $slug])
+                                 ->orFilterWhere(['url' => $slug])
                                  ->andFilterWhere([
                                                       'status' => PostProvider::STATUS_PUBLISHED,
                                                   ])
