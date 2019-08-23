@@ -35,19 +35,25 @@
     </a>
 
 </div>
+
 <footer class="site-footer">
     <div class="container">
         <nav class="footer-menu">
             <ul id="menu-footer" class="nav-list u-plain-list">
-                <li id="menu-item-70" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-70">
+                <li id="menu-item-70"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-70">
                     <a href="index.html#">About Magsy</a></li>
-                <li id="menu-item-71" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-71">
+                <li id="menu-item-71"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-71">
                     <a href="index.html#">Jobs</a></li>
-                <li id="menu-item-72" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-72">
+                <li id="menu-item-72"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-72">
                     <a href="index.html#">Brand Assets</a></li>
-                <li id="menu-item-73" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73">
+                <li id="menu-item-73"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-73">
                     <a href="index.html#">Investor Relations</a></li>
-                <li id="menu-item-74" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74">
+                <li id="menu-item-74"
+                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-74">
                     <a href="index.html#">Terms of Service</a></li>
             </ul>
         </nav>

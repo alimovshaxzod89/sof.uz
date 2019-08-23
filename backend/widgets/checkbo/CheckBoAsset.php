@@ -1,18 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 11/9/17
- * Time: 10:36 PM
- */
 
 namespace backend\widgets\checkbo;
-
 
 use yii\web\AssetBundle;
 

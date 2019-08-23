@@ -2,7 +2,7 @@
 /**
  * @link      http://www.activemedia.uz/
  * @copyright Copyright (c) 2018. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
+ * @author    Toir Tuychiyev <toir427@gmail.com>
  */
 
 namespace frontend\assets;

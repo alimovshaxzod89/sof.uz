@@ -1,19 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2018. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * User: rustam
- * Date: 1/31/18
- * Time: 3:12 PM
- */
 
 namespace frontend\controllers;
-
 
 use common\models\Comment;
 use Yii;

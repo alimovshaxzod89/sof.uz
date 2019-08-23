@@ -1,18 +1,12 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
 
 use GuzzleHttp\Client;
+use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use PHPHtmlParser\Dom;
-use Yii;
 use yii\data\ActiveDataProvider;
-use yii\mongodb\ActiveRecord;
 
 /**
  * This is the model class for table "system_dictionary".

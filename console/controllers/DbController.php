@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace console\controllers;
 
@@ -11,11 +6,9 @@ use common\components\Config;
 use common\components\Translator;
 use common\models\Category;
 use common\models\old\OldCategory;
-use common\models\old\OldPage;
 use common\models\old\OldPost;
 use common\models\Post;
 use common\models\Stat;
-use console\models\Page;
 use GuzzleHttp\Client;
 use MongoDB\BSON\Timestamp;
 use PHPHtmlParser\Dom;

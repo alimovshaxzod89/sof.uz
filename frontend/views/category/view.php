@@ -1,23 +1,14 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use common\models\Post;
 use frontend\components\ScrollPager;
 use frontend\components\View;
-use frontend\models\PostProvider;
-use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 /**
- * @var $this         View
- * @var $model        \frontend\models\CategoryProvider
- * @var $news         PostProvider[]
- * @var $dataProvider ActiveDataProvider
+ * @var $this View
+ * @var $model \frontend\models\CategoryProvider
  */
 $this->_canonical              = $model->getViewUrl();
 $this->title                   = $model->name;
@@ -27,33 +18,49 @@ $limit                         = intval(Yii::$app->request->get('limit', 12));
 $empty                         = Post::getEmptyCroppedImage(370, 220);
 $this->addBodyClass('category-' . $model->slug)
 ?>
-<div class="ts-row cf">
-    <div class="col-8 main-content cf">
-        <?php Pjax::begin(['timeout' => 10000, 'options' => []]) ?>
-        <?= ListView::widget([
-            'dataProvider' => PostProvider::getPostsByCategory($model, $limit),
-            'options'      => [
-                'tag' => false,
-            ],
-            'itemOptions'  => [
-                'tag' => false,
-            ],
-            'viewParams'   => [
-                'empty' => $empty,
-                'limit' => $limit,
-                'load'  => Yii::$app->getRequest()->get('load', $limit),
-            ],
-            'layout'       => $this->render('partials/_layout'),
-            'itemView'     => 'partials/_view',
-            'emptyText'    => __('Ushbu bo\'limda yangiliklar yo\'q'),
-            'pager'        => [
-                'perLoad' => $limit,
-                'class'   => ScrollPager::class,
-            ],
-        ]) ?>
-        <?php Pjax::end() ?>
+<div class="site-content">
+    <div class="container">
+        <div class="row">
+            <div class="content-column col-lg-9">
+                <div class="content-area">
+                    <main class="site-main">
+                        <h1 class="latest-title"><?= $model->name ?></h1>
+                        <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
+                        <?= ListView::widget([
+                                                 'dataProvider' => $model->getProvider($limit),
+                                                 'options'      => [
+                                                     'tag' => false,
+                                                 ],
+                                                 'itemOptions'  => [
+                                                     'tag' => false,
+                                                 ],
+                                                 'viewParams'   => [
+                                                     'empty' => $empty,
+                                                     'limit' => $limit,
+                                                     'load'  => Yii::$app->request->get('load', $limit),
+                                                 ],
+                                                 'layout'       => "<div class=\"row posts-wrapper\">{items}</div><div class=\"infinite-scroll-action\">{pager}</div>",
+                                                 'itemView'     => 'partials/_view',
+                                                 'emptyText'    => __('Ushbu bo\'limda yangiliklar yo\'q'),
+                                                 'pager'        => [
+                                                     'perLoad' => $limit,
+                                                     'class'   => ScrollPager::class,
+                                                     'options' => ['class' => 'infinite-scroll-button button']
+                                                 ],
+                                             ]) ?>
+                        <?php Pjax::end() ?>
+                    </main>
+                </div>
+            </div>
+
+            <div class="sidebar-column col-lg-3">
+                <aside class="widget-area">
+                    <?= $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php') ?>
+                </aside>
+            </div>
+        </div>
     </div>
-    <aside class="col-4 sidebar mb-45" data-sticky="1">
-        <?= $this->render('/layouts/partials/sidebar.php', ['exclude' => []]) ?>
-    </aside>
 </div>

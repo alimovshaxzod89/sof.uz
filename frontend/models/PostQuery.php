@@ -1,19 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2018. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * User: rustam
- * Date: 11/16/18
- * Time: 5:03 PM
- */
 
 namespace frontend\models;
-
 
 use yii\mongodb\ActiveQuery;
 

@@ -1,15 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 12/13/17
- * Time: 4:59 AM
- */
 
 namespace frontend\components;
 

@@ -1,18 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 12/15/17
- * Time: 3:34 AM
- */
 
 namespace common\models;
-
 
 use common\components\Config;
 use Imagine\Image\ManipulatorInterface;

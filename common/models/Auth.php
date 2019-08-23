@@ -1,20 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
-
-use common\components\Config;
-use Yii;
-use yii\base\Exception;
-use yii\caching\TagDependency;
-use yii\data\ActiveDataProvider;
-use yii\db\Expression;
-use yii\helpers\Html;
-use yii\web\IdentityInterface;
 
 /**
  * Class User
@@ -24,7 +10,7 @@ use yii\web\IdentityInterface;
  * @property string $_user
  * @property string $created_at
  * @property string $updated_at
- * @property User  user
+ * @property User   user
  */
 class Auth extends MongoModel
 {

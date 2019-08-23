@@ -1,18 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 11/9/17
- * Time: 9:54 PM
- */
 
 namespace backend\widgets\tags;
-
 
 use yii\web\AssetBundle;
 

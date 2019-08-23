@@ -63,22 +63,26 @@ class Post extends \common\models\old\OldPost
         $image             = [];
         $categories        = $this->getCategoriesArray();
         $tags              = $this->getNewTagsIds();
+        $type              = $this->photo == 1 ? NewPost::TYPE_GALLERY : NewPost::TYPE_NEWS;
         $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
         $image['path']     = str_replace('http://sof.uz/files/uploads/', '', $this->img);
         $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
+        $uploadPath        = \Yii::getAlias('@staticUrl') . DS . 'uploads/photos';
+        $content           = str_replace('https://sof.uz/files/uploads/photos', $uploadPath, $this->full);
         $new               = new NewPost([
-                                             'old_id'      => $this->id,
-                                             'title'       => $this->title,
-                                             'info'        => $this->short,
-                                             'content'     => $this->full,
-                                             'views'       => $this->views,
-                                             'url'         => $this->slug,
-                                             'status'      => $status,
-                                             'image'       => $image,
-                                             'type'        => NewPost::TYPE_NEWS,
-                                             '_categories' => $categories,
-                                             '_tags'       => $tags,
-                                             'created_at'  => new Timestamp(1, $this->date),
+                                             'old_id'       => $this->id,
+                                             'title'        => $this->title,
+                                             'info'         => $this->short,
+                                             'content'      => $content,
+                                             'views'        => $this->views,
+                                             'url'          => $this->slug,
+                                             'status'       => $status,
+                                             'image'        => $image,
+                                             'published_on' => new Timestamp(1, time()),
+                                             'type'         => $type,
+                                             '_categories'  => $categories,
+                                             '_tags'        => $tags,
+                                             'created_at'   => new Timestamp(1, $this->date),
                                          ]);
 
         if ($new->save()) {

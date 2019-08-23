@@ -3,12 +3,8 @@
 namespace backend\controllers;
 
 use common\components\Config;
-use common\components\Translator;
 use common\models\Post;
-use common\models\PostBBC;
-use common\models\Stat;
 use common\models\Tag;
-use MongoDB\BSON\ObjectId;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
@@ -32,43 +28,21 @@ class PostController extends BackendController
 
     /**
      * @param string $query
-     * @return string
+     * @return array|string
      * @resource News | Manage Posts | post/tag
      */
     public function actionTag($query)
     {
-        /**
-         * @var $tag Tag
-         */
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        $tags = Tag::find()
-                   ->select(['name_uz', 'name_oz', 'name_ru', 'count', 'slug'])
-                   ->orderBy(['count' => SORT_DESC])
-                   ->limit(20);
-
-
-        if ($query) {
-            $tags->orFilterWhere(['name_uz' => ['$regex' => $query, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_ru' => ['$regex' => $query, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_oz' => ['$regex' => $query, '$options' => 'si']]);
-
-            $query1 = (new Translator())->translateToLatin($query);
-            $tags->orFilterWhere(['name_uz' => ['$regex' => $query1, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_ru' => ['$regex' => $query1, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_oz' => ['$regex' => $query1, '$options' => 'si']]);
-        }
-
         $result = [];
-
-        foreach ($tags->all() as $tag) {
+        $tags   = Tag::searchTags($query);
+        foreach ($tags as $tag) {
             $result[] = [
                 'v' => $tag->getId(),
-                't' => $tag->name ?: $tag->name_oz,
-                's' => implode("#", [$tag->name_uz, $tag->name_oz, $tag->name_ru]),
+                't' => $tag->name,
             ];
         }
 
+        Yii::$app->response->format = Response::FORMAT_JSON;
         return $result;
     }
 
@@ -79,80 +53,16 @@ class PostController extends BackendController
      */
     public function actionIndex($type = false)
     {
-        $searchModel = new Post(['scenario' => 'search']);
+        $searchModel = new Post(['scenario' => Post::SCENARIO_SEARCH]);
         if ($type && !isset(Post::getTypeArray()[$type])) {
             throw new InvalidParamException("Undefined type '$type'");
         }
-        if ($type) {
+        if ($type)
             $searchModel->post_type = $type;
-        }
+
         return $this->render('index', [
             'dataProvider' => $searchModel->search($this->get()),
             'searchModel'  => $searchModel,
-        ]);
-    }
-
-    /**
-     * @param bool|string $type
-     * @return string
-     * @resource News | Manage BBC Links | post/bbc
-     */
-    public function actionBbc($id = false)
-    {
-        if ($id) {
-            $model = PostBBC::findOne($id);
-        } else {
-            $model = new PostBBC();
-        }
-
-        $searchModel = new PostBBC();
-
-        if ($this->get('save')) {
-            $isNew = $model->isNewRecord;
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                if ($id) {
-                    $this->addSuccess(__('BBC Post {name} updated successfully', ['name' => $model->title]));
-                } else {
-                    $this->addSuccess(__('BBC Post {name} created successfully', ['name' => $model->title]));
-                }
-
-                if (!$this->isAjax()) {
-                    if ($isNew) {
-                        return $this->redirect(['post/bbc']);
-                    } else {
-                        return $this->redirect(['post/bbc', 'id' => $model->id]);
-                    }
-                }
-            }
-        }
-        if ($this->get('delete')) {
-            try {
-                $model->delete();
-                $this->addSuccess(__('BBC Post {name} deleted successfully', ['name' => $model->title]));
-                return $this->redirect(['post/bbc']);
-            } catch (Exception $exception) {
-                $exception->getMessage();
-            }
-        }
-
-        return $this->render('bbc', [
-            'dataProvider' => $searchModel->search($this->get()),
-            'searchModel'  => $searchModel,
-            'model'        => $model,
-        ]);
-    }
-
-    /**
-     * @param bool|string $type
-     * @return string
-     * @resource News | Manage BBC Links | post/bbc-edit
-     */
-    public function actionBbcEdit()
-    {
-
-
-        return $this->render('bbc-edit', [
-            'model' => $model,
         ]);
     }
 
@@ -162,7 +72,7 @@ class PostController extends BackendController
      */
     public function actionDraft()
     {
-        $searchModel         = new Post(['scenario' => 'search']);
+        $searchModel         = new Post(['scenario' => Post::SCENARIO_SEARCH]);
         $searchModel->status = Post::STATUS_DRAFT;
 
         return $this->render('index', [
@@ -200,21 +110,25 @@ class PostController extends BackendController
         if (!isset(Post::getTypeArray()[$type])) {
             throw new NotFoundHttpException(__("Undefined type '$type'"));
         }
-        $model = new Post(['scenario' => 'create']);
+        $model = new Post(['scenario' => Post::SCENARIO_CREATE]);
 
         $model->type     = $type;
         $model->_creator = $this->_user()->_id;
 
         if ($model->updatePost()) {
-            $this->addSuccess(__('Post {type} created successfully', ['type' => $model->getTypeLabel()]));
+            $this->addSuccess(__('Post `{type}` created successfully.', [
+                'type' => $model->getTypeLabel()
+            ]));
 
             return $this->redirect(['edit', 'id' => $model->getId()]);
         }
     }
 
     /**
-     * @param $id
+     * @param      $id
+     * @param bool $print
      * @return array|string|Response
+     * @throws NotFoundHttpException
      * @resource News | Manage Posts | post/edit,tag/fetch
      * @resource News | Publish Posts | post/publish
      * @resource News | Release Locked Posts | post/release
@@ -223,8 +137,7 @@ class PostController extends BackendController
     public function actionEdit($id, $print = false)
     {
         $model = $this->findModel($id);
-
-        $model->scenario = $model->type;
+        $model->setScenario($model->type);
 
         if ($print) {
             return $this->render('print', ['model' => $model]);
@@ -237,19 +150,16 @@ class PostController extends BackendController
             $canEdit = $user->canAccessToResource('post/publish');
         }
 
-
         if ($this->get('release')) {
-
-            if ($model->_editor == $user->_id || $user->canAccessToResource('post/release')) {
-
+            if ($model->_creator == $user->_id || $user->canAccessToResource('post/release')) {
                 if ($model->releasePostLock($user)) {
-
-                    $this->addSuccess(__('Post {b}"{title}"{bc} released successfully', ['title' => $model->getTitleView()]));
+                    $this->addSuccess(__('Post {b}"{title}"{bc} released successfully.', [
+                        'title' => $model->getTitleView()
+                    ]));
                 }
-
             }
 
-            return $this->redirect($this->get('return'));
+            return $this->redirect([$this->get('return')]);
         }
 
 
@@ -258,7 +168,7 @@ class PostController extends BackendController
 
             return [
                 'updated' => $model->updated_on ? $model->updated_on->getTimestamp() : 0,
-                'editor'  => (string)$model->_editor,
+                'editor'  => (string)$model->_creator,
             ];
         }
 
@@ -268,7 +178,16 @@ class PostController extends BackendController
         if (Yii::$app->request->isGet) {
             if (!$model->isLocked($user, $session) && $canEdit) {
                 if ($model->locForUser($user, $session)) {
-                    $this->addInfo(__('You have locked the post. {b}{action}{bc}', ['title' => $model->getTitleView(), 'action' => Html::a(__('Click to release it.'), ['post/edit', 'id' => $model->id, 'release' => 1, 'return' => '/post/index'])]));
+                    $message = __('You have locked the post. {b}{action}{bc}.', [
+                        'title'  => $model->getTitleView(),
+                        'action' => Html::a(__('Click to release it.'), [
+                            'post/edit',
+                            'id'      => $model->getId(),
+                            'release' => 1,
+                            'return'  => 'post/index'
+                        ])
+                    ]);
+                    $this->addInfo($message);
                 };
             }
         }
@@ -277,16 +196,14 @@ class PostController extends BackendController
 
         if (Yii::$app->request->isGet) {
             if ($locked) {
-                $this->addInfo(
-                    __(
-                        'Post {b}{title}{bc} has locked by {b}{user}{bc}. {action}',
-                        [
-                            'title'  => $model->getShortTitle(),
-                            'user'   => $model->editor->getFullname(),
-                            'action' => Html::a(__('Click this link to exit editor.'), ['post/index'], ['class' => 'text-bold text-underline']),
-                        ]
-                    )
-                );
+                $message = __('Post {b}{title}{bc} has locked by {b}{user}{bc}. {action}', [
+                    'title'  => $model->getShortTitle(),
+                    'user'   => $model->editor->getFullname(),
+                    'action' => Html::a(__('Click this link to exit editor.'), [
+                        'post/index'
+                    ], ['class' => 'text-bold text-underline']),
+                ]);
+                $this->addInfo($message);
             }
         }
 
@@ -317,7 +234,7 @@ class PostController extends BackendController
 
                     return [
                         'updated' => $model->updated_on->getTimestamp(),
-                        'editor'  => (string)$model->_editor,
+                        'editor'  => (string)$model->_creator,
                         'reload'  => $reload,
                     ];
                 }
@@ -345,14 +262,16 @@ class PostController extends BackendController
                 }
 
                 if ($changed) {
-                    $this->addSuccess(__('Post converted to {language} successfully', ['language' => Config::getLanguageLabel($lang)]));
+                    $message = __('Post converted to `{language}` successfully.', [
+                        'language' => Config::getLanguageLabel($lang)
+                    ]);
+                    $this->addSuccess($message);
                 }
 
                 return $this->redirect(['edit', 'id' => $model->getId(), 'language' => $lang]);
             }
 
             if ($model->load(Yii::$app->request->post())) {
-
                 if (!$user->canAccessToResource('post/publish')) {
                     if (in_array($model->status, [Post::STATUS_PUBLISHED, Post::STATUS_AUTO_PUBLISH])) {
                         $model->status = Post::STATUS_DRAFT;
@@ -367,9 +286,20 @@ class PostController extends BackendController
 
                 if ($model->updatePost()) {
                     if ($id) {
-                        $this->addSuccess(__('Post {title} updated successfully. {b}{action}{bc}', ['title' => $model->getTitleView(), 'action' => Html::a(__('Click to release it.'), ['post/edit', 'id' => $model->id, 'release' => 1, 'return' => '/post/index'])]));
+                        $this->addSuccess(__('Post `{title}` updated successfully. {b}{action}{bc}', [
+                            'title'  => $model->getTitleView(),
+                            'action' => Html::a(
+                                __('Click to release it.'), [
+                                'post/edit',
+                                'id'      => $model->getId(),
+                                'release' => 1,
+                                'return'  => 'post/index'
+                            ])
+                        ]));
                     } else {
-                        $this->addSuccess(__('Post {title} created successfully', ['title' => $model->getTitleView()]));
+                        $this->addSuccess(__('Post `{title}` created successfully', [
+                            'title' => $model->getTitleView()
+                        ]));
                     }
                 }
 
@@ -410,7 +340,9 @@ class PostController extends BackendController
 
         try {
             if ($model->sendPushNotification()) {
-                $this->addSuccess(__('Push notification "{title}" sent successfully', ['title' => $model->getTitleView()]));
+                $this->addSuccess(__('Push notification `{title}` sent successfully', [
+                    'title' => $model->getTitleView()
+                ]));
             } else {
             }
         } catch (\Exception $e) {
@@ -424,6 +356,7 @@ class PostController extends BackendController
     /**
      * @param $id
      * @return array
+     * @throws NotFoundHttpException
      * @resource News | Share Posts | post/share
      */
     public function actionShare($id)
@@ -451,9 +384,10 @@ class PostController extends BackendController
         $model = $this->findModel($id);
 
         if ($model->toTrash()) {
-
-            $this->addSuccess(__('Post {title} moved to trash successfully', ['title' => $model->getTitleView()]));
-            return $this->redirect(Yii::$app->request->isAjax ? Yii::$app->request->getReferrer() : '/post/index');
+            $this->addSuccess(__('Post `{title}` moved to trash successfully.', [
+                'title' => $model->getTitleView()
+            ]));
+            return $this->redirect(Yii::$app->request->isAjax ? Yii::$app->request->getReferrer() : ['post/index']);
         }
 
         $this->addError(__('Post {title} moved to trash failed', ['title' => $model->getTitleView()]));
@@ -463,8 +397,9 @@ class PostController extends BackendController
     /**
      * @param $id
      * @param $attribute
-     * @resource News | Manage Posts | post/change
      * @return bool
+     * @throws NotFoundHttpException
+     * @resource News | Manage Posts | post/change
      */
     public function actionChange($id, $attribute)
     {
@@ -494,7 +429,9 @@ class PostController extends BackendController
         $model = $this->findModel($id);
 
         if ($model->restoreFromTrash()) {
-            $this->addSuccess(__('Post {title} restored successfully', ['title' => $model->getTitleView()]));
+            $this->addSuccess(__('Post `{title}` restored successfully.', [
+                'title' => $model->getTitleView()
+            ]));
         }
 
         return $this->redirect(['post/edit', 'id' => $model->getId()]);
@@ -513,8 +450,9 @@ class PostController extends BackendController
 
         try {
             if ($model->delete()) {
-
-                $this->addSuccess(__('Post {title} moved to trash successfully', ['title' => $model->getTitleView()]));
+                $this->addSuccess(__('Post `{title}` moved to trash successfully', [
+                    'title' => $model->getTitleView()
+                ]));
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());
@@ -533,7 +471,7 @@ class PostController extends BackendController
      */
     protected function findModel($id)
     {
-        if (($model = Post::findOne(new ObjectId($id))) !== null) {
+        if (($model = Post::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested post does not exist.');

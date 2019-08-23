@@ -84,10 +84,19 @@
     font-size: 20px;
 }
 
-.site-content .bottom-area{
+.site-content .bottom-area {
     padding: 0;
 }
 
-.site-content .bottom-area .related-posts{
+.site-content .bottom-area .related-posts {
     padding: 60px 0;
+}
+
+span.meta-category:nth-child(2):before {
+    content: "/";
+    padding-right: 10px;
+}
+
+.entry-header .entry-meta > span + span {
+    margin-left: 10px;
 }

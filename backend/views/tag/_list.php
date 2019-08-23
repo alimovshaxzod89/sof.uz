@@ -1,12 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use backend\components\View;
-use backend\models\TagSearch;
 use backend\widgets\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;

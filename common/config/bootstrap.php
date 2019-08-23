@@ -56,9 +56,3 @@ function isRussian()
 {
     return Yii::$app->language == \common\components\Config::LANGUAGE_RUSSIAN;
 }
-
-function isZarafshon()
-{
-    return \common\components\Config::getDomain() == \common\components\Config::DOMAIN_ZARAFSHON;
-}
-

@@ -1,13 +1,9 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
 
 use common\components\Config;
+use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\caching\TagDependency;
 use yii\data\ActiveDataProvider;
@@ -108,7 +104,7 @@ class Blogger extends MongoModel implements IdentityInterface
     public $confirmation;
     public $change_password;
 
-    const STATUS_ENABLE  = 'enable';
+    const STATUS_ENABLE = 'enable';
     const STATUS_DISABLE = 'disable';
 
     const CACHE_KEY_BLOGGER_MENU = 'blogger_menu';
@@ -253,20 +249,22 @@ class Blogger extends MongoModel implements IdentityInterface
         $query = self::find();
 
         $dataProvider = new ActiveDataProvider([
-            'query'      => $query,
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+                                                   'query'      => $query,
+                                                   'pagination' => [
+                                                       'pageSize' => 20,
+                                                   ],
+                                               ]);
 
         $this->load($params);
 
         if ($this->search) {
-            $query->orFilterWhere(['_translations.fullname_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.fullname_oz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.fullname_ru' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['like', 'login', $this->search]);
-            $query->orFilterWhere(['like', 'email', $this->search]);
+            $query->orFilterWhere(['fullname' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['login' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['email' => ['$regex' => $this->search, '$options' => 'si']]);
+
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(['_translations.fullname_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+            }
         }
 
         return $dataProvider;
@@ -279,9 +277,9 @@ class Blogger extends MongoModel implements IdentityInterface
     public static function findByPasswordResetToken($token)
     {
         $blogger = static::findOne([
-            'password_reset_token' => $token,
-            'status'               => self::STATUS_ENABLE,
-        ]);
+                                       'password_reset_token' => $token,
+                                       'status'               => self::STATUS_ENABLE,
+                                   ]);
 
         return $blogger && $blogger->isPasswordResetTokenValid() ? $blogger : null;
     }
@@ -331,7 +329,7 @@ class Blogger extends MongoModel implements IdentityInterface
 
     public function getArticles()
     {
-        return $this->hasMany(Post::className(), ['_author' => 'id']);
+        return $this->hasMany(Post::className(), ['_creator' => 'id']);
     }
 
 
@@ -347,16 +345,16 @@ class Blogger extends MongoModel implements IdentityInterface
         foreach ($authors as $author) {
             $postsL5d = Post::find()
                             ->andWhere(['status' => Post::STATUS_PUBLISHED])
-                            ->andWhere(['_author' => $author->getId()])
+                            ->andWhere(['_creator' => $author->getId()])
                             ->andWhere([
-                                'published_on' => ['$gt' => new Timestamp(time() - 5 * 24 * 3600)],
-                            ])
+                                           'published_on' => ['$gt' => new Timestamp(1, time() - 5 * 24 * 3600)],
+                                       ])
                             ->count();
 
             $postsAll = Post::find()
                             ->select(['_id', 'views_l3d'])
                             ->andWhere(['status' => Post::STATUS_PUBLISHED])
-                            ->andWhere(['_author' => $author->getId()])
+                            ->andWhere(['_creator' => $author->getId()])
                             ->all();
 
             $views = 0;

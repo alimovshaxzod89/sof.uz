@@ -1,13 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
 
-use Yii;
+use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use yii\mongodb\ActiveRecord;
 

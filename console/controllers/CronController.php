@@ -1,20 +1,9 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace console\controllers;
 
-use common\models\Customer;
-use common\models\Post;
-use common\models\product\model\_Model;
-use common\models\Review;
-use common\models\Vendor;
 use Yii;
 use yii\console\Controller;
-use yii\mongodb\Connection;
 
 /**
  * This command working with crontab

@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use backend\widgets\GridView;
 use common\models\Post;
@@ -60,17 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                      'format'    => 'raw',
                                      'value'     => function ($data) {
                                          $label = "";
-                                         if ($data->has_audio)
-                                             $label .= "<i class='fa fa-music'></i> ";
 
                                          if ($data->has_video)
                                              $label .= "<i class='fa fa-film'></i> ";
 
                                          if ($data->has_gallery)
                                              $label .= "<i class='fa fa-image'></i> ";
-
-                                         if ($data->has_ozbek)
-                                             $label .= "<i class='fa fa-language'></i> ";
 
                                          if ($data->label == Post::LABEL_EDITOR_CHOICE)
                                              $label .= "<i class='fa fa-check'></i> ";
@@ -82,7 +72,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                      'attribute' => 'title',
                                      'format'    => 'raw',
                                      'value'     => function ($data) {
-                                         return Html::a($data->getTitleView(), ['post/edit', 'id' => $data->id], ['data-pjax' => 0]);
+                                         return Html::a($data->getTitleView(), [
+                                             'post/edit',
+                                             'id' => $data->getId()
+                                         ], ['data-pjax' => 0]);
                                      },
                                  ],
                                  [

@@ -1,17 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2018. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace frontend\controllers;
 
-use common\models\Page;
-use common\models\Post;
 use common\models\Rating;
-use frontend\models\PostProvider;
-use Pheanstalk\Exception;
 use Yii;
 use yii\web\NotFoundHttpException;
 

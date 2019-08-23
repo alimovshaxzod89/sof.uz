@@ -38,9 +38,20 @@ class MongoModel extends ActiveRecord
     protected $_translatedAttributes = [];
     protected $_idAttributes         = [];
 
+    const SCENARIO_SEARCH = 'search';
     const SCENARIO_INSERT = 'insert';
     const SCENARIO_UPDATE = 'update';
 
+    public function checkTranslatedAttribute($languageLocale, $attribute)
+    {
+        $code              = Config::getLanguageCode($languageLocale);
+        $languageAttribute = self::getLanguageAttributeCode($attribute, $code);
+        if ($this->hasAttribute('_translations') && isset($this->_translations[$languageAttribute]) && !empty($this->_translations[$languageAttribute])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function getBooleanAttributes()
     {
@@ -260,7 +271,7 @@ class MongoModel extends ActiveRecord
         $filename  = pathinfo($imagePath)['filename'];
         if (is_array($img) && isset($img['path']) && file_exists($dir . $img['path'])) {
             $imagePath = $dir . $img['path'];
-            $filename  = $img['name'];
+            $filename  = isset($img['name']) ? $img['name'] : $img['path'];
         }
 
         $info      = pathinfo($imagePath);
@@ -287,6 +298,7 @@ class MongoModel extends ActiveRecord
                 }
             }
         }
+
         return $cropUrl;
     }
 
@@ -342,8 +354,9 @@ class MongoModel extends ActiveRecord
         return $value;
     }
 
-    public static function getLanguageAttributeCode($attr, $lang, $prefix = '_')
+    public static function getLanguageAttributeCode($attr, $lang = false, $prefix = '_')
     {
+        $lang ?: Config::getLanguageCode();
         return $attr . $prefix . $lang;
     }
 

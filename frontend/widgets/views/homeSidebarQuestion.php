@@ -1,14 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
-use common\models\Post;
 use frontend\models\PostProvider;
-use yii\helpers\ArrayHelper;
-use yii\helpers\StringHelper;
 
 /**
  * @var $questions PostProvider[]

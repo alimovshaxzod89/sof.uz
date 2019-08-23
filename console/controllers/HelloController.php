@@ -111,6 +111,7 @@ class HelloController extends Controller
                                           'title',
                                           'full',
                                           'views',
+                                          'photo',
                                           'category_id',
                                           'date',
                                           'img',

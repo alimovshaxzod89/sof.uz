@@ -1,14 +1,7 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use backend\components\View;
-use backend\widgets\AceEditorWidget;
 use common\models\Comment;
-use common\models\Page;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii2mod\chosen\ChosenSelect;

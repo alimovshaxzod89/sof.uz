@@ -1,26 +1,17 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\models;
 
-
-use common\components\Config;
-use Yii;
-use yii\data\ActiveDataProvider;
-use yii\helpers\StringHelper;
+use MongoDB\BSON\Timestamp;
 
 /**
  * Class Comment
- * @property string          question
- * @property string          _user
+ * @property string    question
+ * @property string    _user
  * @property Timestamp timestamp
- * @property string          _poll
- * @property Poll            poll
- * @property integer         vote
+ * @property string    _poll
+ * @property Poll      poll
+ * @property integer   vote
  * @package common\models
  */
 class PollVote extends MongoModel
@@ -57,7 +48,7 @@ class PollVote extends MongoModel
     public function beforeSave($insert)
     {
         if ($this->isNewRecord) {
-            $this->timestamp = new Timestamp();
+            $this->timestamp = new Timestamp(1, time());
         }
         return parent::beforeSave($insert);
     }

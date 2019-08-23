@@ -1,12 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2018. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace frontend\models;
-
 
 use common\components\Config;
 use common\models\Category;
@@ -66,6 +60,16 @@ class CategoryProvider extends Category
     }
 
     /**
+     * @param int $limit
+     * @return \yii\data\ActiveDataProvider
+     */
+    public function getProvider($limit = 10)
+    {
+        return PostProvider::getPostsByCategory($this, $limit);
+    }
+
+    /**
+     * @param int $limit
      * @return Category[]
      */
     public static function getHomeCategories($limit = 4)
@@ -81,9 +85,9 @@ class CategoryProvider extends Category
                 if ($child->is_home) {
                     $cats[$child->home_order] = $child;
                 }
-                foreach ($child->child as $child) {
-                    if ($child->is_home) {
-                        $cats[$child->home_order] = $child;
+                foreach ($child->child as $ch) {
+                    if ($ch->is_home) {
+                        $cats[$ch->home_order] = $ch;
                     }
                 }
             }

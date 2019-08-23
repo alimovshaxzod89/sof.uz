@@ -7,6 +7,7 @@ use common\components\Translator;
 use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 /**
@@ -57,7 +58,8 @@ class Tag extends MongoModel
             if (Yii::$app->language == Config::LANGUAGE_CYRILLIC) {
                 $tag->name = Translator::getInstance()->translateToLatin($name);
             } else if (Yii::$app->language == Config::LANGUAGE_UZBEK) {
-                $tag->_translations['name_oz'] = Translator::getInstance()->translateToCyrillic($name);
+                $attr                      = self::getLanguageAttributeCode('name');
+                $tag->_translations[$attr] = Translator::getInstance()->translateToCyrillic($name);
             } else {
                 foreach (Config::getLanguageCodes() as $code) {
                     $attr                      = self::getLanguageAttributeCode('name', $code);
@@ -77,24 +79,41 @@ class Tag extends MongoModel
     }
 
     /**
+     * @param $text
+     * @return array|\yii\mongodb\ActiveRecord
+     */
+    public static function searchTags($text = false)
+    {
+        $tags = Tag::find()
+                   ->select(['name', 'count', 'slug'])
+                   ->orderBy(['count' => SORT_DESC])
+                   ->limit(20);
+
+        if ($text) {
+            foreach (Config::getLanguageCodes() as $code) {
+                $text2 = (new Translator())->translateToLatin($text);
+                $tags->orFilterWhere(['name_' . $code => ['$regex' => $text, '$options' => 'si']]);
+                $tags->orFilterWhere(['name_' . $code => ['$regex' => $text2, '$options' => 'si']]);
+            }
+        }
+
+        return $tags->all();
+    }
+
+    /**
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function attributes()
     {
-        return [
-            '_id',
+        return ArrayHelper::merge(parent::attributes(), [
             'name',
-            'name_uz',
-            'name_oz',
-            'name_ru',
             'slug',
             'count',
             'old_id',
             'count_l5d',
             'is_topic',
-            'created_at',
-            'updated_at',
-        ];
+        ]);
     }
 
     public static function collectionName()
@@ -106,13 +125,11 @@ class Tag extends MongoModel
     {
         return [
             [['count'], 'default', 'value' => 0],
-            [['name_uz', 'slug'], 'required'],
-            [['slug', 'name_uz'], 'unique'],
-            [['name_uz', 'name_oz', 'slug', 'is_topic'], 'safe', 'on' => ['insert', 'update']],
+            [['name', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['slug'], 'unique', 'targetAttribute' => ['slug', 'name'], 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['slug', 'is_topic'], 'safe'],
             [['is_topic'], 'default', 'value' => false],
             [['search'], 'safe', 'on' => 'search'],
-            //[['name_uz'], 'match', 'pattern' => '/^[a-zA-Z0-9-]{3,32}$/', 'message' => __('Use friendly character')],
-            // [['name_ru'], 'match', 'pattern' => '/^[а-яА-Я0-9-]{3,32}$/', 'message' => __('Use russian character')],
         ];
     }
 
@@ -153,7 +170,9 @@ class Tag extends MongoModel
         $dataProvider = new ActiveDataProvider([
                                                    'query'      => $query,
                                                    'sort'       => [
-                                                       'defaultOrder' => ['count_l5d' => SORT_DESC],
+                                                       'defaultOrder' => [
+                                                           'count_l5d' => SORT_DESC
+                                                       ],
                                                    ],
                                                    'pagination' => [
                                                        'pageSize' => 30,
@@ -162,9 +181,10 @@ class Tag extends MongoModel
 
         $this->load($params);
         if ($this->search) {
-            $query->orFilterWhere(['like', 'name_uz', $this->search]);
-            $query->orFilterWhere(['like', 'name_ru', $this->search]);
-            $query->orFilterWhere(['like', 'name_oz', $this->search]);
+            $query->orFilterWhere(['name' => ['$regex' => $this->search, '$options' => 'si']]);
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(['_translations.name_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+            }
         }
 
         return $dataProvider;
@@ -194,16 +214,7 @@ class Tag extends MongoModel
             $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         }
 
-        $this->name = $this->name_uz;
         return parent::beforeSave($insert);
-    }
-
-    public function afterFind()
-    {
-        $att        = 'name_' . Config::getLanguageCode();
-        $this->name = $this->$att ? $this->$att : $this->name_oz;
-
-        parent::afterFind();
     }
 
     /**
@@ -212,7 +223,13 @@ class Tag extends MongoModel
     public function getPosts()
     {
         return Post::find()
-                   ->where(['_tags' => ['$elemMatch' => ['$in' => [$this->_id]]]])
+                   ->where([
+                               '_tags' => [
+                                   '$elemMatch' => [
+                                       '$eq' => $this->_id
+                                   ]
+                               ]
+                           ])
                    ->all();
     }
 
@@ -250,19 +267,24 @@ class Tag extends MongoModel
          * @var $post Post
          * @var $tag  Tag
          */
+        Post::getCollection()->createIndex(['published_on' => -1]);
+
+        $time  = new Timestamp(1, time() - 5 * 24 * 3600);
         $posts = Post::find()
-                     ->where(['status' => Post::STATUS_PUBLISHED])
+                     ->select(['_tags'])
                      ->where([
-                                 'published_on' => ['$gt' => new Timestamp(1, time() - 5 * 24 * 3600)],
+                                 'status'       => Post::STATUS_PUBLISHED,
+                                 'published_on' => ['$gt' => $time],
                              ])
                      ->orderBy(['published_on' => SORT_DESC])
                      ->all();
 
         self::updateAll(['count_l5d' => 0]);
-
-        foreach ($posts as $post) {
-            foreach ($post->getTags() as $tag) {
-                $tag->updateCounters(['count_l5d' => 1]);
+        if (is_array($posts) && count($posts)) {
+            foreach ($posts as $post) {
+                foreach ($post->getTags() as $tag) {
+                    $tag->updateCounters(['count_l5d' => 1]);
+                }
             }
         }
     }

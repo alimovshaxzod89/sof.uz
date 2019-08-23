@@ -1,16 +1,10 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use backend\widgets\checkbo\CheckBoAsset;
 use common\models\Poll;
 use frontend\components\ScrollPager;
 use frontend\components\View;
 use frontend\models\PollProvider;
-use frontend\widgets\SidebarInsider;
 use frontend\widgets\SidebarPost;
 use frontend\widgets\SidebarTrending;
 use yii\data\ActiveDataProvider;
@@ -19,9 +13,6 @@ use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 /**
- * Created by PhpStorm.
- * Date: 12/20/17
- * Time: 10:11 PM
  * @var $this           View
  * @var $dataProvider   ActiveDataProvider
  * @var $type           string

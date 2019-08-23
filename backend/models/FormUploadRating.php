@@ -1,13 +1,7 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2018. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\models;
 
-use common\models\SystemMessage;
 use ErrorException;
 use Yii;
 use yii\base\Model;

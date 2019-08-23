@@ -1,13 +1,7 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\controllers;
 
-use common\components\Config;
 use common\models\Ad;
 use common\models\Stat;
 use Yii;

@@ -40,7 +40,6 @@ use yii\mongodb\Connection;
  *         }
  * }
  * ```
- * @author Shavkat Khamidjonov <shavkat.khamidjonov@activemedia.uz>
  * @since  2.0.5
  */
 class MongoMessageSource extends MessageSource

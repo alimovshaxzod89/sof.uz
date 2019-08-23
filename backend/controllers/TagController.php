@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\controllers;
 
@@ -19,25 +14,23 @@ class TagController extends BackendController
     /**
      * @param bool|string $id
      * @return Tag|Response|array|string
+     * @throws NotFoundHttpException
      * @resource News | Manage Tags | tag/index
      */
     public function actionIndex($id = false)
     {
-        if ($id) {
-            $model = $this->findModel($id);
-            $model->setScenario('update');
-        } else {
-            $model = new Tag(['scenario' => 'insert']);
-        }
-        $searchModel = new Tag(['scenario' => 'search']);
+        $model = $id ? $model = $this->findModel($id) : new Tag(['scenario' => 'insert']);
+        $model->setScenario($id ? Tag::SCENARIO_UPDATE : Tag::SCENARIO_INSERT);
+        $searchModel = new Tag(['scenario' => Tag::SCENARIO_SEARCH]);
 
         if ($this->get('save')) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                if ($id) {
-                    $this->addSuccess(__('Tag {name} updated successfully', ['name' => $model->name_uz]));
-                } else {
-                    $this->addSuccess(__('Tag {name} created successfully', ['name' => $model->name_uz]));
-                }
+                $this->addSuccess(
+                    __('Tag {name} {action} successfully', [
+                        'name'   => $model->name,
+                        'action' => __($id ? 'updated' : 'created'),
+                    ])
+                );
 
                 if (!$this->isAjax())
                     return $this->redirect(['index', 'id' => $model->id]);
@@ -53,6 +46,7 @@ class TagController extends BackendController
     /**
      * @resource News | Manage Tags | tag/add
      * @return array|mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionAdd()
     {
@@ -73,7 +67,6 @@ class TagController extends BackendController
     /**
      * @param $query
      * @return array
-     * @throws NotFoundHttpException
      */
     public function actionFetch($query)
     {
@@ -128,7 +121,7 @@ class TagController extends BackendController
          */
         $model = $this->findModel($id);
         if ($model->delete()) {
-            $this->addSuccess(__("Tag {name} has been deleted", ['name' => $model->name_uz]));
+            $this->addSuccess(__("Tag {name} has been deleted", ['name' => $model->name]));
             return $this->redirect(['index']);
         }
     }

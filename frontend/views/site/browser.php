@@ -1,14 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 /* @var $this View */
 /* @var $name string */
 /* @var $message string */
-
 /* @var $exception Exception */
 
 require_once __DIR__ . '/../../components/Browser.php';

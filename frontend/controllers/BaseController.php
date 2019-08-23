@@ -1,18 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 11/27/17
- * Time: 12:51 PM
- */
 
 namespace frontend\controllers;
-
 
 use common\components\Browser;
 use common\models\Login;

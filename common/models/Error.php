@@ -1,19 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 12/26/17
- * Time: 11:15 AM
- */
 
 namespace common\models;
-use yii\data\ActiveDataProvider;
 
+use yii\data\ActiveDataProvider;
 
 /**
  * Class Error
@@ -26,9 +15,9 @@ use yii\data\ActiveDataProvider;
 class Error extends MongoModel
 {
     protected $_searchableAttributes = ['text', 'message'];
-    const STATUS_NEW        = 'new';
+    const STATUS_NEW = 'new';
     const STATUS_PROCESSING = 'processing';
-    const STATUS_FIXED      = 'fixed';
+    const STATUS_FIXED = 'fixed';
 
     public function attributes()
     {

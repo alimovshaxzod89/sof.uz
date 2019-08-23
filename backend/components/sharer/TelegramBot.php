@@ -1,18 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 11/24/17
- * Time: 10:18 AM
- */
 
 namespace backend\components\sharer;
-
 
 use common\components\Config;
 use Exception;

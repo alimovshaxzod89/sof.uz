@@ -1,13 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
+use backend\widgets\filekit\filesystem\FilesystemBuilderInterface;
 use League\Flysystem\Filesystem;
 use League\Flysystem\WebDAV\WebDAVAdapter;
-use backend\widgets\filekit\filesystem\FilesystemBuilderInterface;
 
 /**
  * Class WebDAVFlysystemBuilder
@@ -33,8 +28,8 @@ class WebDAVFlysystemBuilder implements FilesystemBuilderInterface
                 $dirindex = $storage->getFilesystem()->read('.dirindex');
             }
 
-            if($storage->maxDirFiles !== -1) {
-                if($storage->getFilesystem()->has($dirindex)) {
+            if ($storage->maxDirFiles !== -1) {
+                if ($storage->getFilesystem()->has($dirindex)) {
                     $filesCount = count($storage->getFilesystem()->listContents($dirindex));
                     if ($filesCount > $storage->maxDirFiles) {
                         $dirindex++;
@@ -47,8 +42,8 @@ class WebDAVFlysystemBuilder implements FilesystemBuilderInterface
         });
 
         $client = new \Sabre\DAV\Client([
-            'baseUri' => 'https://webdav.yandex.ru',
-        ]);
+                                            'baseUri' => 'https://webdav.yandex.ru',
+                                        ]);
         $client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
         $client->addCurlSetting(CURLOPT_HTTPHEADER, [
             'Authorization: OAuth TOKENTOKENTOKEN', // https://tech.yandex.ru/disk/doc/dg/concepts/quickstart-docpage/
@@ -56,7 +51,7 @@ class WebDAVFlysystemBuilder implements FilesystemBuilderInterface
             'Host: webdav.yandex.ru'
         ]);
 
-        $adapter = new WebDAVAdapter($client, '/');
+        $adapter   = new WebDAVAdapter($client, '/');
         $flysystem = new Filesystem($adapter);
 
         if (!$flysystem->has($this->pathPrefix)) {

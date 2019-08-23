@@ -6,14 +6,12 @@ use backend\components\sharer\BaseShare;
 use common\components\Config;
 use common\components\Translator;
 use DateTime;
-use GuzzleHttp\Client;
 use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Dom\AbstractNode;
 use Yii;
-use yii\base\Event;
 use yii\data\ActiveDataProvider;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
@@ -55,21 +53,14 @@ use yii\helpers\Url;
  * @property mixed      auto_publish_time
  * @property Timestamp  published_on
  * @property mixed      updated_on
- * @property mixed      author_type
- * @property mixed      _author
- * @property mixed      _editor
+ * @property mixed      creator_type
  * @property mixed      _creator
- * @property string     editor_session
+ * @property string     creator_session
  * @property integer    short_id
- * @property boolean    has_audio
  * @property boolean    has_video
  * @property boolean    has_gallery
- * @property boolean    has_russian
- * @property boolean    has_uzbek
  * @property boolean    has_info
  * @property boolean    is_main
- * @property boolean    is_bbc
- * @property boolean    is_tagged
  * @property boolean    is_instant
  * @property boolean    is_mobile
  * @property boolean    pushed_on
@@ -80,26 +71,22 @@ use yii\helpers\Url;
  * @property integer    views_l7d
  * @property integer    views_l30d
  * @property integer    views_today
- * @property integer    comment_count
  * @property integer    read_min
  * @property boolean    img_watermark
- * @property Comment[]  comments
- * @property Blogger    author
- * @property Admin      editor
  * @property Admin      creator
  * @package common\models
  */
 class Post extends MongoModel
 {
     protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
-    protected $_booleanAttributes    = ['is_bbc', 'img_watermark', 'has_audio', 'has_video', 'has_gallery', 'has_uzbek', 'has_russian', 'has_info', 'is_main', 'is_instant', 'is_mobile', 'hide_image', 'is_tagged'];
+    protected $_booleanAttributes    = ['img_watermark', 'has_video', 'has_gallery', 'has_info', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
     protected $_integerAttributes    = ['views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
     protected $_searchableAttributes = ['title', 'info', 'category'];
     protected $_idAttributes         = ['_creator'];
 
     const LABEL_REGULAR = 'regular';
     const LABEL_IMPORTANT = 'important';
-    const LABEL_EDITOR_CHOICE = 'editor_choice';
+    const LABEL_CREATOR_CHOICE = 'creator_choice';
     const STATUS_DRAFT = 'draft';
     const STATUS_PUBLISHED = 'published';
     const STATUS_DISABLED = 'disabled';
@@ -151,10 +138,9 @@ class Post extends MongoModel
             'content',
             'url',
             'type',
-            '_author',
-            '_editor',
             '_creator',
-            'author_type',
+            '_creator',
+            'creator_type',
 
             'auto_publish_time',
             'published_on',
@@ -180,13 +166,9 @@ class Post extends MongoModel
             'gallery_items',
 
             'short_id',
-            'has_russian',
-            'has_uzbek',
-            'has_audio',
             'has_video',
             'has_gallery',
             'has_info',
-            'comment_count',
             'views_l3d',
             'views_l7d',
             'views_l30d',
@@ -194,9 +176,7 @@ class Post extends MongoModel
             'views',
             'is_main',
             'is_instant',
-            'is_tagged',
             'is_mobile',
-            'is_bbc',
             'old_id',
             'pushed_on',
             'hide_image',
@@ -204,8 +184,7 @@ class Post extends MongoModel
             'read_min',
             'template',
             'locked_on',
-            '_editor',
-            'editor_session',
+            'creator_session',
         ]);
     }
 
@@ -219,7 +198,7 @@ class Post extends MongoModel
     {
         return [
             [['status'], 'default', 'value' => self::STATUS_DRAFT],
-            [['views', 'comment_count', 'has_updates'], 'default', 'value' => 0],
+            [['views', 'has_updates'], 'default', 'value' => 0],
             [['type'], 'in', 'range' => array_keys(self::getTypeArray())],
 
             [['url'], 'unique'],
@@ -227,7 +206,7 @@ class Post extends MongoModel
             [['info', 'image_source', 'content_source'], 'string', 'max' => 500],
             [['info', 'image_source', 'content_source'], 'safe', 'on' => self::SCENARIO_CREATE],
 
-            [['title', 'info', 'url', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', '_author', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'has_uzbek', 'has_russian', 'published_on', 'is_main', 'is_instant', '_creator', 'is_bbc'],
+            [['title', 'info', 'url', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'published_on', 'is_main', 'is_instant', '_creator'],
              'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
 
             [['url'], 'match', 'skipOnEmpty' => true, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
@@ -325,9 +304,9 @@ class Post extends MongoModel
     public static function getLabelArray($empty = false)
     {
         $options = [
-            self::LABEL_REGULAR       => __('Regular News'),
-            self::LABEL_IMPORTANT     => __('Important News'),
-            self::LABEL_EDITOR_CHOICE => __('Editor\'s Choice'),
+            self::LABEL_REGULAR        => __('Regular News'),
+            self::LABEL_IMPORTANT      => __('Important News'),
+            self::LABEL_CREATOR_CHOICE => __('Creator\'s Choice'),
         ];
 
 
@@ -393,6 +372,7 @@ class Post extends MongoModel
 
 
         if ($this->search) {
+            $query->orFilterWhere(['title' => ['$regex' => $this->search, '$options' => 'si']]);
             foreach (Config::getLanguageCodes() as $code) {
                 $query->orFilterWhere(['_translations.title_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
             }
@@ -435,14 +415,6 @@ class Post extends MongoModel
         }
         $query->andFilterWhere(['status' => ['$eq' => self::STATUS_IN_TRASH]]);
 
-        if ($this->language) {
-            if ($this->language == 'uzbek') {
-                $query->andFilterWhere(['has_uzbek' => true]);
-            } else if ($this->language == 'russian') {
-                $query->andFilterWhere(['has_russian' => true]);
-            }
-        }
-
         return $dataProvider;
     }
 
@@ -480,21 +452,12 @@ class Post extends MongoModel
             $this->auto_publish_time = new Timestamp(1, intval($this->auto_publish_time));
         }
 
-        $this->has_audio   = $this->audio && is_array($this->audio);
         $this->has_video   = $this->type == self::TYPE_VIDEO;
         $this->has_gallery = $this->type == self::TYPE_GALLERY;
 
         $this->processGallery(false);
         $this->processContent($force);
         $this->prepareMobilePost($force);
-
-        if (isRussian()) {
-            $this->has_russian = true;
-            $this->has_uzbek   = false;
-        } else {
-            $this->has_uzbek   = true;
-            $this->has_russian = false;
-        }
 
         if (mb_strlen($this->info) > 500) {
             $this->info = mb_substr($this->info, 0, 500);
@@ -506,11 +469,10 @@ class Post extends MongoModel
     public function beforeSave($insert)
     {
         if (!(Yii::$app instanceof \yii\console\Application)) {
-            if ($this->isNewRecord && Yii::$app->user->identity instanceof Blogger) {
-                $this->_author = Yii::$app->user->identity->getId();
+            if ($this->isNewRecord && Yii::$app->user->identity instanceof Admin) {
+                $this->_creator = Yii::$app->user->identity->getId();
             }
         }
-
 
         if (!$this->short_id && $this->status == self::STATUS_PUBLISHED) {
             $attempt = 0;
@@ -879,11 +841,7 @@ class Post extends MongoModel
 
     public function getCroppedImage($width = 870, $height = 260, $watermark = false)
     {
-        if ($this->image) {
-            return parent::getCropImage([$this->image], $width, $height, ManipulatorInterface::THUMBNAIL_OUTBOUND, $watermark);
-        }
-
-        return false;
+        return parent::getCropImage($this->image, $width, $height, ManipulatorInterface::THUMBNAIL_OUTBOUND, $watermark);
     }
 
     public function getTagsData()
@@ -915,30 +873,6 @@ class Post extends MongoModel
     public function getTags()
     {
         return Tag::find()->where(['_id' => $this->getConvertedTags()])->all();
-    }
-
-    /**
-     * @return \yii\db\ActiveQueryInterface
-     */
-    public function getComments()
-    {
-        return $this->hasMany(Comment::className(), ['_post' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQueryInterface
-     */
-    public function getAuthor()
-    {
-        return $this->hasOne(Blogger::className(), ['_id' => '_author']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQueryInterface
-     */
-    public function getEditor()
-    {
-        return $this->hasOne(Admin::className(), ['_id' => '_editor']);
     }
 
     /**
@@ -1004,26 +938,6 @@ class Post extends MongoModel
             return StringHelper::truncate($title, 40);
         }
         return $title;
-    }
-
-    /**
-     * @param $event Event
-     * @throws \yii\mongodb\Exception
-     */
-    public static function onComment($event)
-    {
-        /** @var Comment $comment */
-        $comment = $event->sender;
-        $count   = Comment::find()->where(['_post' => $comment->_post])->count();
-        static::updateAll(['comment_count' => $count], ['_id' => new ObjectId($comment->_post)]);
-    }
-
-    public function updateCommentCount()
-    {
-        $count = Comment::find()->where(['_post' => $this->_id])
-                        ->andWhere(['status' => Comment::STATUS_APPROVED])
-                        ->count();
-        $this->updateAttributes(['comment_count' => $count]);
     }
 
     public function getShortFormattedDate()
@@ -1098,7 +1012,7 @@ class Post extends MongoModel
 
     public function hasPriority()
     {
-        return $this->is_main || $this->is_tagged;
+        return $this->is_main;
     }
 
     public static function publishAutoPublishPosts($final)
@@ -1287,50 +1201,9 @@ class Post extends MongoModel
         return $result;
     }
 
-
-    public function sendPushNotificationAndroid($force = false)
-    {
-        if ($this->getPushedOnTimeDiffAndroid() == 0 || $force) {
-            $client = new Client([
-                                     'base_uri' => 'https://fcm.googleapis.com/',
-                                 ]);
-
-            $params = [
-                'json'    => [
-                    'to'       => YII_DEBUG ? '/topics/allTest' : '/topics/all',
-                    'priority' => 'normal',
-                    'data'     => [
-                        'post_id'     => $this->getId(),
-                        'has_russian' => $this->has_russian ? "yes" : "no",
-                        'has_uzbek'   => $this->has_uzbek ? "yes" : "no",
-                    ],
-                ],
-                'headers' => [
-                    'Authorization' => getenv('FCM_KEY'),
-                ],
-            ];
-
-            $result = $client->post('fcm/send', $params);
-            $result = $result->getBody()->getContents();
-
-            if ($data = json_decode($result, true)) {
-                if (isset($data['message_id'])) {
-                    $this->updateAttributes(['pushed_on' => call_user_func($this->getTimestampValue())]);
-                }
-                return $data;
-            }
-        }
-
-        return false;
-    }
-
     public function getReadMinLabel()
     {
-        if ($this->read_min) {
-            return __('{min} Mins Read', ['min' => $this->read_min]);
-        }
-
-        return '';
+        return $this->read_min ? __('{min} Mins Read', ['min' => $this->read_min]) : '';
     }
 
     public function getImageWidth()
@@ -1392,7 +1265,7 @@ class Post extends MongoModel
 
     public function isLocked(Admin $user, $sessionId)
     {
-        if ($this->_editor && $this->_editor != $user->_id) {
+        if ($this->_creator && $this->_creator != $user->_id) {
             return true;
         }
 
@@ -1402,22 +1275,22 @@ class Post extends MongoModel
     public function releasePostLock(Admin $user)
     {
         return $this->updateAttributes([
-                                           '_editor'        => '',
-                                           'editor_session' => '',
-                                           'locked_on'      => '',
+                                           '_creator'        => '',
+                                           'creator_session' => '',
+                                           'locked_on'       => '',
                                        ]);
     }
 
     public function locForUser(Admin $user, $sessionId)
     {
-        $this->_editor        = $user->_id;
-        $this->editor_session = $sessionId;
-        $this->locked_on      = call_user_func($this->getTimestampValue());
+        $this->_creator        = $user->_id;
+        $this->creator_session = $sessionId;
+        $this->locked_on       = call_user_func($this->getTimestampValue());
 
         return $this->updateAttributes([
-                                           '_editor'        => $this->_editor,
-                                           'editor_session' => $this->editor_session,
-                                           'locked_on'      => $this->locked_on,
+                                           '_creator'        => $this->_creator,
+                                           'creator_session' => $this->creator_session,
+                                           'locked_on'       => $this->locked_on,
                                        ]);
     }
 
@@ -1427,12 +1300,12 @@ class Post extends MongoModel
      */
     public static function getLockedPosts(Admin $user)
     {
-        return self::find()->where(['_editor' => $user->_id])->all();
+        return self::find()->where(['_creator' => $user->_id])->all();
     }
 
     public function hasAuthor()
     {
-        return $this->author instanceof Blogger;
+        return $this->creator instanceof Admin;
     }
 
     public function hasCategory()

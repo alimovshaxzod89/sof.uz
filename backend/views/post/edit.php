@@ -4,10 +4,8 @@ use backend\assets\TinyMceAsset;
 use backend\components\View;
 use backend\widgets\checkbo\CheckBo;
 use backend\widgets\filekit\Upload;
-use backend\widgets\media\EmbedMedia;
 use common\components\Config;
 use common\models\Admin;
-use common\models\Blogger;
 use common\models\Category;
 use common\models\Post;
 use dosamigos\selectize\SelectizeTextInput;
@@ -30,14 +28,13 @@ $this->params['breadcrumbs'][] = ['url' => ['post/index'], 'label' => __('Manage
 $this->params['breadcrumbs'][] = $this->title;
 $user                          = $this->context->_user();
 
-
 $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::STATUS_PUBLISHED ? $model->getFrontViewUrl() : $model->getFrontPreviewUrl(), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
-
 ?>
 <div class="post-create <?= $locked || !$canEdit ? 'post_locked' : '' ?>">
     <div class="lock_area"></div>
     <div class="post-form">
-        <?php $form = ActiveForm::begin(['enableAjaxValidation' => true, 'enableClientValidation' => true, 'validateOnSubmit' => false, 'options' => ['id' => 'post_form']]); ?>
+        <?php $form = ActiveForm::begin(['enableAjaxValidation' => true, 'enableClientValidation' => true, 'validateOnSubmit' => true, 'options' => ['id' => 'post_form']]); ?>
+        <?= $form->errorSummary($model) ?>
         <div class="row">
             <div class="col col-md-9">
                 <div class="panel panel-primary">
@@ -52,18 +49,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                         </div>
                         <?= $form->field($model, 'url')->textInput(['maxlength' => true, 'placeholder' => __('Post Link')])->label(false) ?>
                         <?= $form->field($model, 'info', ['template' => '{label}{input}{error}<span class="counter"></span>'])->textarea(['maxlength' => true, 'rows' => 4, 'placeholder' => __('Short Information')])->label(false) ?>
-                        <?php if ($file = $model->getFileUrl('audio')) {
-                            echo EmbedMedia::widget([
-                                                        'file'    => $file,
-                                                        'type'    => 'audio',
-                                                        'width'   => 760,
-                                                        'height'  => 40,
-                                                        'title'   => $model->audio['name'],
-                                                        //'modal' => true,
-                                                        'options' => ['class' => 'mb15'],
-                                                    ]);
-                            echo "<p>$model->audio_duration_formatted</p>";
-                        } ?>
+
                         <?= $this->renderFile("@backend/views/post/_$type.php", ['form' => $form, 'model' => $model]) ?>
                         <?= $form->field($model, '_tags')->widget(SelectizeTextInput::className(), [
                             'options' => [],
@@ -115,10 +101,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                         </div>
                         <hr>
 
-
                         <?= $form->field($model, 'is_main')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Main')) ?>
-                        <?= $form->field($model, 'is_bbc')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('BBC Post')) ?>
-                        <?= $form->field($model, 'is_tagged')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Tagged')) ?>
                         <?= $form->field($model, 'template')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
 
                         <table style="width: 100%">
@@ -144,14 +127,17 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                         <hr>
 
                         <?= $this->renderFile('@backend/views/layouts/_convert.php', ['link' => Url::to(['post/edit', 'id' => $model->getId(), 'convert' => 1])]) ?>
-                        <?php
-                        $authors = Blogger::getArrayOptions();
-                        ?>
-                        <?php if (count($authors)): ?>
-                            <?= $form->field($model, '_author')->widget(ChosenSelect::className(), [
-                                'items'         => $authors,
-                                'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
-                            ])->label() ?>
+                        <?php $creators = Admin::getArrayOptions(); ?>
+                        <?php if (count($creators)): ?>
+                            <?= $form->field($model, '_creator')
+                                     ->widget(ChosenSelect::className(), [
+                                         'items'         => $creators,
+                                         'pluginOptions' => [
+                                             'width'                 => '100%',
+                                             'allow_single_deselect' => true,
+                                             'disable_search'        => true
+                                         ],
+                                     ])->label() ?>
                         <?php endif; ?>
 
                         <?php if ($user->canAccessToResource('post/creator')): ?>
@@ -251,32 +237,19 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                                                                    ],
                                                                ]); ?>
                         </div>
-                        <?php if (0): ?>
-                            <?= $form->field($model, 'audio')->widget(Upload::className(), [
-                                'url'              => ['file-storage/upload', 'type' => 'audio'],
-                                'acceptFileTypes'  => new JsExpression('/(\.|\/)(mp3|wav)$/i'),
-                                'sortable'         => true,
-                                'maxFileSize'      => 50 * 1024 * 1024, // 15 MiB
-                                'maxNumberOfFiles' => 1,
-                                'multiple'         => false,
-                                'clientOptions'    => [],
-                            ])->label(); ?>
-                        <?php endif; ?>
 
-                        <?= $form->field($model, 'image')->widget(
-                            Upload::className(),
-                            [
-                                'url'              => ['file-storage/upload', 'type' => 'post-image'],
-                                'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
-                                'sortable'         => true,
-                                'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
-                                'maxNumberOfFiles' => 1,
-                                'multiple'         => false,
-                                'useCaption'       => true,
-                                'languages'        => Config::getLanguageCodes(),
-                                'clientOptions'    => [],
-                            ]
-                        )->label(); ?>
+                        <?= $form->field($model, 'image')
+                                 ->widget(Upload::className(), [
+                                     'url'              => ['file-storage/upload', 'type' => 'post-image'],
+                                     'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
+                                     'sortable'         => true,
+                                     'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
+                                     'maxNumberOfFiles' => 1,
+                                     'multiple'         => false,
+                                     'useCaption'       => true,
+                                     'languages'        => Config::getLanguageCodes(),
+                                     'clientOptions'    => [],
+                                 ])->label(); ?>
 
                         <?= $form->field($model, 'hide_image')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Image')) ?>
 
@@ -314,7 +287,7 @@ $this->registerJs('initPostEditor();');
 <script>
     var focused = false;
     var postUpdated =<?=$model->updated_on ? $model->updated_on->getTimestamp() : 0?>;
-    var postEditor = '<?=(string)$model->_editor?>';
+    var postEditor = '<?=(string)$model->_creator?>';
     var postLocked =<?=$locked ? 'true' : 'false'?>;
     var canEdit =<?=$canEdit ? 'true' : 'false'?>;
 
@@ -366,6 +339,11 @@ $this->registerJs('initPostEditor();');
         $(document).ajaxStart(function () {
             $loading.hide();
         });
+
+        $('button[type=submit]').on('click', function (e) {
+            if ($('#post-status').val() !== '<?=Post::STATUS_AUTO_PUBLISH?>')
+                $('#publish_time').val($('#published_on_time').val());
+        });
     }
 
     var timeout;
@@ -379,7 +357,7 @@ $this->registerJs('initPostEditor();');
                 form.attr('action') + "?status=1",
                 form.serialize(),
                 function (data, status) {
-                    if (postUpdated != data.updated || postEditor != data.editor) {
+                    if (postUpdated != data.updated || postEditor != data.creator) {
                         if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {
                             document.location.href = document.location.href;
                         } else {
@@ -406,7 +384,7 @@ $this->registerJs('initPostEditor();');
                     form.serialize(),
                     function (data, status) {
                         postUpdated = data.updated;
-                        postEditor = data.editor;
+                        postEditor = data.creator;
 
                         if (data.reload != undefined && data.reload == 1) {
                             if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {

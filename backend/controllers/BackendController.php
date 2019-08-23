@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\controllers;
 
@@ -79,15 +74,15 @@ class BackendController extends Controller implements ContextInterface
             if ($controller->id == 'post' && $action->id == 'edit') {
 
             } else {
-                foreach (Post::getLockedPosts($user) as $post) {
-                    $this->addError(__(
-                        'You have locked the post {b}"{title}"{bc} on {date}. {b}{action}{bc}',
-                        [
-                            'title'  => $post->getTitleView(),
-                            'date'   => Yii::$app->formatter->asDatetime($post->locked_on->getTimestamp(), 'php:d M H:i'),
-                            'action' => Html::a(__('Click the link to release it.'), ['post/edit', 'id' => $post->id, 'release' => 1, 'return' => \yii\helpers\Url::current()]),
-                        ]
-                    ));
+                $lockers = Post::getLockedPosts($user);
+                foreach ($lockers as $locked) {
+                    $timestamp = ($locked->locked_on instanceof Timestamp) ? $locked->locked_on->getTimestamp() : time();
+                    $message   = __('You have locked the post {b}"{title}"{bc} on {date}. {b}{action}{bc}', [
+                        'title'  => $locked->getTitleView(),
+                        'date'   => Yii::$app->formatter->asDatetime($timestamp, 'php:d M H:i'),
+                        'action' => Html::a(__('Click the link to release it.'), ['post/edit', 'id' => $locked->getId(), 'release' => 1, 'return' => \yii\helpers\Url::current()]),
+                    ]);
+                    $this->addError($message);
                 }
             }
 
@@ -182,7 +177,6 @@ class BackendController extends Controller implements ContextInterface
     {
         return Yii::$app->request->post($name);
     }
-
 
     protected function post($name = null, $default = null)
     {

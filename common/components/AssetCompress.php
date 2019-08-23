@@ -1,14 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace common\components;
 
 
-use skeeks\yii2\assetsAuto\components\HtmlCompressor;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\base\Event;

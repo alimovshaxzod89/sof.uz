@@ -1,12 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\widgets\colorpicker;
-
 
 use yii\bootstrap\InputWidget;
 use yii\helpers\Html;

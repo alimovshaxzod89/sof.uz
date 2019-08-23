@@ -21,6 +21,14 @@ class View extends \yii\web\View
                     'label' => 'Posts',
                     'url'   => 'post/index',
                 ],
+                'post/photo'     => [
+                    'label' => 'Photo News',
+                    'url'   => 'post/photo',
+                ],
+                'post/video'     => [
+                    'label' => 'Video News',
+                    'url'   => 'post/video',
+                ],
                 'category/index' => [
                     'label' => 'Categories',
                     'url'   => 'category/index',

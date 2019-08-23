@@ -1,13 +1,7 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace backend\widgets;
 
-use app\assets\HeatMapAsset;
 use yii\base\Widget;
 use Yii;
 use yii\helpers\Html;

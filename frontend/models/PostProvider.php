@@ -10,13 +10,23 @@ use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use yii\data\ActiveDataProvider;
-use yii\helpers\StringHelper;
+use yii\helpers\Html;
 
 class PostProvider extends Post
 {
     public function hasCategory()
     {
         return $this->category instanceof CategoryProvider;
+    }
+
+    public function metaCategoriesList()
+    {
+        $out = [];
+        foreach ($this->categories as $category) {
+            $out[] = Html::a($category->name, $category->getViewUrl(), ['data-pjax' => 0]);
+        }
+
+        return implode(', ', $out);
     }
 
     /**
@@ -160,7 +170,7 @@ class PostProvider extends Post
         return count($result) ? $result : [];
     }
 
-    public static function getTopPosts($limit = 10)
+    public static function getTopPosts($limit = 5)
     {
         $result = self::find()
                       ->active()
@@ -229,7 +239,7 @@ class PostProvider extends Post
      * @return PostProvider[]|boolean|ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getCategoryHeadPosts(Category $category, $limit = 2, $exclude = [], $provider = false)
+    public static function getCategoryHeadPosts(CategoryProvider $category, $limit = 2, $exclude = [], $provider = false)
     {
         $query = self::find()
                      ->active()
@@ -278,8 +288,9 @@ class PostProvider extends Post
     /**
      * @param int $limit
      * @return self|array|\yii\mongodb\ActiveRecord
+     * @throws \yii\base\InvalidConfigException
      */
-    public static function getTopPhotos($limit = 2)
+    public static function getTopPhotos($limit = 4)
     {
         return static::find()
                      ->active()
@@ -344,7 +355,7 @@ class PostProvider extends Post
 
     /**
      * @param array $exclude
-     * @param       $limit
+     * @param int   $limit
      * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
@@ -369,28 +380,17 @@ class PostProvider extends Post
                                       ]);
     }
 
-
     public static function getPostsByQuery($string, $limit)
     {
-        $title = Config::getLanguageCode();
-
         $query = self::find()
                      ->orderBy(['published_on' => SORT_DESC]);
 
-
-        $query->orFilterWhere([
-                                  "_translations.title_uz" => ['$regex' => $string, '$options' => 'si'],
-                              ]);
-
-        $query->orFilterWhere([
-                                  "_translations.title_oz" => ['$regex' => $string, '$options' => 'si'],
-                              ]);
-
-        $query->orFilterWhere([
-                                  "_translations.content_$title" => ['$regex' => $string, '$options' => 'si'],
-                              ]);
-
-        $query->active(["_translations.content_$title"]);
+        $attrs = ['name', 'content'];
+        foreach ($attrs as $attr) {
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(["_translations.{$attr}_" . $code => ['$regex' => $string, '$options' => 'si']]);
+            }
+        }
 
         return new ActiveDataProvider([
                                           'query'      => $query,
@@ -402,10 +402,10 @@ class PostProvider extends Post
 
     public static function getPostsByTag(Tag $tag, $limit)
     {
-        $title = Config::getLanguageCode();
+        $attr = self::getLanguageAttributeCode('content');
 
         $query = self::find()
-                     ->active(["_translations.content_$title"])
+                     ->active(["_translations." . $attr])
                      ->andWhere([
                                     '_tags' => [
                                         '$elemMatch' => [
@@ -450,21 +450,21 @@ class PostProvider extends Post
 
     public static function getLastNews()
     {
-        if ($lastNewsCategory = Category::findOne(['slug' => 'yangiliklar'])) {
+        if ($lastNewsCategory = CategoryProvider::findOne(['slug' => 'yangiliklar'])) {
             return self::getPostsByCategory($lastNewsCategory);
         };
 
         return [];
     }
 
-    public static function getPostsByCategory(Category $category, $limit = 10, $exclude = [])
+    public static function getPostsByCategory(CategoryProvider $category, $limit = 10, $exclude = [])
     {
         $query = self::find()
                      ->active()
                      ->andWhere([
                                     '_categories' => [
                                         '$elemMatch' => [
-                                            '$eq' => $category->id,
+                                            '$eq' => $category->_id,
                                         ],
                                     ],
                                 ])
@@ -482,7 +482,7 @@ class PostProvider extends Post
                                       ]);
     }
 
-    public static function getPostsExcludeCategory(Category $category, $limit = 10)
+    public static function getPostsExcludeCategory(CategoryProvider $category, $limit = 10)
     {
         $query = self::find()
                      ->active()
@@ -511,7 +511,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     '_categories' => [
                                         '$elemMatch' => [
-                                            '$in' => Category::$MINBAR,
+                                            '$in' => CategoryProvider::$MINBAR,
                                         ],
                                     ],
                                 ])

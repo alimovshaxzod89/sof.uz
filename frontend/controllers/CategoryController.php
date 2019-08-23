@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 namespace frontend\controllers;
 
@@ -12,7 +7,6 @@ use common\models\Category;
 use common\models\Tag;
 use frontend\models\CategoryProvider;
 use Yii;
-use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -24,10 +18,9 @@ class CategoryController extends BaseController
 
     public function behaviors()
     {
-
         $category = Yii::$app->controller->action->id == 'view' ? $this->findModel($this->get('slug')) : false;
         $tag      = Yii::$app->controller->action->id == 'tag' ? $this->findTag($this->get('slug')) : false;
-        $feed      = Yii::$app->controller->action->id == 'feed' ? $this->getFeedType() : false;
+        $feed     = Yii::$app->controller->action->id == 'feed' ? $this->getFeedType() : false;
         return [
             [
                 'class'      => 'yii\filters\PageCache',
@@ -103,15 +96,14 @@ class CategoryController extends BaseController
     /**
      * @param $slug
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionView($slug)
     {
         $category                            = $this->findModel($slug);
         $this->getView()->params['category'] = $category;
 
-        $categoryView = file_exists(Yii::getAlias('@frontend/views/category/') . $category->slug . '.php');
-
-        return $this->render($categoryView ? $category->slug : 'view', [
+        return $this->render('view', [
             'model' => $category,
         ]);
     }
@@ -177,7 +169,6 @@ class CategoryController extends BaseController
 
     /**
      * @return mixed
-     * @throws NotFoundHttpException
      */
     public function actionChoice()
     {

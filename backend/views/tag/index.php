@@ -1,15 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use backend\components\View;
 use backend\widgets\checkbo\CheckBo;
 use common\widgets\Alert;
-use keygenqt\autocompleteAjax\AutocompleteAjax;
-use marqu3s\summernote\Summernote;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -43,8 +36,7 @@ $user                          = $this->context->_user();
                     </div>
                 </div>
                 <div class="panel-body">
-                    <?= $form->field($model, 'name_uz')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($model, 'name_oz')->textInput(['maxlength' => true, 'placeholder' => __('Will be generated automatically')]) ?>
+                    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'slug')->textInput(['maxlength' => true])->label() ?>
                     <div class="row">
                         <div class="col col-md-6">
@@ -81,13 +73,13 @@ $user                          = $this->context->_user();
 <?php
 
 $this->registerJs('
-$(\'#tag-name_uz\').blur(function () {
+$(\'#tag-name\').blur(function () {
     if ($(\'#tag-slug\').val().length < 2)$(\'#tag-slug\').val(convertToSlug($(this).val()));
 }).keyup(function () {
     $(\'#tag-name_oz\').val(convertToCyrill($(this).val()));
 });
 $(\'#tag-name_oz\').keyup(function () {
-    if ($(\'#tag-name_uz\').val().length < 2)$(\'#tag-name_uz\').val(convertToLatin($(this).val()));
+    if ($(\'#tag-name\').val().length < 2)$(\'#tag-name\').val(convertToLatin($(this).val()));
 })
 $(document).ready(function () {
     jQuery(\'#tag_settings\').theiaStickySidebar({

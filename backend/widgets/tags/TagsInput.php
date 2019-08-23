@@ -1,21 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
-
-/**
- * Created by PhpStorm.
- * Date: 11/9/17
- * Time: 9:52 PM
- */
 
 namespace backend\widgets\tags;
 
-
 use yii\helpers\Html;
-use yii\helpers\Json;
 use yii\jui\InputWidget;
 
 class TagsInput extends InputWidget

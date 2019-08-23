@@ -4,14 +4,15 @@
  * @var $this frontend\components\View
  */
 ?>
+
 <header class="site-header">
     <div class="container">
         <div class="navbar">
 
             <div class="logo-wrapper">
                 <a class="logo text" href="/">Magsy</a>
-
             </div>
+
             <div class="sep"></div>
 
             <nav class="main-menu hidden-xs hidden-sm hidden-md">
@@ -135,12 +136,12 @@
 
                                     <div class="entry-header">
                                         <div class="entry-meta">
-                                                <span class="meta-date">
-                                                    <a href="index.html%3Fp=13.html">
-                                                      <time datetime="2018-09-28T15:31:57+00:00">
-                                                        6 months ago              </time>
-                                                    </a>
-                                                </span>
+                  <span class="meta-date">
+            <a href="index.html%3Fp=13.html">
+              <time datetime="2018-09-28T15:31:57+00:00">
+                6 months ago              </time>
+            </a>
+          </span>
                                         </div>
 
                                         <h4 class="entry-title"><a href="index.html%3Fp=13.html" rel="bookmark">White,
@@ -161,13 +162,12 @@
 
                                     <div class="entry-header">
                                         <div class="entry-meta">
-                                              <span class="meta-date">
-                                                <a href="index.html%3Fp=40.html">
-                                                  <time datetime="2018-09-28T06:31:57+00:00">
-                                                    6 months ago
-                                                  </time>
-                                                </a>
-                                              </span>
+                  <span class="meta-date">
+            <a href="index.html%3Fp=40.html">
+              <time datetime="2018-09-28T06:31:57+00:00">
+                6 months ago              </time>
+            </a>
+          </span>
                                         </div>
 
                                         <h4 class="entry-title"><a href="index.html%3Fp=40.html" rel="bookmark">Modern
@@ -188,13 +188,12 @@
 
                                     <div class="entry-header">
                                         <div class="entry-meta">
-                                              <span class="meta-date">
-                                                <a href="index.html%3Fp=38.html">
-                                                  <time datetime="2018-09-27T18:31:57+00:00">
-                                                    6 months ago
-                                                  </time>
-                                                </a>
-                                              </span>
+                  <span class="meta-date">
+            <a href="index.html%3Fp=38.html">
+              <time datetime="2018-09-27T18:31:57+00:00">
+                6 months ago              </time>
+            </a>
+          </span>
                                         </div>
 
                                         <h4 class="entry-title"><a href="index.html%3Fp=38.html" rel="bookmark">Modern

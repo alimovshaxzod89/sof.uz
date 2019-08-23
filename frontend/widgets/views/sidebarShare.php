@@ -1,14 +1,6 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 /**
- * Created by PhpStorm.
- * Date: 12/13/17
- * Time: 12:38 AM
  */
 ?>
 <div class="sidebar__share">

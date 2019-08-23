@@ -21,12 +21,9 @@ $this->registerJs('var globalVars=' . \yii\helpers\Json::encode($globalVars) . '
 $this->beginContent('@app/views/layouts/main.php');
 ?>
 <div class="site">
-<?= $this->renderFile('@app/views/layouts/header.php') ?>
-
-    <?= \frontend\widgets\Banner::widget(['place' => 'header_top']) ?>
+    <?= $this->renderFile('@frontend/views/layouts/partials/header.php') ?>
     <?= $content ?>
-
-<?= $this->renderFile('@app/views/layouts/footer.php') ?>
+    <?= $this->renderFile('@frontend/views/layouts/partials/footer.php') ?>
 </div>
 
 <?php $this->endContent() ?>

@@ -224,7 +224,7 @@ class IndexerController extends Controller
     {
         $date = new \DateTime();
         $time = (int)$date->format('U') - 30 * 24 * 3600;
-        $post = Post::find()
+        $posts = Post::find()
                     ->where([
                                 'created_at' => ['$lt' => new Timestamp(1, $time)],
                                 'status'     => Post::STATUS_DRAFT,
@@ -232,7 +232,7 @@ class IndexerController extends Controller
                             ])
                     ->all();
 
-        foreach ($post as $post) {
+        foreach ($posts as $post) {
             $post->delete();
             echo $post->getId() . PHP_EOL;
         }
@@ -288,11 +288,10 @@ class IndexerController extends Controller
         echo $collection->createIndex(['cityId' => 1]);
     }
 
-    public function actionPostStatic($offset = 0, $isRussian = false)
+    public function actionPostStatic($offset = 0)
     {
 
-        foreach (Config::$languages as $lang) {
-
+        foreach (Config::getLanguages() as $lang) {
             \Yii::$app->language = $lang;
             foreach (Post::find()->all() as $post) {
                 $post->content = preg_replace("/http:\/\/static\.minbar\.uz\//i", Yii::getAlias('@staticUrl') . '/', $post->content);
@@ -305,7 +304,7 @@ class IndexerController extends Controller
 
     public function actionPostUnLock()
     {
-        echo Post::updateAll(['_editor' => '', '_editor_session' => '', 'locked_on' => '']);
+        echo Post::updateAll(['_creator' => '', '_creator_session' => '', 'locked_on' => '']);
     }
 
     public function actionPost($offset = 0, $isRussian = false)

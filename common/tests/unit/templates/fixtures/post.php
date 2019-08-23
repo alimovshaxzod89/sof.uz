@@ -1,16 +1,8 @@
 <?php
-/**
- * @link      http://www.activemedia.uz/
- * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
- * @author    Rustam Mamadaminov <rmamdaminov@gmail.com>
- */
 
 use common\components\Config;
-use common\models\Admin;
 use common\models\Category;
 use common\models\Tag;
-use Faker\Provider\File;
-use yii\helpers\FileHelper;
 
 /**
  * Created by PhpStorm.
