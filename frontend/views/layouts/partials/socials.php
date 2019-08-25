@@ -9,7 +9,7 @@ $fb = Config::get(Config::CONFIG_SOCIAL_FACEBOOK_LINK);
 $tw = Config::get(Config::CONFIG_SOCIAL_TWITTER_LINK);
 $yt = Config::get(Config::CONFIG_SOCIAL_YOUTUBE_LINK);
 $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
-$tg = Config::get(Config::CONFIG_SOCIAL_INSTAGRAM_LINK);
+$ig = Config::get(Config::CONFIG_SOCIAL_INSTAGRAM_LINK);
 ?>
 <?php if ($fb || $tw || $yt || $tg || $ig): ?>
     <div class="widget widget_magsy_social_widget">
