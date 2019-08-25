@@ -20,7 +20,7 @@ $this->title = __('Tizimda qandaydir xatolik yuz berdi :(');
                             <div class="_404-inner">
                                 <h1 class="entry-title"><?= $this->title ?></h1>
                                 <div class="entry-content">
-                                    <?= __('Uzur, saytda nomalum xatolik yuz berdi. Tizim ayni kunlarda texnik ishlab chiqish bosqichida va ushbu xatolik tez kunlarda bartaraf etiladi.') ?>
+                                    <?= __('Uzur, saytda nomalum xatolik yuz berdi. Ushbu xatolik tez kunlarda bartaraf etiladi.') ?>
                                 </div>
                                 <form method="get" class="search-form inline"
                                       action="<?= \yii\helpers\Url::to(['/search']) ?>">
@@ -31,6 +31,16 @@ $this->title = __('Tizimda qandaydir xatolik yuz berdi :(');
                                         <i class="mdi mdi-magnify"></i>
                                     </button>
                                 </form>
+                                <br>
+                                <br>
+                                <div class="wp-block-button">
+                                    <a class="wp-block-button__link alignleft"
+                                       href="<?= Yii::$app->request->getReferrer() ?>">
+                                        <?= __('Avvalgi sahifaga qaytish') ?></a>
+                                    <a class="wp-block-button__link alignright"
+                                       href="<?= Yii::$app->getHomeUrl() ?>">
+                                        <?= __('Bosh sahifaga qaytish') ?></a>
+                                </div>
                             </div>
                         </div>
                     </main>

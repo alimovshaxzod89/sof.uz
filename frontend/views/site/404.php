@@ -31,6 +31,16 @@ $this->title = __('Sahifa mavjud emas');
                                         <i class="mdi mdi-magnify"></i>
                                     </button>
                                 </form>
+                                <br>
+                                <br>
+                                <div class="wp-block-button">
+                                    <a class="wp-block-button__link alignleft"
+                                       href="<?= Yii::$app->request->getReferrer() ?>">
+                                        <?= __('Avvalgi sahifaga qaytish') ?></a>
+                                    <a class="wp-block-button__link alignright"
+                                       href="<?= Yii::$app->getHomeUrl() ?>">
+                                        <?= __('Bosh sahifaga qaytish') ?></a>
+                                </div>
                             </div>
                         </div>
                     </main>
