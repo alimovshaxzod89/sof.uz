@@ -111,6 +111,7 @@ class SiteController extends BaseController
 
     /**
      * Sends typo.
+     * @param $q
      * @return mixed
      */
     public function actionTypo($q = '')
@@ -130,7 +131,6 @@ class SiteController extends BaseController
 
     public function actionError()
     {
-        $this->layout = 'main';
         $exception    = \Yii::$app->errorHandler->exception;
 
         if ($exception instanceof NotFoundHttpException) {

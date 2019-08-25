@@ -8,36 +8,32 @@
 
 use frontend\components\View;
 
-$this->title = $exception->getMessage();
+$this->title = __('Tizimda qandaydir xatolik yuz berdi :(');
 ?>
-
-<div class="main-wrap">
-    <div class="main wrap">
-
-        <div class="ts-row cf">
-            <div class="col-12 main-content cf">
-                <div class="the-post the-page page-404 cf">
-                    <div class="col-12 text-404 main-color">500</div>
-                    <header class="post-title-alt">
-                        <h1 class="main-heading"><?= __('Tizimda qandaydir xatolik yuz berdi :(') ?></h1>
-                    </header>
-                    <div class="post-content error-page row">
-
-                        <div class="col-3"></div>
-                        <div class="col-6 post-content text-center">
-                            <p>
-                                <?= __('Uzur, saytda nomalum xatolik yuz berdi. Tizim ayni kunlarda texnik ishlab chiqish bosqichida va ushbu xatolik  tez kunlarda bartaraf etiladi.') ?>
-                            </p>
-                            <ul class="links">
-                                <li><a href="#" class="go-back"
-                                       onclick="window.history.back();return false">
-                                        <?= __('Avvalgi sahifaga qaytish') ?>
-                                    </a>
-                                </li>
-                                <li><a href="<?= linkTo(['/']) ?>"><?= __('Bosh sahifaga qaytish') ?></a></li>
-                            </ul>
+<div class="site-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content-area">
+                    <main class="site-main">
+                        <div class="_404">
+                            <div class="_404-inner">
+                                <h1 class="entry-title"><?= $this->title ?></h1>
+                                <div class="entry-content">
+                                    <?= __('Uzur, saytda nomalum xatolik yuz berdi. Tizim ayni kunlarda texnik ishlab chiqish bosqichida va ushbu xatolik tez kunlarda bartaraf etiladi.') ?>
+                                </div>
+                                <form method="get" class="search-form inline"
+                                      action="<?= \yii\helpers\Url::to(['/search']) ?>">
+                                    <input class="search-field inline-field"
+                                           name="q" required="required" type="search"
+                                           placeholder="<?= __('Enter keyword...') ?>" autocomplete="off">
+                                    <button type="submit" class="search-submit">
+                                        <i class="mdi mdi-magnify"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    </main>
                 </div>
             </div>
         </div>
