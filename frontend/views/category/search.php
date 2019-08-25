@@ -20,37 +20,55 @@ $this->title = __('"{query}" bo\'yicha qidiruv', ['query' => $search]);
 $limit       = intval(Yii::$app->request->get('limit', 12));
 $empty       = Post::getEmptyCroppedImage(205, 165);
 ?>
-<div class="ts-row cf">
-    <div class="col-8 main-content cf">
-        <h5 class="widget-title">
-            <span><?= __('"{query}" bo\'yicha qidiruv', ['query' => \yii\helpers\Html::encode($search)]) ?></span>
-        </h5>
-        <?php Pjax::begin(['timeout' => 10000, 'options' => []]) ?>
-        <?= ListView::widget([
-            'dataProvider' => PostProvider::getPostsByQuery($search, $limit),
-            'options'      => [
-                'tag' => false,
-            ],
-            'itemOptions'  => [
-                'tag' => false,
-            ],
-            'viewParams'   => [
-                'empty'  => $empty,
-                'search' => $search,
-            ],
-            'layout'       => $this->render('partials/_layout_search'),
-            'itemView'     => 'partials/_search',
-            'emptyText'    => __('Ushbu qidiruv bo\'yicha natija yo\'q'),
-            'pager'        => [
-                'perLoad' => $limit,
-                'class'   => ScrollPager::class,
-            ],
-        ]) ?>
-        <?php Pjax::end() ?>
+<div class="term-bar lazyload visible" data-bg="<?= $this->getImageUrl('images/002.jpg') ?>">
+    <h1 class="term-title"><?= $this->title ?></h1>
+</div>
+
+<div class="site-content">
+    <div class="container">
+        <div class="row">
+            <div class="content-column col-lg-9">
+                <div class="content-area">
+                    <main class="site-main">
+                        <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
+                        <?= ListView::widget([
+                                                 'dataProvider' => PostProvider::getPostsByQuery($search, $limit),
+                                                 'options'      => [
+                                                     'tag' => false,
+                                                 ],
+                                                 'itemOptions'  => [
+                                                     'tag' => false,
+                                                 ],
+                                                 'viewParams'   => [
+                                                     'empty' => $empty,
+                                                     'limit' => $limit,
+                                                     'load'  => Yii::$app->request->get('load', $limit),
+                                                 ],
+                                                 'layout'       => "<div class=\"row posts-wrapper\">{items}</div><div class=\"infinite-scroll-action\">{pager}</div>",
+                                                 'itemView'     => 'partials/_view',
+                                                 'emptyText'    => __('Ushbu bo\'limda yangiliklar yo\'q'),
+                                                 'pager'        => [
+                                                     'perLoad' => $limit,
+                                                     'class'   => ScrollPager::class,
+                                                     'options' => ['class' => 'infinite-scroll-button button']
+                                                 ],
+                                             ]) ?>
+                        <?php Pjax::end() ?>
+                    </main>
+                </div>
+            </div>
+
+            <div class="sidebar-column col-lg-3">
+                <aside class="widget-area">
+                    <?= $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+                        'title' => __('Most read'),
+                        'posts' => \frontend\models\PostProvider::getTopPosts()
+                    ]) ?>
+                </aside>
+            </div>
+        </div>
     </div>
-
-    <aside class="col-4 sidebar mb-45" data-sticky="1">
-        <?= $this->render('/layouts/partials/sidebar.php', ['exclude' => []]) ?>
-    </aside>
-
 </div>

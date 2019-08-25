@@ -127,7 +127,7 @@ class View extends \yii\web\View
 
     public function getImageUrl($name)
     {
-        return $this->getAssetManager()->getBundle('frontend\assets\AppAsset')->baseUrl . '/img/' . $name;
+        return $this->getAssetManager()->getBundle('frontend\assets\AppAsset')->baseUrl . '/' . $name;
     }
 
     public function getBodyClass()

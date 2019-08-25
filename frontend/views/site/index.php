@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
  * @var $photoPosts PostProvider[]
  */
 $this->_canonical = linkTo(['/'], true);
-$this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page navbar-sticky sidebar-none pagination-infinite_button modular-title-1');
+$this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page page-id-26 navbar-sticky sidebar-none pagination-infinite_button modular-title-1');
 $limit      = 10;
 $photoPosts = PostProvider::getTopPhotos();
 $mainPosts  = PostProvider::getTopPosts();

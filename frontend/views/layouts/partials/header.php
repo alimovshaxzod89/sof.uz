@@ -44,16 +44,25 @@ use frontend\models\CategoryProvider;
             <?php endif; ?>
 
             <div class="main-search">
-                <form method="get" class="search-form inline" action="/">
-                    <input type="search" class="search-field inline-field" placeholder="<?= __('Enter keyword...') ?>"
+                <form method="get" class="search-form inline"
+                      action="<?= \yii\helpers\Url::to(['/search']) ?>">
+                    <input type="search" class="search-field inline-field"
+                           placeholder="<?= __('Enter keyword...') ?>"
                            autocomplete="off" value="" name="q" required="required">
-                    <button type="submit" class="search-submit"><i class="mdi mdi-magnify"></i></button>
+                    <button type="submit" class="search-submit">
+                        <i class="mdi mdi-magnify"></i>
+                    </button>
                 </form>
-                <div class="search-close navbar-button"><i class="mdi mdi-close"></i></div>
+                <div class="search-close navbar-button">
+                    <i class="mdi mdi-close"></i>
+                </div>
             </div>
 
             <div class="actions">
-                <div class="search-open navbar-button"><i class="mdi mdi-magnify"></i></div>
+                <div class="search-open navbar-button">
+                    <i class="mdi mdi-magnify"></i>
+                </div>
+                <div class="burger"></div>
             </div>
         </div>
     </div>

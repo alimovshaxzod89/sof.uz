@@ -100,3 +100,15 @@ span.meta-category:nth-child(2):before {
 .entry-header .entry-meta > span + span {
     margin-left: 10px;
 }
+
+@media (min-width: 768px) {
+    .burger {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+    }
+}
