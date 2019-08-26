@@ -49,11 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                              $url    = Url::to(['comment/index', 'edit' => $data->id]);
                                              $edit   = Html::a(__('Edit'), '#', ['class' => ' btn btn-success', 'onclick' => "editComment('{$url}')"]);
-                                             $delete = Html::a(__('Delete'), ['comment/delete', 'id' => $data->id], ['class' => 'btn btn-danger btn-delete']);
+                                             $delete = Html::a(__('Delete'), [
+                                                 'comment/delete',
+                                                 'id' => $data->getId()
+                                             ], ['class' => 'btn btn-danger btn-delete']);
 
                                              $user = '';
                                              if ($data->user)
-                                                 $user = Html::a($data->user->fullname, ['user/update', 'id' => $data->user->getId()], ['target' => '_blank', 'data-pjax' => 0]);
+                                                 $user = Html::a($data->user->full_name, ['user/update', 'id' => $data->user->getId()], ['target' => '_blank', 'data-pjax' => 0]);
                                              $date    = Yii::$app->formatter->asDatetime($data->created_at->getTimestamp());
                                              $post    = Html::a($data->post->getShortTitle(), Yii::getAlias("@frontendUrl/") . $data->post->short_id, ['target' => '_blank', 'data-pjax' => 0]);
                                              $upvotes = __('{count} upvotes', ['count' => $data->upvote_count]);

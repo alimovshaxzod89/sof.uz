@@ -7,14 +7,9 @@
 
 use frontend\components\ScrollPager;
 use frontend\components\View;
-use frontend\models\PostProvider;
 use frontend\widgets\SidebarPopular;
-use frontend\widgets\SidebarImportant;
-use frontend\widgets\SidebarInsider;
 use frontend\widgets\SidebarPost;
 use frontend\widgets\SidebarTrending;
-use yii\base\Widget;
-use yii\helpers\Url;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 

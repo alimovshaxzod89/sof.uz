@@ -30,7 +30,7 @@ use yii\widgets\Breadcrumbs;
                                  [['label' => 'Login', 'url' => ['dashboard/login']]] :
                                  [
                                      [
-                                         'label' => Yii::$app->user->identity->fullname,
+                                         'label' => Yii::$app->user->identity->full_name,
                                          'url'   => ['dashboard/logout'],
                                          'items' => [
                                              [

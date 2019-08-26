@@ -102,7 +102,10 @@ $user                          = $this->context->_user();
                         <div class="text-right">
                             <?php if ($this->_user()->canAccessToResource('poll/delete')): ?>
                                 <?php if ($model->getId()): ?>
-                                    <?= Html::a(__('Delete'), ['poll/delete', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-delete', 'data-confirm' => __('Are you sure to delete?')]) ?>
+                                    <?= Html::a(__('Delete'), [
+                                        'poll/delete',
+                                        'id' => $model->getId()
+                                    ], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure to delete?')]) ?>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>

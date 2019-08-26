@@ -11,7 +11,7 @@ use frontend\models\PostProvider;
  * @var $comment Comment
  */
 $category         = isset($this->params['category']) ? $this->params['category'] : $model->category;
-$this->_canonical = $model->hasAuthor() ? $model->getAuthorPostUrl() : $model->getViewUrl();
+$this->_canonical = $model->hasAuthor() ? $model->getViewUrl() : $model->getViewUrl();
 if (count($model->tags)) {
     $tags = [];
     foreach ($model->tags as $tag) {
@@ -26,7 +26,6 @@ $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
 $empty = $this->getImageUrl('img-placeholder.png');
-$this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-none with-hero hero-wide hero-image pagination-infinite_button');
 if (mb_strpos($model->content, 'twitter') !== false) {
     $this->registerJsFile('https://platform.twitter.com/widgets.js', ['async' => true, 'charset' => 'utf-8']);
 }
@@ -39,10 +38,10 @@ $similarPosts = $model->getSimilarPosts(4);
             <div class="entry-meta">
                 <?php if ($model->hasAuthor()): ?>
                     <span class="meta-author">
-                    <a href="<?= $model->creator->getViewUrl() ?>">
-                        <img alt='<?= $model->creator->fullname ?>'
-                             src='<?= $model->creator->getImageUrl(40, 40) ?>'
-                             class='avatar avatar-40 photo' height='40' width='40'/><?= $model->creator->fullname ?>
+                    <a href="<?= $model->author->getViewUrl() ?>">
+                        <img alt='<?= $model->author->full_name ?>'
+                             src='<?= $model->author->getImageUrl(40, 40) ?>'
+                             class='avatar avatar-40 photo' height='40' width='40'/><?= $model->author->full_name ?>
                     </a>
                 </span>
                 <?php endif; ?>
@@ -124,21 +123,21 @@ $similarPosts = $model->getSimilarPosts(4);
                                     <?php if ($model->hasAuthor()): ?>
                                         <div class="author-box">
                                             <div class="author-image">
-                                                <img alt='Nancy Welch' src='<?= $model->getCroppedImage(140, 140) ?>'
-                                                     srcset='<?= $model->creator->getFileUrl('image') ?> 2x'
+                                                <img alt='<?= $model->author->getFullName() ?>'
+                                                     src='<?= $model->getCroppedImage(140, 140, 1) ?>'
                                                      class='avatar avatar-140 photo'
                                                      height='140' width='140'/>
                                             </div>
 
                                             <div class="author-info">
                                                 <h4 class="author-name">
-                                                    <a href="<?= $model->creator->getViewUrl() ?>">
-                                                        <?= $model->creator->fullname ?>
+                                                    <a href="<?= $model->author->getViewUrl() ?>">
+                                                        <?= $model->author->full_name ?>
                                                     </a>
                                                 </h4>
 
                                                 <div class="author-bio">
-                                                    <?= $model->creator->description ?>
+                                                    <?= $model->author->description ?>
                                                 </div>
 
                                                 <div class="author-meta">

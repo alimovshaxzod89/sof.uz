@@ -1,8 +1,8 @@
 <?php
 
-use common\models\Post;
 use frontend\components\ScrollPager;
 use frontend\components\View;
+use frontend\models\PostProvider;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -14,8 +14,7 @@ $this->_canonical              = $model->getViewUrl();
 $this->title                   = $model->name;
 $exclude                       = [];
 $this->params['breadcrumbs'][] = $this->title;
-$limit                         = intval(Yii::$app->request->get('limit', 12));
-$empty                         = Post::getEmptyCroppedImage(370, 220);
+$limit                         = 12;
 $this->addBodyClass('category-' . $model->slug)
 ?>
 <div class="site-content">
@@ -24,7 +23,7 @@ $this->addBodyClass('category-' . $model->slug)
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
-                        <h1 class="latest-title"><?= $model->name ?></h1>
+                        <h5 class="u-border-title"><?= $model->name ?></h5>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
                                                  'dataProvider' => $model->getProvider($limit),
@@ -35,7 +34,7 @@ $this->addBodyClass('category-' . $model->slug)
                                                      'tag' => false,
                                                  ],
                                                  'viewParams'   => [
-                                                     'empty' => $empty,
+                                                     'empty' => PostProvider::getEmptyCroppedImage(370, 220),
                                                      'limit' => $limit,
                                                      'load'  => Yii::$app->request->get('load', $limit),
                                                  ],
@@ -55,12 +54,12 @@ $this->addBodyClass('category-' . $model->slug)
 
             <div class="sidebar-column col-lg-3">
                 <aside class="widget-area">
-                    <?= $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                         'title' => __('Most read'),
-                        'posts' => \frontend\models\PostProvider::getTopPosts()
+                        'posts' => PostProvider::getTopPosts()
                     ]) ?>
                 </aside>
             </div>

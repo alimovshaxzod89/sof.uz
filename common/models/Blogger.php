@@ -14,7 +14,7 @@ use yii\web\IdentityInterface;
 
 /**
  * Class Blogger
- * @property string    $fullname
+ * @property string    $full_name
  * @property string    $slug
  * @property string    $facebook
  * @property string    $telegram
@@ -41,18 +41,18 @@ use yii\web\IdentityInterface;
  */
 class Blogger extends MongoModel implements IdentityInterface
 {
-    protected $_translatedAttributes = ['fullname', 'description', 'intro', 'job'];
+    protected $_translatedAttributes = ['full_name', 'description', 'intro', 'job'];
     protected $_booleanAttributes    = ['redaction'];
     protected $_integerAttributes    = ['position'];
 
     public static function getArrayOptions()
     {
         $data = self::find()
-                    ->orderBy(['fullname' => SORT_ASC])
+                    ->orderBy(['full_name' => SORT_ASC])
                     ->where(['status' => self::STATUS_ENABLE])
                     ->all();
 
-        return array_merge([], ArrayHelper::map($data, 'id', 'fullname'));
+        return array_merge([], ArrayHelper::map($data, 'id', 'full_name'));
     }
 
     /**
@@ -68,9 +68,8 @@ class Blogger extends MongoModel implements IdentityInterface
 
     public function attributes()
     {
-        return [
-            '_id',
-            'fullname',
+        return ArrayHelper::merge(parent::attributes(), [
+            'full_name',
             'description',
             'intro',
             'facebook',
@@ -93,10 +92,7 @@ class Blogger extends MongoModel implements IdentityInterface
             'posts',
             'posts_l5d',
             'views_l3d',
-            'created_at',
-            'updated_at',
-            '_translations',
-        ];
+        ]);
     }
 
 
@@ -133,9 +129,9 @@ class Blogger extends MongoModel implements IdentityInterface
     {
         return [
             [['facebook', 'telegram', 'twitter', 'description', 'intro', 'position', 'job', 'redaction'], 'safe'],
-            [['fullname', 'status', 'image', 'slug'], 'required', 'on' => ['insert', 'update']],
+            [['full_name', 'status', 'image', 'slug'], 'required', 'on' => ['insert', 'update']],
 
-            [['fullname', 'language', 'image', 'description', 'intro'], 'required', 'on' => ['profile']],
+            [['full_name', 'language', 'image', 'description', 'intro'], 'required', 'on' => ['profile']],
 
             [['language'], 'in', 'range' => array_keys(Config::getLanguageOptions())],
             [['resource'], 'safe', 'on' => ['update']],
@@ -146,7 +142,7 @@ class Blogger extends MongoModel implements IdentityInterface
             [['created_at', 'updated_at'], 'safe'],
             [['position'], 'number'],
 
-            [['fullname'], 'string', 'max' => 128],
+            [['full_name'], 'string', 'max' => 128],
             [['email'], 'string', 'max' => 64],
             [['intro'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 1024],
@@ -258,12 +254,12 @@ class Blogger extends MongoModel implements IdentityInterface
         $this->load($params);
 
         if ($this->search) {
-            $query->orFilterWhere(['fullname' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['full_name' => ['$regex' => $this->search, '$options' => 'si']]);
             $query->orFilterWhere(['login' => ['$regex' => $this->search, '$options' => 'si']]);
             $query->orFilterWhere(['email' => ['$regex' => $this->search, '$options' => 'si']]);
 
             foreach (Config::getLanguageCodes() as $code) {
-                $query->orFilterWhere(['_translations.fullname_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+                $query->orFilterWhere(['_translations.full_name_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
             }
         }
 
@@ -314,9 +310,9 @@ class Blogger extends MongoModel implements IdentityInterface
     }
 
 
-    public function getFullname()
+    public function getFullName()
     {
-        return Html::encode($this->fullname ?: $this->login);
+        return Html::encode($this->full_name ?: $this->login);
     }
 
 
@@ -329,7 +325,7 @@ class Blogger extends MongoModel implements IdentityInterface
 
     public function getArticles()
     {
-        return $this->hasMany(Post::className(), ['_creator' => 'id']);
+        return $this->hasMany(Post::class, ['_creator' => 'id']);
     }
 
 

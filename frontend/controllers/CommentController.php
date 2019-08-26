@@ -54,7 +54,7 @@ class CommentController extends BaseController
                         'content'                 => $model->text,
                         'pings'                   => $model->pings,
                         'creator'                 => $model->user->getId(),
-                        'fullname'                => $model->user->getFullname(),
+                        'full_name'                => $model->user->getFullName(),
                         'profile_picture_url'     => $model->user->avatar_url ?: 'https://viima-app.s3.amazonaws.com/media/user_profiles/user-icon.png',
                         'created_by_admin'        => false,
                         'created_by_current_user' => $post['creator'] == $model->user->getId(),

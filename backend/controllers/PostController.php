@@ -198,7 +198,7 @@ class PostController extends BackendController
             if ($locked) {
                 $message = __('Post {b}{title}{bc} has locked by {b}{user}{bc}. {action}', [
                     'title'  => $model->getShortTitle(),
-                    'user'   => $model->editor->getFullname(),
+                    'user'   => $model->creator->getFullName(),
                     'action' => Html::a(__('Click this link to exit editor.'), [
                         'post/index'
                     ], ['class' => 'text-bold text-underline']),

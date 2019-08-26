@@ -28,6 +28,13 @@
                             <?= $model->metaCategoriesList() ?>
                         </span>
                     <?php endif; ?>
+                    <?php if ($model->hasAuthor()): ?>
+                        <span class="meta-category">
+                            <a href="<?= $model->author->getViewUrl() ?>">
+                                <?= $model->author->getFullName() ?>
+                            </a>
+                        </span>
+                    <?php endif; ?>
                 </div>
 
                 <h2 class="entry-title">

@@ -74,7 +74,7 @@ $user                          = $this->_user();
                                  [
                                      'attribute' => 'type',
                                      'format'    => 'raw',
-                                     'value'     => function ($data) use ($user) {
+                                     'value'     => function (Post $data) use ($user) {
                                          $label = "";
                                          if ($data->isLocked($user, '')) {
                                              if ($user->canAccessToResource('post/release')) {
@@ -84,7 +84,7 @@ $user                          = $this->_user();
                                              }
                                          }
 
-                                         return $label . Html::a('<i class="fa fa-external-link"></i>', $data->status == Post::STATUS_PUBLISHED ? $data->getFrontViewUrl() : $data->getFrontPreviewUrl(), ['data-pjax' => 0, 'target' => '_blank']);
+                                         return $label . '<a href="' . $data->getShortViewUrl() . '" data-pjax="0" target="_blank"><i class="fa fa-external-link"></i></a>';
                                      },
                                  ],
                                  [
@@ -107,10 +107,10 @@ $user                          = $this->_user();
                                  ],
 
                                  [
-                                     'attribute' => '_creator',
+                                     'attribute' => '_author',
                                      'format'    => 'raw',
                                      'value'     => function ($data) {
-                                         return $data->creator ? $data->creator->fullname : '';
+                                         return $data->author ? $data->author->full_name : '';
                                      },
                                  ],
                                  $searchModel->status == Post::STATUS_DRAFT ?

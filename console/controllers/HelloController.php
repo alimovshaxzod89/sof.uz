@@ -4,6 +4,7 @@ namespace console\controllers;
 
 use common\components\Config;
 use common\components\Translator;
+use common\models\Admin;
 use common\models\Category;
 use common\models\Post;
 use common\models\Tag;
@@ -105,34 +106,37 @@ class HelloController extends Controller
     {
         /* @var $posts OldPost[] */
         ini_set('memory_limit', '1G');
-        $postsQuery = OldPost::find()
-                             ->select([
-                                          'id',
-                                          'title',
-                                          'full',
-                                          'views',
-                                          'photo',
-                                          'category_id',
-                                          'date',
-                                          'img',
-                                          'status',
-                                          'slug'
-                                      ]);
-        $oldIds     = Post::find()->select(['old_id'])->asArray()->all();
-        if (count($oldIds)) {
-            $ids = array_column($oldIds, 'old_id');
-            $postsQuery->where(['not in', 'id', $ids]);
-        }
-        $posts = $postsQuery->all();
-        if (count($posts)) {
-            Console::startProgress(0, count($posts), 'Start Convert Posts');
-            foreach ($posts as $i => $post) {
-                $post->toMongo();
-                Console::updateProgress($i + 1, count($posts));
-                flush();
+        $author = Admin::find()->orderBy(['created_at' => SORT_DESC])->one();
+        if ($author instanceof Admin) {
+            $postsQuery = OldPost::find()
+                                 ->select([
+                                              'id',
+                                              'title',
+                                              'full',
+                                              'views',
+                                              'photo',
+                                              'category_id',
+                                              'date',
+                                              'img',
+                                              'status',
+                                              'slug'
+                                          ]);
+            $oldIds     = Post::find()->select(['old_id'])->asArray()->all();
+            if (count($oldIds)) {
+                $ids = array_column($oldIds, 'old_id');
+                $postsQuery->where(['not in', 'id', $ids]);
             }
-            Console::endProgress();
-            ob_get_clean();
+            $posts = $postsQuery->all();
+            if (count($posts)) {
+                Console::startProgress(0, count($posts), 'Start Convert Posts');
+                foreach ($posts as $i => $post) {
+                    $post->toMongo($author->_id);
+                    Console::updateProgress($i + 1, count($posts));
+                    flush();
+                }
+                Console::endProgress();
+                ob_get_clean();
+            }
         }
     }
 

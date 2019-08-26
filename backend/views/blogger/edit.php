@@ -12,12 +12,12 @@ use yii2mod\chosen\ChosenSelect;
 /* @var $this yii\web\View */
 /* @var $model common\models\Blogger */
 
-$this->title                   = $model->isNewRecord ? __('Create Author') : $model->fullname;
+$this->title                   = $model->isNewRecord ? __('Create Author') : $model->full_name;
 $this->params['breadcrumbs'][] = ['url' => ['blogger/index'], 'label' => __('Manage Authors')];
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJs("
-$('#blogger-fullname').blur(function () {
+$('#blogger-full_name').blur(function () {
     if ($('#blogger-slug').val().length < 2) $('#blogger-slug').val(convertToSlug($(this).val()));
 });
 ");
@@ -32,7 +32,7 @@ $('#blogger-fullname').blur(function () {
             <div class="panel-body">
                 <div class="row">
                     <div class="col col-md-8">
-                        <?= $form->field($model, 'fullname')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
 
                     </div>
                     <div class="col col-md-4">
@@ -116,7 +116,10 @@ $('#blogger-fullname').blur(function () {
             </div>
             <div class="panel-footer text-right">
                 <?php if ($model->getId() && $this->_user()->canAccessToResource('blogger/delete')): ?>
-                    <?= Html::a(__('Delete'), ['blogger/delete', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-delete', 'data-confirm' => __('Are you sure to delete?')]) ?>
+                    <?= Html::a(__('Delete'), [
+                            'blogger/delete',
+                            'id' => $model->getId()
+                    ], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure to delete?')]) ?>
                 <?php endif; ?>
                 <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>
             </div>

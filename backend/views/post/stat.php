@@ -81,7 +81,7 @@ $all  = 0;
                 $news += $item['news']; ?>
                 <tr>
                     <td><?= $day['date'] ?></td>
-                    <td><?= $item['author']->getFullname() ?></td>
+                    <td><?= $item['author']->getFullName() ?></td>
                     <td><?= $item['art'] ?></td>
                     <td><?= $item['news'] ?></td>
                     <td><?= $item['all'] ?></td>

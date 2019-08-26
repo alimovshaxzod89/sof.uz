@@ -50,7 +50,7 @@ class BloggerController extends BackendController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->addSuccess(__('Author {name} created successfully', ['name' => $model->fullname]));
+            $this->addSuccess(__('Author {name} created successfully', ['name' => $model->full_name]));
 
             return $this->redirect(['update', 'id' => $model->id]);
         }
@@ -99,7 +99,7 @@ class BloggerController extends BackendController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->addSuccess(__('Author {name} updated successfully', ['name' => $model->fullname]));
+            $this->addSuccess(__('Author {name} updated successfully', ['name' => $model->full_name]));
 
             return $this->redirect(['update', 'id' => $model->id]);
         }
@@ -121,7 +121,7 @@ class BloggerController extends BackendController
         try {
             if ($model->delete()) {
 
-                $this->addSuccess(__('Author {name} deleted successfully', ['name' => $model->fullname]));
+                $this->addSuccess(__('Author {name} deleted successfully', ['name' => $model->full_name]));
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());

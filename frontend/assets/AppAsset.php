@@ -22,7 +22,7 @@ class AppAsset extends AssetBundle
         'js/app.min.js',
     ] : [
         //'js/wpcf7.js',
-        //'js/imagesloaded.min.js',
+        'js/imagesloaded.min.js',
         'js/masonry.min.js',
         'js/magsy.min.js',
     ];
@@ -36,7 +36,7 @@ class AppAsset extends AssetBundle
     }
 
     public $depends = [
-        //'yii\web\YiiAsset',
-        //'yii\web\JqueryAsset',
+        'yii\web\YiiAsset',
+        'yii\web\JqueryAsset',
     ];
 }

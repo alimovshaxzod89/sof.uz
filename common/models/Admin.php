@@ -3,67 +3,67 @@
 namespace common\models;
 
 use common\components\Config;
-use MongoDB\BSON\ObjectId;
+use common\components\Translator;
+use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\base\Exception;
-use yii\behaviors\TimestampBehavior;
 use yii\bootstrap\Html;
 use yii\caching\TagDependency;
-use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "admin".
- * @property ObjectId $_id
- * @property integer $id
- * @property string  $fullname
- * @property string  $login
- * @property string  $password
- * @property string  $email
- * @property string  $telephone
- * @property string  $auth_key
- * @property string  $access_token
- * @property string  $access_token_date
- * @property string  $password_reset_token
- * @property string  $password_reset_date
- * @property string  $resource
- * @property string  $language
- * @property string  $status
- * @property string  $created_at
- * @property string  $updated_at
- * @property string  name
+ * @property string $full_name
+ * @property string $slug
+ * @property string $login
+ * @property string $password
+ * @property string $image
+ * @property string $description
+ * @property string $email
+ * @property string $telephone
+ * @property string $status
+ * @property string $auth_key
+ * @property string $access_token
+ * @property string $access_token_date
+ * @property string $password_reset_token
+ * @property string $password_reset_date
+ * @property string $resource
+ * @property string $language
  */
 class Admin extends MongoModel implements IdentityInterface
 {
+    protected $_searchableTextAttributes = ['full_name', 'login', 'email'];
+    const SCENARIO_PROFILE = 'profile';
+
     public function attributes()
     {
-        return [
-            '_id',
-            'fullname',
+        return ArrayHelper::merge(parent::attributes(), [
+            'full_name',
+            'slug',
             'login',
             'password',
+            'image',
+            'description',
             'email',
             'telephone',
+            'status',
             'auth_key',
             'access_token',
             'access_token_date',
-            'resource',
-            'language',
-            'status',
             'password_reset_token',
             'password_reset_date',
-            'created_at',
-            'updated_at',
-        ];
+            'resource',
+            'language',
+        ]);
     }
 
     public $confirmation;
     public $change_password;
     public $isSuperAdmin = false;
 
-    const STATUS_ENABLE  = 'enable';
+    const STATUS_ENABLE = 'enable';
     const STATUS_DISABLE = 'disable';
     const STATUS_BLOCKED = 'blocked';
 
@@ -85,13 +85,12 @@ class Admin extends MongoModel implements IdentityInterface
     public static function getArrayOptions()
     {
         $data = self::find()
-                    ->orderBy(['fullname' => SORT_ASC])
+                    ->orderBy(['full_name' => SORT_ASC])
                     ->where(['status' => self::STATUS_ENABLE])
                     ->all();
 
-        return array_merge([], ArrayHelper::map($data, 'id', 'fullname'));
+        return ArrayHelper::merge([], ArrayHelper::map($data, 'id', 'full_name'));
     }
-
 
     /**
      * @inheritdoc
@@ -106,12 +105,19 @@ class Admin extends MongoModel implements IdentityInterface
      */
     public function behaviors()
     {
-        return [
-            [
-                'class' => TimestampBehavior::className(),
-                'value' => $this->getTimestampValue(),
-            ],
-        ];
+        $behaviors = parent::behaviors();
+        return $behaviors;
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        if ($this->slug) {
+            $scenarios[self::SCENARIO_UPDATE]  = '!slug';
+            $scenarios[self::SCENARIO_PROFILE] = '!slug';
+        }
+
+        return $scenarios;
     }
 
     /**
@@ -120,38 +126,38 @@ class Admin extends MongoModel implements IdentityInterface
     public function rules()
     {
         return [
-            [['fullname', 'login', 'email', 'status'], 'required', 'on' => ['insert', 'update']],
+            [['full_name', 'login', 'email', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
 
-            [['fullname', 'email', 'language', 'telephone'], 'required', 'on' => ['profile']],
+            [['full_name', 'email', 'language', 'telephone'], 'required', 'on' => self::SCENARIO_PROFILE],
 
-            [['password', 'confirmation'], 'required', 'on' => ['insert']],
+            [['password', 'confirmation'], 'required', 'on' => self::SCENARIO_INSERT],
 
-            [['password', 'confirmation'], 'required', 'on' => ['update', 'profile'], 'when' => function ($model) {
+            [['password', 'confirmation'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_PROFILE], 'when' => function ($model) {
                 return $model->change_password == 1;
             }, 'whenClient'                                 => "function (attribute, value) {return $('#change_password').is(':checked');}"],
 
-            [['confirmation'], 'compare', 'on' => ['insert'], 'compareAttribute' => 'password', 'skipOnEmpty' => false, 'message' => __('Confirmation does not match')],
+            [['confirmation'], 'compare', 'on' => self::SCENARIO_INSERT, 'compareAttribute' => 'password', 'skipOnEmpty' => false, 'message' => __('Confirmation does not match')],
 
-            [['confirmation'], 'compare', 'on' => ['update', 'profile'], 'compareAttribute' => 'password', 'skipOnEmpty' => false, 'message' => __('Confirmation does not match'), 'when' => function ($model) {
+            [['confirmation'], 'compare', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_PROFILE], 'compareAttribute' => 'password', 'skipOnEmpty' => false, 'message' => __('Confirmation does not match'), 'when' => function ($model) {
                 return $model->change_password == 1;
             }],
 
+            [['language'], 'in', 'range' => Config::getLanguageLocales()],
+            [['resource'], 'safe', 'on' => self::SCENARIO_UPDATE],
 
-            [['language'], 'in', 'range' => array_keys(Config::getLanguageOptions())],
-            [['resource'], 'safe', 'on' => ['update']],
-
-            [['login', 'email'], 'unique', 'on' => ['update', 'insert']],
+            [['login', 'email'], 'unique', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['email'], 'email'],
 
-            [['created_at', 'updated_at', 'change_password'], 'safe'],
+            [['created_at', 'updated_at', 'slug', 'image', 'description', 'change_password'], 'safe'],
 
-            [['fullname', 'password'], 'string', 'max' => 128],
+            [['full_name', 'password'], 'string', 'max' => 128],
             [['email'], 'string', 'max' => 64],
+            ['status', 'default', 'value' => self::STATUS_DISABLE],
             [['telephone'], 'string', 'max' => 32],
             [['password_reset_token'], 'string', 'max' => 255],
 
 
-            [['search'], 'safe', 'on' => 'search'],
+            [['search'], 'safe', 'on' => self::SCENARIO_SEARCH],
         ];
     }
 
@@ -240,6 +246,11 @@ class Admin extends MongoModel implements IdentityInterface
             $this->email  = 'admin@activemedia.uz';
         }
 
+        if (empty($this->slug) || $this->isNewRecord) {
+            $slug       = Translator::getInstance()->translateToLatin($this->full_name);
+            $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
+        }
+
         if ($this->isNewRecord) {
             $this->resource = [];
         }
@@ -265,30 +276,6 @@ class Admin extends MongoModel implements IdentityInterface
     {
         $path = trim($path, '/');
         return $this->isSuperAdmin || isset($this->resource[$path]) || is_array($this->resource) && in_array($path, $this->resource);
-    }
-
-
-    public function search($params)
-    {
-        $this->load($params);
-        $query = self::find();
-
-        $dataProvider = new ActiveDataProvider([
-                                                   'query'      => $query,
-                                                   'pagination' => [
-                                                       'pageSize' => 20,
-                                                   ],
-                                               ]);
-
-        if ($this->search) {
-            $query->orFilterWhere(['_translations.fullname_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.fullname_oz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.fullname_ru' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['like', 'login', $this->search]);
-            $query->orFilterWhere(['like', 'email', $this->search]);
-        }
-
-        return $dataProvider;
     }
 
     /**
@@ -336,9 +323,9 @@ class Admin extends MongoModel implements IdentityInterface
     }
 
 
-    public function getFullname()
+    public function getFullName()
     {
-        return Html::encode($this->fullname ?: $this->login);
+        return Html::encode($this->full_name ?: $this->login);
     }
 
 
@@ -349,4 +336,22 @@ class Admin extends MongoModel implements IdentityInterface
         return $this;
     }
 
+    public function getCroppedImage($width = 870, $height = 260, $manipulation = 2, $watermark = false)
+    {
+        $manipulation = $manipulation == 1 ? ManipulatorInterface::THUMBNAIL_OUTBOUND : ManipulatorInterface::THUMBNAIL_INSET;
+        return parent::getCropImage($this->image, $width, $height, $manipulation, $watermark);
+    }
+
+    public function getImageUrl($width = 120, $height = 120, $manipulation = 1)
+    {
+        $manipulation = $manipulation == 1 ? ManipulatorInterface::THUMBNAIL_OUTBOUND : ManipulatorInterface::THUMBNAIL_INSET;
+        return self::getCropImage($this->image, $width, $height, $manipulation);
+    }
+
+    public function getViewUrl($scheme = false)
+    {
+        /* @var $urlManager \codemix\localeurls\UrlManager */
+        return Yii::$app->viewUrl
+            ->createAbsoluteUrl(['category/author', 'slug' => $this->slug], $scheme);
+    }
 }

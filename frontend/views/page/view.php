@@ -58,13 +58,13 @@ $comments = false;
                                             <img class="image"
                                                  src="https://api.adorable.io/avatars/570x430/<?= $post->id ?>.png"
                                             //src="<?php $post->getImageUrl(570, 330) ?>"
-                                            title="<?= $post->fullname ?>">
+                                            title="<?= $post->full_name ?>">
                                         </a>
                                         <div class="content">
                                             <h3 class="post-title">
                                                 <a href="<?= $post->getViewUrl() ?>"
                                                    class="post-link">
-                                                    <?= $post->fullname ?>
+                                                    <?= $post->full_name ?>
                                                 </a>
                                             </h3>
                                             <div class="post-meta">

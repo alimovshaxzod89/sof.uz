@@ -39,10 +39,10 @@ $('#agreement').on('click', function (e) {
 
                                         ]); ?>
 
-        <?= $form->field($model, 'fullname', [
+        <?= $form->field($model, 'full_name', [
             'template' => "<span class=\"after\"><i class=\"icon form-error-icon\"></i><i class=\"icon form-success-icon\"></i></span>\n{input}",
             'options'  => ['class' => 'form-row validate'],
-        ])->textInput(['autofocus' => false, 'placeholder' => __('Fullname')])->label(false) ?>
+        ])->textInput(['autofocus' => false, 'placeholder' => __('Full Name')])->label(false) ?>
 
         <?= $form->field($model, 'email', [
             'template' => "<span class=\"after\"><i class=\"icon form-error-icon\"></i><i class=\"icon form-success-icon\"></i></span>\n{input}",

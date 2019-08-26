@@ -143,42 +143,7 @@ return [
                 ],
             ],
         ],
-        'urlManager'           => [
-            'class'                     => 'codemix\localeurls\UrlManager',
-            'languages'                 => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
-            'enableLanguageDetection'   => false,
-            'enableLanguagePersistence' => true,
-            'showScriptName'            => false,
-            'enablePrettyUrl'           => true,
-            'rules'                     => [
-                '/'           => 'site/index',
-                '/search'     => 'category/search',
-                '/tahririyat' => 'page/view',
-
-                '/<slug:[a-z0-9-]{3,4}>'                => 'post/short',
-                '<slug:(yangiliklar|ommabop|minbarda)>' => 'category/feed',
-                '<slug:[a-z0-9-]+>'                     => 'category/view',
-                'account/reset-password'                => 'account/reset-password',
-                'account/request-password-reset'        => 'account/request-password-reset',
-                'account/<action:\w+>'                  => 'account/<action>',
-                '/weather'                              => 'site/weather',
-                '/update-browser'                       => 'site/browser',
-
-
-                'muallif/<slug:[a-z0-9-]+>'    => 'category/author',
-                'tag/<slug:[a-z0-9-]+>'        => 'category/tag',
-                'preview/<id:[a-z0-9]{24,24}>' => 'post/preview',
-                'p/<id:[a-z0-9-]+>'            => 'post/short',
-
-                'post/<slug:[a-z0-9-]+>'                  => 'post/view',
-                'page/<slug:[a-z0-9-]+>'                  => 'page/view',
-                'site/typo'                               => 'site/typo',
-                '<category:[a-z0-9-]+>/<slug:[a-z0-9-]+>' => 'post/view',
-                '<controller:\w+>/<action:\w+>'           => '<controller>/<action>',
-                '<controller:\w+>/<id:\d+>'               => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>'  => '<controller>/<action>',
-            ],
-        ],
+        'urlManager'           => require(__DIR__ . '/url-manager.php'),
     ],
     'params'              => $params,
 ];

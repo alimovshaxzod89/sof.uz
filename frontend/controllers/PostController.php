@@ -2,10 +2,8 @@
 
 namespace frontend\controllers;
 
-use api\models\v1\Category;
 use common\models\Post;
 use frontend\models\PostProvider;
-use MongoDB\BSON\ObjectId;
 use Yii;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -17,9 +15,24 @@ class PostController extends BaseController
 {
     public $layout = 'site';
 
+    /**
+     * @return array
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
     public function behaviors()
     {
-        $post = YII_DEBUG ? false : $this->findModel($this->get('slug'));
+        $post = false;
+        if (!YII_DEBUG) {
+            if ($slug = $this->get('slug')) {
+                $post = $this->findModel($slug);
+            }
+
+            if ($short = $this->get('short')) {
+                $post = $this->findShortModel($short);
+            }
+        }
+
         Url::remember(Yii::$app->request->url);
 
         return [
@@ -34,7 +47,7 @@ class PostController extends BaseController
                     Yii::$app->id,
                     Yii::$app->language,
                     Yii::$app->user->isGuest ? -1 : Yii::$app->user->id,
-                    $post ? $post->url : '',
+                    $post ? $post->slug : '',
                     $post ? $post->updated_at->getTimestamp() : '',
                     intval($this->get('load')),
                     intval($this->get('oldid')),
@@ -46,101 +59,58 @@ class PostController extends BaseController
 
     /**
      * @param             $slug
-     * @param bool|string $category
+     * @param             $model
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
-    public function actionView($slug, $category = false)
+    public function actionView($slug)
     {
         $model                           = $this->findModel($slug);
         $this->getView()->params['post'] = $model;
 
-        if ($category) {
-            if ($category = $this->findCategory($category)) {
-                $this->getView()->params['category'] = $category;
-            }
-        }
-
         return $this->render($model->type, [
-            'model'       => $model,
-            'showReplies' => $this->get('replies', false),
+            'model' => $model,
         ]);
     }
 
-    public function actionShort($slug)
+    /**
+     * @param $short
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionShort($short)
     {
-        return $this->actionView($slug);
-        /**
-         * @var $model Post
-         */
-        if ($model = PostProvider::findOne(['short_id' => $slug, 'status' => Post::STATUS_PUBLISHED])) {
-            return $this->redirect($model->getViewUrl($model->category), 301);
-        }
-
-        throw new NotFoundHttpException();
-    }
-
-    public function actionOld($oldid)
-    {
-        /**
-         * @var $model Post
-         */
-        if (intval($oldid)) {
-            if ($model = PostProvider::findOne(['old_id' => intval($oldid), 'status' => Post::STATUS_PUBLISHED])) {
-                return $this->redirect($model->getViewUrl(), 301);
-            }
-        }
-
-        throw new NotFoundHttpException();
-    }
-
-    public function actionPreview($id, $t = '')
-    {
-        if ($model = PostProvider::findOne(new ObjectId($id))) {
-            if ($t == md5($model->url . $model->created_at->getTimestamp())) {
-
-                return $this->render($model->getViewTemplate(), [
-                    'model'       => $model,
-                    'showReplies' => $this->get('replies', false),
-                ]);
-            }
-        };
-
-        throw new NotFoundHttpException();
+        $model = $this->findShortModel($short);
+        return $this->redirect(['view', 'slug' => $model->slug]);
     }
 
     /**
      * @param $slug
      * @return array|null|PostProvider
      * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     protected function findModel($slug)
     {
-        if ($slug) {
-            $model = PostProvider::find()
-                                 ->orFilterWhere(['short_id' => $slug])
-                                 ->orFilterWhere(['url' => $slug])
-                                 ->andFilterWhere([
-                                                      'status' => PostProvider::STATUS_PUBLISHED,
-                                                  ])
-                                 ->one();
-            if ($model) {
-                return $model;
-            }
-            throw new NotFoundHttpException('Page not found');
+        $model = PostProvider::find()->where(['slug' => $slug, 'status' => PostProvider::STATUS_PUBLISHED])->one();
+        if ($model) {
+            return $model;
         }
-
+        throw new NotFoundHttpException('Page not found');
     }
 
-    protected function findCategory($slug)
+    /**
+     * @param $short
+     * @return array|null|PostProvider
+     * @throws NotFoundHttpException
+     */
+    protected function findShortModel($short)
     {
-        if ($slug) {
-            if ($model = Category::find()->where(['slug' => $slug])->one()) {
-                return $model;
-            }
-            throw new NotFoundHttpException('Page not found');
+        $model = PostProvider::findOne(['short_id' => $short, 'status' => Post::STATUS_PUBLISHED]);
+        if ($model) {
+            return $model;
         }
-
+        throw new NotFoundHttpException('Page not found');
     }
-
 }

@@ -19,12 +19,12 @@ use yii\helpers\Url;
             <div class="media-info reply-item">
                 <div class="media is_left">
                     <img src="<?= $this->getImageUrl('avatars/sevara.png') ?>" width="50" height="50"
-                         alt="<?= $reply->user->fullname ?>">
+                         alt="<?= $reply->user->full_name ?>">
                 </div><!-- End of media-->
                 <div class="info auto">
                     <div class="article__comments-item-title">
                         <i class="icon reply-comment-icon"></i>
-                        <h2><?= $reply->user->fullname ?></h2>
+                        <h2><?= $reply->user->full_name ?></h2>
                         <span class="date-time"><i
                                     class="icon clock-icon"></i><?= Yii::$app->formatter->asRelativeTime($reply->created_at->sec) ?></span>
                     </div><!-- End of article__comments-item-title-->
@@ -45,7 +45,7 @@ use yii\helpers\Url;
 <?php endif; ?>
 <div class="article__comments-commentate reply-item">
     <div class="article__comments-commentate-title">
-        <h2><?= !is_null($this->getUser()) ? $this->getUser()->fullname : '' ?></h2>
+        <h2><?= !is_null($this->getUser()) ? $this->getUser()->full_name : '' ?></h2>
     </div><!-- End of article__comment-commentate-title-->
 
     <div class="media-info">

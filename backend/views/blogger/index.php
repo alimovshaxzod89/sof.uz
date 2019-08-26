@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col col-md-6 col-md-6">
                 </div>
                 <div class="col col-md-6 col-md-6">
-                    <?= $form->field($searchModel, 'search', ['labelOptions' => ['class' => 'invisible']])->textInput(['placeholder' => __('Search by Fullname / Login / Email')])->label(false) ?>
+                    <?= $form->field($searchModel, 'search', ['labelOptions' => ['class' => 'invisible']])->textInput(['placeholder' => __('Search by Full Name / Login / Email')])->label(false) ?>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>
@@ -40,10 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                  'layout'       => "{items}\n<div class='panel-footer'>{pager}<div class='clearfix'></div></div>",
                                  'columns'      => [
                                      [
-                                         'attribute' => 'fullname',
+                                         'attribute' => 'full_name',
                                          'format'    => 'raw',
                                          'value'     => function ($data) {
-                                             return Html::a($data->fullname, ['blogger/update', 'id' => $data->id], ['data-pjax' => 0]);
+                                             return Html::a($data->full_name, ['blogger/update', 'id' => $data->id], ['data-pjax' => 0]);
                                          },
                                      ],
                                      [

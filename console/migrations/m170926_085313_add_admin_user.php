@@ -13,7 +13,8 @@ class m170926_085313_add_admin_user extends \yii\mongodb\Migration
                                'email'        => 'admin@activemedia.uz',
                                'confirmation' => 'random1',
                                'password'     => 'random1',
-                               'fullname'     => 'Shavkat',
+                               'full_name'    => 'Shavkat',
+                               'slug'         => 'shavkat',
                                'status'       => Admin::STATUS_ENABLE,
                            ]
         );

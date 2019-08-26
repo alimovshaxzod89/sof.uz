@@ -31,12 +31,14 @@ class MongoModel extends ActiveRecord
 {
     public $search;
 
-    protected $_searchableAttributes = [];
-    protected $_booleanAttributes    = [];
-    protected $_integerAttributes    = [];
-    protected $_doubleAttributes     = [];
-    protected $_translatedAttributes = [];
-    protected $_idAttributes         = [];
+    protected $_searchableAttributes     = [];
+    protected $_booleanAttributes        = [];
+    protected $_integerAttributes        = [];
+    protected $_doubleAttributes         = [];
+    protected $_translatedAttributes     = [];
+    protected $_searchableTextAttributes = [];
+    protected $_searchableIdAttributes   = []; // collection attribute => selected attribute
+    protected $_idAttributes             = [];
 
     const SCENARIO_SEARCH = 'search';
     const SCENARIO_INSERT = 'insert';
@@ -98,7 +100,7 @@ class MongoModel extends ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
+                'class' => TimestampBehavior::class,
                 'value' => $this->getTimestampValue(),
             ],
         ];
@@ -388,15 +390,19 @@ class MongoModel extends ActiveRecord
     }
 
 
-    public function getFileUrl($attribute)
+    public function getFileUrl($attribute = false)
     {
+        $defaultFileUrl = Yii::$app->view->getImageUrl('images/002.jpg');
         if ($this->hasAttribute($attribute)) {
             $attribute = $this->getAttribute($attribute);
-            if (is_array($attribute) && isset($attribute['path']))
-                return Yii::getAlias("@staticUrl/uploads/") . $attribute['path'];
+            if (is_array($attribute) && isset($attribute['path'])) {
+                $filePath = Yii::getAlias("@static/uploads/") . $attribute['path'];
+                if (file_exists($filePath))
+                    return Yii::getAlias("@staticUrl/uploads/") . $attribute['path'];
+            }
         }
 
-        return false;
+        return $defaultFileUrl;
     }
 
     public function getFilePath($attribute, $clean = false)

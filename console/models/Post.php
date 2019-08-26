@@ -3,6 +3,7 @@
 namespace console\models;
 
 use common\components\Config;
+use common\components\Translator;
 use common\models\Category as NewCategory;
 use common\models\Post as NewPost;
 use common\models\Tag as NewTag;
@@ -58,9 +59,12 @@ class Post extends \common\models\old\OldPost
         return $categories;
     }
 
-    public function toMongo()
+    public function toMongo($author = null)
     {
         $image             = [];
+        $slug              = $this->slug ?: $this->title;
+        $slug              = Translator::getInstance()->translateToLatin($slug);
+        $slug              = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         $categories        = $this->getCategoriesArray();
         $tags              = $this->getNewTagsIds();
         $type              = $this->photo == 1 ? NewPost::TYPE_GALLERY : NewPost::TYPE_NEWS;
@@ -70,16 +74,18 @@ class Post extends \common\models\old\OldPost
         $uploadPath        = \Yii::getAlias('@staticUrl') . DS . 'uploads/photos';
         $content           = str_replace('https://sof.uz/files/uploads/photos', $uploadPath, $this->full);
         $new               = new NewPost([
+                                             'scenario'     => NewPost::SCENARIO_CONVERT,
                                              'old_id'       => $this->id,
                                              'title'        => $this->title,
                                              'info'         => $this->short,
                                              'content'      => $content,
                                              'views'        => $this->views,
-                                             'url'          => $this->slug,
+                                             'slug'         => $slug,
                                              'status'       => $status,
                                              'image'        => $image,
                                              'published_on' => new Timestamp(1, time()),
                                              'type'         => $type,
+                                             '_author'      => $author,
                                              '_categories'  => $categories,
                                              '_tags'        => $tags,
                                              'created_at'   => new Timestamp(1, $this->date),

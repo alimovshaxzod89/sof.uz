@@ -50,7 +50,7 @@ class Comments extends Widget
                 // Convert pings to human readable format
                 $(data.pings).each(function(index, id) {
                     var user = usersArray.filter(function(user){return user.id == id})[0];
-                    data.content = data.content.replace('@' + id, '@' + user.fullname);
+                    data.content = data.content.replace('@' + id, '@' + user.full_name);
                 });
     
                 return data;
@@ -68,7 +68,7 @@ class Comments extends Widget
                 // Convert pings to human readable format
                 $(data.pings).each(function(index, id) {
                     var user = usersArray.filter(function(user){return user.id == id})[0];
-                    data.content = data.content.replace('@' + id, '@' + user.fullname);
+                    data.content = data.content.replace('@' + id, '@' + user.full_name);
                 });
     
                 return data;

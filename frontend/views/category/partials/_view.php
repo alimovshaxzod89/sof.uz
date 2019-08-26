@@ -23,6 +23,13 @@
                             <?= $model->getShortFormattedDate() ?>
                         </time>
                     </span>
+                    <?php if ($model->hasAuthor()): ?>
+                    <span class="meta-category">
+                        <a href="<?= $model->author->getViewUrl() ?>">
+                            <?= $model->author->getFullName() ?>
+                        </a>
+                    </span>
+                    <?php endif; ?>
                     <?php if (is_array($model->categories) && count($model->categories)): ?>
                         <span class="meta-category">
                             <?= $model->metaCategoriesList() ?>

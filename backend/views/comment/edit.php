@@ -39,7 +39,7 @@ $user                          = $this->context->_user();
                         <h4><?= __('Settings') ?></h4>
                     </div>
                     <div class="panel-body">
-                        <?= __('User') . Html::a($model->user->fullname, ['user/update', 'id' => $model->user->getId()], ['class' => 'btn btn-default']) ?>
+                        <?= __('User') . Html::a($model->user->full_name, ['user/update', 'id' => $model->user->getId()], ['class' => 'btn btn-default']) ?>
                         <?= $form->field($model, 'status')->widget(ChosenSelect::className(), [
                             'items'         => Comment::getStatusArray(),
                             'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
@@ -48,7 +48,10 @@ $user                          = $this->context->_user();
                     <div class="panel-footer">
                         <div class="text-right">
                             <?php if ($model->getId()): ?>
-                                <?= Html::a(__('Delete'), ['page/delete', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-delete', 'data-confirm' => __('Are you sure to delete?')]) ?>
+                                <?= Html::a(__('Delete'), [
+                                        'page/delete',
+                                        'id' => $model->getId()
+                                ], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure to delete?')]) ?>
                             <?php endif; ?>
                             <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>
                         </div>

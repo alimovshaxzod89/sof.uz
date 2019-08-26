@@ -94,18 +94,18 @@ class View extends \yii\web\View
             'label' => 'Users',
             'url'   => '#',
             'items' => [
-//                'customer/index' => [
-//                    'label' => 'Users',
-//                    'url'   => 'user/index',
-//                ],
-'blogger/index' => [
-    'label' => 'Authors',
-    'url'   => 'blogger/index',
-],
-'admin/index'   => [
-    'label' => 'Administrators',
-    'url'   => 'admin/index',
-],
+                /*'customer/index' => [
+                    'label' => 'Users',
+                    'url'   => 'user/index',
+                ],
+                'blogger/index'  => [
+                    'label' => 'Authors',
+                    'url'   => 'blogger/index',
+                ],*/
+                'admin/index'    => [
+                    'label' => 'Authors',
+                    'url'   => 'admin/index',
+                ],
             ],
         ],
         'system' => [

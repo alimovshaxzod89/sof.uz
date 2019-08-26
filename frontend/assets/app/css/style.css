@@ -92,9 +92,13 @@
     padding: 60px 0;
 }
 
-span.meta-category:nth-child(2):before {
+span.meta-category:before {
     content: "/";
     padding-right: 10px;
+}
+
+span.meta-category:first-child:before {
+    content: none;
 }
 
 .entry-header .entry-meta > span + span {
@@ -111,4 +115,16 @@ span.meta-category:nth-child(2):before {
     .burger {
         display: block;
     }
+}
+
+.u-border-title:before, .owl .owl-dot.active, .infinite-scroll-button {
+    background-color: #6fd08d;
+}
+
+.infinite-scroll-button {
+    border-color: #6fd08d;
+}
+
+.navbar .logo.text {
+    color: #6fd08d;
 }

@@ -72,7 +72,10 @@ $user                          = $this->context->_user();
                     <div class="panel-footer">
                         <div class="text-right">
                             <?php if ($model->getId()): ?>
-                                <?= Html::a(__('Delete'), ['question/delete', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-delete']) ?>
+                                <?= Html::a(__('Delete'), [
+                                        'question/delete',
+                                        'id' => $model->getId()
+                                ], ['class' => 'btn btn-danger btn-delete']) ?>
                             <?php endif; ?>
                             <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>
                         </div>

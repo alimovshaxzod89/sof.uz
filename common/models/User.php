@@ -7,39 +7,39 @@ use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\IdentityInterface;
 
 /**
  * Class User
- * @property string          $fullname
- * @property string          $login
- * @property string          $password
- * @property string          $email
- * @property string          $telephone
- * @property string          $auth_key
- * @property string          $access_token
+ * @property string    $full_name
+ * @property string    $login
+ * @property string    $password
+ * @property string    $email
+ * @property string    $telephone
+ * @property string    $auth_key
+ * @property string    $access_token
  * @property Timestamp $access_token_date
- * @property string          $password_reset_token
+ * @property string    $password_reset_token
  * @property Timestamp $password_reset_date
- * @property string          $resource
- * @property string          $language
- * @property string          $status
- * @property string          name
- * @property mixed           twitter
- * @property mixed           facebook
- * @property mixed           google
- * @property mixed           avatar_url
- * @property Auth            authClient
- * @property Comment[]       comments
+ * @property string    $resource
+ * @property string    $language
+ * @property string    $status
+ * @property string    name
+ * @property mixed     twitter
+ * @property mixed     facebook
+ * @property mixed     google
+ * @property mixed     avatar_url
+ * @property Auth      authClient
+ * @property Comment[] comments
  */
 class User extends MongoModel implements IdentityInterface
 {
     public function attributes()
     {
-        return [
-            '_id',
-            'fullname',
+        return ArrayHelper::merge(parent::attributes(), [
+            'full_name',
             'login',
             'password',
             'twitter',
@@ -54,11 +54,9 @@ class User extends MongoModel implements IdentityInterface
             'resource',
             'language',
             'status',
-            'created_at',
-            'updated_at',
             'password_reset_token',
             'password_reset_date',
-        ];
+        ]);
     }
 
     public function behaviors()
@@ -71,7 +69,7 @@ class User extends MongoModel implements IdentityInterface
     public $change_password;
     public $isCenterAdmin = false;
 
-    const STATUS_ENABLE  = 'enable';
+    const STATUS_ENABLE = 'enable';
     const STATUS_DISABLE = 'disable';
     const STATUS_BLOCKED = 'blocked';
 
@@ -98,9 +96,9 @@ class User extends MongoModel implements IdentityInterface
     public function rules()
     {
         return [
-            [['fullname', 'email', 'status'], 'required', 'on' => ['insert', 'update']],
+            [['full_name', 'email', 'status'], 'required', 'on' => ['insert', 'update']],
 
-            [['fullname', 'email', 'language', 'telephone'], 'required', 'on' => ['profile']],
+            [['full_name', 'email', 'language', 'telephone'], 'required', 'on' => ['profile']],
 
             [['password', 'confirmation'], 'required', 'on' => ['insert']],
 
@@ -122,7 +120,7 @@ class User extends MongoModel implements IdentityInterface
 
             [['change_password'], 'safe'],
 
-            [['fullname', 'password'], 'string', 'max' => 128],
+            [['full_name', 'password'], 'string', 'max' => 128],
             [['email'], 'string', 'max' => 64],
             [['telephone'], 'string', 'max' => 32],
             [['password_reset_token'], 'string', 'max' => 255],
@@ -138,7 +136,7 @@ class User extends MongoModel implements IdentityInterface
     {
         return [
             'id'                   => __('ID'),
-            'fullname'             => __('Fullname'),
+            'full_name'            => __('Full Name'),
             'password'             => __('Password'),
             'email'                => __('Email'),
             'telephone'            => __('Telephone'),
@@ -232,8 +230,8 @@ class User extends MongoModel implements IdentityInterface
     {
         if ($this->change_password || $this->isNewRecord) $this->setPassword($this->confirmation);
 
-        if ($this->isAttributeChanged('fullname')) {
-            $this->fullname = Html::encode($this->fullname);
+        if ($this->isAttributeChanged('full_name')) {
+            $this->full_name = Html::encode($this->full_name);
         }
         return parent::beforeSave($insert);
     }
@@ -252,7 +250,7 @@ class User extends MongoModel implements IdentityInterface
         $this->load($params);
 
         if ($this->search) {
-            $query->orFilterWhere(['like', 'fullname', $this->search]);
+            $query->orFilterWhere(['like', 'full_name', $this->search]);
             $query->orFilterWhere(['like', 'login', $this->search]);
             $query->orFilterWhere(['like', 'email', $this->search]);
         }
@@ -304,9 +302,9 @@ class User extends MongoModel implements IdentityInterface
     }
 
 
-    public function getFullname()
+    public function getFullName()
     {
-        return Html::decode($this->fullname ?: $this->email);
+        return Html::decode($this->full_name ?: $this->email);
     }
 
     /**
@@ -354,7 +352,7 @@ class User extends MongoModel implements IdentityInterface
         foreach ($all as $user) {
             $users[] = [
                 'id'                  => $user->getId(),
-                'fullname'            => $user->getFullname(),
+                'full_name'           => $user->getFullName(),
                 'email'               => $user->email,
                 'profile_picture_url' => $user->avatar_url,
             ];

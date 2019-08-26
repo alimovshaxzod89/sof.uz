@@ -345,7 +345,7 @@ class PostController extends ApiController
     {
         if ($post = Post::find()
                         ->orFilterWhere(['short_id' => $slug])
-                        ->orFilterWhere(['url' => $slug])
+                        ->orFilterWhere(['slug' => $slug])
                         ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
                         ->one()
         ) {

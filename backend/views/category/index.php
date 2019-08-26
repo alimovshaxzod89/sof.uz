@@ -57,7 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="text-right">
             <?php if (!$model->isNewRecord && $this->_user()->canAccessToResource('category/delete')): ?>
-                <?= Html::a(__('Delete'), ['category/delete', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-delete', 'data-confirms' => __('Are you sure to delete?')]) ?>
+                <?= Html::a(__('Delete'), [
+                    'category/delete',
+                    'id' => $model->getId()
+                ], ['class' => 'btn btn-danger', 'data-confirms' => __('Are you sure to delete?')]) ?>
             <?php endif; ?>
             <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>
         </div>

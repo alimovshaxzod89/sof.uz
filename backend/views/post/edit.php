@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = ['url' => ['post/index'], 'label' => __('Manage
 $this->params['breadcrumbs'][] = $this->title;
 $user                          = $this->context->_user();
 
-$label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::STATUS_PUBLISHED ? $model->getFrontViewUrl() : $model->getFrontPreviewUrl(), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
+$label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(true), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
 ?>
 <div class="post-create <?= $locked || !$canEdit ? 'post_locked' : '' ?>">
     <div class="lock_area"></div>
@@ -127,11 +127,11 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                         <hr>
 
                         <?= $this->renderFile('@backend/views/layouts/_convert.php', ['link' => Url::to(['post/edit', 'id' => $model->getId(), 'convert' => 1])]) ?>
-                        <?php $creators = Admin::getArrayOptions(); ?>
-                        <?php if (count($creators)): ?>
-                            <?= $form->field($model, '_creator')
-                                     ->widget(ChosenSelect::className(), [
-                                         'items'         => $creators,
+                        <?php $authors = Admin::getArrayOptions(); ?>
+                        <?php if (count($authors)): ?>
+                            <?= $form->field($model, '_author')
+                                     ->widget(ChosenSelect::class, [
+                                         'items'         => $authors,
                                          'pluginOptions' => [
                                              'width'                 => '100%',
                                              'allow_single_deselect' => true,
@@ -140,11 +140,16 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->status == Post::
                                      ])->label() ?>
                         <?php endif; ?>
 
-                        <?php if ($user->canAccessToResource('post/creator')): ?>
-                            <?= $form->field($model, '_creator')->widget(ChosenSelect::className(), [
-                                'items'         => Admin::getArrayOptions(),
-                                'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
-                            ])->label() ?>
+                        <?php if ($user->canAccessToResource('post/author')): ?>
+                            <?= $form->field($model, '_author')
+                                     ->widget(ChosenSelect::className(), [
+                                         'items'         => Admin::getArrayOptions(),
+                                         'pluginOptions' => [
+                                             'width'                 => '100%',
+                                             'allow_single_deselect' => true,
+                                             'disable_search'        => true
+                                         ],
+                                     ])->label() ?>
                         <?php endif; ?>
 
                         <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH): ?>
@@ -287,7 +292,7 @@ $this->registerJs('initPostEditor();');
 <script>
     var focused = false;
     var postUpdated =<?=$model->updated_on ? $model->updated_on->getTimestamp() : 0?>;
-    var postEditor = '<?=(string)$model->_creator?>';
+    var postEditor = '<?=(string)$model->_author?>';
     var postLocked =<?=$locked ? 'true' : 'false'?>;
     var canEdit =<?=$canEdit ? 'true' : 'false'?>;
 
@@ -357,7 +362,7 @@ $this->registerJs('initPostEditor();');
                 form.attr('action') + "?status=1",
                 form.serialize(),
                 function (data, status) {
-                    if (postUpdated != data.updated || postEditor != data.creator) {
+                    if (postUpdated != data.updated || postEditor != data.author) {
                         if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {
                             document.location.href = document.location.href;
                         } else {
@@ -384,7 +389,7 @@ $this->registerJs('initPostEditor();');
                     form.serialize(),
                     function (data, status) {
                         postUpdated = data.updated;
-                        postEditor = data.creator;
+                        postEditor = data.author;
 
                         if (data.reload != undefined && data.reload == 1) {
                             if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {

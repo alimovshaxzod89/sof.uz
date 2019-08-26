@@ -14,6 +14,13 @@ $config = [
         '@bower' => '@vendor/bower-asset'
     ],
     'components' => [
+
+        'apiUrl' => require(dirname(dirname(__DIR__)) . '/api/config/url-manager.php'),
+
+        'viewUrl' => require(dirname(dirname(__DIR__)) . '/frontend/config/url-manager.php'),
+
+        'editUrl' => require(dirname(dirname(__DIR__)) . '/backend/config/url-manager.php'),
+
         'i18n'   => [
             'translations' => [
                 'app*' => [

@@ -8,7 +8,7 @@ use yii2mod\chosen\ChosenSelect;
 /* @var $model common\models\Admin */
 
 $this->title                   = __('My Profile');
-$this->params['breadcrumbs'][] = $model->fullname;
+$this->params['breadcrumbs'][] = $model->full_name;
 
 ?>
 
@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $model->fullname;
                 </div>
 
 
-                <?= $form->field($model, 'fullname')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'telephone')->textInput(['maxlength' => true, 'class' => 'mobile-phone form-control']) ?>
 

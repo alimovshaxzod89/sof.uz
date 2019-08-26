@@ -14,8 +14,6 @@ use PHPHtmlParser\Dom\AbstractNode;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\StringHelper;
-use yii\helpers\Url;
-use yii\helpers\VarDumper;
 
 /**
  * Class Post
@@ -23,7 +21,7 @@ use yii\helpers\VarDumper;
  * @property string     title_color
  * @property string     content
  * @property string     content_source
- * @property string     url
+ * @property string     slug
  * @property string     status
  * @property string     old_id
  * @property array      image
@@ -56,6 +54,7 @@ use yii\helpers\VarDumper;
  * @property mixed      updated_on
  * @property mixed      creator_type
  * @property mixed      _creator
+ * @property mixed      _author
  * @property string     creator_session
  * @property integer    short_id
  * @property boolean    has_video
@@ -75,15 +74,17 @@ use yii\helpers\VarDumper;
  * @property integer    read_min
  * @property boolean    img_watermark
  * @property Admin      creator
+ * @property Admin      author
  * @package common\models
  */
 class Post extends MongoModel
 {
+    const SCENARIO_CONVERT = 'convert';
     protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
     protected $_booleanAttributes    = ['img_watermark', 'has_video', 'has_gallery', 'has_info', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
     protected $_integerAttributes    = ['views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
     protected $_searchableAttributes = ['title', 'info', 'category'];
-    protected $_idAttributes         = ['_creator'];
+    protected $_idAttributes         = ['_creator', '_author'];
 
     const LABEL_REGULAR = 'regular';
     const LABEL_IMPORTANT = 'important';
@@ -137,9 +138,9 @@ class Post extends MongoModel
             'info',
             'status',
             'content',
-            'url',
+            'slug',
             'type',
-            '_creator',
+            '_author',
             '_creator',
             'creator_type',
 
@@ -195,6 +196,16 @@ class Post extends MongoModel
         return $behaviors;
     }
 
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        if ($this->slug) {
+            $scenarios[self::SCENARIO_UPDATE] = '!slug';
+        }
+
+        return $scenarios;
+    }
+
     public function rules()
     {
         return [
@@ -202,15 +213,15 @@ class Post extends MongoModel
             [['views', 'has_updates'], 'default', 'value' => 0],
             [['type'], 'in', 'range' => array_keys(self::getTypeArray())],
 
-            [['url'], 'unique'],
+            [['slug'], 'unique'],
             [['template'], 'number', 'integerOnly' => true],
             [['info', 'image_source', 'content_source'], 'string', 'max' => 500],
             [['info', 'image_source', 'content_source'], 'safe', 'on' => self::SCENARIO_CREATE],
 
-            [['title', 'info', 'url', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'published_on', 'is_main', 'is_instant', '_creator'],
-             'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
+            [['title', 'info', 'slug', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'published_on', 'is_main', 'is_instant', '_creator', '_author'],
+             'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
 
-            [['url'], 'match', 'skipOnEmpty' => true, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
+            [['slug'], 'match', 'skipOnEmpty' => true, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
 
             [['youtube_url'], 'validateYoutube', 'skipOnEmpty' => true, 'message' => __('Invalid Youtube url')],
             [['mover_url'], 'validateMover', 'skipOnEmpty' => true, 'message' => __('Invalid Mover url')],
@@ -218,13 +229,21 @@ class Post extends MongoModel
             [['search', 'user', 'post_type'], 'safe', 'on' => 'search'],
             [$this->_booleanAttributes, 'safe'],
 
-            [['title', 'url', 'info', '_categories'], 'required', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO], 'when' => function ($model) {
+            [['title', 'slug', 'info', '_categories'], 'required',
+             'on'   => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO],
+             'when' => function ($model) {
+                 return $model->status != self::STATUS_DRAFT;
+             }],
+
+            [['title', 'slug'], 'required', 'on' => self::SCENARIO_CONVERT, 'when' => function ($model) {
                 return $model->status != self::STATUS_DRAFT;
             }],
 
-            [['content'], 'required', 'on' => [self::SCENARIO_NEWS], 'when' => function ($model) {
-                return $model->status != self::STATUS_DRAFT && empty($this->audio);
-            }],
+            [['content'], 'required',
+             'on'   => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT],
+             'when' => function ($model) {
+                 return $model->status != self::STATUS_DRAFT && empty($this->audio);
+             }],
 
             [['gallery'], 'required', 'on' => [self::SCENARIO_GALLERY], 'when' => function ($model) {
                 return $model->status != self::STATUS_DRAFT;
@@ -238,19 +257,24 @@ class Post extends MongoModel
                 return $model->status != self::STATUS_DRAFT && empty($model->youtube_url);
             }],
 
-            [['auto_publish_time'], 'required', 'on' => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS], 'when' => function ($model) {
-                return $model->status == self::STATUS_AUTO_PUBLISH;
-            }],
+            [['auto_publish_time'], 'required',
+             'on'   => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS],
+             'when' => function ($model) {
+                 return $model->status == self::STATUS_AUTO_PUBLISH;
+             }],
 
-            [['status'], 'in', 'range' => array_keys(self::getStatusArray()), 'on' => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS]],
+            [['status'], 'in', 'range' => array_keys(self::getStatusArray()),
+             'on'                      => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS, self::SCENARIO_CONVERT]],
 
             [['title'], 'string', 'max' => 512],
-            [['url'], 'string', 'max' => 256],
+            [['slug'], 'string', 'max' => 256],
 
-            [['info'], 'string', 'min' => 50, 'max' => 500],
-            [['short_id'], 'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO], 'when' => function ($model) {
-                return $model->status != self::STATUS_DRAFT;
-            }],
+            [['info'], 'string', 'min' => 50, 'max' => 500, 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
+            [['short_id'], 'safe',
+             'on'   => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO],
+             'when' => function ($model) {
+                 return $model->status != self::STATUS_DRAFT;
+             }],
         ];
     }
 
@@ -470,9 +494,15 @@ class Post extends MongoModel
     public function beforeSave($insert)
     {
         if (!(Yii::$app instanceof \yii\console\Application)) {
-            if ($this->isNewRecord && Yii::$app->user->identity instanceof Admin) {
+            if (($this->isNewRecord || !$this->_creator) && Yii::$app->user->identity instanceof Admin) {
                 $this->_creator = Yii::$app->user->identity->getId();
+                $this->_author  = Yii::$app->user->identity->getId();
             }
+        }
+
+        if (empty($this->slug) || $this->isNewRecord) {
+            $slug       = Translator::getInstance()->translateToLatin($this->title);
+            $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         }
 
         if (!$this->short_id && $this->status == self::STATUS_PUBLISHED) {
@@ -605,12 +635,12 @@ class Post extends MongoModel
     {
         $this->title = trim($this->title);
 
-        if (!$this->url)
-            $this->url = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower((new Translator())->translateToLatin($this->title))), '-');
+        if (!$this->slug)
+            $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower((new Translator())->translateToLatin($this->title))), '-');
 
-        $this->url = trim($this->url, ' -');
-        $this->url = str_replace('--', '-', $this->url);
-        $this->url = str_replace('--', '-', $this->url);
+        $this->slug = trim($this->slug, ' -');
+        $this->slug = str_replace('--', '-', $this->slug);
+        $this->slug = str_replace('--', '-', $this->slug);
 
         $image = $this->image;
 
@@ -801,22 +831,14 @@ class Post extends MongoModel
         return $this->status == self::STATUS_PUBLISHED;
     }
 
-    public function getFrontViewUrl()
-    {
-        return getenv('FRONTEND_URL') . '' . $this->short_id;
-    }
-
-    public function getFrontPreviewUrl()
-    {
-        return getenv('FRONTEND_URL') . 'preview/' . $this->getId() . '?t=' . md5($this->url . $this->created_at->getTimestamp());
-    }
-
     public function getViewUrl(Category $category = null, $scheme = true)
     {
-        if ($category) {
-            return Url::to([$category->slug . '/' . $this->url], $scheme);
-        }
-        return Url::to(['post/' . $this->url], $scheme);
+        if ($category instanceof Category)
+            return Yii::$app->viewUrl
+                ->createAbsoluteUrl(['post/view', 'slug' => $this->slug, 'category' => $category->slug], $scheme);
+
+        return Yii::$app->viewUrl
+            ->createAbsoluteUrl(['post/view', 'slug' => $this->slug], $scheme);
     }
 
     public function getAudioDurationFormatted()
@@ -840,9 +862,10 @@ class Post extends MongoModel
 
     }
 
-    public function getCroppedImage($width = 870, $height = 260, $watermark = false)
+    public function getCroppedImage($width = 870, $height = 260, $manipulation = 2, $watermark = false)
     {
-        return parent::getCropImage($this->image, $width, $height, ManipulatorInterface::THUMBNAIL_OUTBOUND, $watermark);
+        $manipulation = $manipulation == 1 ? ManipulatorInterface::THUMBNAIL_OUTBOUND : ManipulatorInterface::THUMBNAIL_INSET;
+        return parent::getCropImage($this->image, $width, $height, $manipulation, $watermark);
     }
 
     public function getTagsData()
@@ -881,7 +904,15 @@ class Post extends MongoModel
      */
     public function getCreator()
     {
-        return $this->hasOne(Admin::className(), ['_id' => '_creator']);
+        return $this->hasOne(Admin::class, ['_id' => '_creator']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQueryInterface
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne(Admin::class, ['_id' => '_author']);
     }
 
     public function getTitleView()
@@ -927,9 +958,9 @@ class Post extends MongoModel
 
     public function getShortViewUrl($scheme = true)
     {
-        return Url::to(['/' . ($this->short_id ? $this->short_id : $this->getId())], $scheme);
+        return Yii::$app->viewUrl
+            ->createAbsoluteUrl(['post/short', 'short' => $this->short_id], $scheme);
     }
-
 
     public function getShortTitle()
     {
@@ -1273,7 +1304,7 @@ class Post extends MongoModel
         return false;
     }
 
-    public function releasePostLock(Admin $user)
+    public function releasePostLock(Admin $user = null)
     {
         return $this->updateAttributes([
                                            '_creator'        => '',
@@ -1306,7 +1337,7 @@ class Post extends MongoModel
 
     public function hasAuthor()
     {
-        return $this->creator instanceof Admin;
+        return $this->author instanceof Admin;
     }
 
     public function hasCategory()

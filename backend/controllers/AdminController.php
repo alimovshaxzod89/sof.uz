@@ -61,7 +61,7 @@ class AdminController extends BackendController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->addSuccess(__('Administrator {name} created successfully', ['name' => $model->fullname]));
+            $this->addSuccess(__('Administrator {name} created successfully', ['name' => $model->full_name]));
 
             return $this->redirect(['update', 'id' => $model->id]);
         }
@@ -95,7 +95,7 @@ class AdminController extends BackendController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //print_r($_POST);die;
-            $this->addSuccess(__('Administrator {name} updated successfully', ['name' => $model->fullname]));
+            $this->addSuccess(__('Administrator {name} updated successfully', ['name' => $model->full_name]));
 
             return $this->redirect(['update', 'id' => $model->id]);
         }
@@ -119,7 +119,7 @@ class AdminController extends BackendController
         try {
             if ($model->delete()) {
 
-                $this->addSuccess(__('Administrator {name} deleted successfully', ['name' => $model->fullname]));
+                $this->addSuccess(__('Administrator {name} deleted successfully', ['name' => $model->full_name]));
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());

@@ -12,7 +12,7 @@ class PostQuery extends ActiveQuery
         return $this->select(
             array_merge([
                             'title',
-                            'url',
+                            'slug',
                             'short_id',
                             'is_main',
                             'status',
@@ -27,20 +27,9 @@ class PostQuery extends ActiveQuery
                             'read_min',
                             'is_tagged',
                             'is_bbc',
-                            'hide_image',
-                            '_translations.title_uz',
-                            '_translations.title_oz',
-                            '_translations.info_uz',
-                            '_translations.info_oz',
+                            '_author',
                         ], $fields))
-                    ->andFilterWhere([
-                                         'status' => PostProvider::STATUS_PUBLISHED,
-                                     ]);
-    }
-
-    public function domain()
-    {
-        return $this->where(['_domain' => ['$eq' => getenv('DOMAIN')]]);
+                    ->andFilterWhere(['status' => PostProvider::STATUS_PUBLISHED]);
     }
 
     /**

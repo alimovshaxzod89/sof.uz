@@ -8,7 +8,7 @@ use yii2mod\chosen\ChosenSelect;
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 
-$this->title                   = $model->isNewRecord ? __('Create User') : $model->getFullname();
+$this->title                   = $model->isNewRecord ? __('Create User') : $model->getFullName();
 $this->params['breadcrumbs'][] = ['url' => ['user/index'], 'label' => __('Manage users')];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -23,11 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body">
                     <div class="row">
                         <div class="col col-md-7">
-                            <?= $form->field($model, 'fullname')->textInput(['maxlength' => true,])->label() ?>
+                            <?= $form->field($model, 'full_name')->textInput(['maxlength' => true,])->label() ?>
                         </div>
                         <div class="col col-md-5">
                             <div class="form-group">
-                                <label class="control-label" for="user-fullname"><?= __('Type') ?></label>
+                                <label class="control-label" for="user-full_name"><?= __('Type') ?></label>
                                 <input type="button" class="form-control" value="<?= $model->authClient ? $model->authClient->source : __('Default')?>">
 
                                 <div class="help-block"></div>

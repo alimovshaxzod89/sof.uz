@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
  * @var $photoPosts PostProvider[]
  */
 $this->_canonical = linkTo(['/'], true);
-$this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page page-id-26 navbar-sticky sidebar-none pagination-infinite_button modular-title-1');
+$this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page sidebar-none pagination-infinite_button modular-title-1');
 $limit      = 10;
 $photoPosts = PostProvider::getTopPhotos();
 $mainPosts  = PostProvider::getTopPosts();
@@ -40,11 +40,6 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                                                      alt="<?= $mainPost->title ?>">
                                                             </a>
                                                         </div>
-                                                        <?php if (0 && $mainPost->type == PostProvider::TYPE_VIDEO): ?>
-                                                            <div class="entry-format">
-                                                                <i class="mdi mdi-youtube-play"></i>
-                                                            </div>
-                                                        <?php endif; ?>
                                                     </div>
 
                                                     <header class="entry-header">
@@ -104,7 +99,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                         <div class="content-column col-lg-9">
                             <div class="content-area">
                                 <main class="site-main">
-                                    <h1 class="latest-title"><?= __('Latest News') ?></h1>
+                                    <h5 class="u-border-title"><?= __('Latest News') ?></h5>
                                     <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                                     <?= ListView::widget([
                                                              'dataProvider' => PostProvider::getLastPosts($limit, true),
@@ -115,7 +110,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                                                  'tag' => false,
                                                              ],
                                                              'viewParams'   => [
-                                                                 'empty' => PostProvider::getEmptyCroppedImage(),
+                                                                 'empty' => PostProvider::getEmptyCroppedImage(370, 220),
                                                                  'limit' => $limit,
                                                                  'load'  => Yii::$app->request->get('load', $limit),
                                                              ],
@@ -135,10 +130,10 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
 
                         <div class="sidebar-column col-lg-3">
                             <aside class="widget-area">
-                                <?= $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                                <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                                 <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
                                 <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-                                <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+                                <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
                                     'title' => __('Most read'),
                                     'posts' => PostProvider::getTopPosts()
                                 ]) ?>
@@ -151,9 +146,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
             <?php if (is_array($photoPosts) && count($photoPosts)): ?>
                 <div id="magsy_module_post_grid-6" class="section widget_magsy_module_post_grid">
                     <div class="container">
-                        <h3 class="section-title">
-                            <span><?= __('Photo news') ?></span>
-                        </h3>
+                        <h5 class="u-border-title"><?= __('Photo news') ?></h5>
                         <div class="module grid u-module-margin">
                             <div class="row">
                                 <?php foreach ($photoPosts as $post): ?>

@@ -1,6 +1,7 @@
 <?php
 
 use backend\components\View;
+use backend\widgets\AceEditorWidget;
 use common\models\Page;
 use dosamigos\tinymce\TinyMce;
 use trntv\filekit\widget\Upload;
@@ -9,7 +10,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use yii2mod\chosen\ChosenSelect;
-use backend\widgets\AceEditorWidget;
+
 /* @var $this View */
 /* @var $model common\models\Page */
 
@@ -98,7 +99,10 @@ $user                          = $this->context->_user();
                         <div class="panel-footer">
                             <div class="text-right">
                                 <?php if ($model->getId()): ?>
-                                    <?= Html::a(__('Delete'), ['page/delete', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-delete', 'data-confirm' => __('Are you sure to delete?')]) ?>
+                                    <?= Html::a(__('Delete'), [
+                                        'page/delete',
+                                        'id' => $model->getId()
+                                    ], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure to delete?')]) ?>
                                 <?php endif; ?>
                                 <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>
                             </div>

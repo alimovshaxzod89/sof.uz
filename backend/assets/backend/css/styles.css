@@ -41,11 +41,13 @@
 table .fa:hover {
     background-color: #e3e3e3;
 }
-#post-grid table td:first-child{
+
+#post-grid table td:first-child {
     padding: 10px 5px;
     width: 62px;
     text-align: center;
 }
+
 table .fa {
     display: inline-block;
     width: 20px;
@@ -491,4 +493,8 @@ table tr:hover td span.show_hv {
 
 .text-underline {
     text-decoration: underline;
+}
+
+.upload-kit .upload-kit-input {
+    margin-bottom: 2px;
 }

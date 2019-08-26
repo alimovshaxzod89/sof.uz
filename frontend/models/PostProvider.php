@@ -138,14 +138,18 @@ class PostProvider extends Post
                      ->limit($limit);
 
         if (count($exclude)) {
-            $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
+            $query->andFilterWhere([
+                                       '_id' => [
+                                           '$nin' => array_values($exclude)
+                                       ]
+                                   ]);
         }
 
         if ($batch) {
             return new ActiveDataProvider([
                                               'query'      => $query,
                                               'pagination' => [
-                                                  'pageSize' => $limit,
+                                                  'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
                                               ],
                                           ]);
         }
@@ -170,7 +174,7 @@ class PostProvider extends Post
         return count($result) ? $result : [];
     }
 
-    public static function getTopPosts($limit = 5)
+    public static function getTopPosts($limit = 6)
     {
         $result = self::find()
                       ->active()
@@ -232,10 +236,10 @@ class PostProvider extends Post
 
 
     /**
-     * @param Category $category
-     * @param int      $limit
-     * @param array    $exclude
-     * @param bool     $provider
+     * @param CategoryProvider $category
+     * @param int              $limit
+     * @param array            $exclude
+     * @param bool             $provider
      * @return PostProvider[]|boolean|ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
@@ -618,10 +622,5 @@ class PostProvider extends Post
         if ($dots)
             return $text ? $text . ' ...' : '';
         return $text;
-    }
-
-    public function getAuthorPostUrl()
-    {
-        return linkTo(['author/post', 'login' => $this->creator->login, 'slug' => $this->url], true);
     }
 }

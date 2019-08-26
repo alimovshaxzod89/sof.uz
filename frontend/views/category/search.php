@@ -60,7 +60,7 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
 
             <div class="sidebar-column col-lg-3">
                 <aside class="widget-area">
-                    <?= $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?= 1 ? '' :$this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [

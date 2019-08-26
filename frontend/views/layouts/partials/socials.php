@@ -13,7 +13,7 @@ $ig = Config::get(Config::CONFIG_SOCIAL_INSTAGRAM_LINK);
 ?>
 <?php if ($fb || $tw || $yt || $tg || $ig): ?>
     <div class="widget widget_magsy_social_widget">
-        <h5 class="widget-title"><?= __('Social Links') ?></h5>
+        <h5 class="u-border-title"><?= __('Social Links') ?></h5>
         <div class="links">
             <?php if ($fb): ?>
                 <a style="background-color: #3b5998;" href="<?= $fb ?>" target="_blank">

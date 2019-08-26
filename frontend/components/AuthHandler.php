@@ -73,7 +73,7 @@ class AuthHandler extends BaseObject
                     $user = new User();
 
                     $user->login      = $login;
-                    $user->fullname   = $fullname;
+                    $user->full_name   = $fullname;
                     $user->email      = $email;
                     $user->status     = User::STATUS_ENABLE;
                     $user->avatar_url = $avatar_url;
