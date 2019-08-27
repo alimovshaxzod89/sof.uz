@@ -860,7 +860,7 @@ class Post extends MongoModel
 
     public static function getEmptyCroppedImage($width = 870, $height = 260)
     {
-        return parent::getCropImage([[]], $width, $height, ManipulatorInterface::THUMBNAIL_OUTBOUND);
+        return parent::getCropImage([], $width, $height, ManipulatorInterface::THUMBNAIL_OUTBOUND);
 
     }
 
