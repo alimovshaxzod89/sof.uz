@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\Blogger;
+use common\models\Admin;
 use common\models\Category;
 use common\models\Tag;
 use frontend\models\CategoryProvider;
@@ -20,7 +20,7 @@ class CategoryController extends BaseController
     {
         $category = Yii::$app->controller->action->id == 'view' ? $this->findModel($this->get('slug')) : false;
         $tag      = Yii::$app->controller->action->id == 'tag' ? $this->findTag($this->get('slug')) : false;
-        $feed     = Yii::$app->controller->action->id == 'feed' ? $this->getFeedType() : false;
+
         return [
             [
                 'class'      => 'yii\filters\PageCache',
@@ -57,40 +57,7 @@ class CategoryController extends BaseController
                     minVersion(),
                 ],
             ],
-            [
-                'class'      => 'yii\filters\PageCache',
-                'only'       => ['feed'],
-                'duration'   => 60,
-                'enabled'    => !YII_DEBUG,
-                'variations' => [
-                    $this->getFlashes(),
-                    Yii::$app->id,
-                    Yii::$app->language,
-                    Yii::$app->request->hostName,
-                    Yii::$app->user->isGuest ? -1 : Yii::$app->user->id,
-                    intval($this->get('load')),
-                    $feed,
-                    minVersion(),
-                ],
-            ],
         ];
-    }
-
-    private $feedType;
-
-    private function getFeedType()
-    {
-        if ($this->feedType == null) {
-            $type = $this->get('slug');
-
-            if (!in_array($type, ['yangiliklar', 'minbarda', 'ommabop'])) {
-                throw new NotFoundHttpException('Page not found');
-            }
-
-            $this->feedType = $type;
-        }
-
-        return $this->feedType;
     }
 
     /**
@@ -117,13 +84,18 @@ class CategoryController extends BaseController
         throw new NotFoundHttpException(404);
     }
 
+    /**
+     * @param $slug
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionAuthor($slug)
     {
-        if ($model = $this->findAuthor($slug)) {
-            return $this->render('feed/author', ['model' => $model]);
-        }
+        $model = $this->findAuthor($slug);
 
-        throw new NotFoundHttpException(404);
+        return $this->render('author', [
+            'model' => $model
+        ]);
     }
 
     private function findTag($slug)
@@ -135,9 +107,11 @@ class CategoryController extends BaseController
 
     private function findAuthor($slug)
     {
-        if ($slug) {
-            return Blogger::find()->where(['slug' => $slug])->one();
+        if (($model = Admin::find()->where(['slug' => $slug])->one()) !== null) {
+            return $model;
         }
+
+        throw new NotFoundHttpException('Page not found');
     }
 
     public function actionSearch($q)
@@ -149,30 +123,6 @@ class CategoryController extends BaseController
         }
 
         return $this->redirect(['/']);
-    }
-
-    /**
-     * @param $type
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionFeed($type = false)
-    {
-        $type  = $this->getFeedType();
-        $model = $this->findModel('yangiliklar');
-        if ($type == 'yangiliklar') {
-            $this->getView()->params['category'] = $model;
-        }
-
-        return $this->render("feed/$type", ['type' => $type, 'model' => $model]);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function actionChoice()
-    {
-        return $this->render('choice');
     }
 
     /**

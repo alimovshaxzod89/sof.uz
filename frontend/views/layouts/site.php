@@ -1,6 +1,7 @@
 <?php
 
 use frontend\components\View;
+use yii\helpers\Url;
 
 /**
  * @var $this    View
@@ -8,7 +9,7 @@ use frontend\components\View;
  */
 $globalVars = [
     'min'  => minVersion(),
-    'typo' => linkTo(['site/typo']),
+    'typo' => Url::to(['site/typo']),
     'l'    => Yii::$app->language,
     'a'    => Yii::getAlias('@apiUrl'),
     'd'    => YII_DEBUG,

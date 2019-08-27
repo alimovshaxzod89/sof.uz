@@ -31,7 +31,8 @@ $this->addBodyClass('category-' . $model->slug)
                                                      'tag' => false,
                                                  ],
                                                  'itemOptions'  => [
-                                                     'tag' => false,
+                                                     'tag' => 'div',
+                                                     'class' => 'col-md-12',
                                                  ],
                                                  'viewParams'   => [
                                                      'empty' => PostProvider::getEmptyCroppedImage(370, 220),

@@ -37,7 +37,8 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
                                                      'tag' => false,
                                                  ],
                                                  'itemOptions'  => [
-                                                     'tag' => false,
+                                                     'tag' => 'div',
+                                                     'class' => 'col-md-12',
                                                  ],
                                                  'viewParams'   => [
                                                      'empty' => $empty,

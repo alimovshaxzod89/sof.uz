@@ -47,7 +47,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
                             </div>
                         </div>
-                        <?= $form->field($model, 'url')->textInput(['maxlength' => true, 'placeholder' => __('Post Link')])->label(false) ?>
+                        <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'placeholder' => __('Post Link')])->label(false) ?>
                         <?= $form->field($model, 'info', ['template' => '{label}{input}{error}<span class="counter"></span>'])->textarea(['maxlength' => true, 'rows' => 4, 'placeholder' => __('Short Information')])->label(false) ?>
 
                         <?= $this->renderFile("@backend/views/post/_$type.php", ['form' => $form, 'model' => $model]) ?>
@@ -102,7 +102,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                         <hr>
 
                         <?= $form->field($model, 'is_main')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Main')) ?>
-                        <?= $form->field($model, 'template')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
+                        <?= $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
 
                         <table style="width: 100%">
                             <?php if ($model->created_at): ?>
@@ -331,7 +331,7 @@ $this->registerJs('initPostEditor();');
         });
 
         $('#post-title').blur(function () {
-            if ($('#post-url').val().length < 2) $('#post-url').val(convertToSlug($(this).val()));
+            if ($('#post-slug').val().length < 2) $('#post-slug').val(convertToSlug($(this).val()));
         });
 
         $('#post_settings').theiaStickySidebar({

@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use common\components\Config;
+use common\models\Admin;
 use common\models\Blogger;
 use common\models\Post;
 use common\models\Tag;
@@ -533,12 +534,12 @@ class PostProvider extends Post
                                       ]);
     }
 
-    public static function getAuthorPosts(Blogger $model, $limit = 10)
+    public static function getAuthorPosts(Admin $model, $limit = 10)
     {
         $query = self::find()
                      ->active()
                      ->andWhere([
-                                    '_author' => $model->id,
+                                    '_author' => $model->_id,
                                 ])
                      ->orderBy(['published_on' => SORT_DESC]);
 

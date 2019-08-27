@@ -3,6 +3,7 @@
 use frontend\components\ScrollPager;
 use frontend\components\View;
 use frontend\models\PostProvider;
+use yii\helpers\Url;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -11,7 +12,7 @@ use yii\widgets\Pjax;
  * @var $mainPosts PostProvider[]
  * @var $photoPosts PostProvider[]
  */
-$this->_canonical = linkTo(['/'], true);
+$this->_canonical = Url::to(['/'], true);
 $this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page sidebar-none pagination-infinite_button modular-title-1');
 $limit      = 10;
 $photoPosts = PostProvider::getTopPhotos();

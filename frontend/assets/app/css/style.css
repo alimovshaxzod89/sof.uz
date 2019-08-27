@@ -128,3 +128,11 @@ span.meta-category:first-child:before {
 .navbar .logo.text {
     color: #6fd08d;
 }
+
+.site-content > .container + .bottom-area {
+    margin-top: 0;
+}
+
+.site-content > .container {
+    margin-bottom: 60px;
+}

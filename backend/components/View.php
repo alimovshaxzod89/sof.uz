@@ -5,6 +5,7 @@ namespace backend\components;
 use common\models\Admin;
 use Yii;
 use yii\caching\TagDependency;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
 class View extends \yii\web\View
@@ -162,7 +163,7 @@ class View extends \yii\web\View
                                 unset($menu[$id]['items'][$p]);
                             }
                             $childItem['label'] = __($childItem['label']);
-                            $childItem['url']   = linkTo([$childItem['url']]);
+                            $childItem['url']   = Url::to([$childItem['url']]);
                         }
                         if (count($menu[$id]['items']) == 0 && !$admin->canAccessToResource($item['url'])) {
                             unset($menu[$id]);
@@ -171,7 +172,7 @@ class View extends \yii\web\View
                     if (!$admin->canAccessToResource($item['url']) && (!isset($item['items']) || count($item['items']) == 0)) {
                         unset($menu[$id]);
                     }
-                    $item['url'] = linkTo([$item['url']]);
+                    $item['url'] = Url::to([$item['url']]);
                 }
                 Yii::$app->cache->set(Admin::CACHE_KEY_ADMIN_MENU . $admin->id . Yii::$app->language, $menu, 3200, new TagDependency(['tags' => Admin::CACHE_TAG_ADMIN_MENU]));
             }

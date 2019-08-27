@@ -7,6 +7,7 @@
 
 use frontend\models\PostProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 /**
  * @var $gallery PostProvider[]
@@ -19,14 +20,14 @@ $big = ArrayHelper::remove($gallery, 0);
     <div class="photo__gallery-title-col">
         <h2><?= __('Fotoxabarlar') ?></h2>
 
-        <a href="<?= linkTo(['/photo']) ?>"><?= __('barchasi') ?></a>
+        <a href="<?= Url::to(['/photo']) ?>"><?= __('barchasi') ?></a>
 
-        <a href="<?= linkTo(['/photo']) ?>" class="arrow-toggle-icon"><i class="icon arrow-right-link-icon"></i></a>
+        <a href="<?= Url::to(['/photo']) ?>" class="arrow-toggle-icon"><i class="icon arrow-right-link-icon"></i></a>
     </div><!-- End of photo__gallery-col-->
     <div class="photo__gallery-title-col">
         <h2><?= __('Infografika') ?></h2>
 
-        <a href="<?= linkTo(['/infografika']) ?>"><?= __('barchasi') ?></a>
+        <a href="<?= Url::to(['/infografika']) ?>"><?= __('barchasi') ?></a>
     </div><!-- End of photo__gallery-title-col-->
 </div>
 <div class="photo__gallery-body">

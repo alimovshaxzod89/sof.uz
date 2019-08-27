@@ -25,12 +25,7 @@ $this->params['category'] = $category;
 $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
-$empty = $this->getImageUrl('img-placeholder.png');
-if (mb_strpos($model->content, 'twitter') !== false) {
-    $this->registerJsFile('https://platform.twitter.com/widgets.js', ['async' => true, 'charset' => 'utf-8']);
-}
-
-$similarPosts = $model->getSimilarPosts(4);
+$this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-right pagination-infinite_button');
 ?>
 <div class="hero lazyload visible" data-bg="<?= $model->getFileUrl('image') ?>">
     <div class="container small">
@@ -123,7 +118,7 @@ $similarPosts = $model->getSimilarPosts(4);
                                     <?php if ($model->hasAuthor()): ?>
                                         <div class="author-box">
                                             <div class="author-image">
-                                                <img alt='<?= $model->author->getFullName() ?>'
+                                                <img alt='<?= $model->author->full_name ?>'
                                                      src='<?= $model->getCroppedImage(140, 140, 1) ?>'
                                                      class='avatar avatar-140 photo'
                                                      height='140' width='140'/>
@@ -140,30 +135,22 @@ $similarPosts = $model->getSimilarPosts(4);
                                                     <?= $model->author->description ?>
                                                 </div>
 
-                                                <div class="author-meta">
-                                                    <a class="website"
-                                                       href="https://themeforest.net/user/mondotheme/portfolio"
-                                                       target="_blank">
-                                                        <i class="mdi mdi-web"></i>
-                                                    </a>
-                                                    <a class="facebook" href="https://www.facebook.com" target="_blank">
-                                                        <i class="mdi mdi-facebook-box"></i>
-                                                    </a>
-                                                    <a class="twitter" href="https://www.twitter.com" target="_blank">
-                                                        <i class="mdi mdi-twitter-box"></i>
-                                                    </a>
-                                                    <a class="instagram" href="https://www.instagram.com"
-                                                       target="_blank">
-                                                        <i class="mdi mdi-instagram"></i>
-                                                    </a>
-                                                    <a class="google" href="https://plus.google.com" target="_blank">
-                                                        <i class="mdi mdi-google-plus-box"></i>
-                                                    </a>
-                                                    <a class="linkedin" href="https://www.linkedin.com" target="_blank">
-                                                        <i class="mdi mdi-linkedin-box"></i>
-                                                    </a>
-                                                    <a class="more" href="author/nancy/index.html">More</a>
-                                                </div>
+                                                <?php if (0): ?>
+                                                    <div class="author-meta">
+                                                        <a class="website" href="#" target="_blank">
+                                                            <i class="mdi mdi-web"></i></a>
+                                                        <a class="facebook" href="#" target="_blank">
+                                                            <i class="mdi mdi-facebook-box"></i></a>
+                                                        <a class="twitter" href="#" target="_blank">
+                                                            <i class="mdi mdi-twitter-box"></i></a>
+                                                        <a class="instagram" href="#" target="_blank">
+                                                            <i class="mdi mdi-instagram"></i></a>
+                                                        <a class="google" href="#" target="_blank">
+                                                            <i class="mdi mdi-google-plus-box"></i></a>
+                                                        <a class="linkedin" href="#" target="_blank">
+                                                            <i class="mdi mdi-linkedin-box"></i></a>
+                                                    </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     <?php endif; ?>
@@ -176,42 +163,7 @@ $similarPosts = $model->getSimilarPosts(4);
         </div>
     </div>
 
-    <?php if (count($similarPosts)): ?>
-        <div class="bottom-area">
-            <div class="container medium">
-                <div class="related-posts">
-                    <h3 class="u-border-title"><?= __('You might also like') ?></h3>
-                    <div class="row">
-                        <?php foreach ($similarPosts as $similarPost) : ?>
-                            <div class="col-lg-6">
-                                <article class="post">
-                                    <div class="entry-media">
-                                        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-                                            <a href="<?= $similarPost->getViewUrl() ?>">
-                                                <img alt="<?= $similarPost->title ?>"
-                                                     src="<?= $similarPost->getCroppedImage(220, 146) ?>">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="entry-wrapper">
-
-                                        <header class="entry-header">
-                                            <h4 class="entry-title">
-                                                <a href="<?= $similarPost->getViewUrl() ?>" rel="bookmark">
-                                                    <?= $similarPost->title ?>
-                                                </a>
-                                            </h4>
-                                        </header>
-                                        <div class="entry-excerpt u-text-format">
-                                            <?= $similarPost->getInfoView() ?>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
+    <?= $this->renderFile('@frontend/views/post/like.php', [
+        'similarPosts' => $model->getSimilarPosts(4)
+    ]) ?>
 </div>

@@ -3,6 +3,7 @@
 use frontend\models\PostProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
+use yii\helpers\Url;
 
 /**
  * @var $news    PostProvider[]
@@ -15,7 +16,7 @@ $photo = ArrayHelper::remove($news, 0);
 <div class="latest__news-text">
     <div class="latest__news-text-title">
         <h2><?= __('So\'nggi xabarlar') ?></h2>
-        <a href="<?= linkTo(['/yangiliklar']) ?>"><?= __('barchasi') ?></a>
+        <a href="<?= Url::to(['/yangiliklar']) ?>"><?= __('barchasi') ?></a>
     </div><!-- End of latest__news-text-title-->
     <?php if (!empty($photo)): ?>
         <div class="news__item is_photo clickable-block">
@@ -27,7 +28,7 @@ $photo = ArrayHelper::remove($news, 0);
 
                 <div class="info">
                     <p class="news__item-meta"><i
-                            class="icon clock-icon is_smaller"></i><?= $photo->getShortFormattedDate() ?>
+                                class="icon clock-icon is_smaller"></i><?= $photo->getShortFormattedDate() ?>
                     </p>
 
                     <p class="news__item-title">

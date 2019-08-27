@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: abdujabbor
- * Date: 6/19/16
- * Time: 1:02 AM
- */
 
 namespace backend\controllers;
 
 use common\models\Category;
 use Yii;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii\widgets\ActiveForm;
 
 class CategoryController extends BackendController
 {
@@ -21,6 +15,7 @@ class CategoryController extends BackendController
     /**
      * @param $id string|boolean
      * @return array|string|Response
+     * @throws NotFoundHttpException
      * @resource News | Manage Categories | category/index
      */
     public function actionIndex($id = false)
@@ -29,20 +24,8 @@ class CategoryController extends BackendController
 
         if ($this->isAjax()) {
             if ($this->get('sort')) {
-                if ($data = @json_decode($this->getPost('data'), true)) {
+                if ($data = Json::decode($this->getPost('data'), true)) {
                     return Category::sortTree($data);
-                }
-            }
-
-            if ($this->get('add')) {
-                if ($data = @json_decode($this->getPost('data'), true)) {
-                    return $model->addProducts($data);
-                }
-            }
-
-            if ($this->get('remove')) {
-                if ($data = @json_decode($this->getPost('data'), true)) {
-                    return $model->removeProducts($data);
                 }
             }
 
@@ -60,7 +43,11 @@ class CategoryController extends BackendController
             if ($parent = $this->get('parent'))
                 $model->parent = $parent;
             if ($model->save()) {
-                $this->addSuccess(__('Category {name} updated successfully', ['name' => $model->name]));
+                $this->addSuccess(
+                    __('Category `{name}` updated successfully', [
+                        'name' => $model->name
+                    ])
+                );
                 if (!$this->isAjax())
                     return $this->redirect(['index', 'id' => $model->id]);
             }
@@ -75,6 +62,8 @@ class CategoryController extends BackendController
     /**
      * @param $id
      * @return Response
+     * @throws NotFoundHttpException
+     * @throws \yii\db\StaleObjectException
      * @resource News | Delete Category | category/delete
      */
     public function actionDelete($id)
@@ -84,7 +73,11 @@ class CategoryController extends BackendController
          */
         $model = $this->findModel($id);
         if ($model->delete()) {
-            $this->addSuccess(__("Category {name} has been deleted", ['name' => $model->name]));
+            $this->addSuccess(
+                __("Category `{name}` has been deleted.", [
+                    'name' => $model->name
+                ])
+            );
         }
         return $this->redirect(['index']);
     }

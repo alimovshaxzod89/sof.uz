@@ -50,7 +50,7 @@ use frontend\widgets\LastAudioList;
 <?php endif; ?>
 <div class="news__items <?= count($items) == 1 ? 'hidden' : '' ?>" >
     <?php if ($player && count($items) > 1): ?>
-        <a href="<?= linkTo(['/audio']) ?>"><?= __('Barcha audioxabarlar') ?></a>
+        <a href="<?= Url::to(['/audio']) ?>"><?= __('Barcha audioxabarlar') ?></a>
     <?php endif; ?>
 
     <?php if (count($items)): ?>

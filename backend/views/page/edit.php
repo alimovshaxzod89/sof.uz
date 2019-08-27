@@ -16,7 +16,7 @@ use yii2mod\chosen\ChosenSelect;
 
 $this->registerJs('
 $(\'#page-title\').blur(function () {
-    if ($(\'#page-url\').val().length < 2)$(\'#page-url\').val(convertToSlug($(this).val()));
+    if ($(\'#page-slug\').val().length < 2)$(\'#page-slug\').val(convertToSlug($(this).val()));
 });
 ');
 
@@ -38,7 +38,7 @@ $user                          = $this->context->_user();
                         </div>
                         <div class="panel-body">
                             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-                            <?= $form->field($model, 'url')->textInput(['maxlength' => true, 'placeholder' => __('Page Link')])->label(false) ?>
+                            <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'placeholder' => __('Page Link')])->label(false) ?>
 
                             <?php if ($model->type == Page::TYPE_PAGE): ?>
                                 <?= $form->field($model, 'content')->widget(TinyMce::className(), [

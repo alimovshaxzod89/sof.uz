@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Url;
+use yii\helpers\ArrayHelper;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('HTTPS_ON', isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
@@ -32,9 +32,26 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
     $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CLIENT_IP'];
 }
 
-function __($message, $params = array(), $language = false)
+
+function __($message, $params = array(), $category = 'app.ui')
 {
-    $tags = [
+    $language = Yii::$app->language;
+    switch (Yii::$app->id) {
+        case 'app-backend' :
+            $category = 'app.backend';
+            break;
+        case 'frontend' :
+            $category = 'app.frontend';
+            break;
+        case 'app.console' :
+            $category = 'app.console';
+            break;
+        case 'app.lite' :
+            $category = 'app.lite';
+            break;
+    }
+
+    $params = ArrayHelper::merge($params, [
         'br'  => '<br>',
         'b'   => '<b>',
         'bc'  => '</b>',
@@ -42,17 +59,26 @@ function __($message, $params = array(), $language = false)
         'spc' => '</span>',
         'em'  => '<em>',
         '/em' => '</em>',
-    ];
+    ]);
 
-    return Yii::t('app.ui', trim($message), array_merge($tags, $params), $language);
-}
+    /* @var $mongodb \yii\mongodb\Connection */
+    /*$mongodb    = Yii::$app->mongodb;
+    $collection = $mongodb->getCollection('_system_message');
+    $collection->remove(['message' => '']);
 
-function linkTo($params, $schema = false)
-{
-    return Url::to($params, $schema);
-}
+    $old = ['category' => 'app.ui', 'message' => $message];
+    $msg = $collection->findOne($old);
+    if ($msg != null) {
+        try {
+            $collection->update($old, [
+                'category' => $category,
+                'message'  => $message
+            ]);
 
-function isRussian()
-{
-    return Yii::$app->language == \common\components\Config::LANGUAGE_RUSSIAN;
+        } catch (Exception $e) {
+            Yii::error($e->getMessage());
+        }
+    } else {*/
+    return Yii::t($category, trim($message), $params, $language);
+    //}
 }

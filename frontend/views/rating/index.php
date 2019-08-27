@@ -12,16 +12,14 @@ use frontend\widgets\SidebarPost;
 use frontend\widgets\SidebarTrending;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /**
- * Created by PhpStorm.
- * Date: 12/17/17
- * Time: 2:24 PM
  * @var $this View
  */
 $this->title      = __('Reytinglar');
 $limit            = 10;
-$this->_canonical = linkTo(['/reytinglar'], true);
+$this->_canonical = Url::to(['/reytinglar'], true);
 ?>
 <div class="main__content article">
     <?= \frontend\widgets\Alert::widget() ?>

@@ -62,6 +62,7 @@ use yii\helpers\StringHelper;
  * @property boolean    has_info
  * @property boolean    is_main
  * @property boolean    is_instant
+ * @property boolean    is_sidebar
  * @property boolean    is_mobile
  * @property boolean    pushed_on
  * @property Timestamp  locked_on
@@ -81,7 +82,7 @@ class Post extends MongoModel
 {
     const SCENARIO_CONVERT = 'convert';
     protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
-    protected $_booleanAttributes    = ['img_watermark', 'has_video', 'has_gallery', 'has_info', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
+    protected $_booleanAttributes    = ['img_watermark', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
     protected $_integerAttributes    = ['views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
     protected $_searchableAttributes = ['title', 'info', 'category'];
     protected $_idAttributes         = ['_creator', '_author'];
@@ -177,6 +178,7 @@ class Post extends MongoModel
             'views_today',
             'views',
             'is_main',
+            'is_sidebar',
             'is_instant',
             'is_mobile',
             'old_id',
@@ -218,7 +220,7 @@ class Post extends MongoModel
             [['info', 'image_source', 'content_source'], 'string', 'max' => 500],
             [['info', 'image_source', 'content_source'], 'safe', 'on' => self::SCENARIO_CREATE],
 
-            [['title', 'info', 'slug', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'published_on', 'is_main', 'is_instant', '_creator', '_author'],
+            [['title', 'info', 'slug', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'published_on', 'is_sidebar', 'is_main', 'is_instant', '_creator', '_author'],
              'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
 
             [['slug'], 'match', 'skipOnEmpty' => true, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
@@ -1040,11 +1042,6 @@ class Post extends MongoModel
     public function getAutoPublishTimeSeconds()
     {
         return $this->auto_publish_time instanceof Timestamp ? $this->auto_publish_time->getTimestamp() : $this->auto_publish_time;
-    }
-
-    public function hasPriority()
-    {
-        return $this->is_main;
     }
 
     public static function publishAutoPublishPosts($final)

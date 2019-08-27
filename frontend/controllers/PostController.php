@@ -69,7 +69,7 @@ class PostController extends BaseController
         $model                           = $this->findModel($slug);
         $this->getView()->params['post'] = $model;
 
-        return $this->render($model->type, [
+        return $this->render($model->type.($model->is_sidebar?'_sidebar':''), [
             'model' => $model,
         ]);
     }

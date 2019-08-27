@@ -30,13 +30,13 @@ endif;
 <div class="main__content article">
     <?= \frontend\widgets\Alert::widget() ?>
     <p class="catalog__nav">
-        <a href="<?= linkTo(['polls/all']) ?>"
+        <a href="<?= Url::to(['polls/all']) ?>"
            class="btn <?= $type == 'all' ? 'is_active' : ''; ?>"><?= __('Barchasi') ?></a>
 
-        <a href="<?= linkTo(['polls/active']) ?>"
+        <a href="<?= Url::to(['polls/active']) ?>"
            class="btn <?= $type == 'active' ? 'is_active' : ''; ?>"><?= __('Faol') ?></a>
 
-        <a href="<?= linkTo(['polls/expired']) ?>"
+        <a href="<?= Url::to(['polls/expired']) ?>"
            class="btn <?= $type == 'expired' ? 'is_active' : ''; ?>"><?= __('Nofaol') ?></a>
     </p>
 

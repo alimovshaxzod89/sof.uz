@@ -62,7 +62,7 @@ class SitemapController extends Controller
 
             $sitemap->addItem(
                 $post->getViewUrl(null, false),
-                $post->hasPriority() ? 1 : 0.9,
+                $post->is_main ? 1 : 0.9,
                 'daily',
                 $post->updated_at->getTimestamp(),
                 true

@@ -9,9 +9,10 @@ use frontend\components\View;
 use himiklab\yii2\recaptcha\ReCaptcha;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title                   = __('Aloqa');
-$this->_canonical              = linkTo(['/contact']);
+$this->_canonical              = Url::to(['/contact']);
 $this->params['breadcrumbs'][] = $this->title;
 $this->addDescription([__('Biz bilan bog\'laning')]);
 ?>
