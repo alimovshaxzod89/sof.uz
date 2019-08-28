@@ -80,6 +80,13 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                     <div class="entry-content u-text-format u-clearfix">
                                         <?= $model->content ?>
                                     </div>
+                                    <?php if (0 && is_array($model->tags) && count($model->tags)): ?>
+                                        <div class="entry-tags">
+                                            <?php foreach ($model->tags as $tag): ?>
+                                                <a href="<?= $tag->getViewUrl() ?>" rel="tag"><?= $tag->name ?></a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
 
                                     <div class="entry-action">
                                         <div class="action-count">

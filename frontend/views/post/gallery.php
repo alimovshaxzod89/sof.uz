@@ -27,9 +27,6 @@ $this->params['post']     = $model;
 $this->addDescription([$model->info]);
 $empty = $this->getImageUrl('img-placeholder.png');
 $this->addBodyClass('post-template-default single single-post postid-100 single-format-gallery navbar-sticky sidebar-none pagination-infinite_button');
-if (mb_strpos($model->content, 'twitter') !== false) {
-    $this->registerJsFile('https://platform.twitter.com/widgets.js', ['async' => true, 'charset' => 'utf-8']);
-}
 $similarPosts = $model->getSimilarPosts(4);
 ?>
 <div class="site-content">
@@ -99,6 +96,7 @@ $similarPosts = $model->getSimilarPosts(4);
                                     <div class="entry-content u-text-format u-clearfix">
                                         <?= $model->content ?>
                                     </div>
+
                                     <?php if (0 && is_array($model->tags) && count($model->tags)): ?>
                                         <div class="entry-tags">
                                             <?php foreach ($model->tags as $tag): ?>
