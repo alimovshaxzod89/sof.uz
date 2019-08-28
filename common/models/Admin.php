@@ -148,7 +148,7 @@ class Admin extends MongoModel implements IdentityInterface
             [['login', 'email'], 'unique', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['email'], 'email'],
 
-            [['created_at', 'updated_at', 'slug', 'image', 'description', 'change_password'], 'safe'],
+            [['slug', 'image', 'description', 'change_password'], 'safe'],
 
             [['full_name', 'password'], 'string', 'max' => 128],
             [['email'], 'string', 'max' => 64],

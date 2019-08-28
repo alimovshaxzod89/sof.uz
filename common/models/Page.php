@@ -6,16 +6,13 @@ use common\components\Config;
 use Imagine\Image\ManipulatorInterface;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
 
 /**
  * Class Page
  * @property string title
  * @property string content
- * @property string url
+ * @property string slug
  * @property string type
- * @property string created_at
- * @property string updated_at
  * @property string status
  * @property string old_id
  * @property mixed  image
@@ -49,14 +46,15 @@ class Page extends MongoModel
         ];
     }
 
-    public function getViewUrl()
+    public function getViewUrl($scheme = true)
     {
-        return Url::to(['page/' . $this->url], true);
+        return Yii::$app->viewUrl
+            ->createAbsoluteUrl(['page/view', 'slug' => $this->slug], $scheme);
     }
 
     public static function getStaticBlock($id, $object = false)
     {
-        $res = self::findOne(['status' => self::STATUS_PUBLISHED, 'url' => $id, 'type' => self::TYPE_BLOCK]);
+        $res = self::findOne(['status' => self::STATUS_PUBLISHED, 'slug' => $id, 'type' => self::TYPE_BLOCK]);
         if ($object) {
             return ($res) ? $res : false;
         }
@@ -87,7 +85,7 @@ class Page extends MongoModel
             'title',
             'type',
             'content',
-            'url',
+            'slug',
             'status',
             'image',
             'old_id',
@@ -101,11 +99,11 @@ class Page extends MongoModel
             [['type'], 'in', 'range' => array_keys(self::getTypeArray())],
             [['title'], 'string', 'max' => 255],
             [['content', 'image'], 'safe'],
-            [['title', 'url'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['title', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['search'], 'safe', 'on' => self::SCENARIO_SEARCH],
             ['status', 'default', 'value' => self::STATUS_DRAFT],
             ['type', 'default', 'value' => self::TYPE_PAGE],
-            [['url'], 'match', 'skipOnEmpty' => false, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
+            [['slug'], 'match', 'skipOnEmpty' => false, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
         ];
     }
 
@@ -122,9 +120,10 @@ class Page extends MongoModel
 
         $this->load($params);
         if ($this->search) {
-            $query->orFilterWhere(['_translations.title_uz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_oz' => ['$regex' => $this->search, '$options' => 'si']]);
-            $query->orFilterWhere(['_translations.title_ru' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['title' => ['$regex' => $this->search, '$options' => 'si']]);
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(['_translations.title_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+            }
         }
 
         return $dataProvider;
@@ -161,7 +160,7 @@ class Page extends MongoModel
      */
     public static function findByLink($link)
     {
-        return self::findOne(['status' => self::STATUS_PUBLISHED, 'url' => $link, 'type' => self::TYPE_BLOCK]);
+        return self::findOne(['status' => self::STATUS_PUBLISHED, 'slug' => $link, 'type' => self::TYPE_BLOCK]);
     }
 
     public function getCroppedImage($width = 870, $height = 260)

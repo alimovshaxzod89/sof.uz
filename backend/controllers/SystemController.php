@@ -55,7 +55,7 @@ class SystemController extends BackendController
      * @return string
      * @resource System | System Logs | system/logs
      */
-    public function actionLogs()
+    public function actionLog()
     {
         $searchModel = new SystemLog();
 

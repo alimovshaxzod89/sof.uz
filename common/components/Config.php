@@ -6,6 +6,7 @@ use common\models\Category;
 use Yii;
 use yii\base\Component;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\mongodb\Query;
 use yii\web\Request;
 
@@ -288,9 +289,9 @@ return [
 
     public static function getActiveLanguageUrlArray($code = false)
     {
-        $url = array_merge([Yii::$app->controller->route], Yii::$app->request->get());
+        $url = ArrayHelper::merge([Yii::$app->controller->route], Yii::$app->request->get());
         if ($code)
-            $url = array_merge($url, ['language' => $code]);
+            $url = ArrayHelper::merge($url, ['language' => $code]);
 
         return $url;
     }

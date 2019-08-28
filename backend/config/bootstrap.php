@@ -1,6 +1,5 @@
 <?php
 
-use common\components\Config;
 use yii\base\Event;
 use yii\web\Controller;
 

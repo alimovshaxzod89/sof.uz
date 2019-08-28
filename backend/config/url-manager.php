@@ -3,7 +3,6 @@
 return [
     'class'                     => 'codemix\localeurls\UrlManager',
     'languages'                 => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
-    'baseUrl'                   => Yii::getAlias('@backendUrl'),
     'enableLanguageDetection'   => false,
     'enableLanguagePersistence' => false,
     'showScriptName'            => false,

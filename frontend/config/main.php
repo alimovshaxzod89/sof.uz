@@ -19,7 +19,7 @@ $params = array_merge(
 
 
 return [
-    'id'                  => 'frontend',
+    'id'                  => 'app-frontend',
     'name'                => 'Minbar.uz',
     'basePath'            => dirname(__DIR__),
     'bootstrap'           => [

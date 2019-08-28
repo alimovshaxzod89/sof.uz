@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = ['url' => ['post/index'], 'label' => __('Manage
 $this->params['breadcrumbs'][] = $this->title;
 
 $searchModel = new \common\models\Stat();
-
 $data = $searchModel->getAdminStatistics(Yii::$app->request->post());
 
 $this->registerJs("

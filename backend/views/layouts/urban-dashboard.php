@@ -3,7 +3,7 @@
  * $this backend\components\View
  */
 
-use common\widgets\LanguageDropdown;
+use common\components\Config;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 
@@ -58,7 +58,7 @@ use yii\widgets\Breadcrumbs;
     </div>
     <!-- /quick launch panel -->
     <div
-        class="app layout-fixed-header <?= isset($_COOKIE['sm_menu']) && $_COOKIE['sm_menu'] ? 'layout-small-menu' : '' ?>">
+            class="app layout-fixed-header <?= isset($_COOKIE['sm_menu']) && $_COOKIE['sm_menu'] ? 'layout-small-menu' : '' ?>">
         <!-- sidebar panel -->
         <div class="sidebar-panel offscreen-left">
 
@@ -87,10 +87,10 @@ use yii\widgets\Breadcrumbs;
                             </a>
                             <?php if ($hasChild): ?>
                                 <ul class="sub-menu">
-                                    <?php foreach ($item['items'] as $item): ?>
-                                        <li class="<?= $item['url'] == '/' . Yii::$app->controller->route ? 'active' : '' ?>">
-                                            <a href="<?= $item['url'] ?>">
-                                                <span><?= $item['label'] ?></span>
+                                    <?php foreach ($item['items'] as $i): ?>
+                                        <li class="<?= $i['url'] == Yii::$app->request->absoluteUrl ? 'active' : '' ?>">
+                                            <a href="<?= $i['url'] ?>">
+                                                <span><?= $i['label'] ?></span>
                                             </a>
                                         </li>
                                     <?php endforeach; ?>
@@ -135,15 +135,18 @@ use yii\widgets\Breadcrumbs;
                         </p>
                     </li>
                 </ul>
-                <?php $menu = new LanguageDropdown(); ?>
+                <?php $languages = Config::getLanguages(); ?>
                 <ul class="nav navbar-nav navbar-right hidden-xs">
-                    <?php foreach ($menu->items as $item): ?>
-                        <li class="<?= $item['options']['class'] ?>">
-                            <a href="<?= Url::to($item['url']) ?>">
-                                <?= $item['label'] ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
+                    <?php if (is_array($languages) && count($languages)): ?>
+                        <?php foreach ($languages as $code => $locale):
+                            $url=Config::getActiveLanguageUrlArray($code); ?>
+                            <li class="<?= Yii::$app->language === $locale ? 'active' : '' ?>">
+                                <a href="<?= Url::to($url) ?>">
+                                    <?= Config::getLanguageLabel($locale) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     <li>
                         <a href="<?= Url::to(['system/cache']) ?>">
                             <i class="fa fa-refresh"></i>

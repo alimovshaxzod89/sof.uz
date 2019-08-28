@@ -24,7 +24,7 @@ $this->registerJs($js);
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
         <div class="panel">
-            <?php $form = ActiveForm::begin(['enableAjaxValidation' => true,]); ?>
+            <?php $form = ActiveForm::begin(['enableAjaxValidation' => true]); ?>
             <div class="panel-heading border ">
                 <h4><?= __('Account Information') ?></h4>
             </div>

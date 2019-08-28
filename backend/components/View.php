@@ -122,13 +122,13 @@ class View extends \yii\web\View
                     'label' => 'System Dictionary',
                     'url'   => 'system/dictionary',
                 ],
-                'system/logins'        => [
+                'system/login'        => [
                     'label' => 'Login History',
-                    'url'   => 'system/logins',
+                    'url'   => 'system/login',
                 ],
-                'system/logs'          => [
+                'system/log'          => [
                     'label' => 'Admin Logs',
-                    'url'   => 'system/user-logs',
+                    'url'   => 'system/log',
                 ],
                 'system/configuration' => [
                     'label' => 'Configuration',

@@ -35,6 +35,7 @@ class AdminController extends BackendController
      * Displays a single Admin model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      * @resource Users | Manage Administrators | admin/view
      */
     public function actionView($id)
@@ -52,7 +53,7 @@ class AdminController extends BackendController
      */
     public function actionCreate()
     {
-        $model = new Admin(['scenario' => 'insert']);
+        $model = new Admin(['scenario' => Admin::SCENARIO_INSERT]);
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -61,7 +62,11 @@ class AdminController extends BackendController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->addSuccess(__('Administrator {name} created successfully', ['name' => $model->full_name]));
+            $this->addSuccess(
+                __('Administrator `{name}` created successfully.', [
+                    'name' => $model->full_name
+                ])
+            );
 
             return $this->redirect(['update', 'id' => $model->id]);
         }
@@ -77,14 +82,13 @@ class AdminController extends BackendController
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      * @resource Users | Manage Administrators | admin/update
      */
     public function actionUpdate($id)
     {
-
-
         $model = $this->findModel($id);
-        $model->setScenario('update');
+        $model->setScenario(Admin::SCENARIO_UPDATE);
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -94,9 +98,11 @@ class AdminController extends BackendController
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //print_r($_POST);die;
-            $this->addSuccess(__('Administrator {name} updated successfully', ['name' => $model->full_name]));
-
+            $this->addSuccess(
+                __('Administrator `{name}` updated successfully.', [
+                    'name' => $model->full_name
+                ])
+            );
             return $this->redirect(['update', 'id' => $model->id]);
         }
 
@@ -110,6 +116,7 @@ class AdminController extends BackendController
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      * @resource Users | Delete Administrator | admin/delete
      */
     public function actionDelete($id)
@@ -118,8 +125,11 @@ class AdminController extends BackendController
 
         try {
             if ($model->delete()) {
-
-                $this->addSuccess(__('Administrator {name} deleted successfully', ['name' => $model->full_name]));
+                $this->addSuccess(
+                    __('Administrator `{name}` deleted successfully.', [
+                        'name' => $model->full_name
+                    ])
+                );
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());

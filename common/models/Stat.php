@@ -7,13 +7,13 @@ use MongoDB\BSON\Timestamp;
 use Yii;
 
 /**
- * Class Comment
- * @property string question
- * @property string status
- * @property string expire_time
- * @property string[] answers
+ * Class Stat
+ * @property string     question
+ * @property string     status
+ * @property string     expire_time
+ * @property string[]   answers
  * @property PollItem[] items
- * @property integer votes
+ * @property integer    votes
  * @package common\models
  */
 class Stat extends MongoModel
@@ -215,8 +215,8 @@ class Stat extends MongoModel
         echo "indexPostViewL3D===================\n";
         $date = new \DateTime();
         $time = (int)$date->format('U')
-            - 3 * 24 * 3600
-            - ((int)$date->format('h')) * 3600;
+                - 3 * 24 * 3600
+                - ((int)$date->format('h')) * 3600;
 
         $result = self::getConnection()
                       ->getCollection(self::collectionName())
@@ -238,8 +238,8 @@ class Stat extends MongoModel
         echo "indexPostViewL7D===================\n";
         $date = new \DateTime();
         $time = (int)$date->format('U')
-            - 7 * 24 * 3600
-            - ((int)$date->format('h')) * 3600;
+                - 7 * 24 * 3600
+                - ((int)$date->format('h')) * 3600;
 
         $result = self::getConnection()
                       ->getCollection(self::collectionName())
@@ -262,8 +262,8 @@ class Stat extends MongoModel
 
         $date = new \DateTime();
         $time = (int)$date->format('U')
-            - 30 * 24 * 3600
-            - ((int)$date->format('h')) * 3600;
+                - 30 * 24 * 3600
+                - ((int)$date->format('h')) * 3600;
 
         $result = self::getConnection()
                       ->getCollection(self::collectionName())
@@ -285,7 +285,7 @@ class Stat extends MongoModel
         echo "indexPostViewToday===================\n";
         $date = new \DateTime();
         $time = (int)$date->format('U')
-            - ((int)$date->format('h')) * 3600;
+                - ((int)$date->format('h')) * 3600;
 
 
         $result = self::getConnection()

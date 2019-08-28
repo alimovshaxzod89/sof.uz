@@ -40,14 +40,11 @@ function __($message, $params = array(), $category = 'app.ui')
         case 'app-backend' :
             $category = 'app.backend';
             break;
-        case 'frontend' :
+        case 'app-frontend' :
             $category = 'app.frontend';
             break;
-        case 'app.console' :
+        case 'app-console' :
             $category = 'app.console';
-            break;
-        case 'app.lite' :
-            $category = 'app.lite';
             break;
     }
 
@@ -79,6 +76,6 @@ function __($message, $params = array(), $category = 'app.ui')
             Yii::error($e->getMessage());
         }
     } else {*/
-    return Yii::t($category, trim($message), $params, $language);
+        return Yii::t($category, trim($message), $params, $language);
     //}
 }

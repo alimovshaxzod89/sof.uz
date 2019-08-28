@@ -9,6 +9,7 @@ use Yii;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\mongodb\ActiveRecord;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -159,7 +160,7 @@ class PostController extends BackendController
                 }
             }
 
-            return $this->redirect([$this->get('return')]);
+            return $this->redirect($this->get('return'));
         }
 
 
@@ -184,7 +185,7 @@ class PostController extends BackendController
                             'post/edit',
                             'id'      => $model->getId(),
                             'release' => 1,
-                            'return'  => 'post/index'
+                            'return'  => Url::to(['post/index'])
                         ])
                     ]);
                     $this->addInfo($message);
@@ -317,8 +318,7 @@ class PostController extends BackendController
 
 
     /**
-     * @param $id
-     * @return
+     * @return string
      * @resource News | View Statistics | post/stat
      */
     public function actionStat()
