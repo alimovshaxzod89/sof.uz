@@ -10,7 +10,7 @@
             class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-design">
         <div class="entry-media">
             <div class="placeholder" style="padding-bottom: 66.666666666667%;">
-                <a href="<?= $model->getViewUrl() ?>">
+                <a data-pjax="0" href="<?= $model->getViewUrl() ?>">
                     <img src="<?= $model->getCroppedImage(220, 147) ?>" alt="<?= $model->title ?>">
                 </a>
             </div>
@@ -30,7 +30,7 @@
                     <?php endif; ?>
                     <?php if ($model->hasAuthor()): ?>
                         <span class="meta-category">
-                            <a href="<?= $model->author->getViewUrl() ?>">
+                            <a data-pjax="0" href="<?= $model->author->getViewUrl() ?>">
                                 <?= $model->author->getFullName() ?>
                             </a>
                         </span>
@@ -38,7 +38,7 @@
                 </div>
 
                 <h2 class="entry-title">
-                    <a href="<?= $model->getViewUrl() ?>" rel="bookmark">
+                    <a data-pjax="0" href="<?= $model->getViewUrl() ?>" rel="bookmark">
                         <?= $model->title ?>
                     </a>
                 </h2>
