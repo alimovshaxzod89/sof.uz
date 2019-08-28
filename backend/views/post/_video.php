@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'youtube_url')->textInput([]); ?>
 <?= $form->field($model, 'mover_url')->textInput([]); ?>
 
-<?php if ($file = $model->getFileUrl('video')):
+<?php if ($model->mover_url && $file = $model->getFileUrl('video')):
     echo EmbedMedia::widget([
         'type'    => 'video',
         'file'    => $file,

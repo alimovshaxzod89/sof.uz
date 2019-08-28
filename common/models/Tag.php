@@ -8,7 +8,6 @@ use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
 
 /**
  * Class Tag
@@ -235,7 +234,8 @@ class Tag extends MongoModel
 
     public function getViewUrl($scheme = false)
     {
-        return Url::to(['tag/' . $this->slug], $scheme);
+        return Yii::$app->viewUrl
+            ->createAbsoluteUrl(['tag/view', 'slug' => $this->slug], $scheme);
     }
 
     public static function indexAllTags()

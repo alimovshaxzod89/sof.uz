@@ -4,7 +4,6 @@ namespace frontend\models;
 
 use common\components\Config;
 use common\models\Admin;
-use common\models\Blogger;
 use common\models\Post;
 use common\models\Tag;
 use Imagine\Image\ManipulatorInterface;
@@ -462,7 +461,7 @@ class PostProvider extends Post
         return [];
     }
 
-    public static function getPostsByCategory(CategoryProvider $category, $limit = 10, $exclude = [])
+    public static function getPostsByCategory(CategoryProvider $category, $limit = 10, $dataProvider = true, $exclude = [])
     {
         $query = self::find()
                      ->active()
@@ -479,12 +478,16 @@ class PostProvider extends Post
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
         }
 
-        return new ActiveDataProvider([
-                                          'query'      => $query,
-                                          'pagination' => [
-                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-                                          ],
-                                      ]);
+        if ($dataProvider) {
+            return new ActiveDataProvider([
+                                              'query'      => $query,
+                                              'pagination' => [
+                                                  'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                              ],
+                                          ]);
+        }
+
+        return $query->limit($limit)->all();
     }
 
     public static function getPostsExcludeCategory(CategoryProvider $category, $limit = 10)

@@ -102,7 +102,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                         <hr>
 
                         <?= $form->field($model, 'is_main')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Main')) ?>
-                        <?= $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
+                        <?= $model->type == Post::TYPE_NEWS ? $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) : '' ?>
 
                         <table style="width: 100%">
                             <?php if ($model->created_at): ?>
@@ -346,8 +346,7 @@ $this->registerJs('initPostEditor();');
         });
 
         $('button[type=submit]').on('click', function (e) {
-            if ($('#post-status').val() !== '<?=Post::STATUS_AUTO_PUBLISH?>')
-                $('#publish_time').val($('#published_on_time').val());
+            $('#publish_time').val(Math.floor(Date.now() / 1000));
         });
     }
 

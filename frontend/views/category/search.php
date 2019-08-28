@@ -1,9 +1,11 @@
 <?php
 
+use common\components\Config;
 use common\models\Post;
 use common\models\Tag;
 use frontend\components\ScrollPager;
 use frontend\components\View;
+use frontend\models\CategoryProvider;
 use frontend\models\PostProvider;
 use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
@@ -37,7 +39,7 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
                                                      'tag' => false,
                                                  ],
                                                  'itemOptions'  => [
-                                                     'tag' => 'div',
+                                                     'tag'   => 'div',
                                                      'class' => 'col-md-12',
                                                  ],
                                                  'viewParams'   => [
@@ -61,8 +63,16 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
 
             <div class="sidebar-column col-lg-3">
                 <aside class="widget-area">
-                    <?= 1 ? '' :$this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
+                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?php
+                    $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
+                    if ($cat instanceof CategoryProvider): ?>
+                        <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
+                            'title' => $cat->name,
+                            'posts' => PostProvider::getPostsByCategory($cat, 5, false)
+                        ]) ?>
+                    <?php endif; ?>
+
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                         'title' => __('Most read'),

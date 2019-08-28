@@ -3,6 +3,7 @@
 namespace frontend\components;
 
 use common\models\User;
+use frontend\assets\AppAsset;
 use frontend\models\PostProvider;
 use Yii;
 use yii\helpers\Html;
@@ -127,7 +128,7 @@ class View extends \yii\web\View
 
     public function getImageUrl($name)
     {
-        return $this->getAssetManager()->getBundle('frontend\assets\AppAsset')->baseUrl . '/' . $name;
+        return $this->getAssetManager()->getBundle(AppAsset::class)->baseUrl . '/' . $name;
     }
 
     public function getBodyClass()

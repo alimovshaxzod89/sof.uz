@@ -30,7 +30,8 @@ class Config extends Component
     const CONFIG_SYS_DEV_TOOLBAR_IP = 'sys_dev_toolbar_ip';
     const CONFIG_SYS_DEV_EMAILS = 'sys_dev_emails';
     const CONFIG_USER_EMAIL_CONFIRM = 'user_email_confirm';
-    const CONFIG_CATALOG_POST = 'post_category';
+    const CONFIG_SIDEBAR_CATEGORY = 'sidebar_category';
+    const CONFIG_CATALOG_POST = 'catalog_post';
     const CONFIG_MENU_CATEGORY = 'main_menu_category';
     const CONFIG_BLOCKED_IPS = 'blocked_ips';
 
@@ -359,6 +360,7 @@ return [
     public static function getAllConfiguration()
     {
         $rootCats = Category::getRootCategoriesAsOption();
+        $cats     = Category::getAsOption();
 
         return array(
             __('System Developer') => [
@@ -390,10 +392,17 @@ return [
 
             __('Catalog') => [
                 [
-                    'label'   => __('Post Catalog'),
+                    'label'   => __('Sidebar Category'),
+                    'path'    => self::CONFIG_SIDEBAR_CATEGORY,
+                    'type'    => 'category',
+                    'help'    => __('Select root category'),
+                    'options' => $cats,
+                ],
+                [
+                    'label'   => __('Root Category'),
                     'path'    => self::CONFIG_CATALOG_POST,
                     'type'    => 'category',
-                    'help'    => __('Select root category for posts'),
+                    'help'    => __('Select root category'),
                     'options' => $rootCats,
                 ],
                 [

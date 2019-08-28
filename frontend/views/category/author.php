@@ -18,7 +18,11 @@ $limit                         = 12;
 ?>
 <div class="term-bar lazyload visible"
      data-bg="<?= $this->getImageUrl('images/002.jpg') ?>">
-    <h1 class="term-title">Author: <span class="vcard"><?= $this->title ?></span></h1>
+    <h1 class="term-title">
+        <?= __('Author: {author}', [
+            'author' => '<span class="vcard">' . $this->title . '</span>'
+        ]) ?>
+    </h1>
 </div>
 <div class="site-content">
     <div class="container">
@@ -32,7 +36,7 @@ $limit                         = 12;
                                                  'tag' => false,
                                              ],
                                              'itemOptions'  => [
-                                                 'tag' => 'div',
+                                                 'tag'   => 'div',
                                                  'class' => 'col-md-6',
                                              ],
                                              'viewParams'   => [

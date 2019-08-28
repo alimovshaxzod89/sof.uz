@@ -2,6 +2,7 @@
 
 namespace backend\components;
 
+use backend\assets\BackendAsset;
 use common\models\Admin;
 use Yii;
 use yii\caching\TagDependency;
@@ -103,7 +104,7 @@ class View extends \yii\web\View
                     'label' => 'Authors',
                     'url'   => 'blogger/index',
                 ],*/
-                'admin/index'    => [
+                'admin/index' => [
                     'label' => 'Authors',
                     'url'   => 'admin/index',
                 ],
@@ -122,11 +123,11 @@ class View extends \yii\web\View
                     'label' => 'System Dictionary',
                     'url'   => 'system/dictionary',
                 ],
-                'system/login'        => [
+                'system/login'         => [
                     'label' => 'Login History',
                     'url'   => 'system/login',
                 ],
-                'system/log'          => [
+                'system/log'           => [
                     'label' => 'Admin Logs',
                     'url'   => 'system/log',
                 ],
@@ -179,6 +180,11 @@ class View extends \yii\web\View
         }
 
         return $menu;
+    }
+
+    public function getImageUrl($name)
+    {
+        return $this->getAssetManager()->getBundle(BackendAsset::class)->baseUrl . '/' . $name;
     }
 
     /**

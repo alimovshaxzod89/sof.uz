@@ -1,13 +1,13 @@
 <?php
 /**
  * @var $this \frontend\components\View
+ * @var $title string
  * @var $posts \frontend\models\PostProvider[]
  */
-$posts = \frontend\models\PostProvider::getTopPosts();
 ?>
 <?php if (is_array($posts) && count($posts)): ?>
     <div class="widget widget_magsy_picks_widget">
-        <h5 class="u-border-title"><?= __('Hand Picked Articles') ?></h5>
+        <h5 class="u-border-title"><?= $title ?></h5>
         <div class="picks-wrapper">
             <div class="icon" data-ickon="&#xf238" style="border-top-color: #6fd08d; color: #fff;"></div>
             <div class="picked-posts owl">

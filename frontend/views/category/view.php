@@ -1,7 +1,9 @@
 <?php
 
+use common\components\Config;
 use frontend\components\ScrollPager;
 use frontend\components\View;
+use frontend\models\CategoryProvider;
 use frontend\models\PostProvider;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
@@ -31,7 +33,7 @@ $this->addBodyClass('category-' . $model->slug)
                                                      'tag' => false,
                                                  ],
                                                  'itemOptions'  => [
-                                                     'tag' => 'div',
+                                                     'tag'   => 'div',
                                                      'class' => 'col-md-12',
                                                  ],
                                                  'viewParams'   => [
@@ -56,7 +58,14 @@ $this->addBodyClass('category-' . $model->slug)
             <div class="sidebar-column col-lg-3">
                 <aside class="widget-area">
                     <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/most_read.php') ?>
+                    <?php
+                    $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
+                    if ($cat instanceof CategoryProvider): ?>
+                        <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
+                            'title' => $cat->name,
+                            'posts' => PostProvider::getPostsByCategory($cat, 5, false)
+                        ]) ?>
+                    <?php endif; ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                         'title' => __('Most read'),
