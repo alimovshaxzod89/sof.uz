@@ -777,7 +777,7 @@ html {
 body {
   background-color: #fff;
   color: #555;
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 15px;
   line-height: 24px;
   text-rendering: optimizeLegibility;
@@ -912,7 +912,7 @@ textarea {
   border-radius: 0;
   color: #1a1a1a;
   display: block;
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 16px;
   height: 40px;
   line-height: 38px;
@@ -959,7 +959,7 @@ select {
 label {
   color: #1a1a1a;
   display: inline-block;
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 13px;
   margin-bottom: 5px;
   vertical-align: middle;
@@ -1002,7 +1002,7 @@ button[type="submit"],
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 1px;
@@ -7992,7 +7992,7 @@ button[type="submit"].transparent,
 
 */
 /*
-	
+
 	1. Buttons
 
  */
@@ -8243,7 +8243,7 @@ a.pswp__share--download:hover {
   padding: 0 10px;
 }
 /*
-	
+
 	4. Caption
 
  */
@@ -8327,8 +8327,8 @@ a.pswp__share--download:hover {
   margin: 0;
 }
 .pswp--css_animation .pswp__preloader__cut {
-  /* 
-			The idea of animating inner circle is based on Polymer ("material") loading indicator 
+  /*
+			The idea of animating inner circle is based on Polymer ("material") loading indicator
 			 by Keanu Lee https://blog.keanulee.com/2014/10/20/the-tale-of-three-spinners.html
 		*/
   position: relative;
@@ -8408,7 +8408,7 @@ a.pswp__share--download:hover {
   }
 }
 /*
-	
+
 	6. Additional styles
 
  */
@@ -8481,7 +8481,7 @@ a.pswp__share--download:hover {
   background: none;
 }
 .wpcf7 p {
-  font-family: Lato, sans-serif !important;
+  font-family: 'Playfair Display', serif !important;
 }
 .wpcf7-form {
   margin: 30px 0;
@@ -10967,7 +10967,7 @@ body:not(.canvas-visible) .off-canvas {
   margin: 30px 0;
 }
 .wp-block-cover-image .wp-block-cover-image-text {
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 30px;
   font-weight: 900;
   margin-bottom: 0;
@@ -10987,7 +10987,7 @@ body:not(.canvas-visible) .off-canvas {
 }
 .wp-block-gallery .blocks-gallery-image figcaption,
 .wp-block-gallery .blocks-gallery-item figcaption {
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 13px;
   font-style: italic;
   line-height: 16px;
@@ -11008,7 +11008,7 @@ p.wp-block-subhead {
 .wp-block-button .wp-block-button__link {
   border-radius: 30px;
   color: #fff;
-  font-family: Lato, sans-serif;
+  font-family: 'Playfair Display', serif;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 1px;

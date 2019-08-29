@@ -17,7 +17,7 @@ use yii\widgets\Pjax;
 $this->_canonical = Url::to(['/'], true);
 $this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page sidebar-none modular-title-1');
 $limit      = 10;
-$photoPosts = PostProvider::getTopPhotos();
+$photoPosts = PostProvider::getTopPhotos(10);
 $mainPosts  = PostProvider::getTopPosts();
 $mainPost   = false;
 if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPosts);
@@ -29,7 +29,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                 <div id="magsy_module_post_big_list-2" class="section widget_magsy_module_post_big_list">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-lg-9 col-md-6">
                                 <div class="module big list u-module-margin">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -83,7 +83,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-lg-3 col-md-6">
                                 <aside class="widget-area">
                                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                                         'title' => __('Most read'),
@@ -154,42 +154,38 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
             </div>
 
             <?php if (is_array($photoPosts) && count($photoPosts)): ?>
-                <div id="magsy_module_post_grid-6" class="section widget_magsy_module_post_grid">
+                <div id="magsy_module_post_carousel-2" class="section widget_magsy_module_post_carousel">
                     <div class="container">
-                        <h5 class="u-border-title"><?= __('Photo news') ?></h5>
-                        <div class="module grid u-module-margin">
-                            <div class="row">
-                                <?php foreach ($photoPosts as $post): ?>
-                                    <div class="col-sm-6 col-md-4 col-lg-3">
-                                        <article
-                                                class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
-                                            <div class="entry-media">
-                                                <div class="placeholder" style="padding-bottom: 66.75%;">
-                                                    <a href="<?= $post->getViewUrl() ?>">
-                                                        <img src="<?= $post->getCroppedImage(267, 178) ?>"
-                                                             alt="<?= $post->title ?>">
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <header class="entry-header">
-                                                <h2 class="entry-title">
-                                                    <a href="<?= $post->getViewUrl() ?>"
-                                                       rel="bookmark"><?= $post->title ?></a>
-                                                </h2>
-                                            </header>
-                                            <div class="entry-excerpt u-text-format">
-                                                <?= $post->info ?>
-                                            </div>
-                                            <div class="entry-footer">
-                                                <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                                    <?= $post->getShortFormattedDate() ?>
-                                                </time>
-                                            </div>
-                                        </article>
+                        <h5 class="u-border-title"><span><?= __('Photo news') ?></span></h5>
+                        <div class="module carousel owl">
+                            <?php foreach ($photoPosts as $post): ?>
+                                <article
+                                        class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
+                                    <div class="entry-media">
+                                        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+                                            <a href="<?= $post->getViewUrl() ?>">
+                                                <img src="<?= $post->getCroppedImage(210, 140) ?>"
+                                                     alt="<?= $post->title ?>">
+                                            </a>
+                                        </div>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
+                                    <header class="entry-header">
+                                        <h2 class="entry-title">
+                                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark">
+                                                <?= $post->title ?>
+                                            </a>
+                                        </h2>
+                                    </header>
+                                    <div class="entry-excerpt u-text-format">
+                                        <?= $post->info ?>
+                                    </div>
+                                    <div class="entry-footer">
+                                        <time datetime="<?= $post->getPublishedTimeIso() ?>">
+                                            <?= $post->getShortFormattedDate() ?>
+                                        </time>
+                                    </div>
+                                </article>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
