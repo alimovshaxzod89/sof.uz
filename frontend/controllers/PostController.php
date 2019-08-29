@@ -59,7 +59,6 @@ class PostController extends BaseController
 
     /**
      * @param             $slug
-     * @param             $model
      * @return mixed
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
@@ -69,7 +68,7 @@ class PostController extends BaseController
         $model                           = $this->findModel($slug);
         $this->getView()->params['post'] = $model;
 
-        return $this->render($model->type.($model->is_sidebar?'_sidebar':''), [
+        return $this->render($model->type . ($model->is_sidebar ? '_sidebar' : ''), [
             'model' => $model,
         ]);
     }

@@ -26,8 +26,7 @@ $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
 $empty = $this->getImageUrl('img-placeholder.png');
-$this->addBodyClass('post-template-default single single-post postid-100 single-format-gallery navbar-sticky sidebar-none pagination-infinite_button');
-$similarPosts = $model->getSimilarPosts(4);
+$this->addBodyClass('post-template-default single single-post single-format-gallery navbar-sticky sidebar-none pagination-infinite_button');
 ?>
 <div class="site-content">
     <div class="container">
@@ -45,7 +44,8 @@ $similarPosts = $model->getSimilarPosts(4);
                                                 <a href="<?= $model->author->getViewUrl() ?>">
                                                     <img alt="<?= $model->author->full_name ?>"
                                                          src="<?= $model->author->getCroppedImage(40, 40) ?>"
-                                                         class='avatar avatar-40 photo' height='40' width='40'/><?=$model->author->full_name?></a>
+                                                         class='avatar avatar-40 photo' height='40'
+                                                         width='40'/><?= $model->author->full_name ?></a>
                                             </span>
                                         <?php endif; ?>
                                         <?php if ($model->hasCategory()): ?>
@@ -72,7 +72,7 @@ $similarPosts = $model->getSimilarPosts(4);
                                             <?php foreach ($model->gallery as $item):
                                                 if (!isset($item['path'])) continue;
                                                 $imagePath  = Yii::getAlias('@static') . DS . 'uploads' . DS . $item['path'];
-                                                $imageUrl   = Yii::getAlias('@staticUrl') . 'uploads/' . $item['path'];
+                                                $imageUrl   = Yii::getAlias('@staticUrl') . '/uploads/' . $item['path'];
                                                 if (file_exists($imagePath)):
                                                     $size = getimagesize($imagePath);
                                                     $width  = isset($size[0]) ? $size[0] : 800;
