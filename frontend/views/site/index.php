@@ -87,7 +87,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                 <aside class="widget-area">
                                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                                         'title' => __('Most read'),
-                                        'posts' => PostProvider::getTopPosts()
+                                        'posts' => PostProvider::getTopPosts(5)
                                     ]) ?>
                                 </aside>
                             </div>
