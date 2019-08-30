@@ -22,9 +22,9 @@ class AppAsset extends AssetBundle
         'css/style.css',
     ];
 
-    public $js = ASSET_BUNDLE ? [
+    public $js = /*ASSET_BUNDLE ? [
         'js/app.min.js',
-    ] : [
+    ] : */[
         //'js/wpcf7.js',
         'js/imagesloaded.min.js',
         'js/masonry.min.js',
