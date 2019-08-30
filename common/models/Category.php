@@ -39,14 +39,6 @@ class Category extends MongoModel
     protected $_booleanAttributes    = ['is_home', 'is_menu'];
     protected $_integerAttributes    = ['home_order'];
 
-    const ID_NEWS = '5c6a471df2c2dc4e1072dc44';
-
-    public static $MINBAR = [
-        '5c6a4759f2c2dc4e9f191293',
-        '5c6a4748f2c2dc4e9a67e342',
-        '5c6a473cf2c2dc4e94356773',
-        '5c6a472ff2c2dc4e1962224e',
-    ];
     /**
      * @var Category[]
      */

@@ -5,14 +5,7 @@
  * @author    Toir Tuychiyev <toir427@gmail.com>
  */
 
-/**
- * Created by PhpStorm.
- * Date: 12/11/17
- * Time: 1:17 AM
- */
-
 namespace frontend\models;
-
 
 use common\models\Blogger;
 use yii\data\ActiveDataProvider;

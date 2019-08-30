@@ -31,6 +31,8 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_date
  * @property string $resource
  * @property string $language
+ *
+ * @property Post   $postOne
  */
 class Admin extends MongoModel implements IdentityInterface
 {
@@ -159,6 +161,11 @@ class Admin extends MongoModel implements IdentityInterface
 
             [['search'], 'safe', 'on' => self::SCENARIO_SEARCH],
         ];
+    }
+
+    public function getPostOne()
+    {
+        return $this->hasOne(Post::class, ['_author' => '_id']);
     }
 
     /**

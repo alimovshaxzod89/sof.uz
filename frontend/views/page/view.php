@@ -85,10 +85,10 @@ $comments = false;
                 </header>
                 <div class="post-content description cf entry-content content-spacious-full">
                     <p>
-                        <?= __('Ushbu {bot} orqali tahririyat bilan bog\'langan holda bizga taklif-mulohazalar va xabarlaringizni yuborishingiz mumkin.', ['bot' => \yii\helpers\Html::a(__('Telegram bot'), 'https://t.me/minbar_bot')]) ?>
+                        <?= __('Ushbu {bot} orqali tahririyat bilan bog\'langan holda bizga taklif-mulohazalar va xabarlaringizni yuborishingiz mumkin.', ['bot' => \yii\helpers\Html::a(__('Telegram bot'), 'https://t.me/sof_bot')]) ?>
                     </p>
                     <p>
-                        <a class="button-link" href="https://t.me/minbar_bot">
+                        <a class="button-link" href="https://t.me/sof_bot">
                             <i class="ui-paper-plane"></i> <?= __('Xabar jo\'natish') ?>
                         </a>
                     </p>

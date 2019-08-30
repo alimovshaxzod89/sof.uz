@@ -25,17 +25,15 @@ class Tag extends MongoModel
     protected $_integerAttributes    = ['count'];
     protected $_searchableAttributes = ['name', 'slug'];
 
-    const SCENARIO_INSERT = 'insert';
-    const SCENARIO_UPDATE = 'update';
-
     public static function getTagsAsOption()
     {
+        $all = Tag::find()->where([])->limit(20)->addOrderBy(['count_l5d' => SORT_DESC])->all();
         return array_map(function (Tag $tag) {
             return [
                 'v' => $tag->getId(),
                 't' => $tag->name,
             ];
-        }, Tag::find()->where([])->limit(20)->addOrderBy(['count_l5d' => SORT_DESC])->all());
+        }, $all);
     }
 
     public static function createTag($name)
@@ -235,7 +233,7 @@ class Tag extends MongoModel
     public function getViewUrl($scheme = false)
     {
         return Yii::$app->viewUrl
-            ->createAbsoluteUrl(['tag/view', 'slug' => $this->slug], $scheme);
+            ->createAbsoluteUrl(['category/tag', 'slug' => $this->slug], $scheme);
     }
 
     public static function indexAllTags()

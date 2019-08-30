@@ -5,19 +5,19 @@ use frontend\components\ScrollPager;
 use frontend\components\View;
 use frontend\models\CategoryProvider;
 use frontend\models\PostProvider;
+use frontend\models\TagProvider;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 /**
  * @var $this View
- * @var $model \frontend\models\CategoryProvider
+ * @var $provider \yii\data\ActiveDataProvider
+ * @var $model CategoryProvider|TagProvider
  */
-$this->_canonical              = $model->getViewUrl();
-$this->title                   = $model->name;
-$exclude                       = [];
-$this->params['breadcrumbs'][] = $this->title;
 $limit                         = 12;
-$this->addBodyClass('category-' . $model->slug)
+$this->title                   = $model->name;
+$this->params['breadcrumbs'][] = $this->title;
+$this->_canonical              = $model->getViewUrl();
 ?>
 <div class="site-content">
     <div class="container">
@@ -25,10 +25,10 @@ $this->addBodyClass('category-' . $model->slug)
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
-                        <h5 class="u-border-title"><?= $model->name ?></h5>
+                        <h5 class="u-border-title"><?= $this->title ?></h5>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
-                                                 'dataProvider' => $model->getProvider($limit),
+                                                 'dataProvider' => $provider,
                                                  'options'      => [
                                                      'tag' => false,
                                                  ],

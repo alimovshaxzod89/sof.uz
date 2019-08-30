@@ -137,6 +137,10 @@ span.meta-category:first-child:before {
     margin-bottom: 60px;
 }
 
+.widget-posts .entry-meta, .entry-header .entry-meta{
+    margin-top: 8px;
+}
+
 @media (max-width: 768px) {
     #menu-footer.nav-list li {
         display: inherit;
@@ -176,6 +180,10 @@ span.meta-category:first-child:before {
 @media (max-width: 425px) {
     .col-md-3 .widget-area {
         margin-top: 30px;
+    }
+
+    .col-lg-3 .widget_magsy_posts_widget{
+     margin-top: 30px;
     }
 
     .row.posts-wrapper .post-list {

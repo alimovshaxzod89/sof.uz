@@ -14,7 +14,7 @@ $params = array_merge(
 
 return [
     'id'                  => 'app-backend',
-    'name'                => 'minbar.uz',
+    'name'                => 'Sof.uz',
     'basePath'            => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'defaultRoute'        => 'post/index',

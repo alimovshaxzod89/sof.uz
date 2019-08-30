@@ -11,10 +11,13 @@
             <?php foreach ($posts as $post) : ?>
                 <div>
                     <div class="entry-thumbnail">
-                        <a class="u-permalink" href="<?= $post->getViewUrl() ?>"></a>
+                        <a class="u-permalink" href="<?= $post->author->getViewUrl() ?>"></a>
                         <img src="<?= $post->hasAuthor() ? $post->author->getCroppedImage(150, 150, 1) : $post->getCroppedImage(150, 150, 1) ?>">
                     </div>
                     <header class="entry-header">
+                        <h6 class="entry-title">
+                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->title ?></a>
+                        </h6>
                         <div class="entry-meta">
                             <span class="meta-date">
                                 <time datetime="<?= $post->getPublishedTimeIso() ?>">
@@ -29,9 +32,6 @@
                                 </span>
                             <?php endif; ?>
                         </div>
-                        <h6 class="entry-title">
-                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->title ?></a>
-                        </h6>
                     </header>
                 </div>
             <?php endforeach; ?>

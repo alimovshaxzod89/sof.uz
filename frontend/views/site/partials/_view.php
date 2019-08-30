@@ -17,6 +17,11 @@
         </div>
         <div class="entry-wrapper">
             <header class="entry-header">
+                <h2 class="entry-title">
+                    <a data-pjax="0" href="<?= $model->getViewUrl() ?>" rel="bookmark">
+                        <?= $model->title ?>
+                    </a>
+                </h2>
                 <div class="entry-meta">
                     <span class="meta-category">
                         <time datetime="<?= $model->getPublishedTimeIso() ?>">
@@ -28,7 +33,7 @@
                             <?= $model->metaCategoriesList() ?>
                         </span>
                     <?php endif; ?>
-                    <?php if ($model->hasAuthor()): ?>
+                    <?php if (0 && $model->hasAuthor()): ?>
                         <span class="meta-category">
                             <a data-pjax="0" href="<?= $model->author->getViewUrl() ?>">
                                 <?= $model->author->getFullName() ?>
@@ -36,12 +41,6 @@
                         </span>
                     <?php endif; ?>
                 </div>
-
-                <h2 class="entry-title">
-                    <a data-pjax="0" href="<?= $model->getViewUrl() ?>" rel="bookmark">
-                        <?= $model->title ?>
-                    </a>
-                </h2>
             </header>
             <div class="entry-excerpt u-text-format">
                 <?= $model->info ?>

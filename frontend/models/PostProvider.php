@@ -10,10 +10,32 @@ use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 class PostProvider extends Post
 {
+    public static function getTopAuthors($limit = 5)
+    {
+        $ids    = [];
+        $result = self::getCollection()
+                      ->aggregate([
+                                      [
+                                          '$group' => [
+                                              '_id'  => '$_author',
+                                              'post' => ['$first' => '$_id']
+                                          ]
+                                      ]
+                                  ]);
+        if (count($result)) {
+            $ids = ArrayHelper::getColumn($result, 'post');
+        }
+
+        return self::find()->where(['_id' => ['$in' => $ids]])
+                   ->orderBy(['published_on' => SORT_DESC])
+                   ->limit($limit)->all();
+    }
+
     public function hasCategory()
     {
         return $this->category instanceof CategoryProvider;
@@ -404,29 +426,6 @@ class PostProvider extends Post
                                       ]);
     }
 
-    public static function getPostsByTag(Tag $tag, $limit)
-    {
-        $attr = self::getLanguageAttributeCode('content');
-
-        $query = self::find()
-                     ->active(["_translations." . $attr])
-                     ->andWhere([
-                                    '_tags' => [
-                                        '$elemMatch' => [
-                                            '$in' => [$tag->_id, $tag->id],
-                                        ],
-                                    ],
-                                ])
-                     ->orderBy(['published_on' => SORT_DESC]);
-
-        return new ActiveDataProvider([
-                                          'query'      => $query,
-                                          'pagination' => [
-                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-                                          ],
-                                      ]);
-    }
-
     public static function dataProvider($posts = [], $exclude = [], $limit = 10)
     {
         $postIds = [];
@@ -490,6 +489,35 @@ class PostProvider extends Post
         return $query->limit($limit)->all();
     }
 
+    public static function getPostsByTag(TagProvider $tag, $limit = 10, $dataProvider = true, $exclude = [])
+    {
+        $query = self::find()
+                     ->active()
+                     ->andWhere([
+                                    '_tags' => [
+                                        '$elemMatch' => [
+                                            '$eq' => $tag->_id,
+                                        ],
+                                    ],
+                                ])
+                     ->orderBy(['published_on' => SORT_DESC]);
+
+        if (\count($exclude)) {
+            $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
+        }
+
+        if ($dataProvider) {
+            return new ActiveDataProvider([
+                                              'query'      => $query,
+                                              'pagination' => [
+                                                  'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
+                                              ],
+                                          ]);
+        }
+
+        return $query->limit($limit)->all();
+    }
+
     public static function getPostsExcludeCategory(CategoryProvider $category, $limit = 10)
     {
         $query = self::find()
@@ -502,32 +530,6 @@ class PostProvider extends Post
                                     ],
                                 ])
                      ->orderBy(['published_on' => SORT_DESC]);
-
-        return new ActiveDataProvider([
-                                          'query'      => $query,
-                                          'pagination' => [
-                                              'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
-                                          ],
-                                      ]);
-    }
-
-
-    public static function getMinbarPosts($limit = 10, $exclude = [])
-    {
-        $query = self::find()
-                     ->active()
-                     ->andWhere([
-                                    '_categories' => [
-                                        '$elemMatch' => [
-                                            '$in' => CategoryProvider::$MINBAR,
-                                        ],
-                                    ],
-                                ])
-                     ->orderBy(['published_on' => SORT_DESC]);
-
-        if (\count($exclude)) {
-            $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
-        }
 
         return new ActiveDataProvider([
                                           'query'      => $query,

@@ -144,8 +144,8 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                 <?php endif; ?>
                                 <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
                                 <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
-                                    'title' => __('Most read'),
-                                    'posts' => PostProvider::getTopPosts()
+                                    'title' => __('Authors'),
+                                    'posts' => PostProvider::getTopAuthors()
                                 ]) ?>
                             </aside>
                         </div>

@@ -54,7 +54,7 @@ class ContactForm extends Model
     {
 
         $emails = [
-            getenv('CONTACT_EMAIL') => 'Minbar',
+            getenv('CONTACT_EMAIL') => 'SOF',
         ];
 
         return Yii::$app->mailer->compose([])

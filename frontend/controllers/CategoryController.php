@@ -3,9 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Admin;
-use common\models\Category;
-use common\models\Tag;
 use frontend\models\CategoryProvider;
+use frontend\models\TagProvider;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -71,17 +70,19 @@ class CategoryController extends BaseController
         $this->getView()->params['category'] = $category;
 
         return $this->render('view', [
-            'model' => $category,
+            'model'    => $category,
+            'provider' => $category->getProvider()
         ]);
     }
 
     public function actionTag($slug)
     {
-        if ($tag = $this->findTag($slug)) {
-            return $this->render('tag', ['model' => $tag]);
-        }
+        $tag = $this->findTag($slug);
 
-        throw new NotFoundHttpException(404);
+        return $this->render('view', [
+            'model'    => $tag,
+            'provider' => $tag->getProvider()
+        ]);
     }
 
     /**
@@ -100,9 +101,11 @@ class CategoryController extends BaseController
 
     private function findTag($slug)
     {
-        if ($slug) {
-            return Tag::find()->where(['slug' => $slug])->one();
+        if (($model = TagProvider::find()->where(['slug' => $slug])->one()) !== null) {
+            return $model;
         }
+
+        throw new NotFoundHttpException('Page not found');
     }
 
     private function findAuthor($slug)
@@ -127,7 +130,7 @@ class CategoryController extends BaseController
 
     /**
      * @param $slug
-     * @return array|null|Category
+     * @return array|null|CategoryProvider
      * @throws NotFoundHttpException
      */
     protected function findModel($slug)

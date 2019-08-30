@@ -15,13 +15,16 @@
                         <img src="<?= $post->getCroppedImage(150, 150, 1) ?>">
                     </div>
                     <header class="entry-header">
+                        <h6 class="entry-title">
+                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->title ?></a>
+                        </h6>
                         <div class="entry-meta">
                             <span class="meta-date">
                                 <time datetime="<?= $post->getPublishedTimeIso() ?>">
                                     <?= $post->getShortFormattedDate() ?>
                                 </time>
                             </span>
-                            <?php if ($post->hasAuthor()): ?>
+                            <?php if (0 && $post->hasAuthor()): ?>
                                 <span class="meta-date">
                                     <a href="<?= $post->author->getViewUrl() ?>">
                                         <?= $post->author->getFullName() ?>
@@ -29,9 +32,6 @@
                                 </span>
                             <?php endif; ?>
                         </div>
-                        <h6 class="entry-title">
-                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->title ?></a>
-                        </h6>
                     </header>
                 </div>
             <?php endforeach; ?>
