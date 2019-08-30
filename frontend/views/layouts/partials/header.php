@@ -59,6 +59,26 @@ use frontend\models\CategoryProvider;
             </div>
 
             <div class="actions">
+                <div style="margin-top: 2px;margin-right: 5px;">
+                    <?php
+                    $urlManager = Yii::$app->urlManager;
+                    $uzUrl      = array_merge(
+                        [Yii::$app->controller->route],
+                        Yii::$app->request->get(),
+                        ['language' => 'uz']
+                    );
+                    $ozUrl      = array_merge(
+                        [Yii::$app->controller->route],
+                        Yii::$app->request->get(),
+                        ['language' => 'oz']
+                    ); ?>
+                    <?php if (Yii::$app->language === Config::LANGUAGE_CYRILLIC): ?>
+                        <a href="<?= $urlManager->createAbsoluteUrl($uzUrl, true) ?>"><strong><?= __('O‘zbek') ?></strong></a>
+                    <?php endif; ?>
+                    <?php if (Yii::$app->language === Config::LANGUAGE_UZBEK): ?>
+                        <a href="<?= $urlManager->createAbsoluteUrl($ozUrl, true) ?>"><strong><?= __('Ўзбек') ?></strong></a>
+                    <?php endif; ?>
+                </div>
                 <div class="search-open navbar-button">
                     <i class="mdi mdi-magnify"></i>
                 </div>
