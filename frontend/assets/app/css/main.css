@@ -777,7 +777,7 @@ html {
 body {
   background-color: #fff;
   color: #555;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 15px;
   line-height: 24px;
   text-rendering: optimizeLegibility;
@@ -815,7 +815,7 @@ img {
 blockquote {
   border-left: 5px solid var(--accent-color);
   color: #1a1a1a;
-  font-family: Merriweather, serif;
+  font-family: Roboto, serif;
   font-weight: 700;
   margin: 30px 0;
   padding: 15px 0 15px 20px;
@@ -912,7 +912,7 @@ textarea {
   border-radius: 0;
   color: #1a1a1a;
   display: block;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 16px;
   height: 40px;
   line-height: 38px;
@@ -959,7 +959,7 @@ select {
 label {
   color: #1a1a1a;
   display: inline-block;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 13px;
   margin-bottom: 5px;
   vertical-align: middle;
@@ -1002,7 +1002,7 @@ button[type="submit"],
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 1px;
@@ -8481,7 +8481,7 @@ a.pswp__share--download:hover {
   background: none;
 }
 .wpcf7 p {
-  font-family: 'Playfair Display', serif !important;
+  font-family: 'Montserrat', serif !important;
 }
 .wpcf7-form {
   margin: 30px 0;
@@ -9442,7 +9442,7 @@ div.wpcf7-response-output {
   margin-bottom: 45px;
 }
 .entry-excerpt {
-  font-family: Merriweather, serif;
+  font-family: Roboto, serif;
   font-size: 14px;
   margin-top: 12px;
 }
@@ -9681,7 +9681,7 @@ div.wpcf7-response-output {
 .single .type-post .entry-content ol,
 .page .type-page .entry-content ol,
 .wp-block-columns p {
-  font-family: Merriweather, serif;
+  font-family: Roboto, serif;
   font-size: 16px;
   line-height: 30px;
 }
@@ -9895,7 +9895,7 @@ div.wpcf7-response-output {
   text-transform: uppercase;
 }
 .comments-area .comment-body {
-  font-family: Merriweather, serif;
+  font-family: Roboto, serif;
   font-size: 14px;
 }
 .comments-area .comment-body > *:first-child {
@@ -10967,7 +10967,7 @@ body:not(.canvas-visible) .off-canvas {
   margin: 30px 0;
 }
 .wp-block-cover-image .wp-block-cover-image-text {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 30px;
   font-weight: 900;
   margin-bottom: 0;
@@ -10987,7 +10987,7 @@ body:not(.canvas-visible) .off-canvas {
 }
 .wp-block-gallery .blocks-gallery-image figcaption,
 .wp-block-gallery .blocks-gallery-item figcaption {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 13px;
   font-style: italic;
   line-height: 16px;
@@ -11008,7 +11008,7 @@ p.wp-block-subhead {
 .wp-block-button .wp-block-button__link {
   border-radius: 30px;
   color: #fff;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 1px;
