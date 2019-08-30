@@ -10,11 +10,11 @@ use yii\web\AssetBundle;
 class AppAsset extends AssetBundle
 {
     public $sourcePath = '@app/assets/app';
-    public $css        = ASSET_BUNDLE ? [
+    public $css        = /*ASSET_BUNDLE ? [
         //'https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i|Merriweather:300,300i,400,700,700i&display=swap&subset=cyrillic',
         'https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,700,700i|Roboto:300,300i,400,700,700i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext',
         'css/app.min.css',
-    ] : [
+    ] :*/ [
         //'https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i|Merriweather:300,300i,400,700,700i&display=swap&subset=cyrillic',
         'https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,700,700i|Roboto:300,300i,400,700,700i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext',
         'css/block-library.css',
