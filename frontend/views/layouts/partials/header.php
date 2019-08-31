@@ -2,6 +2,7 @@
 
 use common\components\Config;
 use frontend\models\CategoryProvider;
+use yii\helpers\Url;
 
 /**
  * @var $this frontend\components\View
@@ -60,23 +61,11 @@ use frontend\models\CategoryProvider;
 
             <div class="actions">
                 <div style="margin-top: 2px;margin-right: 5px;">
-                    <?php
-                    $urlManager = Yii::$app->urlManager;
-                    $uzUrl      = array_merge(
-                        [Yii::$app->controller->route],
-                        Yii::$app->request->get(),
-                        ['language' => 'uz']
-                    );
-                    $ozUrl      = array_merge(
-                        [Yii::$app->controller->route],
-                        Yii::$app->request->get(),
-                        ['language' => 'oz']
-                    ); ?>
                     <?php if (Yii::$app->language === Config::LANGUAGE_CYRILLIC): ?>
-                        <a href="<?= $urlManager->createAbsoluteUrl($uzUrl, true) ?>"><strong><?= __('O‘zbek') ?></strong></a>
+                        <a href="<?= Url::current(['language' => 'uz']) ?>"><strong><?= __('O‘zbek') ?></strong></a>
                     <?php endif; ?>
                     <?php if (Yii::$app->language === Config::LANGUAGE_UZBEK): ?>
-                        <a href="<?= $urlManager->createAbsoluteUrl($ozUrl, true) ?>"><strong><?= __('Ўзбек') ?></strong></a>
+                        <a href="<?= Url::current(['language' => 'oz']) ?>"><strong><?= __('Ўзбек') ?></strong></a>
                     <?php endif; ?>
                 </div>
                 <div class="search-open navbar-button">

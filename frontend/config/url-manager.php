@@ -1,14 +1,13 @@
 <?php
 
 return [
-    'class'                     => 'codemix\localeurls\UrlManager',
-    'languages'                 => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
-    'baseUrl'                   => Yii::getAlias('@frontendUrl'),
-    'enableLanguageDetection'   => false,
-    'enableLanguagePersistence' => true,
-    'showScriptName'            => false,
-    'enablePrettyUrl'           => true,
-    'rules'                     => [
+    'class'                        => 'codemix\localeurls\UrlManager',
+    'languages'                    => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
+    'enableLanguageDetection'      => false,
+    'enableLanguagePersistence'    => true,
+    'showScriptName'               => false,
+    'enablePrettyUrl'              => true,
+    'rules'                        => [
         '/'       => 'site/index',
         '/search' => 'category/search',
 

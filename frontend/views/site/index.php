@@ -47,7 +47,7 @@ $this->registerJs($js);
                                                     <div class="entry-media">
                                                         <div class="placeholder" style="padding-bottom: 70.25%;">
                                                             <a href="<?= $mainPost->getViewUrl() ?>">
-                                                                <img src="<?= $mainPost->getCroppedImage(416, 292) ?>"
+                                                                <img src="<?= $mainPost->getCroppedImage(416, 292, 1) ?>"
                                                                      alt="<?= $mainPost->title ?>">
                                                             </a>
                                                         </div>

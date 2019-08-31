@@ -269,7 +269,7 @@ class MongoModel extends ActiveRecord
             FileHelper::createDirectory($cropDir, 0777);
         }
 
-        $imagePath = Yii::getAlias('@frontend/assets/app/images/002.jpg');
+        $imagePath = Yii::getAlias('@frontend/assets/app/images/sof.png');
         $filename  = pathinfo($imagePath)['filename'];
         if (is_array($img) && isset($img['path']) && file_exists($dir . $img['path'])) {
             $imagePath = $dir . $img['path'];

@@ -1,25 +1,38 @@
 <?php
 
+use yii\helpers\ArrayHelper;
+
 $params = array_merge(
     require(__DIR__ . '/params.php'),
     require(__DIR__ . '/params-local.php')
 );
+$root   = dirname(dirname(__DIR__));
+
 $config = [
     'id'         => 'advanced',
     'basePath'   => dirname(__DIR__),
     'timeZone'   => 'Asia/Tashkent',
-    'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'vendorPath' => $root . '/vendor',
     'bootstrap'  => ['log', 'config'],
     'aliases'    => [
         '@bower' => '@vendor/bower-asset'
     ],
     'components' => [
 
-        'apiUrl' => require(dirname(dirname(__DIR__)) . '/api/config/url-manager.php'),
+        'apiUrl' => ArrayHelper::merge(
+            ['baseUrl' => Yii::getAlias('@apiUrl')],
+            require($root . '/api/config/url-manager.php')
+        ),
 
-        'viewUrl' => require(dirname(dirname(__DIR__)) . '/frontend/config/url-manager.php'),
+        'viewUrl' => ArrayHelper::merge(
+            ['baseUrl' => Yii::getAlias('@frontendUrl')],
+            require($root . '/frontend/config/url-manager.php')
+        ),
 
-        'editUrl' => require(dirname(dirname(__DIR__)) . '/backend/config/url-manager.php'),
+        'editUrl' => ArrayHelper::merge(
+            ['baseUrl' => Yii::getAlias('@backendUrl')],
+            require($root . '/api/config/url-manager.php')
+        ),
 
         'i18n'   => [
             'translations' => [
