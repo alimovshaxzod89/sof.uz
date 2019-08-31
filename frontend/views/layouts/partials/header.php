@@ -1,20 +1,20 @@
 <?php
 
+use common\components\Config;
+use frontend\models\CategoryProvider;
+
 /**
  * @var $this frontend\components\View
  */
 
-use common\components\Config;
-use frontend\models\CategoryProvider;
-
 ?>
-
 <header class="site-header">
     <div class="container">
         <div class="navbar">
 
             <div class="logo-wrapper">
-                <a class="logo text" href="/">Sof</a>
+                <a class="logo text" href="<?= Yii::$app->getHomeUrl() ?>">
+                    <img src="<?= $this->getImageUrl('images/logo.svg') ?>" alt=""></a>
             </div>
 
             <div class="sep"></div>

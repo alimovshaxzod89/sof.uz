@@ -140,25 +140,18 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                      ])->label() ?>
                         <?php endif; ?>
 
-                        <?php if ($user->canAccessToResource('post/author')): ?>
-                            <?= $form->field($model, '_author')
-                                     ->widget(ChosenSelect::className(), [
-                                         'items'         => Admin::getArrayOptions(),
-                                         'pluginOptions' => [
-                                             'width'                 => '100%',
-                                             'allow_single_deselect' => true,
-                                             'disable_search'        => true
-                                         ],
-                                     ])->label() ?>
-                        <?php endif; ?>
-
                         <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH): ?>
                             <?php if ($user->canAccessToResource('post/publish')): ?>
-                                <?= $form->field($model, 'status')->widget(ChosenSelect::className(), [
-                                    'items'         => Post::getStatusArray(),
-                                    'options'       => ['onchange' => 'statusChanged(this.value)'],
-                                    'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
-                                ]) ?>
+                                <?= $form->field($model, 'status')
+                                         ->widget(ChosenSelect::className(), [
+                                             'items'         => Post::getStatusArray(),
+                                             'options'       => ['onchange' => 'statusChanged(this.value)'],
+                                             'pluginOptions' => [
+                                                 'width'                 => '100%',
+                                                 'allow_single_deselect' => true,
+                                                 'disable_search'        => true
+                                             ],
+                                         ]) ?>
 
 
                                 <?php $time = $model->getPublishedOnSeconds() ?>
@@ -265,7 +258,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                     <div class="panel-footer">
                         <div class="pull-left">
                             <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH && $this->_user()->canAccessToResource('post/trash')): ?>
-                                <?= Html::a("<i class='fa fa-trash-o'></i>", ['post/trash', 'id' => $model->getId()], ['class' => 'btn btn-danger btn-trash', 'data-confirm' => __('Are you sure move to trash?')]) ?>
+                                <?= Html::a("<i class='fa fa-trash-o'></i>", ['post/trash', 'id' => $model->getId()], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure move to trash?')]) ?>
                             <?php endif; ?>
 
                         </div>
@@ -274,7 +267,10 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                 <?= Html::submitButton('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Save') . '&nbsp;&nbsp;&nbsp;', ['class' => 'btn btn-success']) ?>
                             <?php endif; ?>
                             <?php if ($model->status == Post::STATUS_IN_TRASH && $this->_user()->canAccessToResource('post/restore')): ?>
-                                <?= Html::a('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Restore'), ['post/restore', 'id' => $model->getId()], ['class' => 'btn btn-success btn-trash', 'data-confirm' => __('Are you sure to restore?')]) ?>
+                                <?= Html::a('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Restore'), [
+                                    'post/restore',
+                                    'id' => $model->getId()
+                                ], ['class' => 'btn btn-success', 'data-confirm' => __('Are you sure to restore?')]) ?>
                             <?php endif; ?>
                         </div>
                         <div class="clearfix"></div>
@@ -291,7 +287,7 @@ $this->registerJs('initPostEditor();');
 ?>
 <script>
     var focused = false;
-    var postUpdated =<?=$model->updated_on ? $model->updated_on->getTimestamp() : 0?>;
+    var postUpdated =<?=$model->updated_on instanceof \MongoDB\BSON\Timestamp ? $model->updated_on->getTimestamp() : 0?>;
     var postEditor = '<?=(string)$model->_author?>';
     var postLocked =<?=$locked ? 'true' : 'false'?>;
     var canEdit =<?=$canEdit ? 'true' : 'false'?>;
@@ -316,7 +312,7 @@ $this->registerJs('initPostEditor();');
 
     function initPostEditor() {
         setCounter();
-        initStatus();
+        //initStatus();
 
         $('#post-info').on('keydown', setCounter);
         $('#post-info').on('blur', setCounter);
@@ -361,7 +357,9 @@ $this->registerJs('initPostEditor();');
                 form.attr('action') + "?status=1",
                 form.serialize(),
                 function (data, status) {
-                    if (postUpdated != data.updated || postEditor != data.author) {
+                    console.log(postUpdated !== data.updated);
+                    console.log(data);
+                    if (postEditor !== data.author || postUpdated !== data.updated) {
                         if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {
                             document.location.href = document.location.href;
                         } else {

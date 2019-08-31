@@ -2,7 +2,6 @@
 
 use backend\widgets\checkbo\CheckBo;
 use backend\widgets\GridView;
-use common\components\Config;
 use common\models\Post;
 use MongoDB\BSON\Timestamp;
 use yii\helpers\Html;
@@ -18,30 +17,14 @@ use yii\widgets\Pjax;
 $this->title                   = __('Manage Posts');
 $this->params['breadcrumbs'][] = $this->title;
 $user                          = $this->_user();
+$types                         = [Post::TYPE_NEWS => 'fa-file-text', Post::TYPE_GALLERY => 'fa-image', Post::TYPE_VIDEO => 'fa-film'];
 ?>
 <div class="button-panel">
-    <?php if (Yii::$app->language == Config::LANGUAGE_RUSSIAN): ?>
-        <?= Html::a('<i class="fa fa-file-text"></i>', ['/ru/post/create', 'type' => Post::TYPE_NEWS, 'language' => Config::LANGUAGE_CYRILLIC], [
-            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => Post::TYPE_NEWS,]), 'class' => 'btn btn-fab btn-raised btn-primary',
+    <?php foreach ($types as $type => $icon): ?>
+        <?= Html::a('<i class="fa ' . $icon . '"></i>', ['post/create', 'type' => $type], [
+            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => $icon]), 'class' => 'btn btn-fab btn-raised btn-primary',
         ]) ?>
-        <?= Html::a('<i class="fa fa-image"></i>', ['/ru/post/create', 'type' => Post::TYPE_GALLERY, 'language' => Config::LANGUAGE_CYRILLIC], [
-            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => Post::TYPE_GALLERY]), 'class' => 'btn btn-fab btn-raised btn-primary',
-        ]) ?>
-        <?= Html::a('<i class="fa fa-film"></i>', ['/ru/post/create', 'type' => Post::TYPE_VIDEO, 'language' => Config::LANGUAGE_CYRILLIC], [
-            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => Post::TYPE_VIDEO]), 'class' => 'btn btn-fab btn-raised btn-primary',
-        ]) ?>
-    <?php else: ?>
-        <?= Html::a('<i class="fa fa-file-text"></i>', ['/post/create', 'type' => Post::TYPE_NEWS, 'language' => Config::LANGUAGE_CYRILLIC], [
-            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => Post::TYPE_NEWS,]), 'class' => 'btn btn-fab btn-raised btn-primary',
-        ]) ?>
-        <?= Html::a('<i class="fa fa-image"></i>', ['/post/create', 'type' => Post::TYPE_GALLERY, 'language' => Config::LANGUAGE_CYRILLIC], [
-            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => Post::TYPE_GALLERY]), 'class' => 'btn btn-fab btn-raised btn-primary',
-        ]) ?>
-        <?= Html::a('<i class="fa fa-film"></i>', ['/post/create', 'type' => Post::TYPE_VIDEO, 'language' => Config::LANGUAGE_CYRILLIC], [
-            'data-pjax' => false, 'title' => __('Create {type} Post', ['type' => Post::TYPE_VIDEO]), 'class' => 'btn btn-fab btn-raised btn-primary',
-        ]) ?>
-    <?php endif ?>
-
+    <?php endforeach; ?>
 </div>
 
 
@@ -147,10 +130,19 @@ $user                          = $this->_user();
                                      [
                                          'attribute' => 'is_main',
                                          'format'    => 'raw',
-                                         'value'     => function ($data) {
-                                             return CheckBo::widget(['type' => 'switch', 'options' => ['onclick' => "changeAttribute('$data->id', 'is_main')", 'disabled' => $data->status != Post::STATUS_PUBLISHED ? true : false], 'name' => $data->id, 'value' => $data->is_main]);
+                                         'value'     => function (Post $data) {
+                                             return CheckBo::widget([
+                                                                        'type'    => 'switch',
+                                                                        'options' => [
+                                                                            'onclick'  => "changeAttribute('$data->id', 'is_main')",
+                                                                            'disabled' => $data->status != Post::STATUS_PUBLISHED ? true : false
+                                                                        ],
+                                                                        'name'    => $data->id,
+                                                                        'value'   => $data->is_main
+                                                                    ]);
                                          },
                                      ],
+
                              ],
                          ]); ?>
 </div>

@@ -92,7 +92,8 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <div class="canvas-close"><i class="mdi mdi-close"></i></div>
 
         <div class="logo-wrapper">
-            <a class="logo text" href="<?= Yii::$app->getHomeUrl() ?>">SOF</a>
+            <a class="logo text" href="<?= Yii::$app->getHomeUrl() ?>">
+                <img src="<?= $this->getImageUrl('images/logo.svg') ?>" alt=""></a>
         </div>
         <div class="mobile-menu hidden-lg hidden-xl"></div>
     </div>

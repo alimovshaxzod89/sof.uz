@@ -168,7 +168,7 @@ class PostController extends BackendController
             Yii::$app->response->format = Response::FORMAT_JSON;
 
             return [
-                'updated' => $model->updated_on ? $model->updated_on->getTimestamp() : 0,
+                'updated' => $model->updated_on instanceof \MongoDB\BSON\Timestamp ? $model->updated_on->getTimestamp() : 0,
                 'editor'  => (string)$model->_creator,
             ];
         }

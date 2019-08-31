@@ -1,6 +1,5 @@
 <?php
 
-use backend\widgets\media\EmbedMedia;
 use common\models\Post;
 use dosamigos\tinymce\TinyMce;
 use yii\helpers\Url;
@@ -15,28 +14,18 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'youtube_url')->textInput([]); ?>
 <?= $form->field($model, 'mover_url')->textInput([]); ?>
 
-<?php if ($model->mover_url && $file = $model->getFileUrl('video')):
-    echo EmbedMedia::widget([
-        'type'    => 'video',
-        'file'    => $file,
-        'options' => ['class' => 'mb15'],
-    ]);
-endif ?>
     <div class="row">
         <div class="col col-md-6">
             <?php if ($file = $model->getMoverEmbedUrl()): ?>
-                <div class="form-group">
-                    <iframe class="embed-responsive-item" height="360" src="<?= $file ?>" frameborder="0"
-                            allowfullscreen></iframe>
-                </div>
+                <iframe class="embed-responsive-item" height="360" src="<?= $file ?>" frameborder="0"
+                        allowfullscreen></iframe>
             <?php endif; ?>
         </div>
         <div class="col col-md-6">
             <?php if ($file = $model->getYoutubeEmbedUrl()): ?>
-                <div class="form-group">
-                    <iframe class="embed-responsive-item" src="<?= $file ?>" frameborder="0"
-                            allowfullscreen></iframe>
-                </div>
+                <iframe src="<?= $file ?>" frameborder="0"
+                        allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
             <?php endif; ?>
         </div>
     </div>

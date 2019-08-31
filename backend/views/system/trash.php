@@ -62,9 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                          if ($data->has_gallery)
                                              $label .= "<i class='fa fa-image'></i> ";
 
-                                         if ($data->label == Post::LABEL_EDITOR_CHOICE)
-                                             $label .= "<i class='fa fa-check'></i> ";
-
                                          return $label;
                                      },
                                  ],

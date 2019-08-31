@@ -4,12 +4,6 @@ use common\models\Page;
 use frontend\components\View;
 
 /**
- * Created by PhpStorm.
- * Date: 12/13/17
- * Time: 12:48 AM
- */
-
-/**
  * @var $this  View
  * @var $model Page
  */
@@ -19,7 +13,7 @@ $this->title = $model->title;
 if ($this instanceof View) {
     $this->_canonical = $model->getViewUrl();
     $this->addBodyClass('post-template-default single single-post no-sidebar ');
-    $this->addBodyClass('page-' . $model->url);
+    $this->addBodyClass('page-' . $model->slug);
 }
 $comments = false;
 ?>
