@@ -28,6 +28,13 @@ $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
 $this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-right pagination-infinite_button');
+$js  = <<<JS
+    jQuery("#sticky-sidebar").theiaStickySidebar({
+        additionalMarginTop: 90,
+        additionalMarginBottom: 20
+    });
+JS;
+$this->registerJs($js);
 ?>
 <div class="site-content">
     <div class="container">
@@ -165,8 +172,8 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                     </main>
                 </div>
             </div>
-            <div class="sidebar-column col-lg-3">
-                <aside class="widget-area">
+            <div class="sidebar-column col-lg-3" id="sticky-sidebar">
+                <aside class="widget-area theiaStickySidebar">
                     <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?php
                     $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));

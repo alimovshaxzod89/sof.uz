@@ -28,6 +28,7 @@ class AppAsset extends AssetBundle
         //'js/wpcf7.js',
         'js/imagesloaded.min.js',
         'js/masonry.min.js',
+        'js/theia-sticky-sidebar.min.js',
         'js/magsy.min.js',
     ];
 

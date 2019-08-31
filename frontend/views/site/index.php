@@ -14,13 +14,21 @@ use yii\widgets\Pjax;
  * @var $mainPosts PostProvider[]
  * @var $photoPosts PostProvider[]
  */
-$this->_canonical = Url::to(['/'], true);
+$this->_canonical = Yii::$app->getHomeUrl();
 $this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page sidebar-none modular-title-1');
 $limit      = 10;
 $photoPosts = PostProvider::getTopPhotos(10);
 $mainPosts  = PostProvider::getTopPosts();
 $mainPost   = false;
 if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPosts);
+
+$js  = <<<JS
+    jQuery("#sticky-sidebar").theiaStickySidebar({
+        additionalMarginTop: 90,
+        additionalMarginBottom: 20
+    });
+JS;
+$this->registerJs($js);
 ?>
 <div class="site-content">
     <div class="content-area">
@@ -84,7 +92,7 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
-                                <aside class="widget-area">
+                                <aside class="widget-area ">
                                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                                         'title' => __('Most read'),
                                         'posts' => PostProvider::getTopPosts(5)
@@ -131,8 +139,8 @@ if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPost
                             </div>
                         </div>
 
-                        <div class="sidebar-column col-lg-3">
-                            <aside class="widget-area">
+                        <div class="sidebar-column col-lg-3" id="sticky-sidebar">
+                            <aside class="widget-area theiaStickySidebar">
                                 <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                                 <?php
                                 $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));

@@ -18,6 +18,13 @@ $limit                         = 12;
 $this->title                   = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
+$js  = <<<JS
+    jQuery("#sticky-sidebar").theiaStickySidebar({
+        additionalMarginTop: 90,
+        additionalMarginBottom: 20
+    });
+JS;
+$this->registerJs($js);
 ?>
 <div class="site-content">
     <div class="container">
@@ -55,8 +62,8 @@ $this->_canonical              = $model->getViewUrl();
                 </div>
             </div>
 
-            <div class="sidebar-column col-lg-3">
-                <aside class="widget-area">
+            <div class="sidebar-column col-lg-3" id="sticky-sidebar">
+                <aside class="widget-area theiaStickySidebar">
                     <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?php
                     $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));

@@ -66,7 +66,7 @@ return [
             'bundles'         => [
                 'yii\bootstrap\BootstrapAsset'       => false,
                 'yii\bootstrap\BootstrapPluginAsset' => false,
-                'yii\web\JqueryAsset'                => [
+                /*'yii\web\JqueryAsset'                => [
                     'sourcePath' => '@frontend/assets/app',
                     'jsOptions'  => [
                         'position' => \frontend\components\View::POS_HEAD
@@ -75,7 +75,7 @@ return [
                         'js/jquery.min.js',
                         'js/jquery-migrate.min.js',
                     ],
-                ],
+                ],*/
             ],
             'linkAssets'      => true,
             'appendTimestamp' => true,

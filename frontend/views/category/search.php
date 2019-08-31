@@ -61,8 +61,8 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
                 </div>
             </div>
 
-            <div class="sidebar-column col-lg-3">
-                <aside class="widget-area">
+            <div class="sidebar-column col-lg-3" id="sticky-sidebar">
+                <aside class="widget-area theiaStickySidebar">
                     <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?php
                     $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));

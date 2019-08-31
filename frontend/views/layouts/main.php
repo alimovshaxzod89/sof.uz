@@ -82,7 +82,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <title><?= $title ?></title>
         <?php $this->head() ?>
     </head>
-    <body class="<?= $this->getBodyClass() ?>">
+    <body class="navbar-sticky stick-now <?= $this->getBodyClass() ?>">
     <?php $this->beginBody() ?>
 
     <?= $content ?>
