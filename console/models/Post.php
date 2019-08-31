@@ -71,8 +71,8 @@ class Post extends \common\models\old\OldPost
         $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
         $image['path']     = str_replace('http://sof.uz/files/uploads/', '', $this->img);
         $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
-        $uploadPath        = \Yii::getAlias('@staticUrl') . DS . 'uploads/photos';
-        $content           = str_replace('https://sof.uz/files/uploads/photos', $uploadPath, $this->full);
+        $uploadPath        = \Yii::getAlias('@staticUrl');
+        $content           = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], [$uploadPath, $uploadPath], $this->full);
         $new               = new NewPost([
                                              'scenario'     => NewPost::SCENARIO_CONVERT,
                                              'old_id'       => $this->id,

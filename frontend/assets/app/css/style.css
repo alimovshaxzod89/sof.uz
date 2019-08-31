@@ -190,3 +190,6 @@ span.meta-category:first-child:before {
         margin-bottom: 25px;
     }
 }
+.navbar .nav-list > .menu-item > a{
+    margin: 0 8px;
+}
