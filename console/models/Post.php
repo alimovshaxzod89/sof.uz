@@ -69,7 +69,7 @@ class Post extends \common\models\old\OldPost
         $tags              = $this->getNewTagsIds();
         $type              = $this->photo == 1 ? NewPost::TYPE_GALLERY : NewPost::TYPE_NEWS;
         $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
-        $image['path']     = str_replace('http://sof.uz/files/uploads/', '', $this->img);
+        $image['path']     = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], ['', ''], $this->img);
         $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
         $uploadPath        = \Yii::getAlias('@staticUrl');
         $content           = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], [$uploadPath, $uploadPath], $this->full);
