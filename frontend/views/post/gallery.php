@@ -147,7 +147,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                         <div class="author-box">
                                             <div class="author-image">
                                                 <img alt='<?= $model->author->full_name ?>'
-                                                     src='<?= $model->getCroppedImage(140, 140, 1) ?>'
+                                                     src='<?= $model->author->getCroppedImage(140, 140, 1) ?>'
                                                      class='avatar avatar-140 photo'
                                                      height='140' width='140'/>
                                             </div>
