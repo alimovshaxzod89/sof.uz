@@ -87,9 +87,8 @@ class Post extends \common\models\old\OldPost
         $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
         $image['path']     = str_replace(['https://sof.uz/files/uploads/', 'http://sof.uz/files/uploads/'], ['', ''], $this->img);
         $img               = pathinfo($this->img);
-        $headers           = @get_headers($this->img);
 
-        if (is_array($img) && isset($img['filename']) && is_array($headers) && isset($headers[2]) && stripos($headers[2], 'image/')) {
+        if (is_array($img) && isset($img['filename'])) {
             $imageName = crc32($img['filename']) . '.' . $img['extension'];
             $path      = \Yii::getAlias('@static/uploads');
 
