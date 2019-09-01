@@ -12,7 +12,7 @@
                 <div>
                     <div class="entry-thumbnail">
                         <a class="u-permalink" href="<?= $post->getViewUrl() ?>"></a>
-                        <img src="<?= $post->getCroppedImage(150, 150) ?>">
+                        <img src="<?= $post->getCroppedImage(150, 150, 1) ?>">
                     </div>
                     <header class="entry-header">
                         <h6 class="entry-title">
