@@ -59,6 +59,21 @@ class Post extends \common\models\old\OldPost
         return $categories;
     }
 
+    public function checkRemoteFile($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        // don't download content
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if (curl_exec($ch) !== FALSE) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function toMongo($author = null)
     {
         $image             = [];
@@ -69,27 +84,46 @@ class Post extends \common\models\old\OldPost
         $tags              = $this->getNewTagsIds();
         $type              = $this->photo == 1 ? NewPost::TYPE_GALLERY : NewPost::TYPE_NEWS;
         $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
-        $image['path']     = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], ['', ''], $this->img);
         $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
-        $uploadPath        = \Yii::getAlias('@staticUrl');
-        $content           = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], [$uploadPath, $uploadPath], $this->full);
-        $new               = new NewPost([
-                                             'scenario'     => NewPost::SCENARIO_CONVERT,
-                                             'old_id'       => $this->id,
-                                             'title'        => $this->title,
-                                             'info'         => $this->short,
-                                             'content'      => $content,
-                                             'views'        => $this->views,
-                                             'slug'         => $slug,
-                                             'status'       => $status,
-                                             'image'        => $image,
-                                             'published_on' => new Timestamp(1, time()),
-                                             'type'         => $type,
-                                             '_author'      => $author,
-                                             '_categories'  => $categories,
-                                             '_tags'        => $tags,
-                                             'created_at'   => new Timestamp(1, $this->date),
-                                         ]);
+        $image['path']     = str_replace(['https://sof.uz/files/uploads/', 'http://sof.uz/files/uploads/'], ['', ''], $this->img);
+        $img               = pathinfo($this->img);
+        $headers           = @get_headers($this->img);
+
+        if (is_array($img) && isset($img['filename']) && is_array($headers) && isset($headers[2]) && stripos($headers[2], 'image/')) {
+            $imageName = crc32($img['filename']) . '.' . $img['extension'];
+            $path      = \Yii::getAlias('@static/uploads');
+
+            try {
+                $rand = rand(0, 9);
+                set_time_limit(0);
+                $save = file_put_contents($path . DS . $rand . DS . $imageName, fopen($this->img, 'r'));
+                if ($save)
+                    $image['path'] = $rand . '/' . $imageName;
+
+            } catch (\Exception$e) {
+                $image['path'] = '';
+            }
+        }
+
+        $uploadPath = \Yii::getAlias('@staticUrl');
+        $content    = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], $uploadPath, $this->full);
+        $new        = new NewPost([
+                                      'scenario'     => NewPost::SCENARIO_CONVERT,
+                                      'old_id'       => $this->id,
+                                      'title'        => $this->title,
+                                      'info'         => $this->short,
+                                      'content'      => $content,
+                                      'views'        => $this->views,
+                                      'slug'         => $slug,
+                                      'status'       => $status,
+                                      'image'        => $image,
+                                      'published_on' => new Timestamp(1, time()),
+                                      'type'         => $type,
+                                      '_author'      => $author,
+                                      '_categories'  => $categories,
+                                      '_tags'        => $tags,
+                                      'created_at'   => new Timestamp(1, $this->date),
+                                  ]);
 
         if ($new->save()) {
             $new->syncLatinCyrill(Config::LANGUAGE_UZBEK, 1);

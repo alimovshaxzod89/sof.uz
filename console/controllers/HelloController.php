@@ -149,4 +149,11 @@ class HelloController extends Controller
         $this->stdout("Converter Posts.\n", Console::FG_GREEN);
         $this->convertPosts();
     }
+
+    public function actionHi()
+    {
+        $text  = 'https://sof.uz/files/uploads/photos/9e4301b0bdbbfcee4475a4d3febd7e4b.jpg';
+        $start = stripos($text, 'uploads/');
+        $path  = substr($text, $start, strlen($text) - $start);
+    }
 }
