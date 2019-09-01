@@ -85,9 +85,17 @@ class Post extends \common\models\old\OldPost
         $type              = $this->photo == 1 ? NewPost::TYPE_GALLERY : NewPost::TYPE_NEWS;
         $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
         $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
-        $image['path']     = str_replace(['https://sof.uz/files/uploads/', 'http://sof.uz/files/uploads/'], ['', ''], $this->img);
-        $img               = pathinfo($this->img);
 
+        if (stripos($this->img, 'sof.uz')) {
+            $image['path'] = str_replace(['https://sof.uz/files/uploads/', 'http://sof.uz/files/uploads/'], ['', ''], $this->img);
+        } else {
+            $image['path'] = 'photos/' . basename($this->img);
+            $files         = \Yii::getAlias('@root/files.txt');
+            $data          = file_get_contents($files) . "\n" . $this->img;
+            file_put_contents($files, $data);
+        }
+
+        /*$img               = pathinfo($this->img);
         if (is_array($img) && isset($img['filename'])) {
             $imageName = crc32($img['filename']) . '.' . $img['extension'];
             $path      = \Yii::getAlias('@static/uploads');
@@ -102,7 +110,7 @@ class Post extends \common\models\old\OldPost
             } catch (\Exception$e) {
                 $image['path'] = '';
             }
-        }
+        }*/
 
         $uploadPath = \Yii::getAlias('@staticUrl');
         $content    = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], $uploadPath, $this->full);
