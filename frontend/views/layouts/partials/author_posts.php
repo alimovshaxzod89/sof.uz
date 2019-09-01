@@ -12,7 +12,7 @@
                 <div>
                     <div class="entry-thumbnail">
                         <a class="u-permalink" href="<?= $post->author->getViewUrl() ?>"></a>
-                        <img src="<?= $post->hasAuthor() ? $post->author->getCroppedImage(150, 150, 1) : $post->getCroppedImage(150, 150, 1) ?>">
+                        <img src="<?= $post->hasAuthor() ? $post->author->getCroppedImage(150, 150, 1) : $post->getCroppedImage(150, 150) ?>">
                     </div>
                     <header class="entry-header">
                         <h6 class="entry-title">
