@@ -11,6 +11,7 @@ use common\models\Tag;
 use console\models\Category as OldCat;
 use console\models\Post as OldPost;
 use console\models\Tag as OldTag;
+use MongoDB\BSON\Timestamp;
 use yii\console\Controller;
 use yii\helpers\Console;
 
@@ -150,10 +151,20 @@ class HelloController extends Controller
         $this->convertPosts();
     }
 
-    public function actionHi()
+    public function actionDate()
     {
-        $text  = 'https://sof.uz/files/uploads/photos/9e4301b0bdbbfcee4475a4d3febd7e4b.jpg';
-        $start = stripos($text, 'uploads/');
-        $path  = substr($text, $start, strlen($text) - $start);
+        /* @var $posts Post[] */
+        $posts = Post::find()->select(['old_id', 'published_on'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Posts');
+        foreach ($posts as $i => $post) {
+            $old = \console\models\Post::findOne(['id' => $post->old_id]);
+            if ($old instanceof \console\models\Post) {
+                $post->updateAttributes(['published_on' => new Timestamp(1, $old->date)]);
+                Console::updateProgress($i + 1, count($posts));
+                flush();
+            }
+        }
+        Console::endProgress();
+        ob_get_clean();
     }
 }
