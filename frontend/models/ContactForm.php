@@ -20,11 +20,11 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'name'       => __('Ism-familya'),
-            'email'      => __('Elektron pochta'),
-            'subject'    => __('Mavzu'),
-            'body'       => __('Xabar mazmuni'),
-            'verifyCode' => __('Bot emasmisiz?'),
+            'name'       => __('Исм-фамиля'),
+            'email'      => __('Електрон почта'),
+            'subject'    => __('Мавзу'),
+            'body'       => __('Хабар мазмуни'),
+            'verifyCode' => __('Бот емасмисиз?'),
         ];
     }
 
@@ -54,7 +54,7 @@ class ContactForm extends Model
     {
 
         $emails = [
-            getenv('CONTACT_EMAIL') => 'SOF',
+            getenv('ADMIN_EMAIL') => 'SOF',
         ];
 
         return Yii::$app->mailer->compose([])

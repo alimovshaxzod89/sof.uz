@@ -7,58 +7,90 @@
 
 use frontend\components\View;
 use himiklab\yii2\recaptcha\ReCaptcha;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
-$this->title                   = __('Aloqa');
+$this->title                   = __('Алоқа');
 $this->_canonical              = Url::to(['/contact']);
 $this->params['breadcrumbs'][] = $this->title;
-$this->addDescription([__('Biz bilan bog\'laning')]);
+$this->addDescription([__("Биз билан боғланинг")]);
 ?>
-<div class="main-container container  mt-32" id="main-container">
-    <div class="row">
-        <div class="col-lg-8 blog__content mb-40">
-            <div class="content-box">
-                <h4 class="widget-title"><?= __('Biz bilan bog\'laning') ?></h4>
+<style>
+    .form-group {
+        padding-bottom: 25px;
+    }
 
-                <p>
-                    <?= __('Сайт фаолияти юзасидан таклиф ёки танқидларингиз борми? «Zarnews.uz»га мақола ёки хабар юбормоқчимисиз? Ёки ўзингиз гувоҳ бўлган қандайдир ҳодиса ҳақида маълум қилмоқчимисиз? Ҳамкорликка тайёрмиз, биз билан ўзингизга қулай шаклда боғланинг.') ?>
-                </p>
-                <hr>
-                <div class="card-row">
-                    <?= \frontend\widgets\Alert::widget() ?>
+    .form-group .wpcf7-form-control {
+        margin-bottom: 0;
+    }
 
-                    <?php $form = ActiveForm::begin(['options' => ['class' => 'contact-form mt-30 mb-30']]); ?>
+    .form-group.has-error {
+        padding-bottom: 0;
+    }
 
-                    <?= $form->field($model, 'name')->textInput(['autofocus' => false, 'autocomplate' => false, 'placeholder' => $model->getAttributeLabel('name')]) ?>
+    .form-group .help-block {
+        margin-bottom: 12px;
+        font-size: 12px;
+        color: red;
+    }
+</style>
+<div class="site-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content-area">
+                    <main class="site-main">
+                        <article id="post-241" class="post page type-page status-publish hentry">
+                            <div class="container small">
+                                <header class="entry-header">
+                                    <h1 class="entry-title"><?= $this->title ?></h1>
+                                </header>
+                                <br>
+                            </div>
 
-                    <?= $form->field($model, 'email')->textInput(['autofocus' => false, 'autocomplate' => false, 'placeholder' => $model->getAttributeLabel('email')]) ?>
+                            <div class="container medium">
+                            </div>
 
-                    <?= $form->field($model, 'subject')->textInput(['autofocus' => false, 'autocomplate' => false, 'placeholder' => $model->getAttributeLabel('subject')]) ?>
+                            <div class="container small">
+                                <div class="entry-wrapper">
+                                    <div class="entry-content u-text-format u-clearfix">
+                                        <p><?= __('Сайт фаолияти юзасидан таклиф ёки танқидларингиз борми? «sof.uz»га мақола ёки хабар юбормоқчимисиз? Ёки ўзингиз гувоҳ бўлган қандайдир ҳодиса ҳақида маълум қилмоқчимисиз? Ҳамкорликка тайёрмиз, биз билан боғланинг.') ?></p>
 
-                    <?= $form->field($model, 'body')->textarea(['rows' => 6, 'autofocus' => false, 'autocomplate' => false, 'placeholder' => $model->getAttributeLabel('body')]) ?>
+                                        <div role="form" class="wpcf7">
+                                            <div class="screen-reader-response"></div>
+                                            <?php $form = ActiveForm::begin([
+                                                                                'options' => [
+                                                                                    'class'      => "wpcf7-form",
+                                                                                    'novalidate' => "novalidate"
+                                                                                ]
+                                                                            ]) ?>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <?= $form->field($model, 'name')->textInput(['class' => 'wpcf7-form-control wpcf7-text', 'autofocus' => false, 'autocomplate' => false]) ?>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <?= $form->field($model, 'email')->textInput(['class' => 'wpcf7-form-control wpcf7-text', 'autofocus' => false, 'autocomplate' => false]) ?>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <?= $form->field($model, 'subject')->textInput(['class' => 'wpcf7-form-control wpcf7-text', 'autofocus' => false, 'autocomplate' => false]) ?>
+                                                </div>
+                                            </div>
+                                            <?= $form->field($model, 'body')
+                                                     ->textarea(['cols' => 40, 'rows' => 10, 'autofocus' => false, 'autocomplate' => false, 'class' => 'wpcf7-form-control wpcf7-textarea']) ?>
 
-                    <div class="row mt-32">
-                        <div class="col-md-8">
-                            <?= $form->field($model, 'verifyCode')->widget(ReCaptcha::className(), [])->label(false) ?>
-
-                        </div>
-                        <div class="col-md-4 text-right">
-                            <?= Html::submitButton(__('Jo\'natish'), ['class' => 'btn btn-lg btn-color btn-button btn-wide']) ?>
-
-                        </div>
-                    </div>
-
-                    <?php ActiveForm::end(); ?>
+                                            <?= YII_DEBUG ? '' : $form->field($model, 'verifyCode')->widget(ReCaptcha::className(), [])->label(false) ?>
+                                            <p>
+                                                <?= \yii\helpers\Html::submitButton(__("Жўнатиш"), ['class' => 'btn btn-lg btn-color btn-button btn-wide']) ?>
+                                            </p>
+                                            <?php ActiveForm::end() ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </main>
                 </div>
-
             </div>
         </div>
-        <aside class="col-lg-4 sidebar sidebar--right ssbar">
-            <aside class="widget widget-popular-posts">
-                <?= \common\models\Page::getStaticBlock('sidebar-contact') ?>
-            </aside>
-        </aside>
     </div>
 </div>

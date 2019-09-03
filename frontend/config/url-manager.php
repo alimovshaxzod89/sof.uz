@@ -1,15 +1,16 @@
 <?php
 
 return [
-    'class'                        => 'codemix\localeurls\UrlManager',
-    'languages'                    => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
-    'enableLanguageDetection'      => false,
-    'enableLanguagePersistence'    => true,
-    'showScriptName'               => false,
-    'enablePrettyUrl'              => true,
-    'rules'                        => [
-        '/'       => 'site/index',
-        '/search' => 'category/search',
+    'class'                     => 'codemix\localeurls\UrlManager',
+    'languages'                 => ['oz' => 'oz-UZ', 'uz' => 'uz-UZ'],
+    'enableLanguageDetection'   => false,
+    'enableLanguagePersistence' => true,
+    'showScriptName'            => false,
+    'enablePrettyUrl'           => true,
+    'rules'                     => [
+        '/'        => 'site/index',
+        '/contact' => 'site/contact',
+        '/search'  => 'category/search',
 
         '/<short:[a-z0-9-]{3,4}>' => 'post/short',
         '<slug:[a-z0-9-]+>'       => 'category/view',
