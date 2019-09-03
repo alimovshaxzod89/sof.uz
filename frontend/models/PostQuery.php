@@ -6,7 +6,6 @@ use yii\mongodb\ActiveQuery;
 
 class PostQuery extends ActiveQuery
 {
-
     public function active($fields = [])
     {
         return $this->select(
@@ -19,6 +18,7 @@ class PostQuery extends ActiveQuery
                             'info',
                             'image',
                             '_categories',
+                            '_translations',
                             'published_on',
                             'audio',
                             'views',

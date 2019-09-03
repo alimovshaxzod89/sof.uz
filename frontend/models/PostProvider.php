@@ -144,7 +144,6 @@ class PostProvider extends Post
         return count($result) ? $result : [];
     }
 
-
     /**
      * @param int   $limit
      * @param bool  $batch

@@ -167,4 +167,9 @@ class HelloController extends Controller
         Console::endProgress();
         ob_get_clean();
     }
+
+    public function actionAuthor()
+    {
+        Post::updateAll(['_author' => null]);
+    }
 }

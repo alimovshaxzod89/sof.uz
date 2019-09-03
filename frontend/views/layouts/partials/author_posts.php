@@ -10,10 +10,12 @@
         <div class="posts">
             <?php foreach ($posts as $post) : ?>
                 <div>
-                    <div class="entry-thumbnail">
-                        <a class="u-permalink" href="<?= $post->author->getViewUrl() ?>"></a>
-                        <img src="<?= $post->hasAuthor() ? $post->author->getCroppedImage(150, 150, 1) : $post->getCroppedImage(150, 150, 1) ?>">
-                    </div>
+                    <?php if ($post->hasAuthor()): ?>
+                        <div class="entry-thumbnail">
+                            <a class="u-permalink" href="<?= $post->author->getViewUrl() ?>"></a>
+                            <img src="<?= $post->hasAuthor() ? $post->author->getCroppedImage(150, 150, 1) : $post->getCroppedImage(150, 150, 1) ?>">
+                        </div>
+                    <?php endif; ?>
                     <header class="entry-header">
                         <h6 class="entry-title">
                             <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->title ?></a>
