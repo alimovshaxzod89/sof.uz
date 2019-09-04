@@ -236,3 +236,7 @@ span.meta-category:first-child:before {
     min-height: 60px;
     overflow: hidden;
 }
+
+.entry-media .placeholder {
+    height: inherit;
+}

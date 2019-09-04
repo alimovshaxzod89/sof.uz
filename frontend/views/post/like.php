@@ -17,7 +17,7 @@
                                     <div class="placeholder" style="padding-bottom: 66.666666666667%;">
                                         <a href="<?= $similarPost->getViewUrl() ?>">
                                             <img alt="<?= $similarPost->title ?>"
-                                                 src="<?= $similarPost->getCroppedImage(220, 146) ?>">
+                                                 src="<?= $similarPost->getCroppedImage(220, 146, 1) ?>">
                                         </a>
                                     </div>
                                 </div>

@@ -73,7 +73,7 @@ $this->registerJs($js);
                             </div>
                             <div class="">
                                 <div class="entry-media">
-                                    <div class="placeholder" style="padding-bottom: 66.724137931034%;">
+                                    <div class="placeholder">
                                         <a href="<?= $model->getViewUrl() ?>">
                                             <img src="<?= $model->getFileUrl('image') ?>"
                                                  alt="<?= $model->title ?>">
