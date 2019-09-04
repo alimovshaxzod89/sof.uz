@@ -137,7 +137,7 @@ span.meta-category:first-child:before {
     margin-bottom: 60px;
 }
 
-.widget-posts .entry-meta, .entry-header .entry-meta{
+.widget-posts .entry-meta, .entry-header .entry-meta {
     margin-top: 8px;
 }
 
@@ -182,14 +182,51 @@ span.meta-category:first-child:before {
         margin-top: 30px;
     }
 
-    .col-lg-3 .widget_magsy_posts_widget{
-     margin-top: 30px;
+    .col-lg-3 .widget_magsy_posts_widget {
+        margin-top: 30px;
     }
 
     .row.posts-wrapper .post-list {
         margin-bottom: 25px;
     }
 }
-.navbar .nav-list > .menu-item > a{
+
+.navbar .nav-list > .menu-item > a {
     margin: 0 8px;
+}
+
+.load-button.load-more {
+    position: relative;
+}
+
+.load-button.load-more .loading-circle {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #fff transparent;
+    animation: rotate 1s linear infinite;
+    top: 50%;
+    margin: -8px 20px;
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.load-button.load-more .loading-circle {
+    display: none;
+}
+
+.load-button.load-more.btn__more .loading-circle {
+    display: block;
 }

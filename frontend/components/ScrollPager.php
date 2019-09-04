@@ -79,7 +79,7 @@ class ScrollPager extends LinkPager
             $buttons[] = $this->renderPageButton($lastPageLabel, $pageCount - 1, $this->lastPageCssClass, $currentPage >= $pageCount - 1, false);
         }
         $options = $this->options;
-        return Html::a("<span class='loading-circle'></span> <span>".$this->buttonText."</span>", Url::current([$this->loadParam => $this->perLoad + $this->pagination->getPageSize()]), $options);
+        return Html::a("<i class='loading-circle'></i> ".$this->buttonText, Url::current([$this->loadParam => $this->perLoad + $this->pagination->getPageSize()]), $options);
     }
 
 

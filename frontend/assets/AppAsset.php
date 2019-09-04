@@ -25,11 +25,11 @@ class AppAsset extends AssetBundle
     public $js = /*ASSET_BUNDLE ? [
         'js/app.min.js',
     ] : */[
-        //'js/wpcf7.js',
         'js/imagesloaded.min.js',
         'js/masonry.min.js',
         'js/theia-sticky-sidebar.min.js',
         'js/magsy.min.js',
+        'js/scripts.js',
     ];
 
     public function init()
