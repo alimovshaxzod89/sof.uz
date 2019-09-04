@@ -4,9 +4,10 @@ namespace common\models;
 
 use MongoDB\BSON\Timestamp;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
- * Class Currency
+ * Class Ad
  * @package common\models
  * @property string    title
  * @property array     image
@@ -34,13 +35,13 @@ class Ad extends MongoModel
     public $clickable = false;
 
     const TYPE_IMAGE = 'image';
-    const TYPE_CODE  = 'code';
+    const TYPE_CODE = 'code';
 
-    const STATUS_ENABLE        = 'enable';
-    const STATUS_DISABLE       = 'disable';
-    const STATUS_EXPIRE        = 'expire';
-    const STATUS_PENDING       = 'pending';
-    const STATUS_LIMITED_VIEW  = 'limited_view';
+    const STATUS_ENABLE = 'enable';
+    const STATUS_DISABLE = 'disable';
+    const STATUS_EXPIRE = 'expire';
+    const STATUS_PENDING = 'pending';
+    const STATUS_LIMITED_VIEW = 'limited_view';
     const STATUS_LIMITED_CLICK = 'limited_click';
 
     public static function collectionName()
@@ -76,8 +77,7 @@ class Ad extends MongoModel
 
     public function attributes()
     {
-        return [
-            '_id',
+        return ArrayHelper::merge(parent::attributes(), [
             'title',
             'image',
             'image_tablet',
@@ -93,21 +93,26 @@ class Ad extends MongoModel
             'status',
             'views',
             'clicks',
-            'created_at',
-            'updated_at',
-        ];
+        ]);
     }
 
     public function rules()
     {
         return [
-            [['title', 'status', 'type'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            ['title', 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['date_from', 'date_to', 'limit_click', 'limit_view'], 'safe'],
             [['image', 'image_mobile'], 'safe'],
             [['code', 'code_mobile'], 'safe'],
-            [['url'], 'url'],
-            [['url'], 'safe'],
+            ['url', 'url'],
+            ['url', 'safe'],
             [['search'], 'safe'],
+            ['url', 'default', 'value' => '#'],
+            /*['url', 'required', 'when' => function (self $model) {
+                return !$model->isNewRecord && $model->type == self::TYPE_IMAGE;
+            }, 'on'                    => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],*/
+            ['status', 'default', 'value' => self::STATUS_ENABLE],
+            [['clicks', 'views'], 'default', 'value' => 0],
+            ['type', 'default', 'value' => self::TYPE_IMAGE],
         ];
     }
 

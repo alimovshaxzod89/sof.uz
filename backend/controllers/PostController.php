@@ -294,7 +294,7 @@ class PostController extends BackendController
                                 'post/edit',
                                 'id'      => $model->getId(),
                                 'release' => 1,
-                                'return'  => 'post/index'
+                                'return'  => Url::to(['post/index'])
                             ])
                         ]));
                     } else {

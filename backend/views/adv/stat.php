@@ -1,4 +1,9 @@
 <?php
+/**
+ * @link      http://www.activemedia.uz/
+ * @copyright Copyright (c) 2017. ActiveMedia Solutions LLC
+ * @author    Toir Tuychiyev <toir427@gmail.com>
+ */
 
 use backend\components\View;
 use common\models\Stat;

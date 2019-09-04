@@ -29,6 +29,10 @@ $limit                         = 12;
         <div class="row">
             <div class="col-lg-12">
                 <div class="content-area">
+                    <?= \frontend\widgets\Banner::widget([
+                                                             'place'   => 'before_main',
+                                                             'options' => ['class' => 'ads-wrapper']
+                                                         ]) ?>
                     <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                     <?= ListView::widget([
                                              'dataProvider' => PostProvider::getAuthorPosts($model, $limit),

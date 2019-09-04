@@ -32,19 +32,6 @@ class AdvController extends BackendController
      * @param $id
      * @return string
      * @throws NotFoundHttpException
-     * @resource Advertising | Manage Ads | adv/view
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * @param $id
-     * @return string
-     * @throws NotFoundHttpException
      * @resource Advertising | Manage Ads | adv/stat
      */
     public function actionStat($id)
@@ -67,12 +54,8 @@ class AdvController extends BackendController
      */
     public function actionEdit($id = false)
     {
-        if ($id) {
-            $model           = $this->findModel($id);
-            $model->scenario = Ad::SCENARIO_UPDATE;
-        } else {
-            $model = new Ad(['scenario' => 'insert']);
-        }
+        $model = $id ? $this->findModel($id) : new Ad();
+        $model->setScenario($id ? Ad::SCENARIO_UPDATE : Ad::SCENARIO_INSERT);
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -83,12 +66,12 @@ class AdvController extends BackendController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->checkStatus();
             $model->checkLimit();
-
-            if ($id) {
-                $this->addSuccess(__('Advertising {title} updated successfully', ['title' => $model->title]));
-            } else {
-                $this->addSuccess(__('Advertising {title} created successfully', ['title' => $model->title]));
-            }
+            $this->addSuccess(
+                __('Advertising `{title}` {action} successfully.', [
+                    'title'  => $model->title,
+                    'action' => $id ? "updated" : "created",
+                ])
+            );
 
             return $this->redirect(['edit', 'id' => $model->getId()]);
         }
@@ -112,7 +95,11 @@ class AdvController extends BackendController
         try {
             if ($model->delete()) {
 
-                $this->addSuccess(__('Advertising {title} deleted successfully', ['title' => $model->title]));
+                $this->addSuccess(
+                    __('Advertising `{title}` deleted successfully.', [
+                        'title' => $model->title
+                    ])
+                );
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());
@@ -135,7 +122,7 @@ class AdvController extends BackendController
         if (($model = Ad::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested ad does not exist.');
         }
     }
 

@@ -1,11 +1,8 @@
 <?php
 
-use common\components\Config;
 use frontend\components\ScrollPager;
 use frontend\components\View;
-use frontend\models\CategoryProvider;
 use frontend\models\PostProvider;
-use yii\helpers\Url;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -22,7 +19,7 @@ $mainPosts  = PostProvider::getTopPosts();
 $mainPost   = false;
 if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPosts);
 
-$js  = <<<JS
+$js = <<<JS
     jQuery("#sticky-sidebar").theiaStickySidebar({
         additionalMarginTop: 90,
         additionalMarginBottom: 20
@@ -33,6 +30,11 @@ $this->registerJs($js);
 <div class="site-content">
     <div class="content-area">
         <main class="site-main">
+            <?= \frontend\widgets\Banner::widget([
+                                                     'place'   => 'before_main',
+                                                     'options' => ['class' => 'ads-wrapper']
+                                                 ]) ?>
+
             <?php if ($mainPost && count($mainPosts)): ?>
                 <div id="magsy_module_post_big_list-2" class="section widget_magsy_module_post_big_list">
                     <div class="container">
@@ -111,6 +113,10 @@ $this->registerJs($js);
                             <div class="content-area">
                                 <main class="site-main">
                                     <h5 class="u-border-title"><?= __('Latest News') ?></h5>
+                                    <?= \frontend\widgets\Banner::widget([
+                                                                             'place'   => 'before_content',
+                                                                             'options' => ['class' => 'ads-wrapper']
+                                                                         ]) ?>
                                     <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                                     <?= ListView::widget([
                                                              'dataProvider' => PostProvider::getLastPosts($limit, true),
@@ -140,22 +146,9 @@ $this->registerJs($js);
                         </div>
 
                         <div class="sidebar-column col-lg-3" id="sticky-sidebar">
-                            <aside class="widget-area theiaStickySidebar">
-                                <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
-                                <?php
-                                $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
-                                if ($cat instanceof CategoryProvider): ?>
-                                    <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
-                                        'title' => $cat->name,
-                                        'posts' => PostProvider::getPostsByCategory($cat, 5, false)
-                                    ]) ?>
-                                <?php endif; ?>
-                                <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-                                <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
-                                    'title' => __('Authors'),
-                                    'posts' => PostProvider::getTopAuthors()
-                                ]) ?>
-                            </aside>
+                            <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
+                                'model' => null
+                            ]) ?>
                         </div>
                     </div>
                 </div>

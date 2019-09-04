@@ -3,12 +3,13 @@
 namespace backend\controllers;
 
 use common\models\Ad;
-use Yii;
 use common\models\Place;
-use yii\web\Response;
+use Yii;
 use yii\base\Exception;
-use yii\widgets\ActiveForm;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class PlaceController extends BackendController
 {
@@ -29,19 +30,15 @@ class PlaceController extends BackendController
     }
 
     /**
-     * @param bool $id
-     *
+     * @param mixed $id
      * @return array|string|Response
+     * @throws NotFoundHttpException
      * @resource Advertising | Edit Places | place/edit
      */
     public function actionEdit($id = false)
     {
-        if ($id) {
-            $model = $this->findModel($id);
-            $model->setScenario('update');
-        } else {
-            $model = new Place(['scenario' => 'insert']);
-        }
+        $model = $id ? $this->findModel($id) : new Place();
+        $model->setScenario($id ? Place::SCENARIO_UPDATE : Place::SCENARIO_INSERT);
 
         if ($this->isAjax()) {
             if ($model->load($this->post())) {
@@ -50,13 +47,13 @@ class PlaceController extends BackendController
             }
 
             if ($this->get('add')) {
-                if ($data = @json_decode($this->post('data'), true)) {
+                if ($data = Json::decode($this->post('data'), true)) {
                     return $model->addAds($data);
                 }
             }
 
             if ($this->get('remove')) {
-                if ($data = @json_decode($this->post('data'), true)) {
+                if ($data = Json::decode($this->post('data'), true)) {
                     return $model->removeAds($data);
                 }
             }
@@ -81,11 +78,12 @@ class PlaceController extends BackendController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if ($id) {
-                $this->addSuccess(__('Place {title} updated successfully', ['title' => $model->title]));
-            } else {
-                $this->addSuccess(__('Place {title} created successfully', ['title' => $model->title]));
-            }
+            $this->addSuccess(
+                __('Place `{title}` {action} successfully.', [
+                    'title'  => $model->title,
+                    'action' => $id ? "updated" : "created",
+                ])
+            );
 
             return $this->redirect(['edit', 'id' => $model->getId()]);
         }
@@ -111,7 +109,11 @@ class PlaceController extends BackendController
         try {
             if ($model->delete()) {
 
-                $this->addSuccess(__('Place {title} deleted successfully', ['title' => $model->title]));
+                $this->addSuccess(
+                    __('Place `{title}` deleted successfully.', [
+                        'title' => $model->title
+                    ])
+                );
             }
         } catch (Exception $e) {
             $this->addError($e->getMessage());
@@ -133,7 +135,7 @@ class PlaceController extends BackendController
         if (($model = Place::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested Place does not exist.');
+            throw new NotFoundHttpException('The requested place does not exist.');
         }
     }
 
@@ -148,7 +150,7 @@ class PlaceController extends BackendController
         if (($model = Ad::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested Ad does not exist.');
+            throw new NotFoundHttpException('The requested ad does not exist.');
         }
     }
 }

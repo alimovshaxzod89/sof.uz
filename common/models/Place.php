@@ -4,8 +4,8 @@ namespace common\models;
 
 use MongoDB\BSON\ObjectId;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\behaviors\TimestampBehavior;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -24,11 +24,11 @@ use yii\helpers\ArrayHelper;
  */
 class Place extends MongoModel
 {
-    const MODE_ONE  = 'one';
+    const MODE_ONE = 'one';
     const MODE_RAND = 'rand';
 
     const STATUS_DISABLE = 'disable';
-    const STATUS_ENABLE  = 'enable';
+    const STATUS_ENABLE = 'enable';
     const STATUS_PENDING = 'pending';
 
     protected $_translatedAttributes = ['title'];
@@ -41,8 +41,7 @@ class Place extends MongoModel
 
     public function attributes()
     {
-        return [
-            '_id',
+        return ArrayHelper::merge(parent::attributes(), [
             'title',
             'status',
             'slug',
@@ -50,25 +49,23 @@ class Place extends MongoModel
             '_ads_percent',
             'mode',
             '_user',
-            'created_at',
-            'updated_at',
-
-            '_translations',
-        ];
+        ]);
     }
 
     public function rules()
     {
         return [
-            [['title', 'status', 'mode'], 'required', 'on' => ['insert', 'update']],
-            [['title', 'slug'], 'unique', 'on' => ['insert', 'update']],
+            ['title', 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['title', 'slug'], 'unique', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
 
-            [['status'], 'in', 'range' => array_keys(self::getStatusArray())],
-            [['mode'], 'in', 'range' => array_keys(self::getModeArray())],
-            [['title', 'slug'], 'safe', 'on' => ['insert', 'update']],
-            [['slug'], 'required', 'on' => ['update']],
-            [['title'], 'string', 'max' => 255],
-            [['search'], 'safe'],
+            ['status', 'in', 'range' => array_keys(self::getStatusArray())],
+            ['mode', 'in', 'range' => array_keys(self::getModeArray())],
+            [['title', 'slug'], 'safe', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            ['slug', 'required', 'on' => self::SCENARIO_UPDATE],
+            ['title', 'string', 'max' => 255],
+            ['search', 'safe'],
+            ['status', 'default', 'value' => self::STATUS_DISABLE],
+            ['mode', 'default', 'value' => self::MODE_ONE],
         ];
     }
 
@@ -88,13 +85,9 @@ class Place extends MongoModel
     public static function getAll()
     {
         $all = self::find()->all() ?: [];
-
-        return ArrayHelper::map(
-            $all,
-            function (self $model) {
-                return $model->getId();
-            }, 'title'
-        );
+        return ArrayHelper::map($all, function (self $model) {
+            return $model->getId();
+        }, 'title');
     }
 
     public static function getModeArray()
@@ -248,7 +241,8 @@ class Place extends MongoModel
 
 
         if ($this->search) {
-            $query->orFilterWhere(['like', 'title', $this->search]);
+            $query->orFilterWhere(['title' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['slug' => ['$regex' => $this->search, '$options' => 'si']]);
         }
 
         return $dataProvider;

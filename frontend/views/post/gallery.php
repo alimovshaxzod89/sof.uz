@@ -31,6 +31,14 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
 <div class="site-content">
     <div class="container">
         <div class="row">
+            <div class="col-md-12">
+                <?= \frontend\widgets\Banner::widget([
+                                                         'place'   => 'before_main',
+                                                         'options' => ['class' => 'ads-wrapper']
+                                                     ]) ?>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12">
                 <div class="content-area">
                     <main class="site-main">
@@ -142,6 +150,11 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                             </div>
                                         </div>
                                     <?php endif; ?>
+
+                                    <?= \frontend\widgets\Banner::widget([
+                                                                             'place'   => 'after_content',
+                                                                             'options' => ['class' => 'ads-wrapper']
+                                                                         ]) ?>
 
                                     <?php if ($model->hasAuthor()): ?>
                                         <div class="author-box">

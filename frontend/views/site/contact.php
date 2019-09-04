@@ -33,6 +33,10 @@ $this->addDescription([__("Биз билан боғланинг")]);
         font-size: 12px;
         color: red;
     }
+
+    .u-text-format h4 {
+        margin-top: 30px;
+    }
 </style>
 <div class="site-content">
     <div class="container">
@@ -54,7 +58,26 @@ $this->addDescription([__("Биз билан боғланинг")]);
                             <div class="container small">
                                 <div class="entry-wrapper">
                                     <div class="entry-content u-text-format u-clearfix">
+
                                         <p><?= __('Сайт фаолияти юзасидан таклиф ёки танқидларингиз борми? «sof.uz»га мақола ёки хабар юбормоқчимисиз? Ёки ўзингиз гувоҳ бўлган қандайдир ҳодиса ҳақида маълум қилмоқчимисиз? Ҳамкорликка тайёрмиз, биз билан боғланинг.') ?></p>
+
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h5><?= __('Манзил:') ?></h5>
+                                                <p><?= __("Тошкент шаҳри Нукус кўчаси 73-А уй.") ?></p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5><?= __('Тел:') ?> </h5>
+                                                <p><?= __("+998(97) 773 44 12") ?></p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5><?= __("Электрон почта:") ?></h5>
+                                                <p><?= __("sofxabar@gmail.com") ?></p>
+                                            </div>
+                                        </div>
+
+                                        <h3 class="entry-title"><?= __("Хабар жўнатиш") ?></h3>
 
                                         <div role="form" class="wpcf7">
                                             <div class="screen-reader-response"></div>

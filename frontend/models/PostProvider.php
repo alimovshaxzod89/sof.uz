@@ -195,16 +195,20 @@ class PostProvider extends Post
         return count($result) ? $result : [];
     }
 
-    public static function getTopPosts($limit = 6)
+    public static function getTopPosts($limit = 6, $exclude = [])
     {
-        $result = self::find()
-                      ->active()
-                      ->andWhere([
-                                     'published_on' => ['$gte' => new Timestamp(1, time() - 5 * 24 * 3600)],
-                                 ])
-                      ->addOrderBy(['views_l3d' => SORT_DESC])
-                      ->limit($limit)
-                      ->all();
+        $query = self::find()->active();
+        if (is_array($exclude) && count($exclude)) {
+            $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
+        }
+
+        $gte    = new Timestamp(1, time() - 5 * 24 * 3600);
+        $result = $query->andWhere([
+                                       'published_on' => ['$gte' => $gte],
+                                   ])
+                        ->addOrderBy(['views_l3d' => SORT_DESC])
+                        ->limit($limit)
+                        ->all();
         return \count($result) ? $result : [];
     }
 
@@ -472,7 +476,7 @@ class PostProvider extends Post
                                 ])
                      ->orderBy(['published_on' => SORT_DESC]);
 
-        if (\count($exclude)) {
+        if (is_array($exclude) && count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
         }
 

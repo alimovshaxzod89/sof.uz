@@ -1,21 +1,23 @@
 <?php
 
+use backend\widgets\GridView;
 use common\models\Place;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Pjax;
-use yii\grid\GridView;
 use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
-/* @var $this                   yii\web\View */
-/* @var $model                  Place */
-/* @var $dataProvider           yii\data\ActiveDataProvider */
+/**
+ * @var $this yii\web\View
+ * @var $model Place
+ * @var $dataProvider yii\data\ActiveDataProvider
+ */
 
 $this->title                   = __('Manage Places');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
     <div class="button-panel">
-        <a href="<?= Url::to(['place/edit']) ?>" class='btn btn-fab btn-raised btn-primary'>
+        <a href="<?= Url::to(['edit']) ?>" class='btn btn-fab btn-raised btn-primary'>
             <i class="fa fa-plus"></i>
         </a>
     </div>
@@ -28,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col col-md-6 col-md-6">
                 </div>
                 <div class="col col-md-6 col-md-6">
-                    <?= $form->field($model, 'search', ['labelOptions' => ['class' => 'invisible']])
-                             ->textInput(['placeholder' => __('Search by Title')])
-                             ->label(false) ?>
+                    <?= $form->field($model, 'search', [
+                        'labelOptions' => ['class' => 'invisible']
+                    ])->textInput(['placeholder' => __('Search by Title')])->label(false) ?>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>
@@ -38,52 +40,51 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= GridView::widget([
                                  'dataProvider' => $dataProvider,
                                  'id'           => 'data-grid',
-                                 'layout'       => "{items}\n<div class='panel-footer'>{pager}<div class='clearfix'></div></div>",
-                                 'tableOptions' => ['class' => 'table table-striped table-hover '],
                                  'columns'      => [
                                      [
                                          'attribute' => 'title',
                                          'format'    => 'raw',
-                                         'value'     => function ($model) {
-                                             return Html::a($model->title, ['place/edit', 'id' => $model->getId()], ['data-pjax' => 0]);
+                                         'value'     => function (Place $model) {
+                                             return Html::a($model->title, [
+                                                 'place/edit',
+                                                 'id' => $model->getId()
+                                             ], ['data-pjax' => 0]);
                                          },
                                      ],
                                      'slug',
                                      [
                                          'attribute' => '_ads',
                                          'format'    => 'raw',
-                                         'value'     => function ($model) {
+                                         'value'     => function (Place $model) {
                                              return count($model->_ads);
                                          },
                                      ],
                                      [
                                          'attribute' => '_type',
                                          'format'    => 'raw',
-                                         'value'     => function ($model) {
-                                             /* @var $model Place */
+                                         'value'     => function (Place $model) {
                                              return $model->getMode();
                                          },
                                      ],
                                      [
                                          'attribute' => 'status',
                                          'format'    => 'raw',
-                                         'value'     => function ($model) {
-                                             /* @var $model Place */
+                                         'value'     => function (Place $model) {
                                              return $model->getStatusLabel();
                                          },
                                      ],
                                      [
                                          'attribute' => 'created_at',
                                          'format'    => 'raw',
-                                         'value'     => function ($data) {
-                                             return Yii::$app->formatter->asDatetime($data->created_at->getTimestamp());
+                                         'value'     => function (Place $model) {
+                                             return Yii::$app->formatter->asDatetime($model->created_at->getTimestamp());
                                          },
                                      ],
                                      [
                                          'attribute' => 'updated_at',
                                          'format'    => 'raw',
-                                         'value'     => function ($data) {
-                                             return Yii::$app->formatter->asDatetime($data->updated_at->getTimestamp());
+                                         'value'     => function (Place $model) {
+                                             return Yii::$app->formatter->asDatetime($model->updated_at->getTimestamp());
                                          },
                                      ],
                                  ],

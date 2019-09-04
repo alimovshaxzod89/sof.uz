@@ -32,6 +32,10 @@ $this->registerJs($js);
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
+                        <?= \frontend\widgets\Banner::widget([
+                                                                 'place'   => 'before_main',
+                                                                 'options' => ['class' => 'ads-wrapper']
+                                                             ]) ?>
                         <h5 class="u-border-title"><?= $this->title ?></h5>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
@@ -64,20 +68,9 @@ $this->registerJs($js);
 
             <div class="sidebar-column col-lg-3" id="sticky-sidebar">
                 <aside class="widget-area theiaStickySidebar">
-                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
-                        'title' => __('Most read'),
-                        'posts' => PostProvider::getTopPosts()
+                    <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
+                        'model' => null
                     ]) ?>
-                    <?php
-                    $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
-                    if ($cat instanceof CategoryProvider): ?>
-                        <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
-                            'title' => $cat->name,
-                            'posts' => PostProvider::getPostsByCategory($cat, 5, false)
-                        ]) ?>
-                    <?php endif; ?>
-                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
                 </aside>
             </div>
         </div>

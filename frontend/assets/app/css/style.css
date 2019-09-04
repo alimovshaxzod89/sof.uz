@@ -231,7 +231,7 @@ span.meta-category:first-child:before {
     display: block;
 }
 
-.owl-item .entry-header {
+.picked-posts .owl-item .entry-header {
     max-height: 60px;
     min-height: 60px;
     overflow: hidden;

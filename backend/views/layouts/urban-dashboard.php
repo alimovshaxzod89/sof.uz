@@ -139,7 +139,7 @@ use yii\widgets\Breadcrumbs;
                 <ul class="nav navbar-nav navbar-right hidden-xs">
                     <?php if (is_array($languages) && count($languages)): ?>
                         <?php foreach ($languages as $code => $locale):
-                            $url=Config::getActiveLanguageUrlArray($code); ?>
+                            $url = Config::getActiveLanguageUrlArray($code); ?>
                             <li class="<?= Yii::$app->language === $locale ? 'active' : '' ?>">
                                 <a href="<?= Url::to($url) ?>">
                                     <?= Config::getLanguageLabel($locale) ?>

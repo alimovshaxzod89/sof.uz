@@ -1,10 +1,9 @@
 <?php
 
-use common\components\Config;
 use common\models\Comment;
 use frontend\components\View;
-use frontend\models\CategoryProvider;
 use frontend\models\PostProvider;
+use frontend\widgets\Banner;
 
 /**
  * @var $this    View
@@ -28,7 +27,7 @@ $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
 $this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-right pagination-infinite_button');
-$js  = <<<JS
+$js = <<<JS
     jQuery("#sticky-sidebar").theiaStickySidebar({
         additionalMarginTop: 90,
         additionalMarginBottom: 20
@@ -38,6 +37,14 @@ $this->registerJs($js);
 ?>
 <div class="site-content">
     <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?= Banner::widget([
+                                       'place'   => 'before_sidebar',
+                                       'options' => ['class' => 'ads-wrapper']
+                                   ]) ?>
+            </div>
+        </div>
         <div class="row">
             <div class="content-column col-lg-9">
                 <div class="content-area">
@@ -71,6 +78,7 @@ $this->registerJs($js);
                                     <h1 class="entry-title"><?= $model->title ?></h1>
                                 </header>
                             </div>
+
                             <div class="">
                                 <div class="entry-media">
                                     <div class="placeholder">
@@ -102,8 +110,9 @@ $this->registerJs($js);
                                                 <span class="icon">
                                                     <i class="mdi mdi-eye"></i>
                                                 </span>
-                                                <span class="count">133</span>
-                                                <span>&nbsp;views</span>
+                                                <?= __('{view} {sp}views{spc}', [
+                                                    'view' => $model->views
+                                                ]) ?>
                                             </span>
                                         </div>
                                         <?php
@@ -129,6 +138,11 @@ $this->registerJs($js);
                                             </a>
                                         </div>
                                     </div>
+
+                                    <?= Banner::widget([
+                                                           'place'   => 'after_content',
+                                                           'options' => ['class' => 'ads-wrapper']
+                                                       ]) ?>
 
                                     <?php if ($model->hasAuthor()): ?>
                                         <div class="author-box">
@@ -173,22 +187,9 @@ $this->registerJs($js);
                 </div>
             </div>
             <div class="sidebar-column col-lg-3" id="sticky-sidebar">
-                <aside class="widget-area theiaStickySidebar">
-                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
-                    <?php
-                    $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
-                    if ($cat instanceof CategoryProvider): ?>
-                        <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
-                            'title' => $cat->name,
-                            'posts' => PostProvider::getPostsByCategory($cat, 5, false)
-                        ]) ?>
-                    <?php endif; ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
-                        'title' => __('Most read'),
-                        'posts' => PostProvider::getTopPosts()
-                    ]) ?>
-                </aside>
+                <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
+                    'model' => $model
+                ]) ?>
             </div>
         </div>
     </div>

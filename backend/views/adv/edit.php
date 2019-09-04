@@ -25,6 +25,7 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
     <div class="user-create">
         <div class="user-form">
             <?php $form = ActiveForm::begin(['enableAjaxValidation' => true]); ?>
+            <?=$form->errorSummary($model)?>
             <div class="row">
                 <div class="col col-md-9">
                     <div class="panel panel-primary">
@@ -56,27 +57,27 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
                                         <div class="col-md-12">
                                             <?= $form->field($model, 'image')
                                                      ->widget(Upload::className(),
-                                                         [
-                                                             'url'              => ['file-storage/upload', 'type' => 'ad'],
-                                                             'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
-                                                             'sortable'         => true,
-                                                             'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
-                                                             'maxNumberOfFiles' => 1,
-                                                             'clientOptions'    => [],
-                                                         ]
+                                                              [
+                                                                  'url'              => ['file-storage/upload', 'type' => 'ad'],
+                                                                  'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
+                                                                  'sortable'         => true,
+                                                                  'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
+                                                                  'maxNumberOfFiles' => 1,
+                                                                  'clientOptions'    => [],
+                                                              ]
                                                      )->label() ?>
                                         </div>
                                         <div class="col-md-12">
                                             <?= $form->field($model, 'image_mobile')
                                                      ->widget(Upload::className(),
-                                                         [
-                                                             'url'              => ['file-storage/upload', 'type' => 'ad'],
-                                                             'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
-                                                             'sortable'         => true,
-                                                             'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
-                                                             'maxNumberOfFiles' => 1,
-                                                             'clientOptions'    => [],
-                                                         ]
+                                                              [
+                                                                  'url'              => ['file-storage/upload', 'type' => 'ad'],
+                                                                  'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
+                                                                  'sortable'         => true,
+                                                                  'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
+                                                                  'maxNumberOfFiles' => 1,
+                                                                  'clientOptions'    => [],
+                                                              ]
                                                      )->label() ?>
                                         </div>
                                     </div>
@@ -135,42 +136,42 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
 
                                 <?php $time = $model->getDateFromSeconds() ?>
                                 <?= DateTimeWidget::widget([
-                                    'id'               => 'widget_date_from',
-                                    'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                    'model'            => $model,
-                                    'name'             => 'date_from_time',
-                                    'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                    'containerOptions' => [],
-                                    'clientEvents'     => [
-                                        'dp.change' => new JsExpression('function(d){
+                                                               'id'               => 'widget_date_from',
+                                                               'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                                               'model'            => $model,
+                                                               'name'             => 'date_from_time',
+                                                               'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                                               'containerOptions' => [],
+                                                               'clientEvents'     => [
+                                                                   'dp.change' => new JsExpression('function(d){
                                                                time = d.date._d.getTime() / 1000;
                                                                $("#date_from_time").val(Math.round(time))
                                                             }'),
-                                    ],
-                                ]) ?>
+                                                               ],
+                                                           ]) ?>
                             </div>
                             <div class="form-group">
                                 <?= $form->field($model, 'date_to', [
                                     'options' => [
                                         'value' => $model->getDateToSeconds(),
                                     ],
-                                ])->hiddenInput(['id' => 'date_to_time','value' => $model->getDateToSeconds()]) ?>
+                                ])->hiddenInput(['id' => 'date_to_time', 'value' => $model->getDateToSeconds()]) ?>
 
                                 <?php $time = $model->getDateToSeconds() ?>
                                 <?= DateTimeWidget::widget([
-                                    'id'               => 'widget_date_to',
-                                    'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                    'model'            => $model,
-                                    'name'             => 'date_to_time',
-                                    'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                    'containerOptions' => [],
-                                    'clientEvents'     => [
-                                        'dp.change' => new JsExpression('function(d){
+                                                               'id'               => 'widget_date_to',
+                                                               'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                                               'model'            => $model,
+                                                               'name'             => 'date_to_time',
+                                                               'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                                               'containerOptions' => [],
+                                                               'clientEvents'     => [
+                                                                   'dp.change' => new JsExpression('function(d){
                                                                time = d.date._d.getTime() / 1000;
                                                                $("#date_to_time").val(Math.round(time))
                                                             }'),
-                                    ],
-                                ]) ?>
+                                                               ],
+                                                           ]) ?>
 
                             </div>
                         </div>
@@ -178,8 +179,8 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
                             <div class="text-right">
                                 <?php if ($model->getId()): ?>
                                     <?= Html::a(__('Delete'), [
-                                            'adv/delete',
-                                            'id' => $model->getId()
+                                        'adv/delete',
+                                        'id' => $model->getId()
                                     ], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure to delete?')]) ?>
                                 <?php endif; ?>
                                 <?= Html::submitButton(__('Save'), ['class' => 'btn btn-primary']) ?>
