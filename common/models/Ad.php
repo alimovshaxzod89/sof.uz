@@ -106,7 +106,7 @@ class Ad extends MongoModel
             ['url', 'url'],
             ['url', 'safe'],
             [['search'], 'safe'],
-            ['url', 'default', 'value' => '#'],
+            ['url', 'default', 'value' => 'http://google.com'],
             /*['url', 'required', 'when' => function (self $model) {
                 return !$model->isNewRecord && $model->type == self::TYPE_IMAGE;
             }, 'on'                    => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],*/

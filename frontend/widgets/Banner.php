@@ -12,9 +12,9 @@ class Banner extends BaseWidget
 {
     public    $place;
     public    $type;
-    protected $mode;
     public    $options     = [];
-    public    $excludePath = ['site/error','page/view'];
+    public    $excludePath = ['site/error'];
+    protected $mode;
 
     public function init()
     {
@@ -23,7 +23,8 @@ class Banner extends BaseWidget
         }
 
         $this->options['id']    = $this->id;
-        $this->options['class'] = 'banner-' . $this->place;
+        $classes                = isset($this->options['class']) ? $this->options['class'] : '';
+        $this->options['class'] = $classes . ' banner-' . $this->place;
         Html::addCssClass($this->options, 'banner');
         parent::init();
     }
