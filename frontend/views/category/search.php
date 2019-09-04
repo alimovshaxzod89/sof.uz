@@ -63,7 +63,10 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
 
             <div class="sidebar-column col-lg-3" id="sticky-sidebar">
                 <aside class="widget-area theiaStickySidebar">
-                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+                        'title' => __('Most read'),
+                        'posts' => \frontend\models\PostProvider::getTopPosts()
+                    ]) ?>
                     <?php
                     $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
                     if ($cat instanceof CategoryProvider): ?>
@@ -72,12 +75,8 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
                             'posts' => PostProvider::getPostsByCategory($cat, 5, false)
                         ]) ?>
                     <?php endif; ?>
-
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
-                        'title' => __('Most read'),
-                        'posts' => \frontend\models\PostProvider::getTopPosts()
-                    ]) ?>
+                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                 </aside>
             </div>
         </div>

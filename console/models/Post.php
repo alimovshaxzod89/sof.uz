@@ -59,19 +59,19 @@ class Post extends \common\models\old\OldPost
         return $categories;
     }
 
-    public function checkRemoteFile($url)
+    public static function clearContent($content = false)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        // don't download content
-        curl_setopt($ch, CURLOPT_NOBODY, 1);
-        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        if (curl_exec($ch) !== FALSE) {
-            return true;
-        } else {
-            return false;
+        if (!$content) {
+            $content      = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $content);
+            $content      = preg_replace('/(<[^>]+) align=".*?"/i', '$1', $content);
+            $content      = preg_replace('/(<[^>]+) width=".*?"/i', '$1', $content);
+            $content      = preg_replace('/(<[^>]+) height=".*?"/i', '$1', $content);
+            $content      = preg_replace('/(<[^>]+) border=".*?"/i', '$1', $content);
+            $allowed_tags = '<h6><h5><h4><h3><h2><h1><p><b><i><sup><sub><em><strong><u><br><a><abbr><acronym><address><applet><area><article><aside><audio><b><base><basefont><bdi><bdo><big><blockquote><body><br><button><canvas><caption><center><cite><code><col><colgroup><data><datalist><dd><del><details><dfn><dialog><dir><div><dl><dt><em><embed><fieldset><figcaption><figure><font><footer><form><frame><frameset><head><header><hr><html><i><iframe><img><input><ins><kbd><label><legend><li><link><main><map><mark><meta><meter><nav><noframes><noscript><object><ol><optgroup><option><output><p><param><picture><pre><progress><q><rp><rt><ruby><s><samp><script><section><select><small><source><span><strike><strong><style><sub><summary><sup><svg><table><tbody><td><template><textarea><tfoot><th><thead><time><title><tr><track><tt><u><ul><var><video><wbr>';
+            $content      = strip_tags($content, $allowed_tags);
         }
+
+        return $content;
     }
 
     public function toMongo($author = null)

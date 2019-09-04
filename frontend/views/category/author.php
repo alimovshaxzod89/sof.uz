@@ -61,5 +61,4 @@ $limit                         = 12;
             </div>
         </div>
     </div>
-
 </div>

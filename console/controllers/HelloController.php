@@ -172,4 +172,20 @@ class HelloController extends Controller
     {
         Post::updateAll(['_author' => null]);
     }
+
+    public function actionContent()
+    {
+        /* @var $posts Post[] */
+        Post::getCollection()->createIndex(['content' => 'text']);
+        $posts = Post::find()->select(['content'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Posts');
+        foreach ($posts as $i => $post) {
+            Console::updateProgress($i + 1, count($posts));
+            $content = \console\models\Post::clearContent($post->content);
+            $post->updateAttributes(['content' => $content]);
+            flush();
+        }
+        Console::endProgress();
+        ob_get_clean();
+    }
 }

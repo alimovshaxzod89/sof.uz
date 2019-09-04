@@ -18,7 +18,7 @@ $limit                         = 12;
 $this->title                   = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
-$js  = <<<JS
+$js                            = <<<JS
     jQuery("#sticky-sidebar").theiaStickySidebar({
         additionalMarginTop: 90,
         additionalMarginBottom: 20
@@ -64,7 +64,10 @@ $this->registerJs($js);
 
             <div class="sidebar-column col-lg-3" id="sticky-sidebar">
                 <aside class="widget-area theiaStickySidebar">
-                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
+                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+                        'title' => __('Most read'),
+                        'posts' => PostProvider::getTopPosts()
+                    ]) ?>
                     <?php
                     $cat = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
                     if ($cat instanceof CategoryProvider): ?>
@@ -73,11 +76,8 @@ $this->registerJs($js);
                             'posts' => PostProvider::getPostsByCategory($cat, 5, false)
                         ]) ?>
                     <?php endif; ?>
+                    <?= 1 ? '' : $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') ?>
                     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-                    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
-                        'title' => __('Most read'),
-                        'posts' => PostProvider::getTopPosts()
-                    ]) ?>
                 </aside>
             </div>
         </div>
