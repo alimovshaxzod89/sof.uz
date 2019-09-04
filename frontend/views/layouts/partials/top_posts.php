@@ -16,7 +16,7 @@
                     </div>
                     <header class="entry-header">
                         <h6 class="entry-title">
-                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->title ?></a>
+                            <a href="<?= $post->getViewUrl() ?>" rel="bookmark"><?= $post->getShortTitle() ?></a>
                         </h6>
                         <div class="entry-meta">
                             <span class="meta-date">
