@@ -230,3 +230,9 @@ span.meta-category:first-child:before {
 .load-button.load-more.btn__more .loading-circle {
     display: block;
 }
+
+.owl-item .entry-header {
+    max-height: 60px;
+    min-height: 60px;
+    overflow: hidden;
+}
