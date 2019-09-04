@@ -14,7 +14,7 @@
                         <div class="col-lg-6">
                             <article class="post">
                                 <div class="entry-media">
-                                    <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+                                    <div class="placeholder">
                                         <a href="<?= $similarPost->getViewUrl() ?>">
                                             <img alt="<?= $similarPost->title ?>"
                                                  src="<?= $similarPost->getCroppedImage(220, 146, 1) ?>">
