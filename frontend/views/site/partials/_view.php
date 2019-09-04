@@ -9,7 +9,7 @@
     <article
             class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-design">
         <div class="entry-media">
-            <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+            <div class="placeholder">
                 <a data-pjax="0" href="<?= $model->getViewUrl() ?>">
                     <img src="<?= $model->getCroppedImage(220, 147) ?>" alt="<?= $model->title ?>">
                 </a>

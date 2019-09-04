@@ -45,7 +45,7 @@ $this->registerJs($js);
                                                 <article
                                                         class="post post-large type-post status-publish format-video has-post-thumbnail hentry category-food post_format-post-format-video">
                                                     <div class="entry-media">
-                                                        <div class="placeholder" style="padding-bottom: 70.25%;">
+                                                        <div class="placeholder">
                                                             <a href="<?= $mainPost->getViewUrl() ?>">
                                                                 <img src="<?= $mainPost->getCroppedImage(416, 292, 1) ?>"
                                                                      alt="<?= $mainPost->title ?>">
@@ -170,7 +170,7 @@ $this->registerJs($js);
                                 <article
                                         class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
                                     <div class="entry-media">
-                                        <div class="placeholder" style="padding-bottom: 66.666666666667%;">
+                                        <div class="placeholder">
                                             <a href="<?= $post->getViewUrl() ?>">
                                                 <img src="<?= $post->getCroppedImage(210, 140) ?>"
                                                      alt="<?= $post->title ?>">
