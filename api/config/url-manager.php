@@ -2,7 +2,6 @@
 
 return [
     'class'               => 'yii\web\UrlManager',
-    'baseUrl'             => Yii::getAlias('@apiUrl'),
     'enablePrettyUrl'     => true,
     'enableStrictParsing' => false,
     'showScriptName'      => false,

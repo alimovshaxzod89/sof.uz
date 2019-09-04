@@ -36,7 +36,7 @@ class HomeController extends ApiController
                    ->limit(10)
                    ->all();
 
-        if ($contact = Page::findOne(['slug' => 'loyiha-haqida'])) {
+        if ($contact = Page::findOne(['url' => 'loyiha-haqida'])) {
             $contact = $this->renderPartial('@frontend/views/page/view.php', ['model' => $contact]);
             $contact = "<div class=\"nav-off-canvas\">$contact</div>";
         }

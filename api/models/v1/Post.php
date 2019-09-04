@@ -30,7 +30,7 @@ class Post extends PostModel
                 return boolval($this->hide_image) || empty($this->image) || $this->image == null;
             },
             'has_priority' => function () {
-                return $this->is_main;
+                return $this->hasPriority();
             },
             'categories'   => function () {
                 return $this->category ? $this->category->id : '';

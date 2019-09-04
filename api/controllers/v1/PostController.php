@@ -4,7 +4,7 @@ namespace api\controllers\v1;
 
 use api\models\v1\Category;
 use api\models\v1\Post;
-use common\components\Config;
+use api\models\v1\Tag;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use Yii;
@@ -20,40 +20,40 @@ class PostController extends ApiController
         if (YII_DEBUG) return $data;
 
         return array_merge($data, [
-                                    [
-                                        'class'              => 'yii\filters\HttpCache',
-                                        'cacheControlHeader' => 'public, max-age=60',
-                                        'lastModified'       => function ($action, $params) {
-                                            $q = new \yii\mongodb\Query();
-                                            return $q->from('post')->max('updated_at')->getTimestamp();
-                                        },
-                                    ],
-                                    [
-                                        'class'      => 'yii\filters\PageCache',
-                                        'only'       => ['view', 'view-url', 'list', 'home'],
-                                        'duration'   => 60,
-                                        'enabled'    => !YII_DEBUG,
-                                        'variations' => [
-                                            Yii::$app->id,
-                                            Yii::$app->language,
-                                            $this->get('l'),
-                                            $this->get('page'),
-                                            $this->get('category'),
-                                            $this->get('tag'),
-                                            $this->get('type'),
-                                            $this->get('order'),
-                                            $this->get('before'),
-                                            $this->get('after'),
-                                            $this->get('full'),
-                                            $this->get('limit'),
-                                            $this->get('refresh'),
-                                            $this->get('id'),
-                                            $this->get('slug'),
-                                            $this->get('v'),
-                                            $this->get('push'),
-                                        ],
-                                    ],
-                                ]
+                [
+                    'class'              => 'yii\filters\HttpCache',
+                    'cacheControlHeader' => 'public, max-age=60',
+                    'lastModified'       => function ($action, $params) {
+                        $q = new \yii\mongodb\Query();
+                        return $q->from('post')->max('updated_at')->getTimestamp();
+                    },
+                ],
+                [
+                    'class'      => 'yii\filters\PageCache',
+                    'only'       => ['view', 'view-url', 'list', 'home'],
+                    'duration'   => 60,
+                    'enabled'    => !YII_DEBUG,
+                    'variations' => [
+                        Yii::$app->id,
+                        Yii::$app->language,
+                        $this->get('l'),
+                        $this->get('page'),
+                        $this->get('category'),
+                        $this->get('tag'),
+                        $this->get('type'),
+                        $this->get('order'),
+                        $this->get('before'),
+                        $this->get('after'),
+                        $this->get('full'),
+                        $this->get('limit'),
+                        $this->get('refresh'),
+                        $this->get('id'),
+                        $this->get('slug'),
+                        $this->get('v'),
+                        $this->get('push'),
+                    ],
+                ],
+            ]
         );
     }
 
@@ -76,13 +76,24 @@ class PostController extends ApiController
 
         $result = Post::find()->orderBy(['published_on' => SORT_DESC]);
 
-        foreach (Config::getLanguageCodes() as $code) {
-            $result->orFilterWhere(["_translations.title_" . $code => ['$regex' => $query, '$options' => 'si']]);
+
+        if (isRussian()) {
+            $result->orFilterWhere(["_translations.title_ru" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.content_ru" => ['$regex' => $query, '$options' => 'si']]);
             $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
-            $result->andWhere(['has_' . $code => true]);
+            $result->andWhere(['has_russian' => true]);
+
+        } else {
+            $result->orFilterWhere(["_translations.title_uz" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.title_cy" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.content_uz" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.content_cy" => ['$regex' => $query, '$options' => 'si']]);
+            $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
+            $result->andWhere(['has_uzbek' => true]);
         }
 
-        $result->limit($limit)->offset($page * $limit);
+        $result->limit($limit)
+               ->offset($page * $limit);
 
         return [
             'items' => $result->all(),
@@ -90,6 +101,7 @@ class PostController extends ApiController
             'limit' => $limit,
             'query' => $query,
         ];
+
     }
 
 
@@ -98,10 +110,10 @@ class PostController extends ApiController
         $exclude  = [];
         $mainPost = Post::find()
                         ->where([
-                                    'status'    => Post::STATUS_PUBLISHED,
-                                    'is_mobile' => true,
-                                    'is_main'   => true,
-                                ])
+                            'status'    => Post::STATUS_PUBLISHED,
+                            'is_mobile' => true,
+                            'is_main'   => true,
+                        ])
                         ->addOrderBy(['published_on' => SORT_DESC])
                         ->one();
 
@@ -110,13 +122,13 @@ class PostController extends ApiController
         $lastNewsC = Category::findOne(['slug' => 'yangiliklar']);
         $lastNews  = Post::find()
                          ->andWhere([
-                                        '_categories' => [
-                                            '$elemMatch' => [
-                                                '$eq' => $lastNewsC->id,
-                                            ],
-                                        ],
-                                        '_id'         => ['$nin' => array_values($exclude)],
-                                    ])
+                             '_categories' => [
+                                 '$elemMatch' => [
+                                     '$eq' => $lastNewsC->id,
+                                 ],
+                             ],
+                             '_id'         => ['$nin' => array_values($exclude)],
+                         ])
                          ->orderBy(['published_on' => SORT_DESC])
                          ->limit(10)
                          ->all();
@@ -125,9 +137,9 @@ class PostController extends ApiController
 
         $topPosts = Post::find()
                         ->where([
-                                    'status'    => Post::STATUS_PUBLISHED,
-                                    'is_mobile' => true,
-                                ])
+                            'status'    => Post::STATUS_PUBLISHED,
+                            'is_mobile' => true,
+                        ])
                         ->addOrderBy(['views_l3d' => SORT_DESC])
                         ->limit(6)
                         ->all();
@@ -135,14 +147,14 @@ class PostController extends ApiController
 
         $lastPosts = Post::find()
                          ->where([
-                                     'status'      => Post::STATUS_PUBLISHED,
-                                     'is_mobile'   => true,
-                                     '_categories' => [
-                                         '$elemMatch' => [
-                                             '$in' => Category::$MINBAR,
-                                         ],
-                                     ],
-                                 ])
+                             'status'      => Post::STATUS_PUBLISHED,
+                             'is_mobile'   => true,
+                             '_categories' => [
+                                 '$elemMatch' => [
+                                     '$in' => Category::$MINBAR,
+                                 ],
+                             ],
+                         ])
                          ->orderBy(['published_on' => SORT_DESC])
                          ->limit(15);
 
@@ -214,9 +226,9 @@ class PostController extends ApiController
 
         $posts = Post::find()
                      ->where([
-                                 'status'    => Post::STATUS_PUBLISHED,
-                                 'is_mobile' => true,
-                             ])
+                         'status'    => Post::STATUS_PUBLISHED,
+                         'is_mobile' => true,
+                     ])
                      ->limit($limit)
                      ->orderBy([$order => SORT_DESC])
                      ->offset($page * $limit);
@@ -239,12 +251,12 @@ class PostController extends ApiController
 
         if ($category == null && $tag == null) {
             $posts->andWhere([
-                                 '_categories' => [
-                                     '$elemMatch' => [
-                                         '$in' => Category::$MINBAR,
-                                     ],
-                                 ],
-                             ]);
+                '_categories' => [
+                    '$elemMatch' => [
+                        '$in' => Category::$MINBAR,
+                    ],
+                ],
+            ]);
         }
 
         if ($tag) {
@@ -295,7 +307,7 @@ class PostController extends ApiController
             'type'     => $type,
             'limit'    => $limit,
             'category' => $category ? $category->getId() : null,
-            'tag'      => $tag ?: null,
+            'tag'      => $tag ? : null,
         ];
     }
 
@@ -317,7 +329,7 @@ class PostController extends ApiController
      */
     private function getPriority(Post $post)
     {
-        if ($post->is_main) {
+        if ($post->hasPriority()) {
             if (self::$noPriorityCounter >= 4) {
                 self::$noPriorityCounter = 0;
                 return true;
@@ -333,7 +345,7 @@ class PostController extends ApiController
     {
         if ($post = Post::find()
                         ->orFilterWhere(['short_id' => $slug])
-                        ->orFilterWhere(['slug' => $slug])
+                        ->orFilterWhere(['url' => $slug])
                         ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
                         ->one()
         ) {

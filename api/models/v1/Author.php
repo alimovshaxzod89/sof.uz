@@ -16,8 +16,8 @@ class Author extends Blogger
     {
         return [
             'id',
-            'full_name'    => function () {
-                return implode('#|#', $this->getAllTranslations('full_name'));
+            'fullname'    => function () {
+                return implode('#|#', $this->getAllTranslations('fullname'));
             },
             'job'         => function () {
                 return implode('#|#', $this->getAllTranslations('job'));

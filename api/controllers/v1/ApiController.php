@@ -20,7 +20,7 @@ class ApiController extends BaseController
         return [
             'contentNegotiator' => [
                 'class'         => ContentNegotiator::class,
-                'languages'     => array_keys(Config::getLanguagesTrans()),
+                'languages'     => Config::getLanguageLocales(),
                 'languageParam' => 'l',
                 'formats'       => [
                     'application/json' => Response::FORMAT_JSON,
