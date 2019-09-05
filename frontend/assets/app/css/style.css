@@ -241,6 +241,10 @@ span.meta-category:first-child:before {
     height: inherit;
 }
 
+.advert-section {
+    padding-bottom: -30px;
+}
+
 .ads-wrapper, .advert-section {
     margin: 15px;
 }
