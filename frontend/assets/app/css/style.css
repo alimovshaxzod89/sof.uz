@@ -257,3 +257,7 @@ span.meta-category:first-child:before {
 .advert-section + div.section {
     padding-top: 30px;
 }
+
+.owl .owl-stage-outer {
+    overflow: inherit;
+}
