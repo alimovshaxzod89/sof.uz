@@ -29,7 +29,6 @@
 
         return this;
     };
-    "use strict";
 
     $(document).ready(function () {
         $('.load-button.load-more').on('click', function () {

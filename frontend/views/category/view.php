@@ -1,6 +1,5 @@
 <?php
 
-use common\components\Config;
 use frontend\components\ScrollPager;
 use frontend\components\View;
 use frontend\models\CategoryProvider;
@@ -67,11 +66,9 @@ $this->registerJs($js);
             </div>
 
             <div class="sidebar-column col-lg-3" id="sticky-sidebar">
-                <aside class="widget-area theiaStickySidebar">
-                    <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
-                        'model' => null
-                    ]) ?>
-                </aside>
+                <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
+                    'model' => null
+                ]) ?>
             </div>
         </div>
     </div>
