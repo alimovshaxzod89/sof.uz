@@ -253,3 +253,7 @@ span.meta-category:first-child:before {
 .advert-section a > img {
     display: inherit;
 }
+
+.advert-section + div.section {
+    padding-top: 30px;
+}
