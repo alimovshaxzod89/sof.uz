@@ -17,13 +17,6 @@ $limit                         = 12;
 $this->title                   = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
-$js                            = <<<JS
-    jQuery("#sticky-sidebar").theiaStickySidebar({
-        additionalMarginTop: 90,
-        additionalMarginBottom: 20
-    });
-JS;
-$this->registerJs($js);
 ?>
 <div class="site-content">
     <div class="container">

@@ -29,13 +29,13 @@ $category = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGOR
             'posts' => PostProvider::getTopPosts(6, $exclude)
         ]) ?>
     <?php endif; ?>
-    <?= YII_DEBUG ? $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') : '' ?>
     <?php if ($category instanceof CategoryProvider): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
             'title' => $category->name,
             'posts' => PostProvider::getPostsByCategory($category, 5, false, $exclude)
         ]) ?>
     <?php endif; ?>
+    <?= YII_DEBUG ? $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') : '' ?>
     <?= Banner::widget([
                            'place'   => 'after_sidebar',
                            'options' => ['class' => 'ads-wrapper']

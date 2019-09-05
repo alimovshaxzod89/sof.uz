@@ -40,5 +40,10 @@
                 $(this).addClass('btn__more');
             });
         });
+
+        $("#sticky-sidebar").theiaStickySidebar({
+            additionalMarginTop: 90,
+            additionalMarginBottom: 20
+        });
     });
 }(jQuery));
