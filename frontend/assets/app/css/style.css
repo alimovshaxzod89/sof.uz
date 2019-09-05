@@ -262,6 +262,6 @@ span.meta-category:first-child:before {
     overflow: inherit;
 }
 
-.picked-posts .owl .owl-stage-outer {
+.picked-posts.owl .owl-stage-outer {
     overflow: hidden;
 }
