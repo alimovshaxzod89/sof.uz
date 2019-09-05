@@ -33,6 +33,7 @@ return [
 
     ],
     'components'          => [
+        'urlManager'           => require(__DIR__ . '/url-manager.php'),
         'user'                 => [
             'identityClass'       => 'common\models\User',
             'enableAutoLogin'     => true,
@@ -143,7 +144,6 @@ return [
                 ],
             ],
         ],
-        'urlManager'           => require(__DIR__ . '/url-manager.php'),
     ],
     'params'              => $params,
 ];

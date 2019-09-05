@@ -1,4 +1,5 @@
 <?php
+
 use common\components\Config;
 
 $params = array_merge(
@@ -18,6 +19,7 @@ return [
 
     ],
     'components'          => [
+        'urlManager' => require(__DIR__ . '/url-manager.php'),
         'response'   => [
             'class'         => 'yii\web\Response',
             'format'        => yii\web\Response::FORMAT_JSON,
@@ -32,7 +34,6 @@ return [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
-        'urlManager'   => require(__DIR__ . '/url-manager.php'),
         'user'       => [
             'identityClass'   => 'common\models\User',
             'enableAutoLogin' => false,

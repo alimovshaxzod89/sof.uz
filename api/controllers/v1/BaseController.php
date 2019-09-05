@@ -14,6 +14,7 @@ class BaseController extends Controller
 
     public function beforeAction($action)
     {
+
         $languages = Config::getLanguageOptions();
 
         if (($lang = $this->get('l')) && isset($languages[$lang])) {
