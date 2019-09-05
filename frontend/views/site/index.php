@@ -30,13 +30,15 @@ $this->registerJs($js);
 <div class="site-content">
     <div class="content-area">
         <main class="site-main">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?= \frontend\widgets\Banner::widget([
-                                                                 'place'   => 'before_main',
-                                                                 'options' => ['class' => 'ads-wrapper']
-                                                             ]) ?>
+            <div class="advert-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?= \frontend\widgets\Banner::widget([
+                                                                     'place'   => 'before_main',
+                                                                     'options' => ['class' => 'ads-wrapper']
+                                                                 ]) ?>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -244,3 +244,7 @@ span.meta-category:first-child:before {
 .ads-wrapper {
     margin-bottom: 15px;
 }
+
+.advert-section {
+    margin: 15px;
+}
