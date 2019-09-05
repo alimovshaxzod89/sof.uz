@@ -242,12 +242,12 @@ span.meta-category:first-child:before {
 }
 
 .ads-wrapper {
-    margin-bottom: 15px;
+    margin: 15px;
+    text-align: center;
 }
 
-.ads-wrapper img {
+.ads-wrapper > img {
     display: inherit;
-    text-align: center;
 }
 
 .advert-section {
