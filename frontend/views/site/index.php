@@ -30,10 +30,16 @@ $this->registerJs($js);
 <div class="site-content">
     <div class="content-area">
         <main class="site-main">
-            <?= \frontend\widgets\Banner::widget([
-                                                     'place'   => 'before_main',
-                                                     'options' => ['class' => 'ads-wrapper']
-                                                 ]) ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?= \frontend\widgets\Banner::widget([
+                                                                 'place'   => 'before_main',
+                                                                 'options' => ['class' => 'ads-wrapper']
+                                                             ]) ?>
+                    </div>
+                </div>
+            </div>
 
             <?php if ($mainPost && count($mainPosts)): ?>
                 <div id="magsy_module_post_big_list-2" class="section widget_magsy_module_post_big_list">
