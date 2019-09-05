@@ -243,11 +243,6 @@ span.meta-category:first-child:before {
 
 .ads-wrapper {
     margin: 15px;
-    text-align: center;
-}
-
-.ads-wrapper > a > img {
-    display: inherit;
 }
 
 .advert-section {
