@@ -258,7 +258,7 @@ span.meta-category:first-child:before {
     padding-top: 30px;
 }
 
-.owl .owl-stage-outer {
+.module .owl .owl-stage-outer {
     overflow: inherit;
 }
 
