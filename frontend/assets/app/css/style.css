@@ -250,6 +250,6 @@ span.meta-category:first-child:before {
     margin: 20px 0;
 }
 
-.advert-section > a > img {
+.advert-section a > img {
     display: inherit;
 }
