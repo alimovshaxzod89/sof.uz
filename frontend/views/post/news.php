@@ -64,14 +64,6 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
 <div class="site-content">
     <div class="container">
         <div class="row">
-            <div class="row">
-                <div class="col-md-12">
-                    <?= \frontend\widgets\Banner::widget([
-                                           'place'   => 'before_main',
-                                           'options' => ['class' => 'ads-wrapper']
-                                       ]) ?>
-                </div>
-            </div>
             <div class="col-lg-12">
                 <div class="content-area">
                     <main class="site-main">
@@ -79,6 +71,10 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                 class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
 
                             <div class="container small">
+                                <?= \frontend\widgets\Banner::widget([
+                                                                         'place'   => 'before_main',
+                                                                         'options' => ['class' => 'ads-wrapper']
+                                                                     ]) ?>
 
                                 <div class="entry-wrapper">
                                     <div class="entry-content u-text-format u-clearfix">

@@ -30,20 +30,17 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
 <div class="site-content">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <?= \frontend\widgets\Banner::widget([
-                                                         'place'   => 'before_main',
-                                                         'options' => ['class' => 'ads-wrapper']
-                                                     ]) ?>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-lg-12">
                 <div class="content-area">
                     <main class="site-main">
                         <article
                                 class="post type-post status-publish format-video has-post-thumbnail hentry category-design tag-featured post_format-video">
                             <div class="container small">
+                                <?= \frontend\widgets\Banner::widget([
+                                                                         'place'   => 'before_main',
+                                                                         'options' => ['class' => 'ads-wrapper']
+                                                                     ]) ?>
+
                                 <header class="entry-header">
                                     <div class="entry-meta">
                                         <?php if ($model->hasAuthor()): ?>
