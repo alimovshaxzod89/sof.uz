@@ -258,6 +258,10 @@ span.meta-category:first-child:before {
     padding-top: 30px;
 }
 
-.widget_magsy_module_post_carousel .owl .owl-stage-outer {
+.module .owl .owl-stage-outer {
     overflow: inherit;
+}
+
+.picked-posts .owl .owl-stage-outer {
+    overflow: hidden;
 }
