@@ -258,6 +258,6 @@ span.meta-category:first-child:before {
     padding-top: 30px;
 }
 
-.owl .owl-stage-outer {
+.widget_magsy_module_post_carousel .owl .owl-stage-outer {
     overflow: inherit;
 }
