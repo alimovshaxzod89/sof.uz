@@ -67,8 +67,9 @@ class PostController extends BaseController
     {
         $model                           = $this->findModel($slug);
         $this->getView()->params['post'] = $model;
+        $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
 
-        return $this->render($model->type . (!$model->is_sidebar ? '_sidebar' : ''), [
+        return $this->render($view, [
             'model' => $model,
         ]);
     }
