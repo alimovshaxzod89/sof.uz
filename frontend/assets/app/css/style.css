@@ -246,7 +246,7 @@ span.meta-category:first-child:before {
     text-align: center;
 }
 
-.ads-wrapper > img {
+.ads-wrapper > a > img {
     display: inherit;
 }
 
