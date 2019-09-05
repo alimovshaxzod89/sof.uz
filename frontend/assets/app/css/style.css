@@ -265,3 +265,6 @@ span.meta-category:first-child:before {
 .picked-posts.owl .owl-stage-outer {
     overflow: hidden;
 }
+.owl .owl-item{
+    min-width: inherit;
+}
