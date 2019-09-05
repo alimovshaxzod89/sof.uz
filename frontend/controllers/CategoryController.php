@@ -120,12 +120,7 @@ class CategoryController extends BaseController
     public function actionSearch($q)
     {
         $q = trim(strip_tags($q));
-
-        if (mb_strlen($q) > 2) {
-            return $this->render('search', ['search' => $q]);
-        }
-
-        return $this->redirect(['/']);
+        return $this->render('search', ['search' => $q]);
     }
 
     /**

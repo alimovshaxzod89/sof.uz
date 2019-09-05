@@ -32,11 +32,11 @@ $this->registerJs($js);
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
+                        <h5 class="u-border-title"><?= $this->title ?></h5>
                         <?= \frontend\widgets\Banner::widget([
                                                                  'place'   => 'before_main',
                                                                  'options' => ['class' => 'ads-wrapper']
                                                              ]) ?>
-                        <h5 class="u-border-title"><?= $this->title ?></h5>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
                                                  'dataProvider' => $provider,
