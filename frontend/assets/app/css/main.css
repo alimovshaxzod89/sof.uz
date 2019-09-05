@@ -1348,9 +1348,9 @@ button[type="submit"].transparent,
   -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
 }
-.owl-height {
+/*.owl-height {
   transition: height 500ms ease-in-out;
-}
+}*/
 /* MaterialDesignIcons.com */
 @font-face {
   font-family: "Material Design Icons";

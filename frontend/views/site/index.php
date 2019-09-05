@@ -163,7 +163,7 @@ $this->registerJs($js);
             </div>
 
             <?php if (is_array($photoPosts) && count($photoPosts)): ?>
-                <div id="magsy_module_post_carousel-2" class="section widget_magsy_module_post_carousel">
+                <div class="section widget_magsy_module_post_carousel">
                     <div class="container">
                         <h5 class="u-border-title"><span><?= __('Photo news') ?></span></h5>
                         <div class="module carousel owl">
