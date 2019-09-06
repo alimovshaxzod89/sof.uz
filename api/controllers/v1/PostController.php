@@ -4,6 +4,7 @@ namespace api\controllers\v1;
 
 use api\models\v1\Category;
 use api\models\v1\Post;
+use common\components\Config;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use Yii;
@@ -75,20 +76,10 @@ class PostController extends ApiController
 
         $result = Post::find()->orderBy(['published_on' => SORT_DESC]);
 
-
-        if (isRussian()) {
-            $result->orFilterWhere(["_translations.title_ru" => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.content_ru" => ['$regex' => $query, '$options' => 'si']]);
+        foreach (Config::getLanguageCodes() as $code) {
+            $result->orFilterWhere(["_translations.title_" . $code => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.content_" . $code => ['$regex' => $query, '$options' => 'si']]);
             $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
-            $result->andWhere(['has_russian' => true]);
-
-        } else {
-            $result->orFilterWhere(["_translations.title_uz" => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.title_cy" => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.content_uz" => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.content_cy" => ['$regex' => $query, '$options' => 'si']]);
-            $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
-            $result->andWhere(['has_uzbek' => true]);
         }
 
         $result->limit($limit)
@@ -148,11 +139,6 @@ class PostController extends ApiController
                          ->where([
                                      'status'      => Post::STATUS_PUBLISHED,
                                      'is_mobile'   => true,
-                                     '_categories' => [
-                                         '$elemMatch' => [
-                                             '$in' => Category::$MINBAR,
-                                         ],
-                                     ],
                                  ])
                          ->orderBy(['published_on' => SORT_DESC])
                          ->limit(15);
@@ -246,16 +232,6 @@ class PostController extends ApiController
             } else {
                 $category = null;
             }
-        }
-
-        if ($category == null && $tag == null) {
-            $posts->andWhere([
-                                 '_categories' => [
-                                     '$elemMatch' => [
-                                         '$in' => Category::$MINBAR,
-                                     ],
-                                 ],
-                             ]);
         }
 
         if ($tag) {
