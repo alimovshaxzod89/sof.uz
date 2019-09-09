@@ -277,3 +277,7 @@ span.meta-category:first-child:before {
 .owl .owl-prev.disabled, .owl .owl-next.disabled {
     background-color: #abecbf;
 }
+
+.logo-wrapper .logo.text img {
+    margin-top: 22px;
+}
