@@ -265,6 +265,15 @@ span.meta-category:first-child:before {
 .picked-posts.owl .owl-stage-outer {
     overflow: hidden;
 }
-.owl .owl-item{
+
+.owl .owl-item {
     min-width: inherit;
+}
+
+.owl .owl-prev, .owl .owl-next {
+    background-color: #6fd08d;
+}
+
+.owl .owl-prev.disabled, .owl .owl-next.disabled {
+    background-color: #abecbf;
 }

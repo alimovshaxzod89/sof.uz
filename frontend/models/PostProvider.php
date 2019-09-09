@@ -215,10 +215,11 @@ class PostProvider extends Post
     /**
      * @param int        $limit
      * @param ObjectId[] $exclude
+     * @param bool       $provider
      * @return PostProvider[] | ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getPopularPosts($limit = 10, $exclude = [], $provider = false)
+    public static function getPopularPosts($limit = 6, $exclude = [], $provider = false)
     {
         $query = self::find()
                      ->active()

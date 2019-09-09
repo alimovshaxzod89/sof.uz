@@ -64,7 +64,7 @@ use yii\helpers\StringHelper;
  * @property boolean    is_instant
  * @property boolean    is_sidebar
  * @property boolean    is_mobile
- * @property boolean    pushed_on
+ * @property Timestamp  pushed_on
  * @property Timestamp  locked_on
  * @property boolean    hide_image
  * @property integer    views
@@ -1177,10 +1177,10 @@ class Post extends MongoModel
 
     public function prepareMobilePost($force = false)
     {
+        /** @var GalleryItem[] $gallery */
+        $items              = [];
         $this->mobile_image = trim($this->getDefaultMobileImage());
         $gallery            = $this->getGalleryItemsModel();
-        /** @var GalleryItem[] $gallery */
-        $items = [];
 
         if (count($gallery) > 0) {
             foreach ($gallery as $item) {

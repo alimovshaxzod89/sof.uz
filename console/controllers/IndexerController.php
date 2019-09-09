@@ -15,6 +15,7 @@ use common\models\Weather;
 use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\console\Controller;
+use yii\helpers\Json;
 
 class IndexerController extends Controller
 {
@@ -123,7 +124,7 @@ class IndexerController extends Controller
             $cc++;
             if (count($weathers)) {
                 foreach ($weathers as $k => $weather) {
-                    $weather = @json_decode($weather, true);
+                    $weather = Json::decode($weather, true);
                     $data    = [];
                     if (count($weather['list'])):
                         foreach ($weather['list'] as $item) {
@@ -184,7 +185,7 @@ class IndexerController extends Controller
     {
         $currencies = Currency::getCurrencies();
         if ($data = simplexml_load_string(@file_get_contents('http://cbu.uz/uz/arkhiv-kursov-valyut/xml/'))) {
-            if ($data = @json_decode(json_encode($data), true)) {
+            if ($data = Json::decode(Json::encode($data), true)) {
                 $rates = [];
                 foreach ($data['CcyNtry'] as $index => $symbol) {
                     if (in_array($symbol['Ccy'], $currencies)) {
@@ -222,15 +223,15 @@ class IndexerController extends Controller
 
     public function actionCleanPosts()
     {
-        $date = new \DateTime();
-        $time = (int)$date->format('U') - 30 * 24 * 3600;
+        $date  = new \DateTime();
+        $time  = (int)$date->format('U') - 30 * 24 * 3600;
         $posts = Post::find()
-                    ->where([
-                                'created_at' => ['$lt' => new Timestamp(1, $time)],
-                                'status'     => Post::STATUS_DRAFT,
-                                'title'      => ['$in' => [null, '']],
-                            ])
-                    ->all();
+                     ->where([
+                                 'created_at' => ['$lt' => new Timestamp(1, $time)],
+                                 'status'     => Post::STATUS_DRAFT,
+                                 'title'      => ['$in' => [null, '']],
+                             ])
+                     ->all();
 
         foreach ($posts as $post) {
             $post->delete();
@@ -252,8 +253,6 @@ class IndexerController extends Controller
         echo $collection->createIndex(['status' => 1]);
         echo $collection->createIndex(['is_mobile' => 1]);
         echo $collection->createIndex(['is_main' => 1]);
-        echo $collection->createIndex(['has_russian' => 1]);
-        echo $collection->createIndex(['has_uzbek' => 1]);
         echo $collection->createIndex(['_domain' => 1]);
         echo $collection->createIndex(['_tags' => 1]);
         echo $collection->createIndex(['_categories' => 1]);
@@ -307,7 +306,7 @@ class IndexerController extends Controller
         echo Post::updateAll(['_creator' => '', '_creator_session' => '', 'locked_on' => '']);
     }
 
-    public function actionPost($offset = 0, $isRussian = false)
+    public function actionPost($offset = 0)
     {
         foreach (Post::findAll(['status' => Post::STATUS_PUBLISHED]) as $post) {
             if ($post->save(false)) {
@@ -318,7 +317,17 @@ class IndexerController extends Controller
 
     public function actionPostMobile()
     {
-        foreach (Post::findAll(['status' => Post::STATUS_PUBLISHED]) as $post) {
+        Post::getCollection()
+            ->createIndex([
+                              'gallery_items' => -1,
+                              'mobile_image'  => -1,
+                              'is_mobile'     => -1
+                          ]);
+        /* @var $posts Post[] */
+        $posts = Post::find()
+                     ->select(['gallery_items', 'mobile_image', 'is_mobile'])
+                     ->where(['status' => Post::STATUS_PUBLISHED])->all();
+        foreach ($posts as $post) {
             $post->prepareMobilePost();
             $post->updateAttributes([
                                         'mobile_image'  => $post->mobile_image,

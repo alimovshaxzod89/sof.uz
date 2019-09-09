@@ -2,12 +2,14 @@
 
 namespace api\models\v1;
 
+use common\components\Config;
 use common\components\InterlacedImage;
 use common\models\Post as PostModel;
 use GuzzleHttp\Client;
 use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\Timestamp;
 use yii\helpers\FileHelper;
+use yii\helpers\Json;
 
 
 class Post extends PostModel
@@ -69,6 +71,11 @@ class Post extends PostModel
         return 0;
     }
 
+    public function hasPriority()
+    {
+        return $this->is_main;// || $this->is_tagged;
+    }
+
     public function sendPushNotification()
     {
         $result = false;
@@ -89,9 +96,7 @@ class Post extends PostModel
                     'to'       => YII_DEBUG ? '/topics/allTest' : '/topics/all',
                     'priority' => 'normal',
                     'data'     => [
-                        'post_id'     => $this->getId(),
-                        'has_russian' => $this->has_russian ? "yes" : "no",
-                        'has_uzbek'   => $this->has_uzbek ? "yes" : "no",
+                        'post_id' => $this->getId(),
                     ],
                 ],
                 'headers' => [
@@ -102,7 +107,7 @@ class Post extends PostModel
             $result = $client->post('fcm/send', $params);
             $result = $result->getBody()->getContents();
 
-            if ($data = json_decode($result, true)) {
+            if ($data = Json::decode($result, true)) {
                 if (isset($data['message_id'])) {
                     $this->updateAttributes(['pushed_on' => call_user_func($this->getTimestampValue())]);
                 }

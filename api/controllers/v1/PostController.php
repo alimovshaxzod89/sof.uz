@@ -124,7 +124,7 @@ class PostController extends ApiController
         $posts = Post::find()
                      ->where([
                                  'status'    => Post::STATUS_PUBLISHED,
-                                 'is_mobile' => true,
+                                 //'is_mobile' => true,
                              ])
                      ->limit($limit)
                      ->orderBy([$order => SORT_DESC])
@@ -132,34 +132,34 @@ class PostController extends ApiController
 
         if ($category) {
             if ($category = Category::findOne($category)) {
-                $posts->andWhere(
-                    [
-                        '_categories' => [
-                            '$elemMatch' => [
-                                '$eq' => $category->getId(),
-                            ],
-                        ],
-                    ]
-                );
+                $posts->andWhere([
+                                     '_categories' => [
+                                         '$elemMatch' => [
+                                             '$eq' => $category->getId(),
+                                         ],
+                                     ],
+                                 ]);
             } else {
                 $category = null;
             }
         }
 
         if ($tag) {
-            $posts->andWhere(
-                [
-                    '_tags' => [
-                        '$elemMatch' => [
-                            '$eq' => new ObjectId($tag),
-                        ],
-                    ],
-                ]
-            );
+            $posts->andWhere([
+                                 '_tags' => [
+                                     '$elemMatch' => [
+                                         '$eq' => new ObjectId($tag),
+                                     ],
+                                 ],
+                             ]);
         }
 
         if ($after && strlen($after) == 10) {
-            $posts->andWhere(['$gt', 'published_on', new Timestamp(1, intval($after) + 1)]);
+            $posts->andWhere([
+                                 '$gt',
+                                 'published_on',
+                                 new Timestamp(1, intval($after) + 1)
+                             ]);
         }
 
         if ($before && strlen($before) == 10) {
@@ -173,6 +173,8 @@ class PostController extends ApiController
             unset($fields['similar']);
             unset($fields['similarTitle']);
             unset($fields['tags']);
+
+            print_r($posts->all());die;
 
             $fields = array_keys($fields);
 
@@ -188,6 +190,8 @@ class PostController extends ApiController
                 $result[]             = $item;
             }
         }
+
+
         return [
             'items'    => $result,
             'page'     => $page,
@@ -259,5 +263,34 @@ class PostController extends ApiController
         }
 
         throw new NotFoundHttpException(__('Post not found'));
+    }
+
+    /**
+     * @param Post $post
+     * @return bool
+     * 1 1 4
+     * 1 0 1
+     * 0 0 2
+     * 0 0 3
+     * 0 0 4
+     * 1 1 0
+     * 0 0 1
+     * 1 0 2
+     * 1 0 3
+     * 0 0 4
+     * 0 0 5
+     * 1 1 0
+     */
+    private function getPriority(Post $post)
+    {
+        if ($post->hasPriority()) {
+            if (self::$noPriorityCounter >= 4) {
+                self::$noPriorityCounter = 0;
+                return true;
+            }
+        }
+
+        self::$noPriorityCounter += 1;
+        return false;
     }
 }
