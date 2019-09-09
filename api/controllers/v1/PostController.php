@@ -124,7 +124,7 @@ class PostController extends ApiController
         $posts = Post::find()
                      ->where([
                                  'status'    => Post::STATUS_PUBLISHED,
-                                 //'is_mobile' => true,
+                                 'is_mobile' => true,
                              ])
                      ->limit($limit)
                      ->orderBy([$order => SORT_DESC])
@@ -173,8 +173,6 @@ class PostController extends ApiController
             unset($fields['similar']);
             unset($fields['similarTitle']);
             unset($fields['tags']);
-
-            print_r($posts->all());die;
 
             $fields = array_keys($fields);
 

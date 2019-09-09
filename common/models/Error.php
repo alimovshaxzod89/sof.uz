@@ -3,14 +3,15 @@
 namespace common\models;
 
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Error
  * @package common\models
- * @property mixed  message
  * @property mixed  url
- * @property mixed  status
  * @property  mixed text
+ * @property mixed  status
+ * @property mixed  message
  */
 class Error extends MongoModel
 {
@@ -21,15 +22,12 @@ class Error extends MongoModel
 
     public function attributes()
     {
-        return [
-            '_id',
-            'text',
+        return ArrayHelper::merge(parent::attributes(), [
             'url',
-            'message',
+            'text',
             'status',
-            'created_at',
-            'updated_at',
-        ];
+            'message',
+        ]);
     }
 
     public function rules()

@@ -37,7 +37,7 @@ class Post extends PostModel
             'has_priority' => function () {
                 return $this->is_main ? true : false;
             },
-            'categories'   => function () {
+            'category'     => function () {
                 return $this->category ? $this->category->id : '';
             },
 
@@ -45,30 +45,14 @@ class Post extends PostModel
                 return ($this->created_at instanceof Timestamp) ? $this->published_on->getTimestamp() : $this->published_on;
             },
 
-            'updated_at' => function () {
+            /*'updated_at' => function () {
                 return ($this->updated_at instanceof Timestamp) ? $this->updated_at->getTimestamp() : $this->updated_at;
-            },
+            },*/
 
             'view_url' => function () {
                 return $this->getShortViewUrl();
             },
         ];
-    }
-
-    public function isPushNotificationExpired()
-    {
-        $sendAnd = $this->getPushedOnTimeDiffAndroid();
-
-        return $sendAnd == 0 || $sendAnd > 3600;
-    }
-
-    public function getPushedOnTimeDiffAndroid()
-    {
-        if ($this->pushed_on) {
-            return time() - $this->pushed_on->getTimestamp();
-        }
-
-        return 0;
     }
 
     public function hasPriority()

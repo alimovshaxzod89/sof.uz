@@ -4,6 +4,7 @@ namespace api\controllers\v1;
 
 use api\models\v1\Ad;
 use api\models\v1\Post;
+use common\components\Config;
 use common\models\Stat;
 use common\models\Tag;
 use MongoDB\BSON\ObjectId;
@@ -40,14 +41,16 @@ class StatController extends BaseController
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $tags = Tag::find()
-                   ->select(['name_uz', 'name_cy', 'name_ru', 'count', 'slug'])
+                   ->select(['name', 'count', 'slug'])
                    ->orderBy(['count' => SORT_DESC])
                    ->limit(20);
 
         if ($q) {
-            $tags->orFilterWhere(['name_uz' => ['$regex' => $q, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_ru' => ['$regex' => $q, '$options' => 'si']]);
-            $tags->orFilterWhere(['name_cy' => ['$regex' => $q, '$options' => 'si']]);
+            $tags->orFilterWhere(["name" => ['$regex' => $q, '$options' => 'si']]);
+            $tags->orFilterWhere(["slug" => ['$regex' => $q, '$options' => 'si']]);
+            foreach (Config::getLanguageCodes() as $code) {
+                $tags->orFilterWhere(["name_" . $code => ['$regex' => $q, '$options' => 'si']]);
+            }
         }
         $tags->andFilterWhere(['count' => ['$gt' => 0]]);
 
@@ -64,15 +67,15 @@ class StatController extends BaseController
 
     /**
      * @param $id
-     * @return Post
+     * @return Post|array|bool|\yii\mongodb\ActiveRecord
      */
     private function findPostModel($id)
     {
         if ($post = Post::find()
                         ->where([
-                            'status' => Post::STATUS_PUBLISHED,
-                            '_id'    => new ObjectId($id),
-                        ])
+                                    'status' => Post::STATUS_PUBLISHED,
+                                    '_id'    => new ObjectId($id),
+                                ])
                         ->one()
         ) {
             return $post;
@@ -83,16 +86,16 @@ class StatController extends BaseController
 
     /**
      * @param $id
-     * @return Ad
+     * @return Ad|array|bool|\yii\mongodb\ActiveRecord
      */
     private function findAdModel($id)
     {
         if ($ad = Ad::find()
-                        ->where([
-                            'status' => Ad::STATUS_ENABLE,
-                            '_id'    => new ObjectId($id),
-                        ])
-                        ->one()
+                    ->where([
+                                'status' => Ad::STATUS_ENABLE,
+                                '_id'    => new ObjectId($id),
+                            ])
+                    ->one()
         ) {
             return $ad;
         }
@@ -109,7 +112,7 @@ class StatController extends BaseController
         if ($post = $this->findPostModel($id)) {
             if ($file = $post->getFilePath('audio')) {
                 $info = pathinfo($file);
-                return Yii::$app->response->sendFile($file, substr($post->slug, 0, 20) . '-xabar.uz.' . $info['extension']);
+                return Yii::$app->response->sendFile($file, substr($post->slug, 0, 20) . '-sof.uz.' . $info['extension']);
             }
         }
     }

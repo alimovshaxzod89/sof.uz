@@ -60,9 +60,9 @@ class PasswordResetRequestForm extends Model
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
                 ['user' => $user]
             )
-            ->setFrom([getenv('CONTACT_EMAIL') => __('Xabar.uz Support')])
+            ->setFrom([getenv('CONTACT_EMAIL') => __('sof.uz Support')])
             ->setTo($this->email)
-            ->setSubject(__('Password reset for xabar.uz'))
+            ->setSubject(__('Password reset for sof.uz'))
             ->send();
     }
 }

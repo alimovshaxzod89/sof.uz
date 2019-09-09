@@ -317,19 +317,15 @@ class IndexerController extends Controller
 
     public function actionPostMobile()
     {
-        Post::getCollection()
-            ->createIndex([
-                              'gallery_items' => -1,
-                              'mobile_image'  => -1,
-                              'is_mobile'     => -1
-                          ]);
+        ini_set('memory_limit', '-1');
         /* @var $posts Post[] */
         $posts = Post::find()
-                     ->select(['gallery_items', 'mobile_image', 'is_mobile'])
+                     ->select(['gallery_items', 'gallery', 'image', 'mobile_image', 'is_mobile'])
                      ->where(['status' => Post::STATUS_PUBLISHED])->all();
         foreach ($posts as $post) {
             $post->prepareMobilePost();
             $post->updateAttributes([
+                                        'is_mobile'     => true,
                                         'mobile_image'  => $post->mobile_image,
                                         'gallery_items' => $post->gallery_items,
                                     ]);

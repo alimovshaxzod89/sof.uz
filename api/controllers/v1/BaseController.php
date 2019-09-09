@@ -1,4 +1,5 @@
 <?php
+
 namespace api\controllers\v1;
 
 use common\components\Config;
@@ -14,9 +15,7 @@ class BaseController extends Controller
 
     public function beforeAction($action)
     {
-
-        $languages = Config::getLanguageOptions();
-
+        $languages = Config::getLanguageCode();
         if (($lang = $this->get('l')) && isset($languages[$lang])) {
             Yii::$app->language = $lang;
         }
@@ -50,5 +49,4 @@ class BaseController extends Controller
 
         return $this->_user;
     }
-
 }

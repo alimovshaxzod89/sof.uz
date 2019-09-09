@@ -16,6 +16,11 @@ class AdsController extends BaseController
         return parent::beforeAction($action);
     }
 
+    /**
+     * @param $place
+     * @return array
+     * @throws NotFoundHttpException
+     */
     public function actionGet($place)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;

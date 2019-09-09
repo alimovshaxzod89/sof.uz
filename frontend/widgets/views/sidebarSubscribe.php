@@ -21,7 +21,7 @@
         </div><!-- End of info-->
 
         <div class="media is_right">
-            <img src="http://static.xabar.lc/assets/502dca90/img/content/xabar.uz-newspaper.jpg" width="130" height="161" alt="xabar.uz">
+            <img src="http://static.sof.lc/assets/502dca90/img/content/sof.uz-newspaper.jpg" width="130" height="161" alt="sof.uz">
         </div><!-- End of media-->
     </div><!-- End of media-info-->
 

@@ -4,6 +4,7 @@ namespace api\controllers\v1;
 
 use api\models\v1\Category;
 use api\models\v1\Tag;
+use common\components\Config;
 use common\models\Page;
 use Yii;
 
@@ -26,7 +27,8 @@ class HomeController extends ApiController
 
     private function getCategoryList()
     {
-        return Category::getCategoryTree(['is_menu' => true], Category::findOne(['slug' => 'categories'])->id);
+        $root = Config::get(Config::CONFIG_MENU_CATEGORY);
+        return Category::getCategoryTree(['is_menu' => true], $root);
     }
 
     public function actionAssets()

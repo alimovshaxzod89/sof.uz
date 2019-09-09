@@ -13,6 +13,7 @@ use PHPHtmlParser\Dom;
 use PHPHtmlParser\Dom\AbstractNode;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
 /**
@@ -133,7 +134,7 @@ class Post extends MongoModel
 
     public function attributes()
     {
-        return array_merge(parent::attributes(), [
+        return ArrayHelper::merge(parent::attributes(), [
             'title',
             '_categories',
             'info',
@@ -335,9 +336,7 @@ class Post extends MongoModel
             self::LABEL_IMPORTANT      => __('Important News'),
             self::LABEL_CREATOR_CHOICE => __('Creator\'s Choice'),
         ];
-
-
-        return $empty ? array_merge(['' => ''], $options) : $options;
+        return $empty ? ArrayHelper::merge(['' => ''], $options) : $options;
     }
 
     public static function getSocialArray()
@@ -591,13 +590,7 @@ class Post extends MongoModel
     public function afterFind()
     {
         if (empty($this->category)) {
-            $ids = $this->_categories;
-            if (is_array($ids) && count($ids) > 1) {
-                if (($key = array_search(Category::ID_NEWS, $ids)) !== false) {
-                    unset($ids[$key]);
-                }
-            }
-
+            $ids            = $this->_categories;
             $this->category = Category::findOne($ids);
         }
 
@@ -920,7 +913,9 @@ class Post extends MongoModel
             return $this->getShortTitle();
         }
 
-        return __('Draft post at {date}', ['date' => Yii::$app->formatter->asDatetime($this->created_at ? $this->created_at->getTimestamp() : time(), 'php: l, d-F H:i')]);
+        return __('Draft post at {date}', [
+            'date' => Yii::$app->formatter->asDatetime($this->created_at ? $this->created_at->getTimestamp() : time(), 'php: l, d-F H:i')
+        ]);
     }
 
     public function getYoutubeEmbedUrl()
@@ -1175,6 +1170,22 @@ class Post extends MongoModel
         return self::getCropImage($this->image, self::IMAGE_WIDTH, null, ManipulatorInterface::THUMBNAIL_OUTBOUND, false);
     }
 
+    public function isPushNotificationExpired()
+    {
+        $sendAnd = $this->getPushedOnTimeDiffAndroid();
+
+        return $sendAnd == 0 || $sendAnd > 3600;
+    }
+
+    public function getPushedOnTimeDiffAndroid()
+    {
+        if ($this->pushed_on) {
+            return time() - $this->pushed_on->getTimestamp();
+        }
+
+        return 0;
+    }
+
     public function prepareMobilePost($force = false)
     {
         /** @var GalleryItem[] $gallery */
@@ -1194,8 +1205,6 @@ class Post extends MongoModel
             }
             $this->gallery_items = $items;
         }
-
-        $this->is_mobile = true;
     }
 
     public function getReadMinLabel()

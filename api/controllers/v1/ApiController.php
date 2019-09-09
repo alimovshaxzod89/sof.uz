@@ -2,10 +2,7 @@
 
 namespace api\controllers\v1;
 
-
 use common\components\Config;
-use common\models\GcmUser;
-use common\models\User;
 use Yii;
 use yii\filters\ContentNegotiator;
 use yii\filters\RateLimiter;
