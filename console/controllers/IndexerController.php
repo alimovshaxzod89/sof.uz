@@ -181,6 +181,9 @@ class IndexerController extends Controller
         }
     }
 
+    /**
+     *
+     */
     public function actionCurrency()
     {
         $currencies = Currency::getCurrencies();
@@ -321,7 +324,10 @@ class IndexerController extends Controller
         /* @var $posts Post[] */
         $posts = Post::find()
                      ->select(['gallery_items', 'gallery', 'image', 'mobile_image', 'is_mobile'])
-                     ->where(['status' => Post::STATUS_PUBLISHED])->all();
+                     ->where([
+                                 'is_mobile' => ['$ne' => true],
+                                 'status'    => Post::STATUS_PUBLISHED,
+                             ])->all();
         foreach ($posts as $post) {
             $post->prepareMobilePost();
             $post->updateAttributes([

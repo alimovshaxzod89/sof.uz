@@ -123,8 +123,8 @@ class PostController extends ApiController
 
         $posts = Post::find()
                      ->where([
-                                 'status'    => Post::STATUS_PUBLISHED,
-                                 'is_mobile' => true,
+                                 'status' => Post::STATUS_PUBLISHED,
+                                 //'is_mobile' => true,
                              ])
                      ->limit($limit)
                      ->orderBy([$order => SORT_DESC])
