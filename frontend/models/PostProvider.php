@@ -246,14 +246,12 @@ class PostProvider extends Post
      * @return PostProvider[]
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getTopPost($limit = 5)
+    public static function getTopPost($limit = 6)
     {
         $result = self::find()
                       ->active()
-                      ->andWhere([
-                                     'is_main' => ['$eq' => true],
-                                 ])
-                      ->addOrderBy(['published_on' => SORT_DESC])
+                      ->andWhere(['is_main' => ['$eq' => true]])
+                      ->orderBy(['published_on' => SORT_DESC])
                       ->limit($limit)
                       ->all();
         return $result;

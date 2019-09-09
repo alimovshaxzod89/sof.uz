@@ -7,14 +7,13 @@
 
 namespace api\models\v1;
 
-use common\components\Config;
 use common\models\Auth;
-use yii\base\Model;
 use common\models\User;
+use yii\base\Model;
 
 /**
  * Signup form
- * @property mixed fullname
+ * @property mixed full_name
  * @property mixed email
  * @property mixed id
  * @property mixed avatar_url
@@ -23,7 +22,7 @@ use common\models\User;
  */
 class AuthForm extends Model
 {
-    public $fullname;
+    public $full_name;
     public $email;
     public $id;
     public $login;
@@ -38,13 +37,14 @@ class AuthForm extends Model
     {
         return [
             ['email', 'trim'],
-            [['fullname', 'client', 'id', 'avatar_url'], 'required'],
+            [['full_name', 'client', 'id', 'avatar_url'], 'required'],
         ];
     }
 
     /**
      * Signs user up.
      * @return User|null|bool the saved model or null if saving fails
+     * @throws \yii\base\Exception
      */
     public function sign()
     {
@@ -67,7 +67,7 @@ class AuthForm extends Model
             return false;
         } else {
             $user                  = new User();
-            $user->fullname        = $this->fullname;
+            $user->full_name       = $this->full_name;
             $user->email           = $this->email;
             $user->avatar_url      = $this->avatar_url;
             $user->status          = User::STATUS_ENABLE;

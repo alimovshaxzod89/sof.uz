@@ -759,7 +759,6 @@ class Post extends MongoModel
         }
     }
 
-
     public function convertToLatin()
     {
         $translator = Translator::getInstance();
@@ -856,7 +855,6 @@ class Post extends MongoModel
         }
         return '...';
     }
-
 
     public static function getEmptyCroppedImage($width = 870, $height = 260)
     {
@@ -1067,7 +1065,6 @@ class Post extends MongoModel
         }
     }
 
-
     public function hasCommonTags(Post $post)
     {
         $thisTag = is_string($this->_tags) ? explode(',', $this->_tags) : $this->_tags;
@@ -1120,7 +1117,6 @@ class Post extends MongoModel
 
         return $similar;
     }
-
 
     public static function reindexSimilarPostsByTag()
     {
@@ -1201,33 +1197,6 @@ class Post extends MongoModel
         }
 
         $this->is_mobile = true;
-    }
-
-
-    public function isPushNotificationExpired()
-    {
-        $sendAnd = $this->getPushedOnTimeDiffAndroid();
-
-        return $sendAnd == 0 || $sendAnd > 3600;
-    }
-
-    public function getPushedOnTimeDiffAndroid()
-    {
-        if ($this->pushed_on) {
-            return time() - $this->pushed_on->getTimestamp();
-        }
-
-        return 0;
-    }
-
-    public function sendPushNotification()
-    {
-        $result = false;
-        if (Config::get(Config::CONFIG_PUSH_TO_ANDROID)) {
-            $result = $result || $this->sendPushNotificationAndroid() != false;
-        }
-
-        return $result;
     }
 
     public function getReadMinLabel()

@@ -4,6 +4,7 @@ namespace api\models\v1;
 
 use common\components\InterlacedImage;
 use common\models\Post as PostModel;
+use GuzzleHttp\Client;
 use Imagine\Image\ManipulatorInterface;
 use MongoDB\BSON\Timestamp;
 use yii\helpers\FileHelper;
@@ -25,12 +26,14 @@ class Post extends PostModel
             'info'         => 'info',
             'image'        => 'mobile_image',
             'read_min'     => 'read_min',
-            'has_gallery'  => 'has_gallery',
+            'has_gallery'  => function () {
+                return $this->has_gallery ? true : false;
+            },
             'hide_image'   => function () {
                 return boolval($this->hide_image) || empty($this->image) || $this->image == null;
             },
             'has_priority' => function () {
-                return $this->hasPriority();
+                return $this->is_main ? true : false;
             },
             'categories'   => function () {
                 return $this->category ? $this->category->id : '';
@@ -50,14 +53,70 @@ class Post extends PostModel
         ];
     }
 
+    public function isPushNotificationExpired()
+    {
+        $sendAnd = $this->getPushedOnTimeDiffAndroid();
+
+        return $sendAnd == 0 || $sendAnd > 3600;
+    }
+
+    public function getPushedOnTimeDiffAndroid()
+    {
+        if ($this->pushed_on) {
+            return time() - $this->pushed_on->getTimestamp();
+        }
+
+        return 0;
+    }
+
+    public function sendPushNotification()
+    {
+        $result = false;
+        if (Config::get(Config::CONFIG_PUSH_TO_ANDROID)) {
+            $result = $result || $this->sendPushNotificationAndroid() != false;
+        }
+
+        return $result;
+    }
+
+    public function sendPushNotificationAndroid($force = false)
+    {
+        if ($this->getPushedOnTimeDiffAndroid() == 0 || $force) {
+            $client = new Client(['base_uri' => 'https://fcm.googleapis.com/']);
+
+            $params = [
+                'json'    => [
+                    'to'       => YII_DEBUG ? '/topics/allTest' : '/topics/all',
+                    'priority' => 'normal',
+                    'data'     => [
+                        'post_id'     => $this->getId(),
+                        'has_russian' => $this->has_russian ? "yes" : "no",
+                        'has_uzbek'   => $this->has_uzbek ? "yes" : "no",
+                    ],
+                ],
+                'headers' => [
+                    'Authorization' => getenv('FCM_KEY'),
+                ],
+            ];
+
+            $result = $client->post('fcm/send', $params);
+            $result = $result->getBody()->getContents();
+
+            if ($data = json_decode($result, true)) {
+                if (isset($data['message_id'])) {
+                    $this->updateAttributes(['pushed_on' => call_user_func($this->getTimestampValue())]);
+                }
+                return $data;
+            }
+        }
+
+        return false;
+    }
+
     public function extraFields()
     {
         return [
             'content' => function () {
-                if (mb_strpos($this->content, 'twitter') !== false) {
-                    $this->content .= '<script src="https://platform.twitter.com/widgets.js" async charset="utf-8"></script>';
-                }
-
                 if (count($this->getCards())) {
                     return "<div class='card-post'>{$this->content}</div>";
                 };
@@ -74,10 +133,10 @@ class Post extends PostModel
                 if (count($similar) < 2) {
                     $similar = self::find()
                                    ->where([
-                                       'status'    => Post::STATUS_PUBLISHED,
-                                       'is_mobile' => true,
-                                       '_id'       => ['$nin' => [$this->_id]],
-                                   ])
+                                               'status'    => Post::STATUS_PUBLISHED,
+                                               'is_mobile' => true,
+                                               '_id'       => ['$nin' => [$this->_id]],
+                                           ])
                                    ->addOrderBy(['published_on' => SORT_DESC])
                                    ->limit(6)
                                    ->all();
@@ -106,6 +165,16 @@ class Post extends PostModel
         'medium' => 480,
     ];
 
+    /**
+     * @param array  $img
+     * @param int    $width
+     * @param int    $height
+     * @param string $manipulation
+     * @param bool   $watermark
+     * @param int    $quality
+     * @return string
+     * @throws \yii\base\Exception
+     */
     public static function getCropImage($img = [], $width = 270, $height = 347, $manipulation = ManipulatorInterface::THUMBNAIL_INSET, $watermark = false, $quality = 80)
     {
         $dir     = \Yii::getAlias("@static") . DS . 'uploads' . DS;
@@ -137,6 +206,7 @@ class Post extends PostModel
             $imagePath   = $dir . $img['path'];
             $info        = pathinfo($imagePath);
 
+            $cropFull  = null;
             $imageName = md5($img['path']) . '.' . $info['extension'];
 
             $cropPath = $imageName[0] . DS . $imageName[1] . DS;

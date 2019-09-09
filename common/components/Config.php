@@ -414,7 +414,7 @@ return [
                 ],
             ],
 
-            __('Social') => [
+            __('Social')             => [
                 [
                     'label' => __('Facebook link'),
                     'path'  => self::CONFIG_SOCIAL_FACEBOOK_LINK,
@@ -444,6 +444,14 @@ return [
                     'path'  => self::CONFIG_SOCIAL_TELEGRAM_LINK,
                     'type'  => 'text',
                     'help'  => __('link social'),
+                ],
+            ],
+            __('Push Notifications') => [
+                [
+                    'label' => __('Enable Android'),
+                    'path'  => self::CONFIG_PUSH_TO_ANDROID,
+                    'type'  => 'boolean',
+                    'help'  => __('Sends push notification to Android app'),
                 ],
             ],
         );

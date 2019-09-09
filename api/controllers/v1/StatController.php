@@ -109,7 +109,7 @@ class StatController extends BaseController
         if ($post = $this->findPostModel($id)) {
             if ($file = $post->getFilePath('audio')) {
                 $info = pathinfo($file);
-                return Yii::$app->response->sendFile($file, substr($post->url, 0, 20) . '-xabar.uz.' . $info['extension']);
+                return Yii::$app->response->sendFile($file, substr($post->slug, 0, 20) . '-xabar.uz.' . $info['extension']);
             }
         }
     }

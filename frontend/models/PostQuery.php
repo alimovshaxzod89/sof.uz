@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use yii\helpers\ArrayHelper;
 use yii\mongodb\ActiveQuery;
 
 class PostQuery extends ActiveQuery
@@ -9,26 +10,26 @@ class PostQuery extends ActiveQuery
     public function active($fields = [])
     {
         return $this->select(
-            array_merge([
-                            'title',
-                            'slug',
-                            'short_id',
-                            'is_main',
-                            'status',
-                            'info',
-                            'image',
-                            '_categories',
-                            '_translations',
-                            'published_on',
-                            'audio',
-                            'views',
-                            'views_l3d',
-                            'views_l7d',
-                            'read_min',
-                            'is_tagged',
-                            'is_bbc',
-                            '_author',
-                        ], $fields))
+            ArrayHelper::merge([
+                                   'title',
+                                   'slug',
+                                   'short_id',
+                                   'is_main',
+                                   'status',
+                                   'info',
+                                   'image',
+                                   '_categories',
+                                   '_translations',
+                                   'published_on',
+                                   'audio',
+                                   'views',
+                                   'views_l3d',
+                                   'views_l7d',
+                                   'read_min',
+                                   'is_tagged',
+                                   'is_bbc',
+                                   '_author',
+                               ], $fields))
                     ->andFilterWhere(['status' => PostProvider::STATUS_PUBLISHED]);
     }
 

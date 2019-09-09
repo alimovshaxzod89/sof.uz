@@ -8,6 +8,7 @@ use common\components\Config;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class PostController extends ApiController
@@ -19,42 +20,41 @@ class PostController extends ApiController
         $data = parent::behaviors();
         if (YII_DEBUG) return $data;
 
-        return array_merge($data, [
-                                    [
-                                        'class'              => 'yii\filters\HttpCache',
-                                        'cacheControlHeader' => 'public, max-age=60',
-                                        'lastModified'       => function ($action, $params) {
-                                            $q = new \yii\mongodb\Query();
-                                            return $q->from('post')->max('updated_at')->getTimestamp();
-                                        },
-                                    ],
-                                    [
-                                        'class'      => 'yii\filters\PageCache',
-                                        'only'       => ['view', 'view-url', 'list', 'home'],
-                                        'duration'   => 60,
-                                        'enabled'    => !YII_DEBUG,
-                                        'variations' => [
-                                            Yii::$app->id,
-                                            Yii::$app->language,
-                                            $this->get('l'),
-                                            $this->get('page'),
-                                            $this->get('category'),
-                                            $this->get('tag'),
-                                            $this->get('type'),
-                                            $this->get('order'),
-                                            $this->get('before'),
-                                            $this->get('after'),
-                                            $this->get('full'),
-                                            $this->get('limit'),
-                                            $this->get('refresh'),
-                                            $this->get('id'),
-                                            $this->get('slug'),
-                                            $this->get('v'),
-                                            $this->get('push'),
-                                        ],
-                                    ],
-                                ]
-        );
+        return ArrayHelper::merge($data, [
+            [
+                'class'              => 'yii\filters\HttpCache',
+                'cacheControlHeader' => 'public, max-age=60',
+                'lastModified'       => function ($action, $params) {
+                    $q = new \yii\mongodb\Query();
+                    return $q->from('post')->max('updated_at')->getTimestamp();
+                },
+            ],
+            [
+                'class'      => 'yii\filters\PageCache',
+                'only'       => ['view', 'view-url', 'list', 'home'],
+                'duration'   => 60,
+                'enabled'    => !YII_DEBUG,
+                'variations' => [
+                    Yii::$app->id,
+                    Yii::$app->language,
+                    $this->get('l'),
+                    $this->get('page'),
+                    $this->get('category'),
+                    $this->get('tag'),
+                    $this->get('type'),
+                    $this->get('order'),
+                    $this->get('before'),
+                    $this->get('after'),
+                    $this->get('full'),
+                    $this->get('limit'),
+                    $this->get('refresh'),
+                    $this->get('id'),
+                    $this->get('slug'),
+                    $this->get('v'),
+                    $this->get('push'),
+                ],
+            ],
+        ]);
     }
 
     const ORDER_DEFAULT = 'published_on';
@@ -76,10 +76,12 @@ class PostController extends ApiController
 
         $result = Post::find()->orderBy(['published_on' => SORT_DESC]);
 
+        $result->orFilterWhere(['title' => ['$regex' => $query, '$options' => 'si']]);
+        $result->orFilterWhere(["content" => ['$regex' => $query, '$options' => 'si']]);
+        $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
         foreach (Config::getLanguageCodes() as $code) {
             $result->orFilterWhere(["_translations.title_" . $code => ['$regex' => $query, '$options' => 'si']]);
             $result->orFilterWhere(["_translations.content_" . $code => ['$regex' => $query, '$options' => 'si']]);
-            $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
         }
 
         $result->limit($limit)
@@ -93,96 +95,6 @@ class PostController extends ApiController
         ];
 
     }
-
-
-    public function actionHome()
-    {
-        $exclude  = [];
-        $mainPost = Post::find()
-                        ->where([
-                                    'status'    => Post::STATUS_PUBLISHED,
-                                    'is_mobile' => true,
-                                    'is_main'   => true,
-                                ])
-                        ->addOrderBy(['published_on' => SORT_DESC])
-                        ->one();
-
-        $exclude[] = $mainPost->_id;
-
-        $lastNewsC = Category::findOne(['slug' => 'yangiliklar']);
-        $lastNews  = Post::find()
-                         ->andWhere([
-                                        '_categories' => [
-                                            '$elemMatch' => [
-                                                '$eq' => $lastNewsC->id,
-                                            ],
-                                        ],
-                                        '_id'         => ['$nin' => array_values($exclude)],
-                                    ])
-                         ->orderBy(['published_on' => SORT_DESC])
-                         ->limit(10)
-                         ->all();
-
-        foreach ($lastNews as $news) $exclude[] = $news->_id;
-
-        $topPosts = Post::find()
-                        ->where([
-                                    'status'    => Post::STATUS_PUBLISHED,
-                                    'is_mobile' => true,
-                                ])
-                        ->addOrderBy(['views_l3d' => SORT_DESC])
-                        ->limit(6)
-                        ->all();
-
-
-        $lastPosts = Post::find()
-                         ->where([
-                                     'status'      => Post::STATUS_PUBLISHED,
-                                     'is_mobile'   => true,
-                                 ])
-                         ->orderBy(['published_on' => SORT_DESC])
-                         ->limit(15);
-
-        $lastPosts = $lastPosts->all();
-
-        /**
-         * @var $post Post
-         * @var $mainPost Post
-         */
-        $fields = (new Post())->extraFields();
-        unset($fields['similar']);
-        unset($fields['similarTitle']);
-        unset($fields['tags']);
-        $fields = array_keys($fields);
-
-        $mainPost = $mainPost->toArray([], $fields);
-
-        $result = [];
-        foreach ($lastNews as $post) {
-            $result[] = $post->toArray([], $fields);
-        }
-        $lastNews = $result;
-
-        $result = [];
-        foreach ($topPosts as $post) {
-            $result[] = $post->toArray([], $fields);
-        }
-        $topPosts = $result;
-
-        $result = [];
-        foreach ($lastPosts as $post) {
-            $result[] = $post->toArray([], $fields);
-        }
-        $lastPosts = $result;
-
-        return [
-            'main'      => $mainPost,
-            'important' => $lastNews,
-            'top'       => $topPosts,
-            'last'      => $lastPosts,
-        ];
-    }
-
 
     public function actionList($page = 0, $category = false, $tag = false, $type = 'all', $order = self::ORDER_DEFAULT, $full = false)
     {
@@ -286,41 +198,11 @@ class PostController extends ApiController
         ];
     }
 
-    /**
-     * @param Post $post
-     * @return bool
-     * 1 1 4
-     * 1 0 1
-     * 0 0 2
-     * 0 0 3
-     * 0 0 4
-     * 1 1 0
-     * 0 0 1
-     * 1 0 2
-     * 1 0 3
-     * 0 0 4
-     * 0 0 5
-     * 1 1 0
-     */
-    private function getPriority(Post $post)
-    {
-        if ($post->hasPriority()) {
-            if (self::$noPriorityCounter >= 4) {
-                self::$noPriorityCounter = 0;
-                return true;
-            }
-        }
-
-        self::$noPriorityCounter += 1;
-        return false;
-    }
-
-
     public function actionViewUrl($slug)
     {
         if ($post = Post::find()
                         ->orFilterWhere(['short_id' => $slug])
-                        ->orFilterWhere(['url' => $slug])
+                        ->orFilterWhere(['slug' => $slug])
                         ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
                         ->one()
         ) {
@@ -332,6 +214,10 @@ class PostController extends ApiController
         throw new NotFoundHttpException(__('Post not found'));
     }
 
+    /**
+     * @return array
+     * @throws NotFoundHttpException
+     */
     public function actionView()
     {
         /**
@@ -341,7 +227,6 @@ class PostController extends ApiController
         $and = [];
 
         if ($post = $this->findPost()) {
-
             if ($push = $this->get('push')) {
                 if ($push == 'android') {
                     $and = $post->sendPushNotificationAndroid(true);
@@ -358,13 +243,16 @@ class PostController extends ApiController
     }
 
     /**
-     * @return Post
+     * @return Post|array|\yii\mongodb\ActiveRecord
      * @throws NotFoundHttpException
      */
     private function findPost()
     {
         if ($post = Post::find()
-                        ->where(['_id' => $this->get('id', time()), 'status' => Post::STATUS_PUBLISHED])
+                        ->where([
+                                    '_id'    => $this->get('id', time()),
+                                    'status' => Post::STATUS_PUBLISHED
+                                ])
                         ->one()
         ) {
             return $post;

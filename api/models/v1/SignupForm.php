@@ -13,14 +13,14 @@ use common\models\User;
 
 /**
  * Signup form
- * @property mixed fullname
+ * @property mixed full_name
  * @property mixed email
  * @property mixed password
  * @property mixed confirmation
  */
 class SignupForm extends Model
 {
-    public $fullname;
+    public $full_name;
     public $email;
     public $password;
     public $confirmation;
@@ -35,9 +35,9 @@ class SignupForm extends Model
         return [
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => __('This email has already been taken.')],
             ['email', 'trim'],
-            [['email', 'fullname'], 'required'],
+            [['email', 'full_name'], 'required'],
             ['email', 'email', 'checkDNS' => true],
-            [['email', 'fullname'], 'string', 'max' => 255],
+            [['email', 'full_name'], 'string', 'max' => 255],
             [['confirmation'], 'compare', 'compareAttribute' => 'password', 'skipOnEmpty' => false, 'message' => __('Confirmation does not match')],
             ['password', 'required'],
         ];
@@ -61,7 +61,7 @@ class SignupForm extends Model
         }
 
         $user               = new User();
-        $user->fullname     = $this->fullname;
+        $user->full_name     = $this->full_name;
         $user->email        = $this->email;
         $user->avatar_url   = '';
         $user->status       = Config::get(Config::CONFIG_USER_EMAIL_CONFIRM, false) ? User::STATUS_DISABLE : User::STATUS_ENABLE;

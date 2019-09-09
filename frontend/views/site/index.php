@@ -15,7 +15,7 @@ $this->_canonical = Yii::$app->getHomeUrl();
 $this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page sidebar-none modular-title-1');
 $limit      = 10;
 $photoPosts = PostProvider::getTopPhotos(10);
-$mainPosts  = PostProvider::getTopPosts();
+$mainPosts  = PostProvider::getTopPost();
 $mainPost   = false;
 if (is_array($mainPosts) && count($mainPosts)) $mainPost = array_shift($mainPosts);
 
