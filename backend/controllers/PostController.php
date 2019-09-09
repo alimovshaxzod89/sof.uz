@@ -316,7 +316,6 @@ class PostController extends BackendController
         ]);
     }
 
-
     /**
      * @return string
      * @resource News | View Statistics | post/stat
@@ -325,7 +324,6 @@ class PostController extends BackendController
     {
         return $this->render('stat', []);
     }
-
 
     /**
      * @param $id
@@ -405,13 +403,7 @@ class PostController extends BackendController
     {
         $post = $this->findModel($id);
         if ($post->hasAttribute($attribute)) {
-            if ($post->$attribute) {
-                $post->$attribute = false;
-                $post->save(false);
-            } else {
-                $post->$attribute = true;
-                $post->save(false);
-            }
+            $post->updateAttributes([$attribute => !boolval($post->$attribute)]);
             return !$post->hasErrors();
         }
         return false;
@@ -477,5 +469,4 @@ class PostController extends BackendController
             throw new NotFoundHttpException('The requested post does not exist.');
         }
     }
-
 }

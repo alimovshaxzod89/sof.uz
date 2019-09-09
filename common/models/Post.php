@@ -527,7 +527,6 @@ class Post extends MongoModel
 
         $this->read_min = $this->calculateReadingTime();
 
-
         return parent::beforeSave($insert);
     }
 
