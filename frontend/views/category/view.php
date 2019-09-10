@@ -19,21 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
 $this->addBodyClass('category-page');
 ?>
-<div class="content-area">
-    <main class="site-main">
-        <div class="advert-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?= \frontend\widgets\Banner::widget([
-                                                                 'place'   => 'before_main',
-                                                                 'options' => ['class' => 'ads-wrapper']
-                                                             ]) ?>
-                    </div>
-                </div>
+<div class="advert-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?= \frontend\widgets\Banner::widget([
+                                                         'place'   => 'before_main',
+                                                         'options' => ['class' => 'ads-wrapper']
+                                                     ]) ?>
             </div>
         </div>
-    </main>
+    </div>
 </div>
 
 <div class="site-content">

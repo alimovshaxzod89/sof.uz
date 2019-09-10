@@ -25,21 +25,17 @@ $this->addBodyClass('search-page');
     <h1 class="term-title"><?= $this->title ?></h1>
 </div>
 
-<div class="content-area">
-    <main class="site-main">
-        <div class="advert-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?= \frontend\widgets\Banner::widget([
-                                                                 'place'   => 'before_main',
-                                                                 'options' => ['class' => 'ads-wrapper']
-                                                             ]) ?>
-                    </div>
-                </div>
+<div class="advert-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?= \frontend\widgets\Banner::widget([
+                                                         'place'   => 'before_main',
+                                                         'options' => ['class' => 'ads-wrapper']
+                                                     ]) ?>
             </div>
         </div>
-    </main>
+    </div>
 </div>
 
 <div class="site-content">
