@@ -17,7 +17,6 @@ $category = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGOR
                            'place'   => 'before_sidebar',
                            'options' => ['class' => 'ads-wrapper']
                        ]) ?>
-    <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
     <?php if (Yii::$app->controller->id == 'site'): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
             'title' => __('Authors'),
@@ -35,6 +34,7 @@ $category = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGOR
             'posts' => PostProvider::getPostsByCategory($category, 5, false, $exclude)
         ]) ?>
     <?php endif; ?>
+    <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
     <?= YII_DEBUG ? $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') : '' ?>
     <?= Banner::widget([
                            'place'   => 'after_sidebar',
