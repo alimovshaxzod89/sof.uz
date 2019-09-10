@@ -67,7 +67,6 @@ class PostController extends ApiController
         'views',
     ];
 
-
     public function actionSearch($query, $page = 0)
     {
         $page  = intval($page);

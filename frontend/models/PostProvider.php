@@ -21,12 +21,20 @@ class PostProvider extends Post
         $result = self::getCollection()
                       ->aggregate([
                                       [
+                                          '$match' => [
+                                              '_author' => [
+                                                  '$ne' => null
+                                              ]
+                                          ]
+                                      ],
+                                      [
                                           '$group' => [
                                               '_id'  => '$_author',
                                               'post' => ['$first' => '$_id']
                                           ]
                                       ]
                                   ]);
+
         if (count($result)) {
             $ids = ArrayHelper::getColumn($result, 'post');
         }

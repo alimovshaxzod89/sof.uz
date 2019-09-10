@@ -18,6 +18,19 @@ $this->title                   = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
 ?>
+<div class="advert-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <?= \frontend\widgets\Banner::widget([
+                                                         'place'   => 'before_main',
+                                                         'options' => ['class' => 'ads-wrapper']
+                                                     ]) ?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="site-content">
     <div class="container">
         <div class="row">
@@ -25,10 +38,6 @@ $this->_canonical              = $model->getViewUrl();
                 <div class="content-area">
                     <main class="site-main">
                         <h5 class="u-border-title"><?= $this->title ?></h5>
-                        <?= \frontend\widgets\Banner::widget([
-                                                                 'place'   => 'before_main',
-                                                                 'options' => ['class' => 'ads-wrapper']
-                                                             ]) ?>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
                                                  'dataProvider' => $provider,
