@@ -19,38 +19,30 @@ use yii\widgets\Pjax;
 $this->title = __('"{query}" bo\'yicha qidiruv', ['query' => $search]);
 $limit       = intval(Yii::$app->request->get('limit', 12));
 $empty       = Post::getEmptyCroppedImage(205, 165);
+$this->addBodyClass('search-page');
 ?>
 <div class="term-bar lazyload visible" data-bg="<?= $this->getImageUrl('images/002.jpg') ?>">
     <h1 class="term-title"><?= $this->title ?></h1>
 </div>
 
-<div class="advert-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?= \frontend\widgets\Banner::widget([
-                                                         'place'   => 'before_main',
-                                                         'options' => ['class' => 'ads-wrapper']
-                                                     ]) ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="site-content">
-    <div class="advert-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <?= \frontend\widgets\Banner::widget([
-                                                             'place'   => 'before_main',
-                                                             'options' => ['class' => 'ads-wrapper']
-                                                         ]) ?>
+<div class="content-area">
+    <main class="site-main">
+        <div class="advert-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?= \frontend\widgets\Banner::widget([
+                                                                 'place'   => 'before_main',
+                                                                 'options' => ['class' => 'ads-wrapper']
+                                                             ]) ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+</div>
 
+<div class="site-content">
     <div class="container">
         <div class="row">
             <div class="content-column col-lg-9">
