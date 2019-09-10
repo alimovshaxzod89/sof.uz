@@ -24,19 +24,6 @@ $empty       = Post::getEmptyCroppedImage(205, 165);
     <h1 class="term-title"><?= $this->title ?></h1>
 </div>
 
-<div class="advert-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?= \frontend\widgets\Banner::widget([
-                                                         'place'   => 'before_main',
-                                                         'options' => ['class' => 'ads-wrapper']
-                                                     ]) ?>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="site-content">
     <div class="advert-section">
         <div class="container">

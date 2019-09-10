@@ -18,20 +18,20 @@ $this->title                   = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
 ?>
-<div class="advert-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?= \frontend\widgets\Banner::widget([
-                                                         'place'   => 'before_main',
-                                                         'options' => ['class' => 'ads-wrapper']
-                                                     ]) ?>
+<div class="site-content">
+    <div class="advert-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <?= \frontend\widgets\Banner::widget([
+                                                             'place'   => 'before_main',
+                                                             'options' => ['class' => 'ads-wrapper']
+                                                         ]) ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="site-content">
     <div class="container">
         <div class="row">
             <div class="content-column col-lg-9">
