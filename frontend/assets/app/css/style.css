@@ -283,5 +283,5 @@ span.meta-category:first-child:before {
 }
 
 .category-page .advert-section + .site-content, .search-page .advert-section + .site-content {
-    margin-top: 20px;
+    padding-top: 20px;
 }
