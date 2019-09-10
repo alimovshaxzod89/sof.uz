@@ -166,7 +166,7 @@ span.meta-category:first-child:before {
         font-size: 14px;
     }
 
-    .banner.ads-wrapper, .site.advert-section {
+    .banner.ads-wrapper, .site .advert-section {
         margin: 10px 0;
     }
 }
