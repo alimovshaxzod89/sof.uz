@@ -99,6 +99,14 @@ $this->registerJs($js);
                                             <?php endforeach; ?>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?= \frontend\widgets\Banner::widget([
+                                                                                     'place'   => 'before_content',
+                                                                                     'options' => ['class' => 'ads-wrapper']
+                                                                                 ]) ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
@@ -108,14 +116,6 @@ $this->registerJs($js);
                                         'posts' => PostProvider::getPopularPosts()
                                     ]) ?>
                                 </aside>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?= \frontend\widgets\Banner::widget([
-                                                                         'place'   => 'before_content',
-                                                                         'options' => ['class' => 'ads-wrapper']
-                                                                     ]) ?>
                             </div>
                         </div>
                     </div>
