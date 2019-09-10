@@ -165,6 +165,10 @@ span.meta-category:first-child:before {
     .u-module-margin .col-lg-6:last-child article .entry-title {
         font-size: 14px;
     }
+
+    .banner.ads-wrapper, .site.advert-section {
+        margin: 10px 0;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 767px) {
