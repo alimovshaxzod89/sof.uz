@@ -283,7 +283,8 @@ span.meta-category:first-child:before {
 }
 
 .logo-wrapper .logo.text img {
-    margin-top: 22px;
+    vertical-align: baseline;
+    display: inline;
 }
 
 .category-page .advert-section + .site-content, .search-page .advert-section + .site-content {

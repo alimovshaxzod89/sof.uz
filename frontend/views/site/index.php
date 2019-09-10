@@ -110,6 +110,14 @@ $this->registerJs($js);
                                 </aside>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?= \frontend\widgets\Banner::widget([
+                                                                         'place'   => 'before_content',
+                                                                         'options' => ['class' => 'ads-wrapper']
+                                                                     ]) ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <?php endif; ?>
@@ -121,10 +129,6 @@ $this->registerJs($js);
                             <div class="content-area">
                                 <main class="site-main">
                                     <h5 class="u-border-title"><?= __('Latest News') ?></h5>
-                                    <?= \frontend\widgets\Banner::widget([
-                                                                             'place'   => 'before_content',
-                                                                             'options' => ['class' => 'ads-wrapper']
-                                                                         ]) ?>
                                     <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                                     <?= ListView::widget([
                                                              'dataProvider' => PostProvider::getLastPosts($limit, true),
