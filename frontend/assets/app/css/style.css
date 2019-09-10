@@ -281,3 +281,7 @@ span.meta-category:first-child:before {
 .logo-wrapper .logo.text img {
     margin-top: 22px;
 }
+
+.category-page .advert-section + .site-content, .search-page .advert-section + .site-content {
+    margin-top: 20px;
+}
