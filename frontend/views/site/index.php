@@ -99,14 +99,6 @@ $this->registerJs($js);
                                             <?php endforeach; ?>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <?= \frontend\widgets\Banner::widget([
-                                                                                     'place'   => 'before_content',
-                                                                                     'options' => ['class' => 'ads-wrapper']
-                                                                                 ]) ?>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6">
@@ -124,6 +116,14 @@ $this->registerJs($js);
 
             <div id="magsy_module_post_grid-6" class="section widget_magsy_module_post_grid">
                 <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?= \frontend\widgets\Banner::widget([
+                                                                     'place'   => 'before_content',
+                                                                     'options' => ['class' => 'ads-wrapper']
+                                                                 ]) ?>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="content-column col-lg-9">
                             <div class="content-area">
