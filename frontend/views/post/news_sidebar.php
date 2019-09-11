@@ -36,10 +36,12 @@ JS;
 $this->registerJs($js);
 ?>
 <div class="site-content">
-    <?= Banner::widget([
-                           'place'   => 'before_main',
-                           'options' => ['class' => 'ads-wrapper']
-                       ]) ?>
+    <div class="container">
+        <?= Banner::widget([
+                               'place'   => 'before_main',
+                               'options' => ['class' => 'ads-wrapper']
+                           ]) ?>
+    </div>
 
     <div class="container">
         <div class="row">

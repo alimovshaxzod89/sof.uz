@@ -14,7 +14,7 @@ $category    = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATE
 $authorPosts = PostProvider::getTopAuthors();
 ?>
 <aside class="widget-area theiaStickySidebar">
-    <?php if (Yii::$app->controller->id != 'site'): ?>
+    <?php if (Yii::$app->controller->action->id != 'index'): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
             'title' => __('Most read'),
             'posts' => PostProvider::getPopularPosts(6, $exclude)
