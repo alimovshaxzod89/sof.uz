@@ -106,9 +106,7 @@ $this->registerJs($js);
                                     <div class="entry-action">
                                         <div class="action-count">
                                             <span class="view">
-                                                <span class="icon">
-                                                    <i class="mdi mdi-eye"></i>
-                                                </span>
+                                                <i class="mdi mdi-eye"></i>
                                                 <span class="count">
                                                     <?= $model->views ?>
                                                 </span>

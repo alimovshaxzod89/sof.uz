@@ -92,15 +92,6 @@
     padding: 60px 0;
 }
 
-span.meta-category:before {
-    content: "/";
-    padding-right: 10px;
-}
-
-span.meta-category:first-child:before {
-    content: none;
-}
-
 .entry-header .entry-meta > span + span {
     margin-left: 10px;
 }
@@ -311,4 +302,35 @@ span.meta-category:first-child:before {
 .section {
     padding-bottom: 40px;
     padding-top: 40px;
+}
+
+.post-full .ads-wrapper {
+    margin-top: 0;
+}
+
+.entry-meta span:after {
+    margin-left: 5px;
+    margin-right: 5px;
+    content: '/';
+    color: #e6e6e6;
+}
+
+.entry-meta span:last-child:after {
+    content: '';
+}
+
+.entry-header .entry-meta > span + span {
+    margin-left: 0;
+}
+
+.entry-action .mdi-eye {
+    font-size: 14px;
+}
+
+.entry-action .view .count {
+    font-size: 13px;
+}
+
+article.post .entry-header .entry-meta span {
+    display: contents;
 }

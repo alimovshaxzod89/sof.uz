@@ -24,6 +24,9 @@
                                     <?= $post->getShortFormattedDate() ?>
                                 </time>
                             </span>
+                            <span class="meta-date">
+                                <i class="mdi mdi-eye"></i> <?= $post->views ?>
+                            </span>
                             <?php if (0 && $post->hasAuthor()): ?>
                                 <span class="meta-date">
                                     <a href="<?= $post->author->getViewUrl() ?>">

@@ -25,7 +25,7 @@ $this->params['category'] = $category;
 $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
-$this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-right pagination-infinite_button');
+$this->addBodyClass('post-template-default post-full single-format-standard navbar-sticky pagination-infinite_button');
 ?>
 <div class="hero lazyload visible" data-bg="<?= $model->getFileUrl('image') ?>">
     <div class="container small">
@@ -93,9 +93,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                         <div class="entry-action">
                                             <div class="action-count">
                                                 <span class="view">
-                                                    <span class="icon">
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </span>
+                                                    <i class="mdi mdi-eye"></i>
                                                     <span class="count">
                                                         <?= $model->views ?>
                                                     </span>
