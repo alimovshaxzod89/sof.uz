@@ -14,33 +14,28 @@ $category    = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATE
 $authorPosts = PostProvider::getTopAuthors();
 ?>
 <aside class="widget-area theiaStickySidebar">
-    <?php if (Yii::$app->controller->id == 'site'): ?>
-        <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
-            <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
-                'title' => __('Authors'),
-                'posts' => $authorPosts
-            ]) ?>
-        <?php endif; ?>
-    <?php else: ?>
-        <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
-            'title' => __('Most read'),
-            'posts' => PostProvider::getTopPosts(6, $exclude)
+    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+        'title' => __('Most read'),
+        'posts' => PostProvider::getTopPosts(6, $exclude)
+    ]) ?>
+    <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
+        <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
+            'title' => __('Authors'),
+            'posts' => $authorPosts
         ]) ?>
     <?php endif; ?>
+
     <?= Banner::widget([
                            'place'   => 'before_sidebar',
                            'options' => ['class' => 'ads-wrapper']
                        ]) ?>
+
     <?php if ($category instanceof CategoryProvider): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
             'title' => $category->name,
             'posts' => PostProvider::getPostsByCategory($category, 5, false, $exclude)
         ]) ?>
     <?php endif; ?>
+
     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>
-    <?= YII_DEBUG ? $this->renderFile('@frontend/views/layouts/partials/popular_categories.php') : '' ?>
-    <?= Banner::widget([
-                           'place'   => 'after_sidebar',
-                           'options' => ['class' => 'ads-wrapper']
-                       ]) ?>
 </aside>
