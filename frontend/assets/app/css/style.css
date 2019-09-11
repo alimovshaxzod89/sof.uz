@@ -291,7 +291,7 @@ span.meta-category:first-child:before {
     padding-top: 20px;
 }
 
-.single-post .ads-wrapper.banner {
+.single-post .site-content .container > .ads-wrapper.banner {
     margin: 0;
 }
 
@@ -302,4 +302,8 @@ span.meta-category:first-child:before {
 
 .single-post .site-content + .container {
     margin-bottom: 40px;
+}
+
+.sidebar-column .widget-area div {
+    margin-bottom: 30px;
 }
