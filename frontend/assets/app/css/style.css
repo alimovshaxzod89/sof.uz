@@ -250,15 +250,15 @@ span.meta-category:first-child:before {
     margin-bottom: -30px;
 }
 
-.ads-wrapper, .advert-section {
+.ads-wrapper {
     margin: 20px 0;
 }
 
-.advert-section a > img {
+.ads-wrapper a > img {
     display: inherit;
 }
 
-.advert-section + div.section {
+.ads-wrapper + div.section {
     padding-top: 30px;
 }
 
