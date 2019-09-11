@@ -45,7 +45,9 @@ $this->registerJs($js);
                                    ]) ?>
             </div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="row">
             <div class="content-column col-lg-9">
                 <div class="content-area">
