@@ -294,3 +294,11 @@ span.meta-category:first-child:before {
 .single-post .ads-wrapper.banner {
     margin: 0;
 }
+
+.single-post .site-content {
+    margin-top: 40px;
+}
+
+.single-post .site-content + .container {
+    margin-bottom: 40px;
+}
