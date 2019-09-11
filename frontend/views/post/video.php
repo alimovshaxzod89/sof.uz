@@ -98,9 +98,8 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                                         <i class="mdi mdi-eye"></i>
                                                     </span>
                                                     <span class="count">
-                                                        <?= __('{view} {sp}views{spc}', [
-                                                            'view' => $model->views
-                                                        ]) ?>
+                                                        <?= $model->views ?>
+                                                    </span>
                                                 </span>
                                             </div>
                                             <?php

@@ -1,8 +1,6 @@
 #!/bin/sh
 pName='sof'
 
-cd /var/www/${pName}/backups/
-
 OUTPUT="$(ls -t mon*5\-*\-*\_*_*.bak.tgz | head -1)"
 if [ -f $OUTPUT ]; then
      FILE_BACK="rtt_$(echo $OUTPUT | cut -c7-28)tgz"

@@ -36,16 +36,10 @@ JS;
 $this->registerJs($js);
 ?>
 <div class="site-content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?= Banner::widget([
-                                       'place'   => 'before_main',
-                                       'options' => ['class' => 'ads-wrapper']
-                                   ]) ?>
-            </div>
-        </div>
-    </div>
+    <?= Banner::widget([
+                           'place'   => 'before_main',
+                           'options' => ['class' => 'ads-wrapper']
+                       ]) ?>
 
     <div class="container">
         <div class="row">
@@ -113,9 +107,9 @@ $this->registerJs($js);
                                                 <span class="icon">
                                                     <i class="mdi mdi-eye"></i>
                                                 </span>
-                                                <?= __('{view} {sp}views{spc}', [
-                                                    'view' => $model->views
-                                                ]) ?>
+                                                <span class="count">
+                                                    <?= $model->views ?>
+                                                </span>
                                             </span>
                                         </div>
                                         <?php
