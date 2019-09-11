@@ -296,6 +296,7 @@ span.meta-category:first-child:before {
 }
 
 .single-post .site-content {
+    padding-top: 0;
     margin-top: 40px;
 }
 
