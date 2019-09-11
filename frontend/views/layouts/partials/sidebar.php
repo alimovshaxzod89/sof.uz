@@ -14,10 +14,12 @@ $category    = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATE
 $authorPosts = PostProvider::getTopAuthors();
 ?>
 <aside class="widget-area theiaStickySidebar">
-    <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
-        'title' => __('Most read'),
-        'posts' => PostProvider::getPopularPosts(6, $exclude)
-    ]) ?>
+    <?php if (Yii::$app->controller->id != 'site'): ?>
+        <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
+            'title' => __('Most read'),
+            'posts' => PostProvider::getPopularPosts(6, $exclude)
+        ]) ?>
+    <?php endif; ?>
 
     <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
