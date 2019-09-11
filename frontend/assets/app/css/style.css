@@ -300,7 +300,7 @@ span.meta-category:first-child:before {
     margin-top: 40px;
 }
 
-.single-post .site-content + .container {
+.single-post .site-content .container:first-child {
     margin-bottom: 40px;
 }
 
