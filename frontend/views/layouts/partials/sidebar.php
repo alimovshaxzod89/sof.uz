@@ -16,8 +16,9 @@ $authorPosts = PostProvider::getTopAuthors();
 <aside class="widget-area theiaStickySidebar">
     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
         'title' => __('Most read'),
-        'posts' => PostProvider::getTopPosts(6, $exclude)
+        'posts' => PostProvider::getPopularPosts(6, $exclude)
     ]) ?>
+
     <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
             'title' => __('Authors'),
