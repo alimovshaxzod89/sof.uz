@@ -290,3 +290,7 @@ span.meta-category:first-child:before {
 .category-page .advert-section + .site-content, .search-page .advert-section + .site-content {
     padding-top: 20px;
 }
+
+.single-post .ads-wrapper.banner {
+    margin: 0;
+}
