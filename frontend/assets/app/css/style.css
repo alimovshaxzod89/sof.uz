@@ -304,6 +304,11 @@ span.meta-category:first-child:before {
     margin-bottom: 40px;
 }
 
-.sidebar-column .widget-area div {
+.sidebar-column .widget-area > div {
     margin-bottom: 30px;
+}
+
+.section {
+    padding-bottom: 40px;
+    padding-top: 40px;
 }
