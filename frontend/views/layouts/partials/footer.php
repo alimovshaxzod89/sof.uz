@@ -49,7 +49,7 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
 <footer class="site-footer">
     <div class="container">
         <nav class="footer-menu">
-            <?= \common\models\Page::getStaticBlock('footer_menu') ?>
+            <?= \common\models\Page::getStaticBlock('footer-menu') ?>
         </nav>
 
         <div class="site-info">
