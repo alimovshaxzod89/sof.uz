@@ -337,6 +337,7 @@ article.post .entry-header .entry-meta span {
 
 .entry-meta * {
     font-weight: normal;
+    vertical-align: middle;
 }
 
 .module .entry-media {
@@ -424,7 +425,7 @@ article.post .entry-header .entry-meta span {
 
 @media (min-width: 1200px) {
     .banner.banner-before_main {
-        min-height: 105px;
+        min-height: 100px;
         background-color: #f7f7f7
     }
 }
