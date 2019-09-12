@@ -21,11 +21,14 @@
                 </a>
             </h2>
             <div class="entry-meta">
-                    <span class="meta-category">
-                        <time datetime="<?= $model->getPublishedTimeIso() ?>">
-                            <?= $model->getShortFormattedDate() ?>
-                        </time>
-                    </span>
+                <span class="meta-category">
+                    <time datetime="<?= $model->getPublishedTimeIso() ?>">
+                        <?= $model->getShortFormattedDate() ?>
+                    </time>
+                </span>
+                <span class="meta-date">
+                    <i class="mdi mdi-eye"></i> <?= $model->views ?>
+                </span>
                 <?php if (0 && $model->hasAuthor()): ?>
                     <span class="meta-category">
                         <a data-pjax="0" href="<?= $model->author->getViewUrl() ?>">

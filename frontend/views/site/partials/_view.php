@@ -28,6 +28,9 @@
                             <?= $model->getShortFormattedDate() ?>
                         </time>
                     </span>
+                    <span class="meta-date">
+                        <i class="mdi mdi-eye"></i> <?= $model->views ?>
+                    </span>
                     <?php if (is_array($model->categories) && count($model->categories)): ?>
                         <span class="meta-category">
                             <?= $model->metaCategoriesList() ?>

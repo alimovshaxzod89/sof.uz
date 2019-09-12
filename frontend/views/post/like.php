@@ -29,6 +29,21 @@
                                                 <?= $similarPost->title ?>
                                             </a>
                                         </h4>
+                                        <div class="entry-meta">
+                                            <span class="meta-category">
+                                                <time datetime="<?= $similarPost->getPublishedTimeIso() ?>">
+                                                    <?= $similarPost->getShortFormattedDate() ?>
+                                                </time>
+                                            </span>
+                                            <span class="meta-date">
+                                                <i class="mdi mdi-eye"></i> <?= $similarPost->views ?>
+                                            </span>
+                                            <?php if (is_array($similarPost->categories) && count($similarPost->categories)): ?>
+                                                <span class="meta-category">
+                                                    <?= $similarPost->metaCategoriesList() ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
                                     </header>
                                     <div class="entry-excerpt u-text-format">
                                         <?= $similarPost->getInfoView() ?>
