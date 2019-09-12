@@ -364,6 +364,16 @@ article.post .entry-header .entry-meta span {
     main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
         margin: 0;
     }
+
+    .actions .language-block li, .main-search .search-close {
+        padding: 2px 5px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .actions .language-block li a {
+        font-size: 11px;
+    }
 }
 
 .actions .language-block {
