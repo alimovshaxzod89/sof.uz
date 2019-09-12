@@ -357,8 +357,12 @@ article.post .entry-header .entry-meta span {
         margin-right: 15px;
     }
 
-    .post-list .entry-header .entry-meta {
+    article.post-list .entry-wrapper .entry-header .entry-meta, article.post-list .entry-wrapper .entry-excerpt {
         display: none;
+    }
+
+    .site-main > .advert-section, .site-main > .banner.ads-wrapper {
+        margin: 0;
     }
 }
 
