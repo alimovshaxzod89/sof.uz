@@ -347,35 +347,6 @@ article.post .entry-header .entry-meta span {
     margin: 5px 0;
 }
 
-@media (max-width: 320px) {
-    .post-list .entry-header .entry-title {
-        font-size: 13px;
-    }
-
-    .post-list .entry-media {
-        width: 35%;
-        margin-right: 15px;
-    }
-
-    article.post-list .entry-wrapper .entry-header .entry-meta, article.post-list .entry-wrapper .entry-excerpt {
-        display: none;
-    }
-
-    main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
-        margin: 0;
-    }
-
-    .actions .language-block li, .main-search .search-close {
-        padding: 2px 5px;
-        width: 30px;
-        height: 30px;
-    }
-
-    .actions .language-block li a {
-        font-size: 11px;
-    }
-}
-
 .actions .language-block {
     padding: 0;
     margin: 0;
@@ -415,4 +386,33 @@ article.post .entry-header .entry-meta span {
 
 .search-open:hover {
     cursor: pointer;
+}
+
+@media (max-width: 320px) {
+    .post-list .entry-header .entry-title {
+        font-size: 13px;
+    }
+
+    .post-list .entry-media {
+        width: 35%;
+        margin-right: 15px;
+    }
+
+    article.post-list .entry-wrapper .entry-header .entry-meta, article.post-list .entry-wrapper .entry-excerpt {
+        display: none;
+    }
+
+    main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
+        margin: 0;
+    }
+
+    .actions .language-block li, .main-search .search-close {
+        padding: 2px 5px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .actions .language-block li a {
+        font-size: 11px;
+    }
 }
