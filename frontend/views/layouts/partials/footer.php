@@ -1,7 +1,6 @@
 <?php
 
 use common\components\Config;
-use frontend\models\CategoryProvider;
 
 /**
  * @var $this frontend\components\View
@@ -49,17 +48,10 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
 
 <footer class="site-footer">
     <div class="container">
-        <?php $links = CategoryProvider::getCategoryTree(['is_menu' => ['$eq' => true]], Config::get(Config::CONFIG_MENU_CATEGORY)) ?>
-        <?php if (is_array($links) && count($links)): ?>
-            <nav class="footer-menu">
-                <ul id="menu-footer" class="nav-list u-plain-list">
-                    <?php foreach ($links as $link): ?>
-                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                            <a href="<?= $link->getViewUrl() ?>"><?= $link->name ?></a></li>
-                    <?php endforeach; ?>
-                </ul>
-            </nav>
-        <?php endif; ?>
+        <nav class="footer-menu">
+            <?= \common\models\Page::getStaticBlock('footer_menu') ?>
+        </nav>
+
         <div class="site-info">
             <?= __('© 2018 Magsy - Magazine &amp; Blog Theme. All rights reserved') ?>
         </div>
