@@ -506,7 +506,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     '_tags' => [
                                         '$elemMatch' => [
-                                            '$eq' => $tag->_id,
+                                            '$in' => [$tag->_id, $tag->id],
                                         ],
                                     ],
                                 ])

@@ -11,6 +11,7 @@ use common\models\Tag;
 use console\models\Category as OldCat;
 use console\models\Post as OldPost;
 use console\models\Tag as OldTag;
+use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use yii\console\Controller;
 use yii\helpers\Console;
@@ -183,6 +184,29 @@ class HelloController extends Controller
             Console::updateProgress($i + 1, count($posts));
             $content = \console\models\Post::clearContent($post->content);
             $post->updateAttributes(['content' => $content]);
+            flush();
+        }
+        Console::endProgress();
+        ob_get_clean();
+    }
+
+    public function actionTag()
+    {
+        /* @var $posts Post[] */
+        $posts = Post::find()->select(['_tags'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Posts');
+        foreach ($posts as $i => $post) {
+            Console::updateProgress($i + 1, count($posts));
+
+            print_r($post->_tags);die;
+
+            if (is_array($post->_tags) && count($post->_tags)) {
+                $tags = array_filter(array_map(function ($tag) {
+                    return $tag instanceof ObjectId ? $tag : false;
+                }, $post->_tags));
+                $post->updateAttributes(['_tags' => $tags]);
+            }
+
             flush();
         }
         Console::endProgress();

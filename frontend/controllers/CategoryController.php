@@ -99,6 +99,11 @@ class CategoryController extends BaseController
         ]);
     }
 
+    /**
+     * @param $slug
+     * @return array|null|\yii\mongodb\ActiveRecord
+     * @throws NotFoundHttpException
+     */
     private function findTag($slug)
     {
         if (($model = TagProvider::find()->where(['slug' => $slug])->one()) !== null) {

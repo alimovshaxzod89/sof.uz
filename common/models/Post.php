@@ -560,17 +560,20 @@ class Post extends MongoModel
 
     public function getConvertedTagsWithCreate()
     {
-        $tags = array_filter(explode(',', $this->_tags));
+        print_r($this->_tags);die;
+        if (is_string($this->_tags)) {
+            $tags = array_filter(explode(',', $this->_tags));
 
-        if (count($tags) > 0)
-            return array_filter(array_map(function ($id) {
-                if (preg_match('/[a-z0-9]{24}/', $id)) {
-                    return new ObjectId(trim($id));
-                } else {
-                    $id = Tag::createTag($id);
-                    return $id;
-                }
-            }, $tags));
+            if (count($tags) > 0)
+                return array_filter(array_map(function ($id) {
+                    if (preg_match('/[a-z0-9]{24}/', $id)) {
+                        return new ObjectId(trim($id));
+                    } else {
+                        $id = Tag::createTag($id);
+                        return $id;
+                    }
+                }, $tags));
+        }
 
         return [];
     }
