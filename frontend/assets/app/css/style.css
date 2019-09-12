@@ -361,7 +361,7 @@ article.post .entry-header .entry-meta span {
         display: none;
     }
 
-    .site-main > .advert-section, .site-main > .banner.ads-wrapper {
+    main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
         margin: 0;
     }
 }
