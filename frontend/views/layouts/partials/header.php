@@ -60,17 +60,17 @@ use yii\helpers\Url;
             </div>
 
             <div class="actions">
-                <div style="margin-top: 2px;margin-right: 5px;">
-                    <?php if (Yii::$app->language === Config::LANGUAGE_CYRILLIC): ?>
-                        <a href="<?= Url::current(['language' => 'uz']) ?>"><strong><?= __('O‘zbek') ?></strong></a>
-                    <?php endif; ?>
-                    <?php if (Yii::$app->language === Config::LANGUAGE_UZBEK): ?>
-                        <a href="<?= Url::current(['language' => 'oz']) ?>"><strong><?= __('Ўзбек') ?></strong></a>
-                    <?php endif; ?>
-                </div>
-                <div class="search-open navbar-button">
-                    <i class="mdi mdi-magnify"></i>
-                </div>
+                <ul class="language-block">
+                    <li class="<?= Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'active' : '' ?>">
+                        <a href="<?= Url::current(['language' => 'oz']) ?>"><?= __('Ўз') ?></a>
+                    </li>
+                    <li class="<?= Yii::$app->language == Config::LANGUAGE_UZBEK ? 'active' : '' ?>">
+                        <a href="<?= Url::current(['language' => 'uz']) ?>"><?= __('O‘z') ?></a>
+                    </li>
+                    <li class="search-open">
+                        <i class="mdi mdi-magnify"></i>
+                    </li>
+                </ul>
                 <div class="burger"></div>
             </div>
         </div>

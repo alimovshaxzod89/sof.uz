@@ -334,3 +334,71 @@
 article.post .entry-header .entry-meta span {
     display: contents;
 }
+
+.entry-meta * {
+    font-weight: normal;
+}
+
+.module .entry-media {
+    margin-bottom: 10px;
+}
+
+.module .entry-header .entry-meta {
+    margin: 5px 0;
+}
+
+@media (max-width: 320px) {
+    .post-list .entry-header .entry-title {
+        font-size: 13px;
+    }
+
+    .post-list .entry-media {
+        width: 35%;
+        margin-right: 15px;
+    }
+
+    .post-list .entry-header .entry-meta {
+        display: none;
+    }
+}
+
+.actions .language-block {
+    padding: 0;
+    margin: 0;
+}
+
+.actions .language-block li, .main-search .search-close {
+    margin-right: 5px;
+    text-align: center;
+    display: inline-block;
+    font-weight: 700;
+    border: 1px solid #e9e9e9;
+    border-radius: 50%;
+    background-color: #f4f4f4;
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+}
+
+.actions .language-block li a {
+    font-size: 12px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.actions .language-block li.active {
+    background-color: #6fd08d;
+    border-color: #9adfb7;
+}
+
+.actions .language-block li.active a {
+    color: #fff;
+}
+
+.main-search .search-close {
+    top: 48%
+}
+
+.search-open:hover {
+    cursor: pointer;
+}
