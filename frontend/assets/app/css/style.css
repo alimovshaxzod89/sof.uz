@@ -389,6 +389,10 @@ article.post .entry-header .entry-meta span {
     cursor: pointer;
 }
 
+.mdi-eye:before {
+    vertical-align: middle;
+}
+
 @media (max-width: 320px) {
     .post-list .entry-header .entry-title {
         font-size: 13px;
@@ -424,8 +428,13 @@ article.post .entry-header .entry-meta span {
 }
 
 @media (min-width: 1200px) {
-    .banner.banner-before_main {
+    .banner.banner-before_main, .banner.banner-before_content, .banner.banner-after_content {
         min-height: 100px;
+        background-color: #f7f7f7
+    }
+
+    .banner.banner-before_sidebar {
+        min-height: 300px;
         background-color: #f7f7f7
     }
 }
