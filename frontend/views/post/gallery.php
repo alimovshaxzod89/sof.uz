@@ -36,12 +36,12 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                     <main class="site-main">
                         <article
                                 class="post type-post status-publish format-gallery has-post-thumbnail hentry category-design post_format-post-format-gallery">
-                            <div class="container small">
-                                <?= \frontend\widgets\Banner::widget([
-                                                                         'place'   => 'before_main',
-                                                                         'options' => ['class' => 'ads-wrapper']
-                                                                     ]) ?>
+                            <?= \frontend\widgets\Banner::widget([
+                                                                     'place'   => 'before_main',
+                                                                     'options' => ['class' => 'ads-wrapper']
+                                                                 ]) ?>
 
+                            <div class="container small">
                                 <header class="entry-header">
                                     <div class="entry-meta">
                                         <?php if ($model->hasAuthor()): ?>
