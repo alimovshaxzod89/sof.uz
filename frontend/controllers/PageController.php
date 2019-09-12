@@ -14,7 +14,7 @@ class PageController extends BaseController
 
     public function behaviors()
     {
-        $post = $this->findModel($this->get('slug', 'loyiha-haqida'));
+        $post = $this->findModel($this->get('slug'));
 
         return [
             [
@@ -28,7 +28,7 @@ class PageController extends BaseController
                     Yii::$app->language,
                     Yii::$app->request->hostName,
                     Yii::$app->user->isGuest ? -1 : Yii::$app->user->id,
-                    $post ? $post->url : '',
+                    $post ? $post->slug : '',
                     $post ? $post->updated_at->getTimestamp() : '',
                     minVersion(),
                 ],
@@ -36,7 +36,7 @@ class PageController extends BaseController
         ];
     }
 
-    public function actionView($slug = 'loyiha-haqida')
+    public function actionView($slug)
     {
         $model = $this->findModel($slug);
 
@@ -53,7 +53,7 @@ class PageController extends BaseController
     protected function findModel($slug)
     {
         if ($slug) {
-            if ($model = Page::find()->where(['url' => $slug, 'status' => Post::STATUS_PUBLISHED])->one()) {
+            if ($model = Page::find()->where(['slug' => $slug, 'status' => Post::STATUS_PUBLISHED])->one()) {
                 return $model;
             }
             throw new NotFoundHttpException('Page not found');
