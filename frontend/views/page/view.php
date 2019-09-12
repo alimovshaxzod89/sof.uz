@@ -6,7 +6,7 @@ use frontend\components\View;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\Page */
 
-$this->title                   = __('Алоқа');
+$this->title                   = $model->title;
 $this->_canonical              = $model->getViewUrl();
 $this->params['breadcrumbs'][] = $this->title;
 $this->addDescription([$this->title]);
