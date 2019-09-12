@@ -8,6 +8,7 @@ use common\models\Category as NewCategory;
 use common\models\Post as NewPost;
 use common\models\Tag as NewTag;
 use MongoDB\BSON\Timestamp;
+use yii\helpers\FileHelper;
 
 /**
  * Class Post
@@ -84,53 +85,50 @@ class Post extends \common\models\old\OldPost
         $tags              = $this->getNewTagsIds();
         $type              = $this->photo == 1 ? NewPost::TYPE_GALLERY : NewPost::TYPE_NEWS;
         $status            = $this->status ? NewPost::STATUS_PUBLISHED : NewPost::STATUS_DRAFT;
-        $image['base_url'] = \Yii::getAlias('@staticUrl/uploads');
+        $uploadPath        = \Yii::getAlias('@staticUrl');
+        $image['base_url'] = $uploadPath;
 
-        if (stripos($this->img, 'sof.uz')) {
-            $image['path'] = str_replace(['https://sof.uz/files/uploads/', 'http://sof.uz/files/uploads/'], ['', ''], $this->img);
+
+        if (is_integer(stripos($this->img, 'sof.uz'))) {
+            $image['path'] = preg_replace('/(https|http)\:\/\/sof\.uz\//', '', $this->img);
         } else {
-            $image['path'] = 'photos/' . basename($this->img);
-            $files         = \Yii::getAlias('@root/files.txt');
-            $data          = file_get_contents($files) . "\n" . $this->img;
-            file_put_contents($files, $data);
+            $image['path'] = 'files/photos/' . basename($this->img);
+
+            $pathPhotos = \Yii::getAlias('@static/uploads/files/photos');
+            FileHelper::createDirectory($pathPhotos, '0777');
+            $filesPath = $pathPhotos . DS . 'files.txt';
+            $data      = file_exists($filesPath) ? file_get_contents($filesPath) . "\n" . $this->img : $this->img;
+
+            $fp = fopen($filesPath, 'w+');
+            fwrite($fp, $data);
+            fclose($fp);
         }
 
-        /*$img               = pathinfo($this->img);
-        if (is_array($img) && isset($img['filename'])) {
-            $imageName = crc32($img['filename']) . '.' . $img['extension'];
-            $path      = \Yii::getAlias('@static/uploads');
+        $content = $this->full;
+        if (stripos($this->full, 'sof.uz')) {
+            $content = str_replace(
+                ['https://www.sof.uz/', 'http://www.sof.uz/', 'https://sof.uz/', 'http://sof.uz/'],
+                [$uploadPath, $uploadPath, $uploadPath, $uploadPath],
+                $content);
+        }
 
-            try {
-                $rand = rand(0, 9);
-                set_time_limit(0);
-                $save = file_put_contents($path . DS . $rand . DS . $imageName, fopen($this->img, 'r'));
-                if ($save)
-                    $image['path'] = $rand . '/' . $imageName;
-
-            } catch (\Exception$e) {
-                $image['path'] = '';
-            }
-        }*/
-
-        $uploadPath = \Yii::getAlias('@staticUrl');
-        $content    = str_replace(['https://sof.uz/files/uploads', 'http://sof.uz/files/uploads'], $uploadPath, $this->full);
-        $new        = new NewPost([
-                                      'scenario'     => NewPost::SCENARIO_CONVERT,
-                                      'old_id'       => $this->id,
-                                      'title'        => $this->title,
-                                      'info'         => $this->short,
-                                      'content'      => $content,
-                                      'views'        => $this->views,
-                                      'slug'         => $slug,
-                                      'status'       => $status,
-                                      'image'        => $image,
-                                      'published_on' => new Timestamp(1, time()),
-                                      'type'         => $type,
-                                      '_author'      => $author,
-                                      '_categories'  => $categories,
-                                      '_tags'        => $tags,
-                                      'created_at'   => new Timestamp(1, $this->date),
-                                  ]);
+        $new = new NewPost([
+                               'scenario'     => NewPost::SCENARIO_CONVERT,
+                               'old_id'       => $this->id,
+                               'title'        => $this->title,
+                               'info'         => $this->short,
+                               'content'      => self::clearContent($content),
+                               'views'        => $this->views,
+                               'slug'         => $slug,
+                               'status'       => $status,
+                               'image'        => $image,
+                               'published_on' => new Timestamp(1, $this->date),
+                               'type'         => $type,
+                               '_author'      => null,
+                               '_categories'  => $categories,
+                               '_tags'        => $tags,
+                               'created_at'   => new Timestamp(1, $this->date),
+                           ]);
 
         if ($new->save()) {
             $new->syncLatinCyrill(Config::LANGUAGE_UZBEK, 1);

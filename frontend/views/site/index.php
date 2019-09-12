@@ -92,7 +92,7 @@ $this->registerJs($js);
                                                             </h2>
                                                         </header>
                                                         <div class="entry-excerpt u-text-format">
-                                                            <?= $post->info ?>
+                                                            <?= $post->getInfoView() ?>
                                                         </div>
                                                     </div>
                                                 </article>

@@ -43,7 +43,7 @@
                 </div>
             </header>
             <div class="entry-excerpt u-text-format">
-                <?= $model->info ?>
+                <?= $model->getInfoView() ?>
             </div>
         </div>
     </article>
