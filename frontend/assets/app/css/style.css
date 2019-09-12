@@ -393,16 +393,21 @@ article.post .entry-header .entry-meta span {
         font-size: 13px;
     }
 
+    .main-search .search-field {
+        font-size: 14px;
+    }
+
     .post-list .entry-media {
         width: 35%;
         margin-right: 15px;
     }
 
-    article.post-list .entry-wrapper .entry-header .entry-meta, article.post-list .entry-wrapper .entry-excerpt {
+    .posts-wrapper .post-list .entry-wrapper .entry-header .entry-meta,
+    .posts-wrapper .post-list .entry-wrapper .entry-excerpt {
         display: none;
     }
 
-    main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
+    .main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
         margin: 0;
     }
 
@@ -414,5 +419,12 @@ article.post .entry-header .entry-meta span {
 
     .actions .language-block li a {
         font-size: 11px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .banner-header_top {
+        min-height: 105px;
+        margin-top: -20px;
     }
 }
