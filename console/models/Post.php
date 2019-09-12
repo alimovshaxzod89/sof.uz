@@ -106,7 +106,7 @@ class Post extends \common\models\old\OldPost
 
         $content = $this->full;
         if (stripos($this->full, 'sof.uz')) {
-            $uploadPath .= 'uploads/';
+            $uploadPath .= '/uploads/';
             $content    = str_replace(
                 ['https://www.sof.uz', 'http://www.sof.uz', 'https://sof.uz', 'http://sof.uz'],
                 [$uploadPath, $uploadPath, $uploadPath, $uploadPath],
