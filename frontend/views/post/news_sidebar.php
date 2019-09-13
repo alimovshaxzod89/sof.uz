@@ -50,7 +50,7 @@ $this->registerJs($js);
                     <main class="site-main">
                         <article
                                 class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
-                            <div class="container small">
+                            <div class="small">
                                 <header class="entry-header">
                                     <h1 class="entry-title"><?= $model->title ?></h1>
                                     <div class="entry-meta">

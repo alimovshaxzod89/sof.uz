@@ -35,12 +35,12 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                     <main class="site-main">
                         <article
                                 class="post type-post status-publish format-video has-post-thumbnail hentry category-design tag-featured post_format-video">
-                            <div class="container small">
-                                <?= \frontend\widgets\Banner::widget([
-                                                                         'place'   => 'before_main',
-                                                                         'options' => ['class' => 'ads-wrapper']
-                                                                     ]) ?>
+                            <?= \frontend\widgets\Banner::widget([
+                                                                     'place'   => 'before_main',
+                                                                     'options' => ['class' => 'ads-wrapper']
+                                                                 ]) ?>
 
+                            <div class="small">
                                 <header class="entry-header">
                                     <h1 class="entry-title"><?= $model->title ?></h1>
                                     <div class="entry-meta">

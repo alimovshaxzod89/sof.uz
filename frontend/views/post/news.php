@@ -28,7 +28,7 @@ $this->addDescription([$model->info]);
 $this->addBodyClass('post-template-default post-full single-format-standard navbar-sticky pagination-infinite_button');
 ?>
 <div class="hero lazyload visible" data-bg="<?= $model->getFileUrl('image') ?>">
-    <div class="container small">
+    <div class="small">
         <header class="entry-header white">
             <h1 class="entry-title"><?= $model->title ?></h1>
             <div class="entry-meta">

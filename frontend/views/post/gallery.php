@@ -40,7 +40,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                                                      'options' => ['class' => 'ads-wrapper']
                                                                  ]) ?>
 
-                            <div class="container small">
+                            <div class="small">
                                 <header class="entry-header">
                                     <h1 class="entry-title"><?= $model->title ?></h1>
                                     <div class="entry-meta">
