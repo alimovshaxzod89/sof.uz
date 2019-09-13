@@ -312,7 +312,7 @@
     margin-left: 5px;
     margin-right: 5px;
     content: '/';
-    color: #e6e6e6;
+    color: #858585;
 }
 
 .entry-meta span:last-child:after {
@@ -431,4 +431,13 @@ article.post .entry-header .entry-meta span {
         min-height: 100px;
         background-color: #f7f7f7
     }
+}
+
+.entry-header .entry-meta .meta-category a, article.post .entry-header .entry-meta span {
+    display: inherit;
+}
+
+.entry-header .entry-meta .meta-category {
+    display: inherit;
+    flex-wrap: inherit;
 }
