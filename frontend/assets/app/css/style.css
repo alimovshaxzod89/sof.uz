@@ -161,12 +161,15 @@
         padding: 0;
     }
 
+    .site-main .advert-section .banner {
+        margin: 0;
+    }
+
     .footer-menu .nav-list {
         text-align: center;
     }
 
-    .site-main .advert-section .banner {
-        margin: 0;
+    .banner.banner-before_main {
         min-height: 80px;
     }
 
