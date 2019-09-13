@@ -560,8 +560,6 @@ class Post extends MongoModel
 
     public function getConvertedTagsWithCreate()
     {
-        print_r($this->_tags);
-        die;
         if (is_string($this->_tags)) {
             $tags = array_filter(explode(',', $this->_tags));
 
