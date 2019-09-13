@@ -317,6 +317,7 @@
 
 .entry-meta span:last-child:after {
     content: '';
+    display: none;
 }
 
 .entry-header .entry-meta > span + span {
@@ -431,13 +432,4 @@ article.post .entry-header .entry-meta span {
         min-height: 100px;
         background-color: #f7f7f7
     }
-}
-
-.entry-header .entry-meta .meta-category a, article.post .entry-header .entry-meta span {
-    display: inherit;
-}
-
-.entry-header .entry-meta .meta-category {
-    display: inherit;
-    flex-wrap: inherit;
 }
