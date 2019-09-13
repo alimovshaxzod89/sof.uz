@@ -213,6 +213,10 @@
         margin: 0 10px;
         max-width: inherit;
     }
+
+    .post-list .entry-excerpt {
+        display: none;
+    }
 }
 
 .navbar .nav-list > .menu-item > a {
