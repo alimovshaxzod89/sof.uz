@@ -168,6 +168,14 @@
     .footer-menu .nav-list {
         text-align: center;
     }
+
+    .site-main .advert-section .banner {
+        min-height: 80px;
+    }
+
+    .home .site-content {
+        padding-top: 0;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 767px) {
