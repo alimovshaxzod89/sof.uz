@@ -68,14 +68,24 @@ $this->registerJs($js);
                                                             <a href="<?= $mainPost->getViewUrl() ?>"
                                                                rel="bookmark"><?= $mainPost->title ?></a>
                                                         </h2>
+                                                        <div class="entry-meta">
+                                                            <span class="meta-category">
+                                                                <time datetime="<?= $post->getPublishedTimeIso() ?>">
+                                                                    <?= $post->getShortFormattedDate() ?>
+                                                                </time>
+                                                            </span>
+                                                            <span class="meta-date">
+                                                                <i class="mdi mdi-eye"></i> <?= $post->views ?>
+                                                            </span>
+                                                            <?php if (is_array($post->categories) && count($post->categories)): ?>
+                                                                <span class="meta-category">
+                                                                    <?= $post->metaCategoriesList() ?>
+                                                                </span>
+                                                            <?php endif; ?>
+                                                        </div>
                                                     </header>
                                                     <div class="entry-excerpt u-text-format">
                                                         <?= $mainPost->info ?>
-                                                    </div>
-                                                    <div class="entry-footer">
-                                                        <time datetime="<?= $mainPost->getPublishedTimeIso() ?>">
-                                                            <?= $mainPost->getShortFormattedDate() ?>
-                                                        </time>
                                                     </div>
                                                 </article>
                                             <?php endif; ?>

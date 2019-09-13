@@ -335,6 +335,10 @@ article.post .entry-header .entry-meta span {
     display: contents;
 }
 
+.entry-header .entry-meta, .entry-header .entry-meta a {
+    color: #555;
+}
+
 .module .entry-media {
     margin-bottom: 10px;
 }
