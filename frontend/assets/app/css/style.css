@@ -199,16 +199,6 @@
     .main.site-main > .advert-section, main.site-main .advert-section .banner.ads-wrapper {
         margin: 0;
     }
-
-    .actions .language-block li, .main-search .search-close {
-        padding: 2px 5px;
-        width: 30px;
-        height: 30px;
-    }
-
-    .actions .language-block li a {
-        font-size: 11px;
-    }
 }
 
 @media (min-width: 1200px) {
@@ -261,6 +251,16 @@
 
     .home .site-content {
         padding-top: 0;
+    }
+
+    .actions .language-block li, .main-search .search-close {
+        padding: 2px 5px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .actions .language-block li a {
+        font-size: 11px;
     }
 }
 
