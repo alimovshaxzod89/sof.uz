@@ -389,7 +389,7 @@ article.post .entry-header .entry-meta span {
 }
 
 .mdi-eye:before {
-    vertical-align: middle;
+    margin-right: 4px;
 }
 
 @media (max-width: 320px) {
