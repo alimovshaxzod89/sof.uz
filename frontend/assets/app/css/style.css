@@ -262,6 +262,16 @@
     .home .site-content {
         padding-top: 0;
     }
+
+    .actions .language-block li.active a {
+        font-size: 11px;
+    }
+
+    .actions .language-block li, .main-search .search-close {
+        padding: 2px 5px;
+        width: 30px;
+        height: 30px;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 767px) {
@@ -302,16 +312,6 @@
 
     .post-list .entry-excerpt {
         display: none;
-    }
-
-    .actions .language-block li.active a {
-        font-size: 11px;
-    }
-
-    .actions .language-block li, .main-search .search-close {
-        padding: 2px 5px;
-        width: 30px;
-        height: 30px;
     }
 }
 
