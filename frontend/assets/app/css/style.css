@@ -109,15 +109,15 @@
 }
 
 .u-border-title:before, .owl .owl-dot.active, .infinite-scroll-button {
-    background-color: #5ebd54;
+    background-color: #53ab52;
 }
 
 .infinite-scroll-button {
-    border-color: #5ebd54;
+    border-color: #53ab52;
 }
 
 .navbar .logo.text {
-    color: #5ebd54;
+    color: #53ab52;
 }
 
 .site-content > .container + .bottom-area {
@@ -399,8 +399,8 @@ article.post .entry-header .entry-meta span {
 }
 
 .actions .language-block li.active {
-    background-color: #5ebd54;
-    border-color: #5ebd54;
+    background-color: #53ab52;
+    border-color: #53ab52;
 }
 
 .actions .language-block li.active a {

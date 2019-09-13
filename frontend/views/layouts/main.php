@@ -72,6 +72,9 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
         <link rel="canonical" href="<?= $url ?>"/>
 
         <title><?= $title ?></title>
