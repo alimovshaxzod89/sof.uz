@@ -167,6 +167,7 @@
 
     .site-main .advert-section + .section {
         margin: 0;
+        padding: 0;
     }
 }
 
