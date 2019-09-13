@@ -160,6 +160,14 @@
     .banner.ads-wrapper, .site .advert-section {
         margin: 10px 0;
     }
+
+    .site-main .advert-section {
+        margin: 15px 0;
+    }
+
+    .site-main .advert-section + .section {
+        margin: 0;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 767px) {
