@@ -70,16 +70,16 @@ $this->registerJs($js);
                                                         </h2>
                                                         <div class="entry-meta">
                                                             <span class="meta-category">
-                                                                <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                                                    <?= $post->getShortFormattedDate() ?>
+                                                                <time datetime="<?= $mainPost->getPublishedTimeIso() ?>">
+                                                                    <?= $mainPost->getShortFormattedDate() ?>
                                                                 </time>
                                                             </span>
                                                             <span class="meta-date">
-                                                                <i class="mdi mdi-eye"></i> <?= $post->views ?>
+                                                                <i class="mdi mdi-eye"></i> <?= $mainPost->views ?>
                                                             </span>
-                                                            <?php if (is_array($post->categories) && count($post->categories)): ?>
+                                                            <?php if (is_array($mainPost->categories) && count($mainPost->categories)): ?>
                                                                 <span class="meta-category">
-                                                                    <?= $post->metaCategoriesList() ?>
+                                                                    <?= $mainPost->metaCategoriesList() ?>
                                                                 </span>
                                                             <?php endif; ?>
                                                         </div>
