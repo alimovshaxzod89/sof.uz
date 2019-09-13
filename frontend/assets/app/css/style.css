@@ -109,15 +109,15 @@
 }
 
 .u-border-title:before, .owl .owl-dot.active, .infinite-scroll-button {
-    background-color: #6fd08d;
+    background-color: #5ebd54;
 }
 
 .infinite-scroll-button {
-    border-color: #6fd08d;
+    border-color: #5ebd54;
 }
 
 .navbar .logo.text {
-    color: #6fd08d;
+    color: #5ebd54;
 }
 
 .site-content > .container + .bottom-area {
@@ -399,8 +399,8 @@ article.post .entry-header .entry-meta span {
 }
 
 .actions .language-block li.active {
-    background-color: #6fd08d;
-    border-color: #9adfb7;
+    background-color: #5ebd54;
+    border-color: #5ebd54;
 }
 
 .actions .language-block li.active a {

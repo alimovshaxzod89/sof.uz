@@ -44,15 +44,11 @@ $this->addBodyClass('search-page');
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
-                        <?= \frontend\widgets\Banner::widget([
-                                                                 'place'   => 'before_main',
-                                                                 'options' => ['class' => 'ads-wrapper']
-                                                             ]) ?>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
                                                  'dataProvider' => PostProvider::getPostsByQuery($search, $limit),
                                                  'options'      => [
-                                                     'tag' => false,
+                                                     'class' => 'row posts-wrapper',
                                                  ],
                                                  'itemOptions'  => [
                                                      'tag'   => 'div',
@@ -63,9 +59,9 @@ $this->addBodyClass('search-page');
                                                      'limit' => $limit,
                                                      'load'  => Yii::$app->request->get('load', $limit),
                                                  ],
-                                                 'layout'       => "<div class=\"row posts-wrapper\">{items}</div><div class=\"infinite-scroll-action\">{pager}</div>",
+                                                 'layout'       => "{items}<div class=\"infinite-scroll-action\">{pager}</div>",
                                                  'itemView'     => 'partials/_view',
-                                                 'emptyText'    => __('Ushbu bo\'limda yangiliklar yo\'q'),
+                                                 'emptyText'    => __("Ушбу қидирув бўйича натижа йўқ"),
                                                  'pager'        => [
                                                      'perLoad' => $limit,
                                                      'class'   => ScrollPager::class,
