@@ -21,10 +21,6 @@ $limit       = intval(Yii::$app->request->get('limit', 12));
 $empty       = Post::getEmptyCroppedImage(205, 165);
 $this->addBodyClass('search-page');
 ?>
-<div class="term-bar lazyload visible" data-bg="<?= $this->getImageUrl('images/002.jpg') ?>">
-    <h1 class="term-title"><?= $this->title ?></h1>
-</div>
-
 <div class="advert-section">
     <div class="container">
         <div class="row">
@@ -44,6 +40,9 @@ $this->addBodyClass('search-page');
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
+                        <h5 class="u-border-title">
+                            <?= $this->title ?>
+                        </h5>
                         <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                         <?= ListView::widget([
                                                  'dataProvider' => PostProvider::getPostsByQuery($search, $limit),
