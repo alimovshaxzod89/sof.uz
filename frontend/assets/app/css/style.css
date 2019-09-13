@@ -312,6 +312,10 @@
     margin-top: 30px;
 }
 
+.post-full .single-post .site-content {
+    margin-top: 0;
+}
+
 .single-post .site-content > .container:first-child {
     margin-bottom: 30px;
 }
