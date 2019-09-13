@@ -77,9 +77,10 @@ $this->registerJs($js);
                                                             <span class="meta-date">
                                                                 <i class="mdi mdi-eye"></i> <?= $mainPost->views ?>
                                                             </span>
-                                                            <?php if (is_array($mainPost->categories) && count($mainPost->categories)): ?>
+                                                            <?php if ($mainPost->hasCategory()): ?>
                                                                 <span class="meta-category">
-                                                                    <?= $mainPost->metaCategoriesList() ?>
+                                                                        <a href="<?= $mainPost->category->getViewUrl() ?>">
+                                                                            <?= $mainPost->category->name ?></a>
                                                                 </span>
                                                             <?php endif; ?>
                                                         </div>
@@ -109,9 +110,10 @@ $this->registerJs($js);
                                                                 <span class="meta-date">
                                                                     <i class="mdi mdi-eye"></i> <?= $post->views ?>
                                                                 </span>
-                                                                <?php if (is_array($post->categories) && count($post->categories)): ?>
+                                                                <?php if ($post->hasCategory()): ?>
                                                                     <span class="meta-category">
-                                                                        <?= $post->metaCategoriesList() ?>
+                                                                        <a href="<?= $post->category->getViewUrl() ?>">
+                                                                            <?= $post->category->name ?></a>
                                                                     </span>
                                                                 <?php endif; ?>
                                                             </div>
@@ -214,9 +216,10 @@ $this->registerJs($js);
                                             <span class="meta-date">
                                                 <i class="mdi mdi-eye"></i> <?= $post->views ?>
                                             </span>
-                                            <?php if (is_array($post->categories) && count($post->categories)): ?>
+                                            <?php if ($post->hasCategory()): ?>
                                                 <span class="meta-category">
-                                                    <?= $post->metaCategoriesList() ?>
+                                                    <a href="<?= $post->category->getViewUrl() ?>">
+                                                        <?= $post->category->name ?></a>
                                                 </span>
                                             <?php endif; ?>
                                         </div>

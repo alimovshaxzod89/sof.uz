@@ -66,7 +66,6 @@ $this->registerJs($js);
                                         <?php if ($model->hasCategory()): ?>
                                             <span class="meta-category">
                                                 <a href="<?= $model->category->getViewUrl() ?>" rel="category">
-                                                    <i class="dot" style="background-color: #d1b6e1;"></i>
                                                     <?= $model->category->name ?></a>
                                             </span>
                                         <?php endif; ?>

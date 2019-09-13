@@ -197,9 +197,6 @@ class HelloController extends Controller
         Console::startProgress(0, count($posts), 'Start Convert Posts');
         foreach ($posts as $i => $post) {
             Console::updateProgress($i + 1, count($posts));
-
-            print_r($post->_tags);die;
-
             if (is_array($post->_tags) && count($post->_tags)) {
                 $tags = array_filter(array_map(function ($tag) {
                     return $tag instanceof ObjectId ? $tag : false;

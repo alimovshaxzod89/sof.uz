@@ -25,7 +25,6 @@ $this->params['category'] = $category;
 $this->params['post']     = $model;
 
 $this->addDescription([$model->info]);
-$empty = $this->getImageUrl('img-placeholder.png');
 $this->addBodyClass('post-template-default single single-post single-format-gallery navbar-sticky sidebar-none pagination-infinite_button');
 ?>
 <div class="site-content">
@@ -57,7 +56,6 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                         <?php if ($model->hasCategory()): ?>
                                             <span class="meta-category">
                                                 <a href="<?= $model->category->getViewUrl() ?>" rel="category">
-                                                    <i class="dot" style="background-color: #ff7473;"></i>
                                                     <?= $model->category->name ?></a>
                                             </span>
                                         <?php endif; ?>

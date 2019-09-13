@@ -55,7 +55,6 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                         <?php if ($model->hasCategory()): ?>
                                             <span class="meta-category">
                                                 <a href="<?= $model->category->getViewUrl() ?>" rel="category">
-                                                    <i class="dot" style="background-color: #ff7473;"></i>
                                                     <?= $model->category->name ?></a>
                                             </span>
                                         <?php endif; ?>

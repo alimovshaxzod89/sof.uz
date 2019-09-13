@@ -44,11 +44,6 @@ class PostProvider extends Post
                    ->limit($limit)->all();
     }
 
-    public function hasCategory()
-    {
-        return $this->category instanceof CategoryProvider;
-    }
-
     public function metaCategoriesList()
     {
         $out = [];
