@@ -213,13 +213,14 @@ class HelloController extends Controller
     public function actionFast()
     {
         /* @var $posts Post[] */
+        ini_set('memory_limit', '-1');
         $posts = Post::find()->select(['images', 'content'])->all();
         Console::startProgress(0, count($posts), 'Start Convert Posts');
         foreach ($posts as $i => $post) {
             Console::updateProgress($i + 1, count($posts));
             $baseUrl = \Yii::getAlias('@staticUrl');
             $content = str_replace(
-                ['test.dushanba.uz', 'http://test.dushanba.uz'],
+                ['test.dushanba.uz', 'http://static.dushanba.uz'],
                 [$baseUrl, $baseUrl], $post->content);
             if (is_array($post->image) && isset($post->image['base_url'])) {
                 $post->image['base_url'] = $baseUrl;
