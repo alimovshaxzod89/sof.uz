@@ -209,4 +209,26 @@ class HelloController extends Controller
         Console::endProgress();
         ob_get_clean();
     }
+
+    public function actionFast()
+    {
+        /* @var $posts Post[] */
+        $posts = Post::find()->select(['images', 'content'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Posts');
+        foreach ($posts as $i => $post) {
+            Console::updateProgress($i + 1, count($posts));
+            $baseUrl = \Yii::getAlias('@staticUrl');
+            $content = str_replace(
+                ['test.dushanba.uz', 'http://test.dushanba.uz'],
+                [$baseUrl, $baseUrl], $post->content);
+            if (is_array($post->image) && isset($post->image['base_url'])) {
+                $post->image['base_url'] = $baseUrl;
+            }
+
+            $post->updateAttributes(['content' => $content, 'image' => $post->image]);
+            flush();
+        }
+        Console::endProgress();
+        ob_get_clean();
+    }
 }
