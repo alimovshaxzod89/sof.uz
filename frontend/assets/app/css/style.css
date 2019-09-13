@@ -157,17 +157,16 @@
         font-size: 14px;
     }
 
-    .banner.ads-wrapper, .site .advert-section {
-        margin: 10px 0;
-    }
-
     .site-main .advert-section {
-        margin: 15px 0;
+        margin: 30px 0;
     }
 
     .site-main .advert-section + .section {
-        margin: 0;
         padding: 0;
+    }
+
+    .site-main .advert-section .banner {
+        margin: 0;
     }
 }
 
