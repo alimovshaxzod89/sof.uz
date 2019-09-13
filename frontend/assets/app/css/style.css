@@ -295,8 +295,9 @@
 }
 
 .logo-wrapper .logo.text img {
-    width: 70px;
+    min-width: 70px;
     display: inline;
+    height: auto;
 }
 
 .category-page .advert-section + .site-content, .search-page .advert-section + .site-content {
