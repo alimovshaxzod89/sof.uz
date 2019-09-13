@@ -130,7 +130,7 @@ $this->registerJs($js);
                                 <aside class="widget-area ">
                                     <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                                         'title' => __('Most read'),
-                                        'posts' => PostProvider::getPopularPosts()
+                                        'posts' => PostProvider::getPopularPosts(5)
                                     ]) ?>
                                 </aside>
                             </div>

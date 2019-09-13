@@ -30,6 +30,7 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
 <div class="hero lazyload visible" data-bg="<?= $model->getFileUrl('image') ?>">
     <div class="container small">
         <header class="entry-header white">
+            <h1 class="entry-title"><?= $model->title ?></h1>
             <div class="entry-meta">
                 <?php if ($model->hasAuthor()): ?>
                     <span class="meta-author">
@@ -56,8 +57,6 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                     </span>
                 </span>
             </div>
-
-            <h1 class="entry-title"><?= $model->title ?></h1>
         </header>
     </div>
 </div>

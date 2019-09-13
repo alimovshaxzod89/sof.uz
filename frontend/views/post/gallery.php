@@ -43,6 +43,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
 
                             <div class="container small">
                                 <header class="entry-header">
+                                    <h1 class="entry-title"><?= $model->title ?></h1>
                                     <div class="entry-meta">
                                         <?php if ($model->hasAuthor()): ?>
                                             <span class="meta-author">
@@ -66,8 +67,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                             </time>
                                         </span>
                                     </div>
-
-                                    <h1 class="entry-title"><?= $model->title ?></h1></header>
+                                </header>
                             </div>
 
                             <?php if (is_array($model->gallery) && count($model->gallery)): ?>

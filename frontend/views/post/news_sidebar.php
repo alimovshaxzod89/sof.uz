@@ -52,6 +52,7 @@ $this->registerJs($js);
                                 class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
                             <div class="container small">
                                 <header class="entry-header">
+                                    <h1 class="entry-title"><?= $model->title ?></h1>
                                     <div class="entry-meta">
                                         <?php if ($model->hasAuthor()): ?>
                                             <span class="meta-author">
@@ -74,7 +75,6 @@ $this->registerJs($js);
                                                 <?= $model->getShortFormattedDate() ?></time>
                                         </span>
                                     </div>
-                                    <h1 class="entry-title"><?= $model->title ?></h1>
                                 </header>
                             </div>
 

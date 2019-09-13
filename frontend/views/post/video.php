@@ -42,6 +42,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                                                      ]) ?>
 
                                 <header class="entry-header">
+                                    <h1 class="entry-title"><?= $model->title ?></h1>
                                     <div class="entry-meta">
                                         <?php if ($model->hasAuthor()): ?>
                                             <span class="meta-author">
@@ -64,8 +65,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                             </time>
                                         </span>
                                     </div>
-
-                                    <h1 class="entry-title"><?= $model->title ?></h1></header>
+                                </header>
                             </div>
 
                             <div class="container medium">
