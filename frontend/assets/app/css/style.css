@@ -168,6 +168,10 @@
     .site-main .advert-section .banner {
         margin: 0;
     }
+
+    .footer-menu .nav-list {
+        text-align: center;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 767px) {
@@ -181,6 +185,10 @@
 }
 
 @media (max-width: 425px) {
+    .site-main .advert-section {
+        margin: 20px 0;
+    }
+
     .col-md-3 .widget-area {
         margin-top: 30px;
     }
