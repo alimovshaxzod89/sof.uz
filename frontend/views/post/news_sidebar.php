@@ -81,10 +81,8 @@ $this->registerJs($js);
                                 <div class="">
                                     <div class="entry-media">
                                         <div class="placeholder">
-                                            <a href="<?= $model->getViewUrl() ?>">
-                                                <img src="<?= $model->getFileUrl('image') ?>"
+                                               <img src="<?= $model->getFileUrl('image') ?>"
                                                      alt="<?= $model->title ?>">
-                                            </a>
                                         </div>
                                     </div>
                                 </div>

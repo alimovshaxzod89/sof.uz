@@ -107,7 +107,7 @@ class View extends \yii\web\View
             return $post->getImage(736, 386);
         }
 
-        return $this->getImageUrl("logo-sq-dark.png");
+        return $this->getImageUrl("logo2.svg");
     }
 
     /**
