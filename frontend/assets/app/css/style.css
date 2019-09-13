@@ -133,10 +133,6 @@
 }
 
 @media (max-width: 768px) {
-    #menu-footer.nav-list li {
-        display: inherit;
-    }
-
     .u-module-margin .col-lg-6:first-child article {
         margin-bottom: 0;
     }
