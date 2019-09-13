@@ -41,13 +41,6 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                     </a>
                 </span>
                 <?php endif; ?>
-                <?php if ($model->hasCategory()): ?>
-                    <span class="meta-category">
-                        <a href="<?= $model->category->getViewUrl() ?>" rel="category">
-                            <?= $model->category->name ?>
-                        </a>
-                    </span>
-                <?php endif; ?>
                 <span class="meta-date">
                     <span>
                         <time datetime="<?= $model->getPublishedTimeIso() ?>">
@@ -55,6 +48,13 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                         </time>
                     </span>
                 </span>
+                <?php if ($model->hasCategory()): ?>
+                    <span class="meta-category">
+                        <a href="<?= $model->category->getViewUrl() ?>" rel="category">
+                            <?= $model->category->name ?>
+                        </a>
+                    </span>
+                <?php endif; ?>
             </div>
         </header>
     </div>

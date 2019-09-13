@@ -63,16 +63,16 @@ $this->registerJs($js);
                                                          width='40'/><?= $model->author->full_name ?></a>
                                             </span>
                                         <?php endif; ?>
+                                        <span class="meta-date">
+                                            <time datetime="<?= $model->getPublishedTimeIso() ?>">
+                                                <?= $model->getShortFormattedDate() ?></time>
+                                        </span>
                                         <?php if ($model->hasCategory()): ?>
                                             <span class="meta-category">
                                                 <a href="<?= $model->category->getViewUrl() ?>" rel="category">
                                                     <?= $model->category->name ?></a>
                                             </span>
                                         <?php endif; ?>
-                                        <span class="meta-date">
-                                            <time datetime="<?= $model->getPublishedTimeIso() ?>">
-                                                <?= $model->getShortFormattedDate() ?></time>
-                                        </span>
                                     </div>
                                 </header>
                             </div>
