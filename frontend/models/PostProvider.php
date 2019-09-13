@@ -255,7 +255,7 @@ class PostProvider extends Post
         $result = self::find()
                       ->active()
                       ->andWhere(['is_main' => ['$eq' => true]])
-                      ->orderBy(['published_on' => SORT_DESC])
+                      ->orderBy(['published_on' => -1])
                       ->limit($limit)
                       ->all();
         return $result;
