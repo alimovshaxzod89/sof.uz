@@ -20,7 +20,7 @@ class CategoryProvider extends Category
     {
         return self::find()
                    ->where(['is_hidden' => ['$ne' => true]])
-                   ->orderBy(['count_posts' => SORT_DESC])
+                   ->orderBy(['count_posts' => -1])
                    ->limit($limit)
                    ->all();
     }

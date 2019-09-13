@@ -17,7 +17,7 @@ class AuthorProvider extends Blogger
         $query = PostProvider::find()
                              ->where(['_author' => $this->getId()])
                              ->andWhere(['status' => self::STATUS_ENABLE, 'has_audio' => false, 'has_video' => false])
-                             ->orderBy(['published_on' => SORT_DESC])
+                             ->orderBy(['published_on' => -1])
                              ->limit($limit);
 
         if (count($exclude)) {
@@ -37,7 +37,7 @@ class AuthorProvider extends Blogger
     {
         $query = self::find()
                      ->where(['status' => self::STATUS_ENABLE])
-                     ->addOrderBy([$column => SORT_DESC]);
+                     ->addOrderBy([$column => -1]);
 
         return new ActiveDataProvider([
                                           'query'      => $query,
@@ -53,7 +53,7 @@ class AuthorProvider extends Blogger
      */
     public static function getList($limit = 6)
     {
-        return self::find()->orderBy(['posts' => SORT_DESC])->limit($limit)->all();
+        return self::find()->orderBy(['posts' => -1])->limit($limit)->all();
     }
 
     public static function dataProvider($authors = [], $exclude = [], $size = 10)
@@ -67,7 +67,7 @@ class AuthorProvider extends Blogger
         $query = self::find()
                      ->where(['_id' => ['$in' => $authorIds]])
                      ->andWhere(['status' => Blogger::STATUS_ENABLE])
-                     ->orderBy(['created_at' => SORT_DESC]);
+                     ->orderBy(['created_at' => -1]);
 
         if (count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);

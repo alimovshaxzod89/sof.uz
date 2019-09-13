@@ -40,7 +40,7 @@ class PostProvider extends Post
         }
 
         return self::find()->where(['_id' => ['$in' => $ids]])
-                   ->orderBy(['published_on' => SORT_DESC])
+                   ->orderBy(['published_on' => -1])
                    ->limit($limit)->all();
     }
 
@@ -79,7 +79,7 @@ class PostProvider extends Post
     {
         $result = self::find()
                       ->active()
-                      ->orderBy(['published_on' => SORT_DESC])
+                      ->orderBy(['published_on' => -1])
                       ->limit($limit);
 
         if (count($exclude)) {
@@ -101,7 +101,7 @@ class PostProvider extends Post
                       ->active()
                       ->orFilterWhere(['label' => self::LABEL_IMPORTANT])
                       ->orFilterWhere(['is_main' => true])
-                      ->orderBy(['published_on' => SORT_DESC])
+                      ->orderBy(['published_on' => -1])
                       ->limit($limit);
 
         if (count($exclude)) {
@@ -123,7 +123,7 @@ class PostProvider extends Post
         $result = self::find()
                       ->active()
                       ->andFilterWhere(['is_main' => true])
-                      ->orderBy(['views_l3d' => SORT_DESC])
+                      ->orderBy(['views_l3d' => -1])
                       ->limit($limit);
 
         return $result->all();
@@ -141,7 +141,7 @@ class PostProvider extends Post
         $result = self::find()
                       ->active()
                       ->andWhere(['type' => $type])
-                      ->orderBy(['published_on' => SORT_DESC])
+                      ->orderBy(['published_on' => -1])
                       ->limit($limit)
                       ->all();
         return count($result) ? $result : [];
@@ -158,7 +158,7 @@ class PostProvider extends Post
     {
         $query = self::find()
                      ->active()
-                     ->orderBy(['published_on' => SORT_DESC])
+                     ->orderBy(['published_on' => -1])
                      ->limit($limit);
 
         if (count($exclude)) {
@@ -192,7 +192,7 @@ class PostProvider extends Post
     {
         $result = self::find()
                       ->active()
-                      ->addOrderBy([$column => SORT_DESC])
+                      ->addOrderBy([$column => -1])
                       ->limit($limit)
                       ->all();
         return count($result) ? $result : [];
@@ -209,7 +209,7 @@ class PostProvider extends Post
         $result = $query->andWhere([
                                        'published_on' => ['$gte' => $gte],
                                    ])
-                        ->addOrderBy(['views_l3d' => SORT_DESC])
+                        ->addOrderBy(['views_l3d' => -1])
                         ->limit($limit)
                         ->all();
         return \count($result) ? $result : [];
@@ -227,7 +227,7 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andFilterWhere(['views' => ['$gte' => 1]])
-                     ->orderBy(['views_l3d' => SORT_DESC])
+                     ->orderBy(['views_l3d' => -1])
                      ->limit($limit);
 
         if (count($exclude)) {
@@ -283,7 +283,7 @@ class PostProvider extends Post
                              ],
                          ]
                      )
-                     ->orderBy(['published_on' => SORT_DESC])
+                     ->orderBy(['published_on' => -1])
                      ->limit($limit);
 
         if (count($exclude)) {
@@ -311,7 +311,7 @@ class PostProvider extends Post
         return static::find()
                      ->active()
                      ->andWhere(['has_video' => true])
-                     ->orderBy(['published_on' => SORT_DESC])
+                     ->orderBy(['published_on' => -1])
                      ->limit($limit)
                      ->all();
     }
@@ -326,7 +326,7 @@ class PostProvider extends Post
         return static::find()
                      ->active()
                      ->andWhere(['type' => self::TYPE_GALLERY])
-                     ->orderBy(['published_on' => SORT_DESC])
+                     ->orderBy(['published_on' => -1])
                      ->limit($limit)
                      ->all();
     }
@@ -338,7 +338,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     '_author' => ['$nin' => [null, ""]],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC])
+                     ->orderBy(['published_on' => -1])
                      ->limit($limit)
                      ->all();
     }
@@ -347,7 +347,7 @@ class PostProvider extends Post
     {
         $query = self::find()
                      ->active()
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         return new ActiveDataProvider([
                                           'query'      => $query,
@@ -370,7 +370,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     'has_video' => ['$eq' => true],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         if (\count($exclude)) {
             $query->andWhere(['_id' => ['$nin' => $exclude]]);
@@ -397,7 +397,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     'has_gallery' => ['$eq' => true],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         if (\count($exclude)) {
             $query->andWhere(['_id' => ['$nin' => $exclude]]);
@@ -414,7 +414,7 @@ class PostProvider extends Post
     public static function getPostsByQuery($string, $limit)
     {
         $query = self::find()
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         $attrs = ['name', 'content'];
         foreach ($attrs as $attr) {
@@ -442,7 +442,7 @@ class PostProvider extends Post
         $query = self::find()
                      ->active()
                      ->andWhere(['_id' => ['$in' => $postIds]])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         if (\count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
@@ -476,7 +476,7 @@ class PostProvider extends Post
                                         ],
                                     ],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         if (is_array($exclude) && count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
@@ -505,7 +505,7 @@ class PostProvider extends Post
                                         ],
                                     ],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         if (\count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
@@ -534,7 +534,7 @@ class PostProvider extends Post
                                         ],
                                     ],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         return new ActiveDataProvider([
                                           'query'      => $query,
@@ -551,7 +551,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     '_author' => $model->_id,
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['published_on' => -1]);
 
         return new ActiveDataProvider([
                                           'query'      => $query,
@@ -564,7 +564,7 @@ class PostProvider extends Post
     public static function getTopics()
     {
         $posts = [];
-        $tags  = Tag::find()->where(['is_topic' => ['$eq' => true]])->orderBy(['count_l5d' => SORT_DESC])->all();
+        $tags  = Tag::find()->where(['is_topic' => ['$eq' => true]])->orderBy(['count_l5d' => -1])->all();
         if (count($tags)) {
             $posts = array_map(function (Tag $tag) {
                 return $tag->posts;

@@ -25,7 +25,7 @@ class PollProvider extends Poll
     {
         $query = Poll::find()
                      ->where($where)
-                     ->orderBy(['created_at' => SORT_DESC]);
+                     ->orderBy(['created_at' => -1]);
 
         return new ActiveDataProvider([
                                           'query'      => $query,
