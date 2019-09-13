@@ -335,11 +335,6 @@ article.post .entry-header .entry-meta span {
     display: contents;
 }
 
-.entry-meta * {
-    font-weight: normal;
-    vertical-align: middle;
-}
-
 .module .entry-media {
     margin-bottom: 10px;
 }
