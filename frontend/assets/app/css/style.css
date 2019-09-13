@@ -196,6 +196,15 @@
     .row.posts-wrapper .post-list {
         margin-bottom: 25px;
     }
+
+    .sidebar-column .widget-area > div {
+        padding: 0 20px;
+    }
+
+    .sidebar-column .widget-area {
+        margin: 0 10px;
+        max-width: inherit;
+    }
 }
 
 .navbar .nav-list > .menu-item > a {
