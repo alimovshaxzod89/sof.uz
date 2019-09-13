@@ -89,7 +89,7 @@
 }
 
 .site-content .bottom-area .related-posts {
-    padding: 60px 0;
+    padding: 60px 0 0 0;
 }
 
 .entry-header .entry-meta > span + span {
@@ -295,7 +295,7 @@
 }
 
 .logo-wrapper .logo.text img {
-    vertical-align: baseline;
+    width: 70px;
     display: inline;
 }
 

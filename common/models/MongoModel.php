@@ -260,9 +260,19 @@ class MongoModel extends ActiveRecord
         return "$img$url$end";
     }
 
+    public static function checkFileExists($path, $dir = false, $fullPath = false)
+    {
+        $dir = $dir ?: \Yii::getAlias("@static") . DS . 'uploads' . DS;
+        if (!empty($path)) {
+            $path = $dir . $path;
+            return file_exists($path) ? ($fullPath ? $path : true) : false;
+        }
+
+        return false;
+    }
+
     public static function getCropImage($img = [], $width = 270, $height = 347, $manipulation = ManipulatorInterface::THUMBNAIL_INSET, $watermark = false, $quality = 80)
     {
-        $dir     = \Yii::getAlias("@static") . DS . 'uploads' . DS;
         $cropDir = \Yii::getAlias("@static") . DS . 'crop' . DS;
 
         if (!is_dir($cropDir)) {
@@ -271,8 +281,8 @@ class MongoModel extends ActiveRecord
 
         $imagePath = Yii::getAlias('@frontend/assets/app/images/sof.png');
         $filename  = pathinfo($imagePath)['filename'];
-        if (is_array($img) && isset($img['path']) && file_exists($dir . $img['path'])) {
-            $imagePath = $dir . $img['path'];
+        if (is_array($img) && isset($img['path']) && self::checkFileExists($img['path'])) {
+            $imagePath = self::checkFileExists($img['path'], false, true);
             $filename  = isset($img['name']) ? $img['name'] : $img['path'];
         }
 

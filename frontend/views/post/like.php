@@ -21,8 +21,8 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="entry-wrapper">
 
+                                <div class="entry-wrapper">
                                     <header class="entry-header">
                                         <h4 class="entry-title">
                                             <a href="<?= $similarPost->getViewUrl() ?>" rel="bookmark">

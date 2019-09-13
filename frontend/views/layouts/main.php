@@ -93,7 +93,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
 
         <div class="logo-wrapper">
             <a class="logo text" href="<?= Yii::$app->getHomeUrl() ?>">
-                <img src="<?= $this->getImageUrl('images/logo.svg') ?>" alt=""></a>
+                <img src="<?= $this->getImageUrl('images/logo2.svg') ?>" alt=""></a>
         </div>
         <div class="mobile-menu hidden-lg hidden-xl"></div>
     </div>

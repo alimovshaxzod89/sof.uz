@@ -77,16 +77,18 @@ $this->registerJs($js);
                                 </header>
                             </div>
 
-                            <div class="">
-                                <div class="entry-media">
-                                    <div class="placeholder">
-                                        <a href="<?= $model->getViewUrl() ?>">
-                                            <img src="<?= $model->getFileUrl('image') ?>"
-                                                 alt="<?= $model->title ?>">
-                                        </a>
+                            <?php if ($model->checkImageFileExists()) : ?>
+                                <div class="">
+                                    <div class="entry-media">
+                                        <div class="placeholder">
+                                            <a href="<?= $model->getViewUrl() ?>">
+                                                <img src="<?= $model->getFileUrl('image') ?>"
+                                                     alt="<?= $model->title ?>">
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
 
                             <div class="container small">
                                 <div class="entry-wrapper">

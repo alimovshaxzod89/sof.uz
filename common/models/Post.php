@@ -560,7 +560,8 @@ class Post extends MongoModel
 
     public function getConvertedTagsWithCreate()
     {
-        print_r($this->_tags);die;
+        print_r($this->_tags);
+        die;
         if (is_string($this->_tags)) {
             $tags = array_filter(explode(',', $this->_tags));
 
@@ -1311,6 +1312,15 @@ class Post extends MongoModel
     public static function getLockedPosts(Admin $user)
     {
         return self::find()->where(['_creator' => $user->_id])->all();
+    }
+
+    public function checkImageFileExists()
+    {
+        if (is_array($this->image) && isset($this->image['path'])) {
+            return self::checkFileExists($this->image['path']);
+        }
+
+        return false;
     }
 
     public function hasAuthor()
