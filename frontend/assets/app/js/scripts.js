@@ -31,6 +31,13 @@
     };
 
     $(document).ready(function () {
+        if (typeof globalVars !== "undefined") {
+            if (globalVars.hasOwnProperty("p")) {
+                $.get(globalVars.a + "/stat/post/" + globalVars.p + "?t=" + getTimeStamp() + "&l=" + globalVars.l, function () {
+                });
+            }
+        }
+
         $('.load-button.load-more').on('click', function () {
             $(this).addClass('btn__more');
         });

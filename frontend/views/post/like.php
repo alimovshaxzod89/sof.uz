@@ -45,9 +45,6 @@
                                             <?php endif; ?>
                                         </div>
                                     </header>
-                                    <div class="entry-excerpt u-text-format">
-                                        <?= $similarPost->getInfoView() ?>
-                                    </div>
                                 </div>
                             </article>
                         </div>
