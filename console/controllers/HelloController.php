@@ -214,7 +214,7 @@ class HelloController extends Controller
     {
         /* @var $posts Post[] */
         ini_set('memory_limit', '-1');
-        $posts = Post::find()->select(['images', 'content'])->all();
+        $posts = Post::find()->select(['image', 'content'])->all();
         Console::startProgress(0, count($posts), 'Start Convert Posts');
         foreach ($posts as $i => $post) {
             Console::updateProgress($i + 1, count($posts));
