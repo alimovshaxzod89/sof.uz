@@ -232,4 +232,34 @@ class HelloController extends Controller
         Console::endProgress();
         ob_get_clean();
     }
+
+    public function actionOld()
+    {
+        /* @var $posts \console\models\Post[] */
+        ini_set('memory_limit', '-1');
+        $posts = \console\models\Post::find()->select(['id', 'slug'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Posts');
+        foreach ($posts as $i => $post) {
+            Console::updateProgress($i + 1, count($posts));
+            if ($post->new != null) {
+                $post->new->updateAttributes(['old_slug' => $post->slug]);
+            }
+            flush();
+        }
+        Console::endProgress();
+        ob_get_clean();
+
+        /* @var $categories \console\models\Category[] */
+        $categories = \console\models\Category::find()->select(['id', 'url'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Categories');
+        foreach ($categories as $i => $category) {
+            Console::updateProgress($i + 1, count($categories));
+            if ($category->new != null) {
+                $category->new->updateAttributes(['old_slug' => $category->url]);
+            }
+            flush();
+        }
+        Console::endProgress();
+        ob_get_clean();
+    }
 }

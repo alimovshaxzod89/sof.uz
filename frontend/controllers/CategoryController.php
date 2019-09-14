@@ -75,6 +75,22 @@ class CategoryController extends BaseController
         ]);
     }
 
+    /**
+     * @param $slug
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionOld($slug)
+    {
+        $category                            = $this->findWithOldModel($slug);
+        $this->getView()->params['category'] = $category;
+
+        return $this->render('view', [
+            'model'    => $category,
+            'provider' => $category->getProvider()
+        ]);
+    }
+
     public function actionTag($slug)
     {
         $tag = $this->findTag($slug);
@@ -137,6 +153,21 @@ class CategoryController extends BaseController
     {
         if ($slug) {
             if ($model = CategoryProvider::find()->where(['slug' => $slug])->one()) {
+                return $model;
+            }
+        }
+        throw new NotFoundHttpException('Page not found');
+    }
+
+    /**
+     * @param $slug
+     * @return array|null|CategoryProvider
+     * @throws NotFoundHttpException
+     */
+    protected function findWithOldModel($slug)
+    {
+        if ($slug) {
+            if ($model = CategoryProvider::find()->where(['old_slug' => $slug])->one()) {
                 return $model;
             }
         }

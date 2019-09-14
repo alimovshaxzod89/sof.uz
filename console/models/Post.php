@@ -12,8 +12,9 @@ use yii\helpers\FileHelper;
 
 /**
  * Class Post
- * @property Category category
- * @property Tag[]    tags
+ * @property Category            category
+ * @property Tag[]               tags
+ * @property \common\models\Post new
  * @package console\models
  */
 class Post extends \common\models\old\OldPost
@@ -27,6 +28,11 @@ class Post extends \common\models\old\OldPost
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
                     ->viaTable(TagNode::tableName(), ['page_id' => 'id']);
+    }
+
+    public function getNew()
+    {
+        return $this->hasOne(Post::class, ['old_id' => 'id']);
     }
 
     public function getNewTagsIds()

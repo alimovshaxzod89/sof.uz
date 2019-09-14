@@ -25,6 +25,7 @@ use yii\helpers\StringHelper;
  * @property string     slug
  * @property string     status
  * @property string     old_id
+ * @property string     old_slug
  * @property array      image
  * @property array      image_source
  * @property array      image_caption
@@ -183,6 +184,7 @@ class Post extends MongoModel
             'is_instant',
             'is_mobile',
             'old_id',
+            'old_slug',
             'pushed_on',
             'hide_image',
             'img_watermark',
@@ -271,6 +273,8 @@ class Post extends MongoModel
 
             [['title'], 'string', 'max' => 512],
             [['slug'], 'string', 'max' => 256],
+
+            [['old_id', 'old_slug'], 'safe'],
 
             [['info'], 'string', 'min' => 50, 'max' => 500, 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
             [['short_id'], 'safe',

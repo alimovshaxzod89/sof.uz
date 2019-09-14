@@ -14,6 +14,7 @@ use yii\helpers\Url;
  * This is the model class for table "category".
  * @property string   $name
  * @property string   $old_id
+ * @property string   $old_slug
  * @property string   $slug
  * @property string   $position
  * @property string   $_products
@@ -65,6 +66,7 @@ class Category extends MongoModel
             '_sort',
             '_children',
             'old_id',
+            'old_slug',
             'position',
             'parent',
             'color',
@@ -103,6 +105,8 @@ class Category extends MongoModel
 
             [['slug', 'name'], 'required', 'on' => ['insert', 'update']],
             [['slug'], 'match', 'pattern' => '/^[\/a-z]{1,64}[\/a-z0-9-]{1,128}$/', 'message' => __('Use only english alpha and numeric characters')],
+
+            [['old_id', 'old_slug'], 'safe'],
 
             [['slug'], 'unique', 'on' => ['insert', 'update']],
             [['search', 'home_order'], 'safe'],
