@@ -14,7 +14,7 @@ use yii\helpers\Html;
 AppAsset::register($this);
 
 $url   = $this->getCanonical();
-$title = Html::encode($this->title ? $this->title . ' — Sof.uz' : __('Xabarlar — Sof.uz'));
+$title = $this->title ? $this->title . ' — Sof.uz' : __('Xabarlar — Sof.uz');
 
 if (!$this->hasDescription())
     $this->addDescription([__('Хабар берамиз, муҳокама қиламиз ва кайфиятни кўтарамиз!')]);
@@ -36,7 +36,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
         <meta property="og:url" content="<?= $url ?>">
-        <meta property="og:title" content="<?= Html::encode($this->title ? $this->title : __('Xabarlar — Sof.uz')) ?>">
+        <meta property="og:title" content="<?= $this->title ? $this->title : __('Xabarlar — Sof.uz') ?>">
         <meta property="og:description" content="<?= $description ?>">
         <meta property="og:image" content="<?= $this->getImage() ?>">
         <meta property="og:type" content="article"/>
@@ -67,7 +67,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <link rel="icon" type="image/png" sizes="32x32" href="<?= $this->getImageUrl('favicon/favicon-32x32.png') ?>">
         <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->getImageUrl('favicon/favicon-96x96.png') ?>">
         <link rel="icon" type="image/png" sizes="16x16" href="<?= $this->getImageUrl('favicon/favicon-16x16.png') ?>">
-        <link rel="manifest" href="<?= $this->getImageUrl('favicon//manifest.json') ?>">
+        <link rel="manifest" href="<?= $this->getImageUrl('favicon/manifest.json') ?>">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">

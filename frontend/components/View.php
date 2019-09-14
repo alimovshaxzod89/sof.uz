@@ -6,7 +6,6 @@ use common\models\User;
 use frontend\assets\AppAsset;
 use frontend\models\PostProvider;
 use Yii;
-use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\IdentityInterface;
 
@@ -73,7 +72,7 @@ class View extends \yii\web\View
         });
 
 
-        return Html::encode(implode(', ', $this->_keywords));
+        return implode(', ', $this->_keywords);
     }
 
     public function getDescription()
@@ -86,7 +85,7 @@ class View extends \yii\web\View
             $item = trim($item, '.');
         });
 
-        return Html::encode(implode(' ', $this->_description));
+        return implode(' ', $this->_description);
     }
 
 
