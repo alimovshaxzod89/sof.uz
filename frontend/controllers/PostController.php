@@ -29,7 +29,7 @@ class PostController extends BaseController
             }
 
             if ($short = $this->get('short')) {
-                $post = $this->findShortModel($short);
+                $post = $this->findModel($short);
             }
         }
 
@@ -38,7 +38,7 @@ class PostController extends BaseController
         return [
             [
                 'class'      => 'yii\filters\PageCache',
-                'only'       => ['view', 'short', 'old'],
+                'only'       => ['view'],
                 'duration'   => 60,
                 'enabled'    => !YII_DEBUG,
                 'variations' => [
@@ -75,82 +75,23 @@ class PostController extends BaseController
     }
 
     /**
-     * @param $short
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException
-     */
-    public function actionShort($short)
-    {
-        $model                           = $this->findShortModel($short);
-        $this->getView()->params['post'] = $model;
-        $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
-
-        return $this->render($view, [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * @param $id
-     * @param $slug
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException
-     */
-    public function actionOld($id, $slug)
-    {
-        $model                           = $this->findWithOldModel($id, $slug);
-        $this->getView()->params['post'] = $model;
-        $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
-
-        return $this->render($view, [
-            'model' => $model
-        ]);
-    }
-
-    /**
-     * @param $slug
+     * @param $key
      * @return array|null|PostProvider
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    protected function findModel($slug)
+    protected function findModel($key = false)
     {
-        $model = PostProvider::find()->where(['slug' => $slug, 'status' => PostProvider::STATUS_PUBLISHED])->one();
+        $model = PostProvider::find()
+                             ->where(['status' => PostProvider::STATUS_PUBLISHED])
+                             ->orFilterWhere(['slug' => $key])
+                             ->orFilterWhere(['old_slug' => $key])
+                             ->orFilterWhere(['old_id' => $key])
+                             ->orFilterWhere(['short_id' => $key])
+                             ->one();
         if ($model) {
             return $model;
         }
-        throw new NotFoundHttpException('Page not found');
-    }
-
-    /**
-     * @param $short
-     * @return array|null|PostProvider
-     * @throws NotFoundHttpException
-     */
-    protected function findShortModel($short)
-    {
-        $model = PostProvider::findOne(['short_id' => $short, 'status' => Post::STATUS_PUBLISHED]);
-        if ($model) {
-            return $model;
-        }
-        throw new NotFoundHttpException('Page not found');
-    }
-
-    private function findWithOldModel($id = false, $slug = false)
-    {
-        if ($id) {
-            $model = PostProvider::findOne(['old_id' => $id, 'status' => Post::STATUS_PUBLISHED]);
-            if ($model != null) {
-                return $model;
-            }
-        } elseif ($slug) {
-            $model = PostProvider::findOne(['old_slug' => $slug, 'status' => Post::STATUS_PUBLISHED]);
-            if ($model != null) {
-                return $model;
-            }
-        }
-
-
         throw new NotFoundHttpException('Page not found');
     }
 }
