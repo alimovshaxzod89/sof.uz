@@ -86,6 +86,17 @@ class PostController extends BaseController
     }
 
     /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionOld($id)
+    {
+        $model = $this->findWithOldIdModel($id);
+        return $this->redirect(['view', 'slug' => $model->slug]);
+    }
+
+    /**
      * @param $slug
      * @return array|null|PostProvider
      * @throws NotFoundHttpException
@@ -108,6 +119,15 @@ class PostController extends BaseController
     protected function findShortModel($short)
     {
         $model = PostProvider::findOne(['short_id' => $short, 'status' => Post::STATUS_PUBLISHED]);
+        if ($model) {
+            return $model;
+        }
+        throw new NotFoundHttpException('Page not found');
+    }
+
+    private function findWithOldIdModel($id)
+    {
+        $model = PostProvider::findOne(['old_id' => $id, 'status' => Post::STATUS_PUBLISHED]);
         if ($model) {
             return $model;
         }
