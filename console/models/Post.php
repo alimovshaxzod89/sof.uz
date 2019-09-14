@@ -32,7 +32,7 @@ class Post extends \common\models\old\OldPost
 
     public function getNew()
     {
-        return $this->hasOne(Post::class, ['old_id' => 'id']);
+        return $this->hasOne(\common\models\Post::class, ['old_id' => 'id']);
     }
 
     public function getNewTagsIds()
