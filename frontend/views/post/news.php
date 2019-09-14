@@ -23,7 +23,6 @@ if (count($model->tags)) {
 $this->title              = $model->title;
 $this->params['category'] = $category;
 $this->params['post']     = $model;
-
 $this->addDescription([$model->info]);
 $this->addBodyClass('post-template-default post-full single-format-standard navbar-sticky pagination-infinite_button');
 ?>

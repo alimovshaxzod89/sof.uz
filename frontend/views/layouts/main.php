@@ -38,7 +38,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <meta property="og:url" content="<?= $url ?>">
         <meta property="og:title" content="<?= Html::encode($this->title ? $this->title : __('Xabarlar — Sof.uz')) ?>">
         <meta property="og:description" content="<?= $description ?>">
-        <meta property="og:image" content="<?= $this->getImageUrl("images/logo2.svg") ?>">
+        <meta property="og:image" content="<?= $this->getImage() ?>">
         <meta property="og:type" content="article"/>
 
         <meta name="description" content="<?= $description ?>">
