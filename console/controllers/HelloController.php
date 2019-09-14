@@ -222,11 +222,12 @@ class HelloController extends Controller
             $content = str_replace(
                 ['test.dushanba.uz', 'http://static.dushanba.uz'],
                 [$baseUrl, $baseUrl], $post->content);
-            if (is_array($post->image) && isset($post->image['base_url'])) {
-                $post->image['base_url'] = $baseUrl;
+            $image   = $post->image;
+            if (is_array($image) && isset($image['base_url'])) {
+                $image['base_url'] = $baseUrl;
             }
 
-            $post->updateAttributes(['content' => $content, 'image' => $post->image]);
+            $post->updateAttributes(['content' => $content, 'image' => $image]);
             flush();
         }
         Console::endProgress();

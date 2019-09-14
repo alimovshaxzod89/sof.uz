@@ -303,6 +303,10 @@
     .post-list .entry-excerpt {
         display: none;
     }
+
+    .entry-header .entry-meta {
+        text-transform: none;
+    }
 }
 
 .navbar .nav-list > .menu-item > a {
