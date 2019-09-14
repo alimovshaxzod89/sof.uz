@@ -118,9 +118,6 @@ $this->registerJs($js);
                                                                 <?php endif; ?>
                                                             </div>
                                                         </header>
-                                                        <div class="entry-excerpt u-text-format">
-                                                            <?= $post->getInfoView() ?>
-                                                        </div>
                                                     </div>
                                                 </article>
                                             <?php endforeach; ?>

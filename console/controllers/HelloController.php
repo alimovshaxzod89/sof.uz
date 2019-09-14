@@ -177,6 +177,7 @@ class HelloController extends Controller
     public function actionContent()
     {
         /* @var $posts Post[] */
+        ini_set('memory_limit', '-1');
         Post::getCollection()->createIndex(['content' => 'text']);
         $posts = Post::find()->select(['content'])->all();
         Console::startProgress(0, count($posts), 'Start Convert Posts');

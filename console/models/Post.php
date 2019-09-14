@@ -62,7 +62,7 @@ class Post extends \common\models\old\OldPost
 
     public static function clearContent($content = false)
     {
-        if (!$content) {
+        if ($content) {
             $content      = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $content);
             $content      = preg_replace('/(<[^>]+) align=".*?"/i', '$1', $content);
             $content      = preg_replace('/(<[^>]+) width=".*?"/i', '$1', $content);
