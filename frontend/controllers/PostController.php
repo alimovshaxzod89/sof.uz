@@ -98,20 +98,15 @@ class PostController extends BaseController
     }
 
     /**
-     * @param $id
-     * @param $slug
+     * @param $_id
+     * @param $_slug
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionOld($id = false, $slug = false)
+    public function actionOld($_id = false, $_slug = false)
     {
-        $model                           = $this->findWithOldModel(intval($id), $slug);
-        $this->getView()->params['post'] = $model;
-        $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
-
-        return $this->render($view, [
-            'model' => $model
-        ]);
+        $model = $this->findWithOldModel(intval($_id), $_slug);
+        return $this->redirect(['view', 'slug' => $model->slug]);
     }
 
     /**
@@ -139,6 +134,12 @@ class PostController extends BaseController
                                      ]);
     }
 
+    /**
+     * @param bool $id
+     * @param bool $slug
+     * @return PostProvider|null
+     * @throws NotFoundHttpException
+     */
     private function findWithOldModel($id = false, $slug = false)
     {
         if ($id) {

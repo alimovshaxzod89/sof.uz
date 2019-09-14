@@ -18,9 +18,10 @@ return [
         'author/<slug:[a-z0-9-]+>' => 'category/author',
         'tag/<slug:[a-z0-9-]+>'    => 'category/tag',
 
-        'news/show/<id:\d+>'                     => 'post/old',
-        'news/show/<slug:[a-z0-9-]+>'            => 'post/old',
-        'news/category/<slug:[a-z0-9-]+>'        => 'category/old',
+        'news/show/<_id:\d+>'                    => 'post/old',
+        'news/show/<_slug:[a-z0-9-]+>'           => 'post/old',
+        'news/category/<_id:\d+>'                => 'category/old',
+        'news/category/<_slug:[a-z0-9-]+>'       => 'category/old',
         'post/<slug:[a-z0-9-]+>'                 => 'post/view',
         'page/<slug:[a-z0-9-]+>'                 => 'page/view',
         //'<category:[a-z0-9-]+>/<slug:[a-z0-9-]+>' => 'post/view',

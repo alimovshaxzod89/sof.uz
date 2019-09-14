@@ -76,13 +76,14 @@ class CategoryController extends BaseController
     }
 
     /**
-     * @param $slug
+     * @param $_id
+     * @param $_slug
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionOld($slug)
+    public function actionOld($_id = false, $_slug = false)
     {
-        $category                            = $this->findWithOldModel($slug);
+        $category                            = $this->findOldModel($_id, $_slug);
         $this->getView()->params['category'] = $category;
 
         return $this->render('view', [
@@ -160,18 +161,26 @@ class CategoryController extends BaseController
     }
 
     /**
+     * @param $id
      * @param $slug
      * @return array|null|CategoryProvider
      * @throws NotFoundHttpException
      */
-    protected function findWithOldModel($slug)
+    private function findOldModel($id = false, $slug = false)
     {
-        if ($slug) {
-            if ($model = CategoryProvider::find()->where(['old_slug' => $slug])->one()) {
+        if ($id) {
+            $model = CategoryProvider::findOne(['old_id' => $id]);
+            if ($model != null) {
+                return $model;
+            }
+        } elseif ($slug) {
+            $model = CategoryProvider::findOne(['old_slug' => $slug]);
+            if ($model != null) {
                 return $model;
             }
         }
+
+
         throw new NotFoundHttpException('Page not found');
     }
-
 }
