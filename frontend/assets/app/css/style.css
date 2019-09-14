@@ -262,6 +262,10 @@
     .actions .language-block li a {
         font-size: 10px;
     }
+
+    .off-canvas .logo {
+        margin: 0 auto 15px;
+    }
 }
 
 @media (max-width: 768px) and (min-width: 767px) {
@@ -291,10 +295,6 @@
         margin-bottom: 25px;
     }
 
-    .sidebar-column .widget-area > div {
-        padding: 0 20px;
-    }
-
     .sidebar-column .widget-area {
         margin: 0 10px;
         max-width: inherit;
@@ -306,6 +306,12 @@
 
     .entry-header .entry-meta {
         text-transform: none;
+    }
+}
+
+@media (max-width: 375px) {
+    .related-posts .entry-media {
+        display: none;
     }
 }
 
