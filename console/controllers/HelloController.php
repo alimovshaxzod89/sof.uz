@@ -218,11 +218,9 @@ class HelloController extends Controller
         Console::startProgress(0, count($posts), 'Start Convert Posts');
         foreach ($posts as $i => $post) {
             Console::updateProgress($i + 1, count($posts));
-            $baseUrl = \Yii::getAlias('@staticUrl');
-            $content = str_replace(
-                ['test.dushanba.uz', 'http://static.dushanba.uz'],
-                [$baseUrl, $baseUrl], $post->content);
             $image   = $post->image;
+            $baseUrl = \Yii::getAlias('@staticUrl');
+            $content = str_replace('http://static.dushanba.uz', $baseUrl, $post->content);
             if (is_array($image) && isset($image['base_url'])) {
                 $image['base_url'] = $baseUrl;
             }
