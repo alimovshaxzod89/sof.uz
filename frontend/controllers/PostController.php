@@ -103,7 +103,7 @@ class PostController extends BaseController
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionOld($id, $slug)
+    public function actionOld($id = false, $slug = false)
     {
         $model                           = $this->findWithOldModel($id, $slug);
         $this->getView()->params['post'] = $model;
