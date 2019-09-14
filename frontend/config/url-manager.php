@@ -19,6 +19,8 @@ return [
         'tag/<slug:[a-z0-9-]+>'    => 'category/tag',
 
         'news/show/<id:\d+>'                     => 'post/old',
+        'news/show/<slug:[a-z0-9-]+>'            => 'post/view',
+        'news/category/<slug:[a-z0-9-]+>'        => 'category/view',
         'post/<slug:[a-z0-9-]+>'                 => 'post/view',
         'page/<slug:[a-z0-9-]+>'                 => 'page/view',
         //'<category:[a-z0-9-]+>/<slug:[a-z0-9-]+>' => 'post/view',
