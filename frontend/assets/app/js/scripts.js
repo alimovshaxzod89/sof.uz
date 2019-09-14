@@ -54,3 +54,7 @@
         });
     });
 }(jQuery));
+
+function getTimeStamp() {
+    return new Date().getTime();
+}
