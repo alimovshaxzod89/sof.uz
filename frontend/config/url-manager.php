@@ -18,7 +18,8 @@ return [
         'author/<slug:[a-z0-9-]+>' => 'category/author',
         'tag/<slug:[a-z0-9-]+>'    => 'category/tag',
 
-        'news/show/<slug:[a-z0-9-]+>'            => 'post/view',
+        'news/show/<id:\d+>'                     => 'post/old',
+        'news/show/<slug:[a-z0-9-]+>'            => 'post/old',
         'news/category/<slug:[a-z0-9-]+>'        => 'category/old',
         'post/<slug:[a-z0-9-]+>'                 => 'post/view',
         'page/<slug:[a-z0-9-]+>'                 => 'page/view',
