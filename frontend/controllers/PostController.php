@@ -105,7 +105,7 @@ class PostController extends BaseController
      */
     public function actionOld($id = false, $slug = false)
     {
-        $model                           = $this->findWithOldModel($id, $slug);
+        $model                           = $this->findWithOldModel(intval($id), $slug);
         $this->getView()->params['post'] = $model;
         $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
 
