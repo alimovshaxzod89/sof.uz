@@ -87,8 +87,8 @@ class AdminController extends BackendController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $model->setScenario(Admin::SCENARIO_UPDATE);
+        $model           = $this->findModel($id);
+        $model->scenario = Admin::SCENARIO_UPDATE;
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
