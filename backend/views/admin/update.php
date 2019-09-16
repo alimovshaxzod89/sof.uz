@@ -59,7 +59,7 @@ $this->registerJs($js);
                                      'items'         => Admin::getStatusOptions(),
                                      'pluginOptions' => [
                                          'width'                 => '100%',
-                                         'allow_single_deselect' => true,
+                                         'allow_single_deselect' => false,
                                          'disable_search'        => true
                                      ],
                                  ]) ?>
@@ -68,7 +68,7 @@ $this->registerJs($js);
                                      'items'         => Config::getLanguageOptions(),
                                      'pluginOptions' => [
                                          'width'                 => '100%',
-                                         'allow_single_deselect' => true,
+                                         'allow_single_deselect' => false,
                                          'disable_search'        => true
                                      ],
                                  ]) ?>

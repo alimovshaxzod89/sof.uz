@@ -128,7 +128,7 @@ class Admin extends MongoModel implements IdentityInterface
     public function rules()
     {
         return [
-            [['full_name', 'login', 'email', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['full_name', 'login', 'email', 'slug', 'status'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
 
             [['full_name', 'email', 'language', 'telephone'], 'required', 'on' => self::SCENARIO_PROFILE],
 
@@ -154,7 +154,7 @@ class Admin extends MongoModel implements IdentityInterface
 
             [['full_name', 'password'], 'string', 'max' => 128],
             [['email'], 'string', 'max' => 64],
-            ['status', 'default', 'value' => self::STATUS_DISABLE],
+
             [['telephone'], 'string', 'max' => 32],
             [['password_reset_token'], 'string', 'max' => 255],
 

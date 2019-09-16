@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
-Host: xabar.uz
-Sitemap: http://www.xabar.uz/sitemap-index.xml
+Host: sof.uz
+Sitemap: http://www.sof.uz/sitemap-index.xml
