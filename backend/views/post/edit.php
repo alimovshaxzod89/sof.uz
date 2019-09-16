@@ -139,6 +139,12 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                          ],
                                      ])->label() ?>
                         <?php endif; ?>
+                        <?php if ($user->canAccessToResource('post/creator')): ?>
+                            <?= $form->field($model, '_creator')->widget(ChosenSelect::className(), [
+                                'items'         => Admin::getArrayOptions(),
+                                'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
+                            ])->label() ?>
+                        <?php endif; ?>
 
                         <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH): ?>
                             <?php if ($user->canAccessToResource('post/publish')): ?>
