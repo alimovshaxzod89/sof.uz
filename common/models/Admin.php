@@ -123,7 +123,7 @@ class Admin extends MongoModel implements IdentityInterface
 
             [['password', 'confirmation'], 'required', 'on' => self::SCENARIO_INSERT],
 
-            [['password', 'confirmation'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_PROFILE], 'when' => function ($model) {
+            [['password', 'confirmation'], 'required', 'on' => [self::SCENARIO_UPDATE, self::SCENARIO_PROFILE], 'when' => function ($model) {
                 return $model->change_password == 1;
             }, 'whenClient'                                 => "function (attribute, value) {return $('#change_password').is(':checked');}"],
 

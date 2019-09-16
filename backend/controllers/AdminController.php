@@ -103,6 +103,7 @@ class AdminController extends BackendController
                     'name' => $model->full_name
                 ])
             );
+
             if ($model->change_password)
                 $this->addSuccess(
                     __('Password updated successfully.', [
