@@ -270,7 +270,7 @@ class PostController extends BackendController
                     $this->addSuccess($message);
                 }
 
-                return $this->redirect(['edit', 'id' => $model->getId(), 'language' => $lang]);
+                return $this->redirect(['edit', 'id' => $model->getId(), 'language' => $this->_user()->language]);
             }
 
             if ($model->load(Yii::$app->request->post())) {
@@ -293,7 +293,7 @@ class PostController extends BackendController
                 if ($model->updatePost()) {
                     if ($id) {
                         $this->addSuccess(__('Post `{title}` updated successfully.', [
-                            'title'  => $model->getTitleView(),
+                            'title' => $model->getTitleView(),
                         ]));
 
                     } else {
