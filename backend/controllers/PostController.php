@@ -8,6 +8,7 @@ use common\models\Tag;
 use Yii;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
+use yii\helpers\BaseFileHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\mongodb\ActiveRecord;
@@ -291,21 +292,18 @@ class PostController extends BackendController
 
                 if ($model->updatePost()) {
                     if ($id) {
-                        $this->addSuccess(__('Post `{title}` updated successfully. {b}{action}{bc}', [
+                        $this->addSuccess(__('Post `{title}` updated successfully.', [
                             'title'  => $model->getTitleView(),
-                            'action' => Html::a(
-                                __('Click to release it.'), [
-                                'post/edit',
-                                'id'      => $model->getId(),
-                                'release' => 1,
-                                'return'  => Url::to(['post/index'])
-                            ])
                         ]));
+
                     } else {
                         $this->addSuccess(__('Post `{title}` created successfully', [
                             'title' => $model->getTitleView()
                         ]));
                     }
+                }
+                if ($this->post('publish')) {
+                    return $this->redirect(['post/index']);
                 }
 
                 return $this->redirect(['edit', 'id' => $model->getId()]);
