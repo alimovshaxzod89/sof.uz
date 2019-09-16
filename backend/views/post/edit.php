@@ -30,7 +30,7 @@ $user                          = $this->context->_user();
 
 $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(true), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
 ?>
-<div class="post-create <?= $locked || !$canEdit ? 'post_locked' : '' ?>">
+<div class="post-create <?= $locked || !$canEdit ? '' : '' ?>">
     <div class="lock_area"></div>
     <div class="post-form">
         <?php $form = ActiveForm::begin(['enableAjaxValidation' => true, 'enableClientValidation' => true, 'validateOnSubmit' => true, 'options' => ['id' => 'post_form']]); ?>
