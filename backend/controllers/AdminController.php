@@ -96,8 +96,8 @@ class AdminController extends BackendController
             return ActiveForm::validate($model);
         }
 
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             $this->addSuccess(
                 __('Administrator `{name}` updated successfully.', [
                     'name' => $model->full_name

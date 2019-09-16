@@ -111,17 +111,6 @@ class Admin extends MongoModel implements IdentityInterface
         return $behaviors;
     }
 
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        if ($this->slug) {
-            $scenarios[self::SCENARIO_UPDATE]  = '!slug';
-            $scenarios[self::SCENARIO_PROFILE] = '!slug';
-        }
-
-        return $scenarios;
-    }
-
     /**
      * @inheritdoc
      */

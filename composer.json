@@ -64,8 +64,7 @@
     "telegram-bot/api": "^2.3",
     "paquettg/php-html-parser": "^1.7",
     "yiimaker/yii2-social-share": "^2.0",
-    "ext-mongodb": "*",
-    "spatie/emoji": "^2.0"
+    "ext-mongodb": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",
