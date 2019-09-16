@@ -90,10 +90,10 @@ $types                         = [Post::TYPE_NEWS => 'fa-file-text', Post::TYPE_
                                  ],
 
                                  [
-                                     'attribute' => '_author',
+                                     'attribute' => '_creator',
                                      'format'    => 'raw',
                                      'value'     => function ($data) {
-                                         return $data->author ? $data->author->full_name : '';
+                                         return $data->creator ? $data->creator->login : '';
                                      },
                                  ],
                                  $searchModel->status == Post::STATUS_DRAFT ?
