@@ -260,11 +260,14 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                             <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH && $this->_user()->canAccessToResource('post/trash')): ?>
                                 <?= Html::a("<i class='fa fa-trash-o'></i>", ['post/trash', 'id' => $model->getId()], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure move to trash?')]) ?>
                             <?php endif; ?>
-
+                            <?php if ($model->status != Post::STATUS_IN_TRASH && $user->canAccessToResource('post/publish')): ?>
+                                <?= Html::submitButton("<i class='fa fa-save'></i>", ['class' => 'btn btn-success']) ?>
+                            <?php endif; ?>
                         </div>
                         <div class="pull-right">
                             <?php if ($model->status != Post::STATUS_IN_TRASH): ?>
-                                <?= Html::submitButton('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Save') . '&nbsp;&nbsp;&nbsp;', ['class' => 'btn btn-success']) ?>
+                                <?= Html::submitButton('<i class="fa fa-check"></i> ' . __('Chop etish'), ['class' => 'btn btn-info', 'name' => 'publish', 'value' => 1]) ?>
+
                             <?php endif; ?>
                             <?php if ($model->status == Post::STATUS_IN_TRASH && $this->_user()->canAccessToResource('post/restore')): ?>
                                 <?= Html::a('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Restore'), [

@@ -178,7 +178,7 @@ class PostController extends BackendController
 
         if (Yii::$app->request->isGet) {
             if (!$model->isLocked($user, $session) && $canEdit) {
-                if ($model->locForUser($user, $session)) {
+                /*if ($model->locForUser($user, $session)) {
                     $message = __('You have locked the post. {b}{action}{bc}.', [
                         'title'  => $model->getTitleView(),
                         'action' => Html::a(__('Click to release it.'), [
@@ -189,14 +189,14 @@ class PostController extends BackendController
                         ])
                     ]);
                     $this->addInfo($message);
-                };
+                };*/
             }
         }
 
         $locked = $model->isLocked($user, $session);
 
         if (Yii::$app->request->isGet) {
-            if ($locked) {
+            /*if ($locked) {
                 $message = __('Post {b}{title}{bc} has locked by {b}{user}{bc}. {action}', [
                     'title'  => $model->getShortTitle(),
                     'user'   => $model->creator->getFullName(),
@@ -205,10 +205,10 @@ class PostController extends BackendController
                     ], ['class' => 'text-bold text-underline']),
                 ]);
                 $this->addInfo($message);
-            }
+            }*/
         }
 
-        if ($model->status != Post::STATUS_IN_TRASH && !$locked && $canEdit) {
+        if ($model->status != Post::STATUS_IN_TRASH && $canEdit) {
 
             if ($this->get('save') && Yii::$app->request->isAjax) {
                 $post = Yii::$app->request->post();
@@ -276,6 +276,10 @@ class PostController extends BackendController
                 if (!$user->canAccessToResource('post/publish')) {
                     if (in_array($model->status, [Post::STATUS_PUBLISHED, Post::STATUS_AUTO_PUBLISH])) {
                         $model->status = Post::STATUS_DRAFT;
+                    }
+                } else {
+                    if ($this->post('publish')) {
+                        $model->status = Post::STATUS_PUBLISHED;
                     }
                 }
 
