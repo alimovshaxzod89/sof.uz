@@ -19,6 +19,29 @@ use yii\helpers\FileHelper;
  */
 class Post extends \common\models\old\OldPost
 {
+    public function attributes()
+    {
+        return [
+            'id',
+            'title',
+            'full',
+            'views',
+            'category_id',
+            'date',
+            'image',
+            'user_id',
+            'comment',
+            'lang',
+            'status',
+            'top',
+            'from_user',
+            'slug',
+            'short',
+            'photo',
+            'mobile',
+        ];
+    }
+
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);

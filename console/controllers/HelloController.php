@@ -267,12 +267,14 @@ class HelloController extends Controller
     {
         /* @var $posts \console\models\Post[] */
         ini_set('memory_limit', '-1');
-        $posts = \console\models\Post::find()->select(['views'])->all();
+        $posts = \console\models\Post::find()->select(['views'])->with('new')->all();
         Console::startProgress(0, count($posts), 'Start Convert Posts');
         foreach ($posts as $i => $post) {
             Console::updateProgress($i + 1, count($posts));
-            if ($post->new != null) {
-                $post->new->updateAttributes(['old_views' => $post->views]);
+            $new = Post::findOne(['old_id' => $post->id]);
+            if ($new != null) {
+                $new->old_views = $post->views;
+                $new->save();
             }
             flush();
         }
