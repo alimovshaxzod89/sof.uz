@@ -39,7 +39,7 @@ $limit                         = 12;
                                 <a data-pjax="0" href="<?= $model->getViewUrl() ?>">
                                     <p class="title"><strong><?= $model->getFullName() ?></strong></p>
                                 </a>
-                                <p><?= $model->description?:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda deleniti dicta quam quo sapiente ullam veritatis. Commodi doloribus exercitationem necessitatibus quasi temporibus totam velit. Dignissimos doloremque iste porro recusandae voluptatibus!' ?></p>
+                                <p><?= $model->description ?></p>
                             </div>
                         </div>
                     </div>
