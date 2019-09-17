@@ -59,13 +59,13 @@ $types                         = [Post::TYPE_NEWS => 'fa-file-text', Post::TYPE_
                                      'format'    => 'raw',
                                      'value'     => function (Post $data) use ($user) {
                                          $label = "";
-                                         if ($data->isLocked($user, '')) {
+                                        /* if ($data->isLocked($user, '')) {
                                              if ($user->canAccessToResource('post/release')) {
                                                  $label .= Html::a("<i class='fa fa-lock'></i>", ['post/edit', 'id' => $data->id, 'release' => 1, 'return' => Url::current()], ['data-pjax' => 0]);
                                              } else {
                                                  $label .= "<i class='fa fa-lock'></i>";
                                              }
-                                         }
+                                         }*/
 
                                          return $label . '<a href="' . $data->getShortViewUrl() . '" data-pjax="0" target="_blank"><i class="fa fa-external-link"></i></a>';
                                      },
@@ -90,10 +90,10 @@ $types                         = [Post::TYPE_NEWS => 'fa-file-text', Post::TYPE_
                                  ],
 
                                  [
-                                     'attribute' => '_author',
+                                     'attribute' => '_creator',
                                      'format'    => 'raw',
                                      'value'     => function ($data) {
-                                         return $data->author ? $data->author->full_name : '';
+                                         return $data->creator ? $data->creator->login : '';
                                      },
                                  ],
                                  $searchModel->status == Post::STATUS_DRAFT ?

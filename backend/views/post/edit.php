@@ -30,7 +30,7 @@ $user                          = $this->context->_user();
 
 $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(true), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
 ?>
-<div class="post-create <?= $locked || !$canEdit ? 'post_locked' : '' ?>">
+<div class="post-create <?= $locked || !$canEdit ? '' : '' ?>">
     <div class="lock_area"></div>
     <div class="post-form">
         <?php $form = ActiveForm::begin(['enableAjaxValidation' => true, 'enableClientValidation' => true, 'validateOnSubmit' => true, 'options' => ['id' => 'post_form']]); ?>
@@ -138,6 +138,12 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                              'disable_search'        => true
                                          ],
                                      ])->label() ?>
+                        <?php endif; ?>
+                        <?php if ($user->canAccessToResource('post/creator')): ?>
+                            <?= $form->field($model, '_creator')->widget(ChosenSelect::className(), [
+                                'items'         => Admin::getArrayOptions(),
+                                'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
+                            ])->label() ?>
                         <?php endif; ?>
 
                         <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH): ?>
@@ -260,11 +266,14 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                             <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH && $this->_user()->canAccessToResource('post/trash')): ?>
                                 <?= Html::a("<i class='fa fa-trash-o'></i>", ['post/trash', 'id' => $model->getId()], ['class' => 'btn btn-danger', 'data-confirm' => __('Are you sure move to trash?')]) ?>
                             <?php endif; ?>
-
+                            <?php if ($model->status != Post::STATUS_IN_TRASH && $user->canAccessToResource('post/publish')): ?>
+                                <?= Html::submitButton("<i class='fa fa-save'></i>", ['class' => 'btn btn-success']) ?>
+                            <?php endif; ?>
                         </div>
                         <div class="pull-right">
                             <?php if ($model->status != Post::STATUS_IN_TRASH): ?>
-                                <?= Html::submitButton('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Save') . '&nbsp;&nbsp;&nbsp;', ['class' => 'btn btn-success']) ?>
+                                <?= Html::submitButton('<i class="fa fa-check"></i> ' . __('Chop etish'), ['class' => 'btn btn-info', 'name' => 'publish', 'value' => 1]) ?>
+
                             <?php endif; ?>
                             <?php if ($model->status == Post::STATUS_IN_TRASH && $this->_user()->canAccessToResource('post/restore')): ?>
                                 <?= Html::a('&nbsp;&nbsp;&nbsp;<i class="fa fa-check"></i> ' . __('Restore'), [

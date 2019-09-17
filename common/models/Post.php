@@ -501,7 +501,7 @@ class Post extends MongoModel
         if (!(Yii::$app instanceof \yii\console\Application)) {
             if (($this->isNewRecord || !$this->_creator) && Yii::$app->user->identity instanceof Admin) {
                 $this->_creator = Yii::$app->user->identity->getId();
-                $this->_author  = Yii::$app->user->identity->getId();
+                //$this->_author  = Yii::$app->user->identity->getId();
             }
         }
 

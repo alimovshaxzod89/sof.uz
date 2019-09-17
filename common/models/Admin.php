@@ -111,30 +111,19 @@ class Admin extends MongoModel implements IdentityInterface
         return $behaviors;
     }
 
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        if ($this->slug) {
-            $scenarios[self::SCENARIO_UPDATE]  = '!slug';
-            $scenarios[self::SCENARIO_PROFILE] = '!slug';
-        }
-
-        return $scenarios;
-    }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['full_name', 'login', 'email', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['full_name', 'login', 'email', 'slug', 'status'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
 
             [['full_name', 'email', 'language', 'telephone'], 'required', 'on' => self::SCENARIO_PROFILE],
 
             [['password', 'confirmation'], 'required', 'on' => self::SCENARIO_INSERT],
 
-            [['password', 'confirmation'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_PROFILE], 'when' => function ($model) {
+            [['password', 'confirmation'], 'required', 'on' => [self::SCENARIO_UPDATE, self::SCENARIO_PROFILE], 'when' => function ($model) {
                 return $model->change_password == 1;
             }, 'whenClient'                                 => "function (attribute, value) {return $('#change_password').is(':checked');}"],
 
@@ -154,7 +143,7 @@ class Admin extends MongoModel implements IdentityInterface
 
             [['full_name', 'password'], 'string', 'max' => 128],
             [['email'], 'string', 'max' => 64],
-            ['status', 'default', 'value' => self::STATUS_DISABLE],
+
             [['telephone'], 'string', 'max' => 32],
             [['password_reset_token'], 'string', 'max' => 255],
 
