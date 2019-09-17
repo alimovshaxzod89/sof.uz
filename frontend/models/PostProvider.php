@@ -469,7 +469,7 @@ class PostProvider extends Post
                      ->andWhere([
                                     '_categories' => [
                                         '$elemMatch' => [
-                                            '$eq' => $category->_id,
+                                            '$in' => [$category->id, $category->_id],
                                         ],
                                     ],
                                 ])
