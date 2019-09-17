@@ -70,9 +70,7 @@ $this->registerJs($js);
                                                         </h2>
                                                         <div class="entry-meta">
                                                             <span class="meta-category">
-                                                                <time datetime="<?= $mainPost->getPublishedTimeIso() ?>">
-                                                                    <?= $mainPost->getShortFormattedDate() ?>
-                                                                </time>
+                                                                <?= $mainPost->getShortFormattedDate() ?>
                                                             </span>
                                                             <span class="meta-date">
                                                                 <i class="mdi mdi-eye"></i> <?= $mainPost->views ?>
@@ -103,9 +101,7 @@ $this->registerJs($js);
                                                             </h2>
                                                             <div class="entry-meta">
                                                                 <span class="meta-category">
-                                                                    <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                                                        <?= $post->getShortFormattedDate() ?>
-                                                                    </time>
+                                                                    <?= $post->getShortFormattedDate() ?>
                                                                 </span>
                                                                 <span class="meta-date">
                                                                     <i class="mdi mdi-eye"></i> <?= $post->views ?>
@@ -206,9 +202,7 @@ $this->registerJs($js);
                                     <header class="entry-header">
                                         <div class="entry-meta">
                                             <span class="meta-category">
-                                                <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                                    <?= $post->getShortFormattedDate() ?>
-                                                </time>
+                                                <?= $post->getShortFormattedDate() ?>
                                             </span>
                                             <span class="meta-date">
                                                 <i class="mdi mdi-eye"></i> <?= $post->views ?>

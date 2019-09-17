@@ -42,9 +42,7 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                 <?php endif; ?>
                 <span class="meta-date">
                     <span>
-                        <time datetime="<?= $model->getPublishedTimeIso() ?>">
-                            <?= $model->getShortFormattedDate() ?>
-                        </time>
+                        <?= $model->getShortFormattedDate() ?>
                     </span>
                 </span>
                 <?php if ($model->hasCategory()): ?>

@@ -7,7 +7,7 @@
 <?php if (is_array($posts) && count($posts)) : ?>
     <div class="widget-posts widget widget_magsy_posts_widget">
         <h5 class="u-border-title"><?= $title ?></h5>
-        <div class="posts">
+        <div class="most-read posts">
             <?php foreach ($posts as $post) : ?>
                 <div>
                     <div class="entry-thumbnail">
@@ -21,9 +21,7 @@
                         </h6>
                         <div class="entry-meta">
                             <span class="meta-date">
-                                <time datetime="<?= $post->getPublishedTimeIso() ?>">
-                                    <?= $post->getShortFormattedDate() ?>
-                                </time>
+                                <?= $post->getShortFormattedDate() ?>
                             </span>
                             <span class="meta-date">
                                 <i class="mdi mdi-eye"></i> <?= $post->views ?>

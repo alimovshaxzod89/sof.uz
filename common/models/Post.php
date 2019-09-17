@@ -972,7 +972,7 @@ class Post extends MongoModel
         return $title;
     }
 
-    public function getShortFormattedDate($format = 'php:j M H:i')
+    public function getShortFormattedDate($format = 'php:j/m/H:i')
     {
         if ($this->published_on instanceof Timestamp) {
             $diff = time() - $this->published_on->getTimestamp();
@@ -1002,9 +1002,9 @@ class Post extends MongoModel
                         break;
                 }
 
-                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), 'php:j M, H:i');
+                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), 'php:j/m, H:i');
             } elseif ($diff < 31536000) {
-                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), 'php:j M H:i');
+                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), 'php:j/m/H:i');
             }
 
             return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), $format);

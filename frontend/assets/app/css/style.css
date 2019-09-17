@@ -173,10 +173,6 @@
     cursor: pointer;
 }
 
-.mdi-eye:before {
-    margin-right: 4px;
-}
-
 .navbar .nav-list > .menu-item > a {
     margin: 0 8px;
 }
@@ -489,14 +485,14 @@
     margin-top: 0;
 }
 
-.post .entry-meta span:after {
+.post .entry-meta span:after, .most-read .entry-meta span:after {
     margin-left: 5px;
     margin-right: 5px;
     content: '/';
     color: #858585;
 }
 
-.post .entry-meta span:last-child:after {
+.post .entry-meta span:last-child:after, .most-read .entry-meta span:last-child:after {
     content: '';
     display: none;
 }

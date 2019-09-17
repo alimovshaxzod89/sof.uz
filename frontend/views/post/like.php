@@ -31,9 +31,7 @@
                                         </h4>
                                         <div class="entry-meta">
                                             <span class="meta-category">
-                                                <time datetime="<?= $similarPost->getPublishedTimeIso() ?>">
-                                                    <?= $similarPost->getShortFormattedDate() ?>
-                                                </time>
+                                                <?= $similarPost->getShortFormattedDate() ?>
                                             </span>
                                             <span class="meta-date">
                                                 <i class="mdi mdi-eye"></i> <?= $similarPost->views ?>

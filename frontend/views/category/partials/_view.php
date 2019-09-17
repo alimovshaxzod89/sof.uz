@@ -22,9 +22,7 @@
             </h2>
             <div class="entry-meta">
                 <span class="meta-category">
-                    <time datetime="<?= $model->getPublishedTimeIso() ?>">
-                        <?= $model->getShortFormattedDate() ?>
-                    </time>
+                    <?= $model->getShortFormattedDate() ?>
                 </span>
                 <span class="meta-date">
                     <i class="mdi mdi-eye"></i> <?= $model->views ?>

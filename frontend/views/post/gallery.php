@@ -54,9 +54,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                             </span>
                                         <?php endif; ?>
                                         <span class="meta-date">
-                                            <time datetime="<?= $model->getPublishedTimeIso() ?>">
-                                                <?= $model->getShortFormattedDate() ?>
-                                            </time>
+                                            <?= $model->getShortFormattedDate() ?>
                                         </span>
                                         <?php if ($model->hasCategory()): ?>
                                             <span class="meta-category">
