@@ -4,7 +4,6 @@ use common\components\Config;
 use common\models\Category;
 use frontend\assets\AppAsset;
 use frontend\components\View;
-use yii\helpers\Html;
 
 /**
  * @var $this View
@@ -78,6 +77,21 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <link rel="canonical" href="<?= $url ?>"/>
 
         <title><?= $title ?></title>
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-73222527-2', 'auto');
+            ga('send', 'pageview');
+        </script>
         <?php $this->head() ?>
     </head>
     <body class="navbar-sticky stick-now <?= $this->getBodyClass() ?>">
@@ -137,6 +151,65 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
             </div>
         </div>
     </div>
+    <!-- START WWW.UZ TOP-RATING -->
+    <SCRIPT language="javascript" type="text/javascript">
+        <!--
+        top_js = "1.0";
+        top_r = "id=1645&r=" + escape(document.referrer) + "&pg=" + escape(window.location.href);
+        document.cookie = "smart_top=1; path=/";
+        top_r += "&c=" + (document.cookie ? "Y" : "N")
+        //-->
+    </SCRIPT>
+    <SCRIPT language="javascript1.1" type="text/javascript">
+        <!--
+        top_js = "1.1";
+        top_r += "&j=" + (navigator.javaEnabled() ? "Y" : "N")
+        //-->
+    </SCRIPT>
+    <SCRIPT language="javascript1.2" type="text/javascript">
+        <!--
+        top_js = "1.2";
+        top_r += "&wh=" + screen.width + 'x' + screen.height + "&px=" +
+            (((navigator.appName.substring(0, 3) == "Mic")) ? screen.colorDepth : screen.pixelDepth)
+        //-->
+    </SCRIPT>
+    <SCRIPT language="javascript1.3" type="text/javascript">
+        <!--
+        top_js = "1.3";
+        //-->
+    </SCRIPT>
+    <SCRIPT language="JavaScript" type="text/javascript">
+        <!--
+        top_rat = "&col=7DC53B&t=ffffff&p=DD444E";
+        top_r += "&js=" + top_js + "";
+        document.write('<a href="https://www.uz/uz/res/visitor/index?id=1645" target=_top><img src="https://cnt0.www.uz/counter/collect?' + top_r + top_rat + '" width=88 height=31 border=0 alt="Топ рейтинг www.uz"></a>')//-->
+    </SCRIPT>
+    <NOSCRIPT><A href="https://www.uz/uz/res/visitor/index?id=1645" target=_top>
+            <IMG height=31
+                 src="https://cnt0.www.uz/counter/collect?id=1645&pg=http%3A//uzinfocom.uz&&col=7DC53B&amp;t=ffffff&amp;p=DD444E"
+                 width=88 border=0
+                 alt="Топ рейтинг www.uz"></A>
+    </NOSCRIPT><!-- FINISH WWW.UZ TOP-RATING -->
+    <!-- Yandex.RTB R-A-209768-2 -->
+    <div id="yandex_rtb_R-A-209768-2"></div>
+    <script type="text/javascript">
+        (function (w, d, n, s, t) {
+            w[n] = w[n] || [];
+            w[n].push(function () {
+                Ya.Context.AdvManager.render({
+                    blockId: "R-A-209768-2",
+                    renderTo: "yandex_rtb_R-A-209768-2",
+                    async: true
+                });
+            });
+            t = d.getElementsByTagName("script")[0];
+            s = d.createElement("script");
+            s.type = "text/javascript";
+            s.src = "//an.yandex.ru/system/context.js";
+            s.async = true;
+            t.parentNode.insertBefore(s, t);
+        })(this, this.document, "yandexContextAsyncCallbacks");
+    </script>
     <script type="text/javascript">
         var magsyParams = {
             "home_url": "https:\/\/magsy.mondotheme.com",
