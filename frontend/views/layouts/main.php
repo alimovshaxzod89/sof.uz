@@ -184,32 +184,14 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         top_r += "&js=" + top_js + "";
         document.write('<a href="https://www.uz/uz/res/visitor/index?id=1645" target=_top><img src="https://cnt0.www.uz/counter/collect?' + top_r + top_rat + '" width=88 height=31 border=0 alt="Топ рейтинг www.uz"></a>')//-->
     </SCRIPT>
-    <NOSCRIPT><A href="https://www.uz/uz/res/visitor/index?id=1645" target=_top>
-            <IMG height=31
+    <NOSCRIPT>
+        <A href="https://www.uz/uz/res/visitor/index?id=1645" target=_top>
+            <IMG height=31 style="display: none"
                  src="https://cnt0.www.uz/counter/collect?id=1645&pg=http%3A//uzinfocom.uz&&col=7DC53B&amp;t=ffffff&amp;p=DD444E"
                  width=88 border=0
                  alt="Топ рейтинг www.uz"></A>
     </NOSCRIPT><!-- FINISH WWW.UZ TOP-RATING -->
-    <!-- Yandex.RTB R-A-209768-2 -->
-    <div id="yandex_rtb_R-A-209768-2"></div>
-    <script type="text/javascript">
-        (function (w, d, n, s, t) {
-            w[n] = w[n] || [];
-            w[n].push(function () {
-                Ya.Context.AdvManager.render({
-                    blockId: "R-A-209768-2",
-                    renderTo: "yandex_rtb_R-A-209768-2",
-                    async: true
-                });
-            });
-            t = d.getElementsByTagName("script")[0];
-            s = d.createElement("script");
-            s.type = "text/javascript";
-            s.src = "//an.yandex.ru/system/context.js";
-            s.async = true;
-            t.parentNode.insertBefore(s, t);
-        })(this, this.document, "yandexContextAsyncCallbacks");
-    </script>
+
     <script type="text/javascript">
         var magsyParams = {
             "home_url": "https:\/\/magsy.mondotheme.com",

@@ -16,16 +16,9 @@ $exclude                       = [];
 $this->params['breadcrumbs'][] = $this->title;
 $limit                         = 12;
 ?>
-<div class="term-bar lazyload visible"
-     data-bg="<?= $this->getImageUrl('images/002.jpg') ?>">
-    <h1 class="term-title">
-        <?= __('Author: {author}', [
-            'author' => '<span class="vcard">' . $this->title . '</span>'
-        ]) ?>
-    </h1>
-</div>
 <div class="site-content">
     <div class="container">
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="content-area">
@@ -33,6 +26,24 @@ $limit                         = 12;
                                                              'place'   => 'before_main',
                                                              'options' => ['class' => 'ads-wrapper']
                                                          ]) ?>
+
+                    <div class="author-inbox">
+                        <div class="media-info">
+                            <div class="media shrink is_left">
+                                <a data-pjax="0" href="<?= $model->getViewUrl() ?>">
+                                    <img src="<?= $model->getCroppedImage(90, 90, 1) ?>" width="90"
+                                         height="90" alt="<?= $model->getFullName() ?>">
+                                </a>
+                            </div>
+                            <div class="info auto">
+                                <a data-pjax="0" href="<?= $model->getViewUrl() ?>">
+                                    <p class="title"><strong><?= $model->getFullName() ?></strong></p>
+                                </a>
+                                <p><?= $model->description?:'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda deleniti dicta quam quo sapiente ullam veritatis. Commodi doloribus exercitationem necessitatibus quasi temporibus totam velit. Dignissimos doloremque iste porro recusandae voluptatibus!' ?></p>
+                            </div>
+                        </div>
+                    </div>
+
                     <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
                     <?= ListView::widget([
                                              'dataProvider' => PostProvider::getAuthorPosts($model, $limit),
