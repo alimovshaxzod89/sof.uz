@@ -15,22 +15,15 @@ use yii\helpers\Html;
 
 class PostProvider extends Post
 {
-    public static function getTopAuthors($limit = 5)
+    public static function getTopAuthors($limit = 10)
     {
         $ids    = [];
         $result = self::getCollection()
                       ->aggregate([
                                       [
-                                          '$match' => [
-                                              '_author' => [
-                                                  '$ne' => null
-                                              ]
-                                          ]
-                                      ],
-                                      [
                                           '$group' => [
                                               '_id'  => '$_author',
-                                              'post' => ['$first' => '$_id']
+                                              'post' => ['$first' => '$_id'],
                                           ]
                                       ]
                                   ]);
@@ -39,7 +32,11 @@ class PostProvider extends Post
             $ids = ArrayHelper::getColumn($result, 'post');
         }
 
-        return self::find()->where(['_id' => ['$in' => $ids]])
+        return self::find()->active()
+                   ->andWhere([
+                                  '_id'     => ['$in' => $ids],
+                                  '_author' => ['$nin' => [null, false, '']
+                                  ]])
                    ->orderBy(['published_on' => -1])
                    ->limit($limit)->all();
     }
