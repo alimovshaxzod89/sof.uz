@@ -58,7 +58,7 @@ $this->registerJs($js);
                                             <span class="meta-author">
                                                 <a href="<?= $model->author->getViewUrl() ?>">
                                                     <img alt="<?= $model->author->full_name ?>"
-                                                         src='<?= $model->author->getCroppedImage(40, 40) ?>'
+                                                         src='<?= $model->author->getCroppedImage(40, 40, 1) ?>'
                                                          class='avatar avatar-40 photo' height='40'
                                                          width='40'/><?= $model->author->full_name ?></a>
                                             </span>
@@ -81,8 +81,8 @@ $this->registerJs($js);
                                 <div class="">
                                     <div class="entry-media">
                                         <div class="placeholder">
-                                               <img src="<?= $model->getFileUrl('image') ?>"
-                                                     alt="<?= $model->title ?>">
+                                            <img src="<?= $model->getFileUrl('image') ?>"
+                                                 alt="<?= $model->title ?>">
                                         </div>
                                     </div>
                                 </div>
