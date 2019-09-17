@@ -27,7 +27,7 @@
                         <?= $model->getShortFormattedDate() ?>
                     </span>
                     <span class="meta-date">
-                        <i class="mdi mdi-eye"></i> <?= $model->views ?>
+                        <i class="mdi mdi-eye"></i> <?= $model->getViewLabel() ?>
                     </span>
                     <?php if ($model->hasCategory()): ?>
                         <span class="meta-category">

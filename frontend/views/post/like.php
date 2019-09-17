@@ -34,7 +34,7 @@
                                                 <?= $similarPost->getShortFormattedDate() ?>
                                             </span>
                                             <span class="meta-date">
-                                                <i class="mdi mdi-eye"></i> <?= $similarPost->views ?>
+                                                <i class="mdi mdi-eye"></i> <?= $similarPost->getViewLabel() ?>
                                             </span>
                                             <?php if (is_array($similarPost->categories) && count($similarPost->categories)): ?>
                                                 <span class="meta-category">

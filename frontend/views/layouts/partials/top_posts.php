@@ -24,7 +24,7 @@
                                 <?= $post->getShortFormattedDate() ?>
                             </span>
                             <span class="meta-date">
-                                <i class="mdi mdi-eye"></i> <?= $post->views ?>
+                                <i class="mdi mdi-eye"></i> <?= $post->getViewLabel() ?>
                             </span>
                         </div>
                     </header>

@@ -262,4 +262,21 @@ class HelloController extends Controller
         Console::endProgress();
         ob_get_clean();
     }
+
+    public function actionOldView()
+    {
+        /* @var $posts \console\models\Post[] */
+        ini_set('memory_limit', '-1');
+        $posts = \console\models\Post::find()->select(['views'])->all();
+        Console::startProgress(0, count($posts), 'Start Convert Posts');
+        foreach ($posts as $i => $post) {
+            Console::updateProgress($i + 1, count($posts));
+            if ($post->new != null) {
+                $post->new->updateAttributes(['old_views' => $post->views]);
+            }
+            flush();
+        }
+        Console::endProgress();
+        ob_get_clean();
+    }
 }

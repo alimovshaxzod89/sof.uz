@@ -73,7 +73,7 @@ $this->registerJs($js);
                                                                 <?= $mainPost->getShortFormattedDate() ?>
                                                             </span>
                                                             <span class="meta-date">
-                                                                <i class="mdi mdi-eye"></i> <?= $mainPost->views ?>
+                                                                <i class="mdi mdi-eye"></i> <?= $mainPost->getViewLabel() ?>
                                                             </span>
                                                             <?php if ($mainPost->hasCategory()): ?>
                                                                 <span class="meta-category">
@@ -104,7 +104,7 @@ $this->registerJs($js);
                                                                     <?= $post->getShortFormattedDate() ?>
                                                                 </span>
                                                                 <span class="meta-date">
-                                                                    <i class="mdi mdi-eye"></i> <?= $post->views ?>
+                                                                    <i class="mdi mdi-eye"></i> <?= $post->getViewLabel() ?>
                                                                 </span>
                                                                 <?php if ($post->hasCategory()): ?>
                                                                     <span class="meta-category">
@@ -205,7 +205,7 @@ $this->registerJs($js);
                                                 <?= $post->getShortFormattedDate() ?>
                                             </span>
                                             <span class="meta-date">
-                                                <i class="mdi mdi-eye"></i> <?= $post->views ?>
+                                                <i class="mdi mdi-eye"></i> <?= $post->getViewLabel() ?>
                                             </span>
                                             <?php if ($post->hasCategory()): ?>
                                                 <span class="meta-category">

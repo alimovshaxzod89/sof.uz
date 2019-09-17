@@ -93,7 +93,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                                 <span class="view">
                                                     <i class="mdi mdi-eye"></i>
                                                     <span class="count">
-                                                        <?= $model->views ?>
+                                                        <?= $model->getViewLabel() ?>
                                                     </span>
                                                 </span>
                                             </div>
