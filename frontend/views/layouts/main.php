@@ -182,7 +182,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <!--
         top_rat = "&col=7DC53B&t=ffffff&p=DD444E";
         top_r += "&js=" + top_js + "";
-        document.write('<a href="https://www.uz/uz/res/visitor/index?id=1645" target=_top><img src="https://cnt0.www.uz/counter/collect?' + top_r + top_rat + '" width=88 height=31 border=0 alt="Топ рейтинг www.uz"></a>')//-->
+        document.write('<a href="https://www.uz/uz/res/visitor/index?id=1645" target=_top><img style="display: none" src="https://cnt0.www.uz/counter/collect?' + top_r + top_rat + '" width=88 height=31 border=0 alt="Топ рейтинг www.uz"></a>')//-->
     </SCRIPT>
     <NOSCRIPT>
         <A href="https://www.uz/uz/res/visitor/index?id=1645" target=_top>
