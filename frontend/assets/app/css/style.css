@@ -313,6 +313,34 @@
     .related-posts .entry-media {
         display: none;
     }
+
+
+
+    .post .entry-action {
+        align-items: baseline;
+        position: relative;
+    }
+
+    .post .entry-action > div {
+        position: absolute;
+    }
+
+    .post .entry-action > div:first-child {
+        left: 0;
+    }
+
+    .post .entry-action > div:nth-child(2) {
+        right: 0;
+        margin-top: 0;
+    }
+
+    .post .entry-action .action-share > a {
+        text-align: inherit;
+        width: inherit;
+        height: inherit;
+        padding: 0 4px;
+        align-items: baseline;
+    }
 }
 
 .navbar .nav-list > .menu-item > a {
