@@ -1017,7 +1017,7 @@ class Post extends MongoModel
 
     public function getViewLabel()
     {
-        return $this->views + $this->old_views ?: 0;
+        return intval($this->views) + intval($this->old_views ?: 0);
     }
 
     /**
