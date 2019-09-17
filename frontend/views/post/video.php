@@ -129,7 +129,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                                                                              'options' => ['class' => 'ads-wrapper']
                                                                          ]) ?>
 
-                                    <?php if ($model->hasAuthor()): ?>
+                                    <?php if ($model->hasAuthor() && 0): ?>
                                         <div class="author-box">
                                             <div class="author-image">
                                                 <img alt='<?= $model->author->full_name ?>'

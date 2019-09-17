@@ -140,7 +140,7 @@ $this->registerJs($js);
                                                            'options' => ['class' => 'ads-wrapper']
                                                        ]) ?>
 
-                                    <?php if ($model->hasAuthor()): ?>
+                                    <?php if ($model->hasAuthor() && 0): ?>
                                         <div class="author-box">
                                             <div class="author-image">
                                                 <img alt="<?= $model->author->full_name ?>" height="140" width="140"
