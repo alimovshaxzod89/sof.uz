@@ -236,9 +236,14 @@ class PostProvider extends Post
      */
     public static function getPopularPosts($limit = 6, $exclude = [], $provider = false)
     {
+        $date = new Timestamp(1, strtotime("-3 days"));
+
         $query = self::find()
                      ->active()
-                     ->andFilterWhere(['views' => ['$gte' => 1]])
+                     ->andFilterWhere([
+                                          'views'        => ['$gte' => 1],
+                                          'published_on' => ['$gte' => $date],
+                                      ])
                      ->orderBy(['views_l3d' => -1])
                      ->limit($limit);
 
