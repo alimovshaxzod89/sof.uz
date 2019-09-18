@@ -21,11 +21,26 @@ class PostProvider extends Post
         $result = self::getCollection()
                       ->aggregate([
                                       [
+                                          '$match' => [
+                                              '_author' => [
+                                                  '$nin' => [null, false, '']
+                                              ]
+                                          ]
+                                      ],
+                                      [
+                                          '$sort' => [
+                                              'published_on' => -1
+                                          ]
+                                      ],
+                                      [
                                           '$group' => [
                                               '_id'  => '$_author',
                                               'post' => ['$first' => '$_id'],
                                           ]
-                                      ]
+                                      ],
+                                      [
+                                          '$limit' => $limit
+                                      ],
                                   ]);
 
         if (count($result)) {
