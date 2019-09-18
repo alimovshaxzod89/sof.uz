@@ -582,3 +582,7 @@ article.post .entry-header .entry-meta span {
     display: table;
     clear: both;
 }
+
+.widget_magsy_module_post_grid .ads-wrapper {
+    margin-top: 0;
+}

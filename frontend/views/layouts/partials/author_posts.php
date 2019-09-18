@@ -28,8 +28,6 @@
                                     </a>
                                 </span>
                             <?php endif; ?>
-
-                            <?=$post->getShortFormattedDate()?>
                         </div>
                     </header>
                 </div>
