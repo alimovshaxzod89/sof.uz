@@ -320,6 +320,19 @@
         font-size: 15px;
     }
 
+    .post_view .entry-header .entry-meta {
+        margin-top: 20px;
+    }
+
+    .post_view .entry-header .entry-meta span:first-child:after {
+        display: none;
+    }
+
+    .post_view .entry-header .entry-meta span:first-child {
+        width: 100%;
+        display: flex;
+        margin-bottom: 5px;
+    }
 }
 
 @media (max-width: 375px) {
@@ -536,7 +549,7 @@
 }
 
 article.post .entry-header .entry-meta span {
-    display: contents;
+    display: inline-flex;
 }
 
 .entry-header .entry-meta, .entry-header .entry-meta a {
