@@ -423,11 +423,8 @@
 
 .advert-section {
     text-align: center;
-    margin-bottom: -30px;
-}
-
-.ads-wrapper {
-    margin: 30px 0;
+    margin-bottom: 0;
+    margin-top: 30px;
 }
 
 .ads-wrapper a > img {
@@ -465,7 +462,7 @@
 }
 
 .category-page .advert-section + .site-content, .search-page .advert-section + .site-content {
-    padding-top: 20px;
+    padding-top: 30px;
 }
 
 .single-post .site-content .container > .ads-wrapper.banner {
