@@ -298,7 +298,7 @@ class MongoModel extends ActiveRecord
         if (is_array($img) && isset($img['path']) && self::checkFileExists($img['path'])) {
             $img['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $img['path']);
             $imagePath   = self::checkFileExists($img['path'], false, true);
-            $filename    = isset($img['name']) ? $img['name'] : $img['path'];
+            $filename    = $img['path'];
         }
 
         $info      = pathinfo($imagePath);
