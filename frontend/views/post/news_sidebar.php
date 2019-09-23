@@ -48,7 +48,8 @@ $this->registerJs($js);
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
-                        <article class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
+                        <article
+                                class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
                             <div class="small">
                                 <header class="entry-header">
                                     <h1 class="entry-title"><?= $model->title ?></h1>
@@ -79,7 +80,7 @@ $this->registerJs($js);
                                 <div class="">
                                     <div class="entry-media">
                                         <div class="placeholder">
-                                            <img src="<?= $model->getCroppedImage(826, 600) ?>"
+                                            <img src="<?= $model->getUploadFileUrl($model->image) ?>"
                                                  alt="<?= $model->title ?>">
                                         </div>
                                     </div>
@@ -134,7 +135,7 @@ $this->registerJs($js);
                                             </span>
                                         </div>
                                         <?php
-                                        $urlEnCode   = urlencode($model->getShortViewUrl());
+                                        $urlEnCode = urlencode($model->getShortViewUrl());
                                         ?>
                                         <div class="action-share">
                                             <a class="facebook" target="_blank"

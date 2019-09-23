@@ -260,6 +260,20 @@ class MongoModel extends ActiveRecord
         return "$img$url$end";
     }
 
+    public function getUploadFileUrl($img)
+    {
+        $dir = Yii::getAlias("@static/uploads/");
+
+        if (is_array($img) && isset($img['path'])) {
+            $img['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $img['path']);
+            if (file_exists($dir . $img['path']) ?: $img['path']) {
+                return Yii::getAlias('@staticUrl/uploads/') . $img['path'];
+            }
+        }
+
+        return Yii::$app->view->getImageUrl('images/sof.png');
+    }
+
     public static function checkFileExists($path, $dir = false, $fullPath = false)
     {
         $dir = $dir ?: \Yii::getAlias("@static") . DS . 'uploads' . DS;
@@ -283,8 +297,8 @@ class MongoModel extends ActiveRecord
         $filename  = pathinfo($imagePath)['filename'];
         if (is_array($img) && isset($img['path']) && self::checkFileExists($img['path'])) {
             $img['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $img['path']);
-            $imagePath = self::checkFileExists($img['path'], false, true);
-            $filename  = isset($img['name']) ? $img['name'] : $img['path'];
+            $imagePath   = self::checkFileExists($img['path'], false, true);
+            $filename    = isset($img['name']) ? $img['name'] : $img['path'];
         }
 
         $info      = pathinfo($imagePath);
