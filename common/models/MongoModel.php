@@ -281,8 +281,8 @@ class MongoModel extends ActiveRecord
 
         $imagePath = Yii::getAlias('@frontend/assets/app/images/sof.png');
         $filename  = pathinfo($imagePath)['filename'];
-        $img['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $img['path']);
         if (is_array($img) && isset($img['path']) && self::checkFileExists($img['path'])) {
+            $img['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $img['path']);
             $imagePath = self::checkFileExists($img['path'], false, true);
             $filename  = isset($img['name']) ? $img['name'] : $img['path'];
         }
