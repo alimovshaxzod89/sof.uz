@@ -67,7 +67,7 @@ class PostController extends BaseController
         $model = $this->findModel($slug);
         if ($model != null) {
             $this->getView()->params['post'] = $model;
-            $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
+            $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
 
             return $this->render($view, [
                 'model' => $model,
@@ -87,7 +87,7 @@ class PostController extends BaseController
         $model = $this->findShortModel($short);
         if ($model != null) {
             $this->getView()->params['post'] = $model;
-            $view                            = $model->type == Post::TYPE_NEWS && !$model->is_sidebar ? 'news_sidebar' : $model->type;
+            $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
 
             return $this->render($view, [
                 'model' => $model,

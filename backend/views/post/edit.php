@@ -102,7 +102,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                         <hr>
 
                         <?= $form->field($model, 'is_main')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Main')) ?>
-                        <?= $model->type == Post::TYPE_NEWS ? $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) : '' ?>
+                        <?= $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
 
                         <table style="width: 100%">
                             <?php if ($model->created_at): ?>

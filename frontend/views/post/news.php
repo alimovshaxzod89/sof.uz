@@ -23,39 +23,10 @@ if (count($model->tags)) {
 $this->title              = $model->title;
 $this->params['category'] = $category;
 $this->params['post']     = $model;
+
 $this->addDescription([$model->info]);
-$this->addBodyClass('post-template-default post-full single-format-standard navbar-sticky pagination-infinite_button');
+$this->addBodyClass('post-template-default single single-post single-format-gallery navbar-sticky sidebar-none pagination-infinite_button');
 ?>
-<div class="hero lazyload visible" data-bg="<?= $model->getFileUrl('image') ?>">
-    <div class="small">
-        <header class="entry-header white">
-            <h1 class="entry-title"><?= $model->title ?></h1>
-            <div class="entry-meta">
-                <?php if ($model->hasAuthor()): ?>
-                    <span class="meta-author">
-                    <a href="<?= $model->author->getViewUrl() ?>">
-                        <img alt='<?= $model->author->full_name ?>'
-                             src='<?= $model->author->getImageUrl(40, 40) ?>'
-                             class='avatar avatar-40 photo' height='40' width='40'/><?= $model->author->full_name ?>
-                    </a>
-                </span>
-                <?php endif; ?>
-                <span class="meta-date">
-                    <span>
-                        <?= $model->getShortFormattedDate() ?>
-                    </span>
-                </span>
-                <?php if ($model->hasCategory()): ?>
-                    <span class="meta-category">
-                        <a href="<?= $model->category->getViewUrl() ?>" rel="category">
-                            <?= $model->category->name ?>
-                        </a>
-                    </span>
-                <?php endif; ?>
-            </div>
-        </header>
-    </div>
-</div>
 <div class="site-content">
     <div class="container">
         <div class="row">
@@ -63,18 +34,79 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                 <div class="content-area">
                     <main class="site-main">
                         <article
-                                class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
+                                class="post type-post status-publish format-gallery has-post-thumbnail hentry category-design post_format-post-format-gallery">
+                            <?= \frontend\widgets\Banner::widget([
+                                                                     'place'   => 'before_main',
+                                                                     'options' => ['class' => 'ads-wrapper']
+                                                                 ]) ?>
+
+
+
 
                             <div class="container small">
-                                <?= \frontend\widgets\Banner::widget([
-                                                                         'place'   => 'before_main',
-                                                                         'options' => ['class' => 'ads-wrapper']
-                                                                     ]) ?>
-
+                                <div class="small">
+                                    <header class="entry-header">
+                                        <h1 class="entry-title"><?= $model->title ?></h1>
+                                        <div class="entry-meta">
+                                            <?php if ($model->hasAuthor()): ?>
+                                                <span class="meta-author">
+                                                <a href="<?= $model->author->getViewUrl() ?>">
+                                                    <img alt="<?= $model->author->full_name ?>"
+                                                         src="<?= $model->author->getCroppedImage(40, 40) ?>"
+                                                         class='avatar avatar-40 photo' height='40'
+                                                         width='40'/><?= $model->author->full_name ?></a>
+                                            </span>
+                                            <?php endif; ?>
+                                            <span class="meta-date">
+                                            <?= $model->getShortFormattedDate() ?>
+                                        </span>
+                                            <?php if ($model->hasCategory()): ?>
+                                                <span class="meta-category">
+                                                <a href="<?= $model->category->getViewUrl() ?>" rel="category">
+                                                    <?= $model->category->name ?></a>
+                                            </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </header>
+                                </div>
                                 <div class="entry-wrapper">
+                                    <?php if ($model->checkImageFileExists()) : ?>
+                                        <div class="">
+                                            <div class="entry-media">
+                                                <div class="placeholder">
+                                                    <img src="<?= $model->getCroppedImage(750, 405,1) ?>"
+                                                         alt="<?= $model->title ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="entry-content u-text-format u-clearfix">
                                         <?= $model->content ?>
                                     </div>
+
+                                    <?php if (is_array($model->gallery) && count($model->gallery)): ?>
+                                        <div class="entry-media">
+                                            <div class="entry-gallery justified-gallery">
+                                                <?php foreach ($model->gallery as $item):
+                                                    if (!isset($item['path'])) continue;
+                                                    $imagePath  = Yii::getAlias('@static') . DS . 'uploads' . DS . $item['path'];
+                                                    $imageUrl   = Yii::getAlias('@staticUrl') . '/uploads/' . $item['path'];
+                                                    if (file_exists($imagePath)):
+                                                        $size = getimagesize($imagePath);
+                                                        $width  = isset($size[0]) ? $size[0] : 800;
+                                                        $height = isset($size[1]) ? $size[1] : 533; ?>
+                                                        <div class="gallery-item">
+                                                            <a href="<?= $imageUrl ?>"
+                                                               data-width="<?= $width ?>" data-height="<?= $height ?>">
+                                                                <img src="<?= PostProvider::getCropImage($item, $width, $height) ?>"
+                                                                     alt="">
+                                                            </a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
 
                                     <?php if (is_array($model->tags) && count($model->tags)): ?>
                                         <div class="entry-tags">
@@ -95,8 +127,7 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                                                 </span>
                                             </div>
                                             <?php
-                                            $urlEnCode   = \yii\helpers\StringHelper::base64UrlEncode($model->getShortViewUrl());
-                                            $titleEnCode = \yii\helpers\StringHelper::base64UrlEncode($model->title);
+                                            $urlEnCode = urlencode($model->getShortViewUrl());
                                             ?>
                                             <div class="action-share">
                                                 <a class="facebook" target="_blank"
@@ -104,15 +135,15 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                                                     <i class="mdi mdi-facebook"></i>
                                                 </a>
                                                 <a class="twitter" target="_blank"
-                                                   href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>&text=<?= $titleEnCode ?>">
+                                                   href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
                                                     <i class="mdi mdi-twitter"></i>
                                                 </a>
                                                 <a class="vk" target="_blank"
-                                                   href="http://vk.com/share.php?url=<?= $urlEnCode ?>&title=<?= $titleEnCode ?>">
+                                                   href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
                                                     <i class="mdi mdi-vk"></i>
                                                 </a>
                                                 <a class="telegram" target="_blank"
-                                                   href="https://t.me/share/url?url=<?= $urlEnCode ?>&text=<?= $titleEnCode ?>">
+                                                   href="https://t.me/share/url?url=<?= $urlEnCode ?>">
                                                     <i class="mdi mdi-telegram"></i>
                                                 </a>
                                             </div>
@@ -165,6 +196,8 @@ $this->addBodyClass('post-template-default post-full single-format-standard navb
                                     <?php endif; ?>
                                 </div>
                             </div>
+
+
                         </article>
                     </main>
                 </div>

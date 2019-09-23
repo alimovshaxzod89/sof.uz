@@ -862,7 +862,7 @@ class Post extends MongoModel
 
     }
 
-    public function getCroppedImage($width = 870, $height = 260, $manipulation = 2, $watermark = false)
+    public function getCroppedImage($width = 870, $height = 260, $manipulation = 1, $watermark = false)
     {
         $manipulation = $manipulation == 1 ? ManipulatorInterface::THUMBNAIL_OUTBOUND : ManipulatorInterface::THUMBNAIL_INSET;
         return self::getCropImage($this->image, $width, $height, $manipulation, $watermark);

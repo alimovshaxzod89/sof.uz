@@ -48,8 +48,7 @@ $this->registerJs($js);
             <div class="content-column col-lg-9">
                 <div class="content-area">
                     <main class="site-main">
-                        <article
-                                class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
+                        <article class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
                             <div class="small">
                                 <header class="entry-header">
                                     <h1 class="entry-title"><?= $model->title ?></h1>
@@ -80,7 +79,7 @@ $this->registerJs($js);
                                 <div class="">
                                     <div class="entry-media">
                                         <div class="placeholder">
-                                            <img src="<?= $model->getCroppedImage(770, 420) ?>"
+                                            <img src="<?= $model->getCroppedImage(826, 450) ?>"
                                                  alt="<?= $model->title ?>">
                                         </div>
                                     </div>
@@ -92,6 +91,30 @@ $this->registerJs($js);
                                     <div class="entry-content u-text-format u-clearfix">
                                         <?= $model->content ?>
                                     </div>
+
+                                    <?php if (is_array($model->gallery) && count($model->gallery)): ?>
+                                        <div class="entry-media">
+                                            <div class="entry-gallery justified-gallery">
+                                                <?php foreach ($model->gallery as $item):
+                                                    if (!isset($item['path'])) continue;
+                                                    $imagePath  = Yii::getAlias('@static') . DS . 'uploads' . DS . $item['path'];
+                                                    $imageUrl   = Yii::getAlias('@staticUrl') . '/uploads/' . $item['path'];
+                                                    if (file_exists($imagePath)):
+                                                        $size = getimagesize($imagePath);
+                                                        $width  = isset($size[0]) ? $size[0] : 800;
+                                                        $height = isset($size[1]) ? $size[1] : 533; ?>
+                                                        <div class="gallery-item">
+                                                            <a href="<?= $imageUrl ?>"
+                                                               data-width="<?= $width ?>" data-height="<?= $height ?>">
+                                                                <img src="<?= PostProvider::getCropImage($item, $width, $height) ?>"
+                                                                     alt="">
+                                                            </a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
 
                                     <?php if (is_array($model->tags) && count($model->tags)): ?>
                                         <div class="entry-tags">
@@ -111,8 +134,7 @@ $this->registerJs($js);
                                             </span>
                                         </div>
                                         <?php
-                                        $urlEnCode   = \yii\helpers\StringHelper::base64UrlEncode($model->getShortViewUrl());
-                                        $titleEnCode = \yii\helpers\StringHelper::base64UrlEncode($model->title);
+                                        $urlEnCode   = urlencode($model->getShortViewUrl());
                                         ?>
                                         <div class="action-share">
                                             <a class="facebook" target="_blank"
@@ -120,15 +142,15 @@ $this->registerJs($js);
                                                 <i class="mdi mdi-facebook"></i>
                                             </a>
                                             <a class="twitter" target="_blank"
-                                               href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>&text=<?= $titleEnCode ?>">
+                                               href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
                                                 <i class="mdi mdi-twitter"></i>
                                             </a>
                                             <a class="vk" target="_blank"
-                                               href="http://vk.com/share.php?url=<?= $urlEnCode ?>&title=<?= $titleEnCode ?>">
+                                               href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
                                                 <i class="mdi mdi-vk"></i>
                                             </a>
                                             <a class="telegram" target="_blank"
-                                               href="https://t.me/share/url?url=<?= $urlEnCode ?>&text=<?= $titleEnCode ?>">
+                                               href="https://t.me/share/url?url=<?= $urlEnCode ?>">
                                                 <i class="mdi mdi-telegram"></i>
                                             </a>
                                         </div>
