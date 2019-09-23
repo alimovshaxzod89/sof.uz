@@ -117,8 +117,7 @@ class PostController extends BaseController
     protected function findModel($slug)
     {
         return PostProvider::find()
-                           ->where(['slug' => $slug, 'status' => PostProvider::STATUS_PUBLISHED])
-                           ->orFilterWhere(['slug' => $slug])
+                           ->filterWhere(['slug' => $slug, 'status' => PostProvider::STATUS_PUBLISHED])
                            ->one();
     }
 
