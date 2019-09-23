@@ -74,7 +74,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                         <div class="">
                                             <div class="entry-media">
                                                 <div class="placeholder">
-                                                    <img src="<?= $model->getCroppedImage(750, 405,1) ?>"
+                                                    <img src="<?= $model->getCroppedImage(750, 450,1) ?>"
                                                          alt="<?= $model->title ?>">
                                                 </div>
                                             </div>

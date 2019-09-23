@@ -79,7 +79,7 @@ $this->registerJs($js);
                                 <div class="">
                                     <div class="entry-media">
                                         <div class="placeholder">
-                                            <img src="<?= $model->getCroppedImage(826, 450) ?>"
+                                            <img src="<?= $model->getCroppedImage(826, 600) ?>"
                                                  alt="<?= $model->title ?>">
                                         </div>
                                     </div>
