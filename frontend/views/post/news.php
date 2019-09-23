@@ -41,6 +41,8 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                                                  ]) ?>
 
 
+
+
                             <div class="container small">
                                 <div class="small">
                                     <header class="entry-header">
@@ -72,7 +74,7 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                                         <div class="">
                                             <div class="entry-media">
                                                 <div class="placeholder">
-                                                    <img src="<?= $model->getUploadFileUrl($model->image) ?>"
+                                                    <img src="<?= $model->getCroppedImage(750, null,1) ?>"
                                                          alt="<?= $model->title ?>">
                                                 </div>
                                             </div>

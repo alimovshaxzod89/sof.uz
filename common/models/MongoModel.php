@@ -285,7 +285,7 @@ class MongoModel extends ActiveRecord
         return false;
     }
 
-    public static function getCropImage($img = [], $width = 270, $height = 347, $manipulation = ManipulatorInterface::THUMBNAIL_OUTBOUND, $watermark = false, $quality = 85)
+    public static function getCropImage($img = [], $width = 270, $height = 347, $manipulation = ManipulatorInterface::THUMBNAIL_OUTBOUND, $watermark = false, $quality = 90)
     {
         $cropDir = \Yii::getAlias("@static") . DS . 'crop' . DS;
 
