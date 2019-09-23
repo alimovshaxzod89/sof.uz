@@ -820,9 +820,13 @@ blockquote {
   margin: 30px 0;
   padding: 15px 0 15px 20px;
 }
+blockquote li {
+  font-weight: normal;
+}
 blockquote p {
   font-size: 18px !important;
   line-height: 30px !important;
+  font-weight: normal;
 }
 blockquote > *:last-child {
   margin-bottom: 0 !important;
