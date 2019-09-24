@@ -66,8 +66,8 @@ $config = [
             'transport'        => [
                 'class'      => 'Swift_SmtpTransport',
                 'host'       => 'smtp.yandex.ru',
-                'username'   => getenv('CONTACT_EMAIL'),
-                'password'   => getenv('CONTACT_EMAIL_PASSWORD'),
+                'username'   => getenv('EMAIL_LOGIN'),
+                'password'   => getenv('EMAIL_PASSWORD'),
                 'port'       => '587',
                 'encryption' => 'tls',
             ],
