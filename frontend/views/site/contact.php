@@ -69,11 +69,11 @@ $this->addDescription([__("Биз билан боғланинг")]);
                                             </div>
                                             <div class="col-md-4">
                                                 <h5><?= __('Тел:') ?> </h5>
-                                                <p><?= __("+998(97) 773 44 12") ?></p>
+                                                <p><a href="tel:+998977734412"><?= __("+998(97) 773 44 12") ?></a></p>
                                             </div>
                                             <div class="col-md-4">
                                                 <h5><?= __("Электрон почта:") ?></h5>
-                                                <p><?= __("sofxabar@gmail.com") ?></p>
+                                                <p><a href="mailto:info@sof.uz"><?= __("info@sof.uz") ?></a> </p>
                                             </div>
                                         </div>
 
