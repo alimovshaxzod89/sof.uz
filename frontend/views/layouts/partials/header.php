@@ -15,7 +15,7 @@ use yii\helpers\Url;
 
             <div class="logo-wrapper">
                 <a class="logo text" href="<?= Yii::$app->getHomeUrl() ?>">
-                    <img src="<?= $this->getImageUrl('images/logo2.svg') ?>" alt=""></a>
+                    <img src="<?= $this->getImageUrl('images/logo2.svg') ?>?v=1" alt=""></a>
             </div>
 
             <div class="sep"></div>
