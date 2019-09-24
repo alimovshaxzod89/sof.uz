@@ -41,7 +41,7 @@ class ContactForm extends Model
             [['body'], 'string', 'max' => 24096],
             // email has to be a valid email address
             ['email', 'email'],
-            [['verifyCode'], YII_DEBUG ? 'safe' : ReCaptchaValidator::className(), 'message' => 'Бот емасмисиз?'],
+            [['verifyCode'], YII_DEBUG ? 'safe' : ReCaptchaValidator::className(), 'message' => __('Бот емасмисиз?')],
         ];
     }
 
