@@ -612,3 +612,21 @@ article.post .entry-header .entry-meta span {
     width: 100%;
     height: 100%;
 }
+.alert-success{
+    background: #53ab52;
+}
+.alert-error{
+    background: #e20115;
+}
+.alert p{
+    color: #fff;
+}
+.alert p:last-child{
+    margin-bottom: 0;
+}
+.alert{
+    padding: 8px 10px;
+    color: #fff;
+    border-radius: 3px;
+    margin-bottom: 16px;
+}

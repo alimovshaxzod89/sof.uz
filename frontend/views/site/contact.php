@@ -58,7 +58,7 @@ $this->addDescription([__("Биз билан боғланинг")]);
                             <div class="container small">
                                 <div class="entry-wrapper">
                                     <div class="entry-content u-text-format u-clearfix">
-
+                                        <?= \frontend\widgets\Alert::widget() ?>
                                         <p><?= __('Сайт фаолияти юзасидан таклиф ёки танқидларингиз борми? «sof.uz»га мақола ёки хабар юбормоқчимисиз? Ёки ўзингиз гувоҳ бўлган қандайдир ҳодиса ҳақида маълум қилмоқчимисиз? Ҳамкорликка тайёрмиз, биз билан боғланинг.') ?></p>
 
 

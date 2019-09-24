@@ -131,7 +131,7 @@ class SiteController extends BaseController
 
     public function actionError()
     {
-        $exception    = \Yii::$app->errorHandler->exception;
+        $exception = \Yii::$app->errorHandler->exception;
 
         if ($exception instanceof NotFoundHttpException) {
             return $this->render('404', ['exception' => $exception]);
