@@ -54,12 +54,12 @@ class ContactForm extends Model
     {
 
         $emails = [
-            getenv('ADMIN_EMAIL') => 'SOF',
+            getenv('CONTACT_EMAIL') => 'Sof.uz',
         ];
 
         return Yii::$app->mailer->compose([])
                                 ->setTo($emails)
-                                ->setFrom([getenv('CONTACT_EMAIL') => $this->name])
+                                ->setFrom([getenv('EMAIL_LOGIN') => $this->name])
                                 ->setSubject(strip_tags($this->subject))
                                 ->setReplyTo([$this->email => $this->name])
                                 ->setTextBody(strip_tags($this->body))
