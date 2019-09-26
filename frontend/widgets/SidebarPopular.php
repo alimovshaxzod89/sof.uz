@@ -14,7 +14,7 @@ class SidebarPopular extends BaseWidget
 
     public function run()
     {
-        $models = PostProvider::getPopularPosts(5);
+        $models = PostProvider::getPopularPosts();
         $post   = ArrayHelper::remove($models, 0);
         return $this->render('sidebarPopular', [
             'models' => $models,

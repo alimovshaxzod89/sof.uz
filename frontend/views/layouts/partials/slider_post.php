@@ -9,7 +9,7 @@
     <div class="widget widget_magsy_picks_widget">
         <h5 class="u-border-title"><?= $title ?></h5>
         <div class="picks-wrapper">
-            <div class="icon" data-ickon="&#xf238" style="border-top-color: #6fd08d; color: #fff;"></div>
+            <div class="icon" data-ickon="&#xf238" style="border-top-color: #00AA51; color: #fff;"></div>
             <div class="picked-posts owl">
                 <?php foreach ($posts as $post): ?>
                     <article class="post">

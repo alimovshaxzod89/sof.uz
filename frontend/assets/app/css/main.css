@@ -1111,8 +1111,8 @@ button[type="submit"].transparent,
   background-color: #1a1a1a;
   content: "";
   height: 3px;
-  margin-right: 10px;
-  width: 30px;
+  margin-right: 15px;
+  width: 60px;
 }
 .u-text-format > *:first-child,
 .u-text-format > *:first-child > *:first-child {
@@ -9686,8 +9686,9 @@ div.wpcf7-response-output {
 .page .type-page .entry-content ol,
 .wp-block-columns p {
   font-family: Roboto, serif;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 30px;
+  font-weight: normal;
 }
 .single .type-post .entry-content > p,
 .page .type-page .entry-content > p,
@@ -9790,14 +9791,11 @@ div.wpcf7-response-output {
 .related-posts h3,
 .comments-area .comments-title,
 .comments-area #reply-title {
-  font-size: 12px;
-  letter-spacing: 0.2px;
-  margin-bottom: 30px;
-  text-transform: uppercase;
+
 }
 .related-posts .post {
   display: flex;
-  margin: 15px 0;
+  margin: 0px 0 30px 0;
 }
 .related-posts .entry-media {
   flex-shrink: 0;
@@ -10265,6 +10263,7 @@ body:not(.canvas-visible) .off-canvas {
   color: #aaa;
   padding: 45px 0;
   text-align: center;
+  border-top: 3px solid #e6e6e6;
 }
 .site-footer a {
   font-weight: 700;

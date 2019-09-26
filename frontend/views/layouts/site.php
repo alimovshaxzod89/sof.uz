@@ -1,6 +1,8 @@
 <?php
 
 use frontend\components\View;
+
+use frontend\widgets\Banner;
 use yii\helpers\Url;
 
 /**
@@ -23,7 +25,24 @@ $this->beginContent('@app/views/layouts/main.php');
 ?>
 <div class="site">
     <?= $this->renderFile('@frontend/views/layouts/partials/header.php') ?>
-    <?= $content ?>
+    <div class="container">
+        <?= \frontend\widgets\Banner::widget([
+                                                 'place'   => 'before_main',
+                                                 'options' => ['class' => 'ads-wrapper']
+                                             ]) ?>
+    </div>
+    <div class="site-content">
+        <div class="content-area  pt40 pb40">
+            <main class="site-main">
+                <?= $content ?>
+            </main>
+        </div>
+        <?php if (isset($this->params['post'])): ?>
+            <?= $this->renderFile('@frontend/views/post/like.php', [
+                'model' => $this->params['post']
+            ]) ?>
+        <?php endif; ?>
+    </div>
     <?= $this->renderFile('@frontend/views/layouts/partials/footer.php') ?>
 </div>
 

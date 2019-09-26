@@ -89,7 +89,7 @@
 }
 
 .site-content .bottom-area .related-posts {
-    padding: 60px 0 0 0;
+    padding: 40px 0 10px;
 }
 
 .entry-header .entry-meta > span + span {
@@ -109,15 +109,15 @@
 }
 
 .u-border-title:before, .owl .owl-dot.active, .infinite-scroll-button {
-    background-color: #53ab52;
+    background-color: #00AA51;
 }
 
 .infinite-scroll-button {
-    border-color: #53ab52;
+    border-color: #00AA51;
 }
 
 .navbar .logo.text {
-    color: #53ab52;
+    color: #00AA51;
 }
 
 .site-content > .container + .bottom-area {
@@ -157,8 +157,8 @@
 }
 
 .actions .language-block li.active {
-    background-color: #53ab52;
-    border-color: #53ab52;
+    background-color: #00AA51;
+    border-color: #00AA51;
 }
 
 .actions .language-block li.active a {
@@ -179,6 +179,27 @@
 
 .hero {
     min-height: 200px;
+}
+.banner{
+    background-color: #f7f7f7
+}
+.banner.banner-before_main{
+    margin-top: 20px;
+}
+.banner.banner-before_content{
+    margin-bottom: 40px;
+}
+.banner.banner-after_content{
+    margin-top: 40px;
+}
+.banner img {
+    transition: all .2s ease-in-out;
+}
+.banner a:hover img {
+    opacity: 0.9;;
+}
+.banner a:hover {
+    opacity: 1;
 }
 
 @media (max-width: 320px) {
@@ -208,7 +229,13 @@
 @media (min-width: 1200px) {
     .banner.banner-before_main {
         min-height: 100px;
-        background-color: #f7f7f7
+
+    }
+    .banner.banner-before_content{
+        min-height: 100px;
+    }
+    .banner.banner-after_content{
+        min-height: 100px;
     }
 }
 
@@ -448,7 +475,7 @@
 }
 
 .owl .owl-prev, .owl .owl-next {
-    background-color: #6fd08d;
+    background-color: #00AA51;
 }
 
 .owl .owl-prev.disabled, .owl .owl-next.disabled {
@@ -471,7 +498,6 @@
 
 .single-post .site-content {
     padding-top: 0;
-    margin-top: 30px;
 }
 
 .post-full .single-post .site-content {
@@ -483,7 +509,7 @@
 }
 
 .sidebar-column .widget-area > div {
-    margin-bottom: 30px;
+    margin-bottom: 0px;
 }
 
 .section {
@@ -613,7 +639,7 @@ article.post .entry-header .entry-meta span {
     height: 100%;
 }
 .alert-success{
-    background: #53ab52;
+    background: #00AA51;
 }
 .alert-error{
     background: #e20115;
@@ -629,4 +655,13 @@ article.post .entry-header .entry-meta span {
     color: #fff;
     border-radius: 3px;
     margin-bottom: 16px;
+}
+.pb40{
+    padding-bottom: 40px;
+}
+.pt40{
+    padding-top: 40px;
+}
+.entry-content img{
+    width: 100%;
 }

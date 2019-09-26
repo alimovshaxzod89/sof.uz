@@ -17,15 +17,17 @@ $authorPosts = PostProvider::getTopAuthors();
     <?php if (Yii::$app->controller->action->id != 'index'): ?>
         <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
             'title' => __('Most read'),
-            'posts' => PostProvider::getPopularPosts(6, $exclude)
+            'posts' => PostProvider::getPopularPosts()
         ]) ?>
     <?php endif; ?>
 
-    <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
-        <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
-            'title' => __('Authors'),
-            'posts' => $authorPosts
-        ]) ?>
+    <?php if (!isset($hideAuthors) || !$hideAuthors): ?>
+        <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
+            <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
+                'title' => __('Authors'),
+                'posts' => $authorPosts
+            ]) ?>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?= Banner::widget([

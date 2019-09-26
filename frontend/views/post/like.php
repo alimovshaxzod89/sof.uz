@@ -1,26 +1,38 @@
 <?php
 /**
  * @var $this \frontend\components\View
+ * @var $model \frontend\models\PostProvider
  * @var $similarPosts \frontend\models\PostProvider[]
  */
+
+$similarPosts = $model->getSimilarPosts(4);
+$title        = 'O\'xshash maqolalar';
+$lastNews     = false;
+if (count($similarPosts) < 2) {
+    $title        = 'So\'nggi yangiliklar';
+    $similarPosts = \frontend\models\PostProvider::getLastPosts(6, false, [$model->_id]);
+    $lastNews     = true;
+}
 ?>
 <?php if (count($similarPosts)): ?>
     <div class="bottom-area">
-        <div class="container medium">
+        <div class="container">
             <div class="related-posts">
-                <h3 class="u-border-title"><?= __('You might also like') ?></h3>
+                <h5 class="u-border-title"><?= __($title) ?></h5>
                 <div class="row">
-                    <?php foreach ($similarPosts as $similarPost) : ?>
+                    <?php foreach ($similarPosts as $i => $similarPost) : ?>
                         <div class="col-lg-6">
                             <article class="post">
-                                <div class="entry-media">
-                                    <div class="placeholder">
-                                        <a href="<?= $similarPost->getViewUrl() ?>">
-                                            <img alt="<?= $similarPost->title ?>"
-                                                 src="<?= $similarPost->getCroppedImage(220, 146, 1) ?>">
-                                        </a>
+                                <?php if (!$lastNews || $i < 2): ?>
+                                    <div class="entry-media">
+                                        <div class="placeholder">
+                                            <a href="<?= $similarPost->getViewUrl() ?>">
+                                                <img alt="<?= $similarPost->title ?>"
+                                                     src="<?= $similarPost->getCroppedImage(370, 220) ?>">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php endif; ?>
 
                                 <div class="entry-wrapper">
                                     <header class="entry-header">

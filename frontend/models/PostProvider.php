@@ -15,7 +15,7 @@ use yii\helpers\Html;
 
 class PostProvider extends Post
 {
-    public static function getTopAuthors($limit = 10)
+    public static function getTopAuthors($limit = 5)
     {
         $ids    = [];
         $result = self::getCollection()
@@ -47,13 +47,15 @@ class PostProvider extends Post
             $ids = ArrayHelper::getColumn($result, 'post');
         }
 
-        return self::find()->active()
+        return self::find()
+                   ->active()
                    ->andWhere([
                                   '_id'     => ['$in' => $ids],
-                                  '_author' => ['$nin' => [null, false, '']
-                                  ]])
-                   ->orderBy(['published_on' => -1])
-                   ->limit($limit)->all();
+                                  '_author' => ['$nin' => [null, false, '']]
+                              ])
+                   ->orderBy(['published_on' => SORT_DESC])
+                   ->limit($limit)
+                   ->all();
     }
 
     public function metaCategoriesList()
@@ -234,7 +236,7 @@ class PostProvider extends Post
      * @return PostProvider[] | ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getPopularPosts($limit = 6, $exclude = [], $provider = false)
+    public static function getPopularPosts($limit = 5, $exclude = [], $provider = false)
     {
         $date = new Timestamp(1, strtotime("-3 days"));
 
@@ -244,7 +246,7 @@ class PostProvider extends Post
                                           'views'        => ['$gte' => 1],
                                           'published_on' => ['$gte' => $date],
                                       ])
-                     ->orderBy(['views_l3d' => -1])
+                     ->orderBy(['views_l3d' => SORT_DESC, 'views' => SORT_DESC])
                      ->limit($limit);
 
         if (count($exclude)) {
