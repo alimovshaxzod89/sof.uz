@@ -9646,7 +9646,7 @@ div.wpcf7-response-output {
 .entry-tags {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 15px;
+  margin-top: 40px;
 }
 .entry-tags a {
   background-color: #f4f4f4;

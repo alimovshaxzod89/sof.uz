@@ -277,9 +277,7 @@
         margin: 15px 0 0 0;
     }
 
-    .u-module-margin .col-lg-6:last-child article .entry-title {
-        font-size: 14px;
-    }
+
 
     .site-main .advert-section {
         margin: 30px 0;
@@ -317,6 +315,9 @@
 
     .off-canvas .logo {
         margin: 0 auto 15px;
+    }
+    .top-posts-home{
+        margin-top: 60px;
     }
 }
 
@@ -369,17 +370,25 @@
     }
 
     .post_view .entry-header .entry-meta {
-        margin-top: 20px;
+        margin-top: 5px;
+        marginbottom: 5px;
     }
-
-    .post_view .entry-header .entry-meta span:first-child:after {
+    .entry-header .entry-title {
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: -0.2px;
+        margin-bottom: 0;
+    }
+    article.post .entry-header .entry-meta span.meta-author:after{
         display: none;
     }
+    article.post .entry-header .entry-meta span.meta-author a{
 
-    .post_view .entry-header .entry-meta span:first-child {
+    }
+    article.post .entry-header .entry-meta span.meta-author{
+        display: block;
         width: 100%;
-        display: flex;
-        margin-bottom: 5px;
+        text-align: center;
     }
 }
 
