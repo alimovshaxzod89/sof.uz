@@ -19,62 +19,42 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->_canonical              = $model->getViewUrl();
 $this->addBodyClass('category-page');
 ?>
-<div class="advert-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <?= \frontend\widgets\Banner::widget([
-                                                         'place'   => 'before_main',
-                                                         'options' => ['class' => 'ads-wrapper']
-                                                     ]) ?>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h5 class="u-border-title">
+                <?= $this->title ?>
+            </h5>
+            <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
+            <?= ListView::widget([
+                                     'dataProvider' => $provider,
+                                     'options'      => [
+                                         'tag' => false,
+                                     ],
+                                     'itemOptions'  => [
+                                         'tag'   => 'div',
+                                         'class' => 'col-md-12',
+                                     ],
+                                     'viewParams'   => [
+                                         'empty' => PostProvider::getEmptyCroppedImage(370, 220),
+                                         'limit' => $limit,
+                                         'load'  => Yii::$app->request->get('load', $limit),
+                                     ],
+                                     'layout'       => "<div class=\"row posts-wrapper\">{items}</div><div class=\"infinite-scroll-action\">{pager}</div>",
+                                     'itemView'     => 'partials/_view',
+                                     'emptyText'    => __('Ushbu bo\'limda yangiliklar yo\'q'),
+                                     'pager'        => [
+                                         'perLoad' => $limit,
+                                         'class'   => ScrollPager::class,
+                                         'options' => ['class' => 'infinite-scroll-button button']
+                                     ],
+                                 ]) ?>
+            <?php Pjax::end() ?>
         </div>
-    </div>
-</div>
-
-<div class="site-content">
-    <div class="container">
-        <div class="row">
-            <div class="content-column col-lg-9">
-                <div class="content-area">
-                    <main class="site-main">
-                        <h5 class="u-border-title">
-                            <?= $this->title ?>
-                        </h5>
-                        <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
-                        <?= ListView::widget([
-                                                 'dataProvider' => $provider,
-                                                 'options'      => [
-                                                     'tag' => false,
-                                                 ],
-                                                 'itemOptions'  => [
-                                                     'tag'   => 'div',
-                                                     'class' => 'col-md-12',
-                                                 ],
-                                                 'viewParams'   => [
-                                                     'empty' => PostProvider::getEmptyCroppedImage(370, 220),
-                                                     'limit' => $limit,
-                                                     'load'  => Yii::$app->request->get('load', $limit),
-                                                 ],
-                                                 'layout'       => "<div class=\"row posts-wrapper\">{items}</div><div class=\"infinite-scroll-action\">{pager}</div>",
-                                                 'itemView'     => 'partials/_view',
-                                                 'emptyText'    => __('Ushbu bo\'limda yangiliklar yo\'q'),
-                                                 'pager'        => [
-                                                     'perLoad' => $limit,
-                                                     'class'   => ScrollPager::class,
-                                                     'options' => ['class' => 'infinite-scroll-button button']
-                                                 ],
-                                             ]) ?>
-                        <?php Pjax::end() ?>
-                    </main>
-                </div>
-            </div>
-
-            <div class="sidebar-column col-lg-3" id="sticky-sidebar">
-                <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
-                    'model' => null
-                ]) ?>
-            </div>
+        <div class="col-md-3" id="sticky-sidebar">
+            <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
+                'model' => null
+            ]) ?>
         </div>
     </div>
 </div>

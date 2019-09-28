@@ -1036,7 +1036,7 @@ button[type="submit"].transparent,
 }
 .site-content {
   padding-bottom: 60px;
-  padding-top: 60px;
+  padding-top: 0px;
 }
 .page-template-page-modular .site-content {
   padding-bottom: 0;
@@ -9676,7 +9676,7 @@ div.wpcf7-response-output {
 .single .type-post .entry-media,
 .page .type-page .entry-media {
   margin-bottom: 45px;
-  margin-top: 45px;
+  margin-top: 30px;
 }
 .single .type-post .entry-content > p,
 .page .type-page .entry-content > p,
@@ -10365,6 +10365,7 @@ body:not(.canvas-visible) .off-canvas {
 .widget-area .widget {
   background-color: #fff;
   position: relative;
+  margin-bottom: 40px;
 }
 .widget-area .widget + .widget {
   margin-top: 60px;

@@ -105,7 +105,7 @@ $this->registerJs($js);
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <aside class="widget-area ">
+            <aside class="widget-area top-posts-home">
                 <?= $this->renderFile('@frontend/views/layouts/partials/top_posts.php', [
                     'title' => __('Most read'),
                     'posts' => PostProvider::getPopularPosts()
@@ -114,7 +114,7 @@ $this->registerJs($js);
         </div>
     </div>
 </div>
-<div class="container pt40">
+<div class="container ">
     <div class="row">
         <div class="col-lg-9">
             <?= \frontend\widgets\Banner::widget([

@@ -12,6 +12,7 @@ use frontend\widgets\Banner;
 $exclude     = $model != null ? [$model->_id] : [];
 $category    = CategoryProvider::findOne(Config::get(Config::CONFIG_SIDEBAR_CATEGORY));
 $authorPosts = PostProvider::getTopAuthors();
+$isHome      = $this->getFullActionName() == 'site/index';
 ?>
 <aside class="widget-area theiaStickySidebar">
     <?php if (Yii::$app->controller->action->id != 'index'): ?>
@@ -21,6 +22,12 @@ $authorPosts = PostProvider::getTopAuthors();
         ]) ?>
     <?php endif; ?>
 
+    <?php if (!$isHome): ?>
+        <?= Banner::widget([
+                               'place'   => 'before_sidebar',
+                               'options' => ['class' => 'ads-wrapper']
+                           ]) ?>
+    <?php endif; ?>
     <?php if (!isset($hideAuthors) || !$hideAuthors): ?>
         <?php if (is_array($authorPosts) && count($authorPosts) >= 3): ?>
             <?= $this->renderFile('@frontend/views/layouts/partials/author_posts.php', [
@@ -29,17 +36,19 @@ $authorPosts = PostProvider::getTopAuthors();
             ]) ?>
         <?php endif; ?>
     <?php endif; ?>
-
-    <?= Banner::widget([
-                           'place'   => 'before_sidebar',
-                           'options' => ['class' => 'ads-wrapper']
-                       ]) ?>
-
-    <?php if ($category instanceof CategoryProvider): ?>
-        <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
-            'title' => $category->name,
-            'posts' => PostProvider::getPostsByCategory($category, 5, false, $exclude)
-        ]) ?>
+    <?php if ($isHome): ?>
+        <?= Banner::widget([
+                               'place'   => 'before_sidebar',
+                               'options' => ['class' => 'ads-wrapper']
+                           ]) ?>
+    <?php endif; ?>
+    <?php if (!isset($hideSlider) || !$hideSlider): ?>
+        <?php if ($category instanceof CategoryProvider): ?>
+            <?= $this->renderFile('@frontend/views/layouts/partials/slider_post.php', [
+                'title' => $category->name,
+                'posts' => PostProvider::getPostsByCategory($category, 5, false, $exclude)
+            ]) ?>
+        <?php endif; ?>
     <?php endif; ?>
 
     <?= $this->renderFile('@frontend/views/layouts/partials/socials.php') ?>

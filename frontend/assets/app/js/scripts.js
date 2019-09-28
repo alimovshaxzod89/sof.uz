@@ -52,6 +52,14 @@
             additionalMarginTop: 90,
             additionalMarginBottom: 20
         });
+        $(document).keydown(function (event) {
+            if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.keyCode === 69) {
+                if (globalVars.p !== undefined) {
+                    window.open('https://backend.sof.uz/post/edit/' + globalVars.p, '_blank');
+                    return false;
+                }
+            }
+        });
     });
 }(jQuery));
 

@@ -37,7 +37,7 @@ $this->registerJs($js);
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-md-9">
             <div class="content-area">
                 <article
                         class="post type-post status-publish format-standard has-post-thumbnail hentry category-fashion">
@@ -55,13 +55,19 @@ $this->registerJs($js);
                                             </span>
                                 <?php endif; ?>
                                 <span class="meta-date">
-                                            <?= $model->getShortFormattedDate() ?>
-                                        </span>
+                                    <?= $model->getShortFormattedDate() ?>
+                                </span>
+                                <span class="view">
+                                    <i class="mdi mdi-eye"></i>
+                                    <span class="count">
+                                         <?= $model->getViewLabel() ?>
+                                    </span>
+                                </span>
                                 <?php if ($model->hasCategory()): ?>
                                     <span class="meta-category">
-                                                <a href="<?= $model->category->getViewUrl() ?>" rel="category">
-                                                    <?= $model->category->name ?></a>
-                                            </span>
+                                        <a href="<?= $model->category->getViewUrl() ?>" rel="category">
+                                            <?= $model->category->name ?></a>
+                                    </span>
                                 <?php endif; ?>
                             </div>
                         </header>
@@ -197,10 +203,11 @@ $this->registerJs($js);
                                    'options' => ['class' => 'ads-wrapper']
                                ]) ?>
         </div>
-        <div class="col-lg-3" id="sticky-sidebar">
+        <div class="col-md-3" id="sticky-sidebar">
             <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
                 'model'       => $model,
-                'hideAuthors' => true
+                'hideAuthors' => true,
+                'hideSlider' => true,
             ]) ?>
         </div>
     </div>
