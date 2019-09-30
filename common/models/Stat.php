@@ -149,7 +149,8 @@ class Stat extends MongoModel
                                       ['$match' => [
                                           'time' => ['$gt' => 0],
                                           'type' => ['$eq' => self::TYPE_AD_VIEW],
-                                      ]],
+                                      ]
+                                      ],
                                       array('$group' => array(
                                           '_id'   => '$model',
                                           'count' => ['$sum' => '$count'],

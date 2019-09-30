@@ -17,43 +17,10 @@ class PostProvider extends Post
 {
     public static function getTopAuthors($limit = 5)
     {
-        $ids    = [];
-        $result = self::getCollection()
-                      ->aggregate([
-                                      [
-                                          '$match' => [
-                                              '_author' => [
-                                                  '$nin' => [null, false, '']
-                                              ]
-                                          ]
-                                      ],
-                                      [
-                                          '$sort' => [
-                                              'published_on' => -1
-                                          ]
-                                      ],
-                                      [
-                                          '$group' => [
-                                              '_id'  => '$_author',
-                                              'post' => ['$first' => '$_id'],
-                                          ]
-                                      ],
-                                      [
-                                          '$limit' => $limit
-                                      ],
-                                  ]);
-
-        if (count($result)) {
-            $ids = ArrayHelper::getColumn($result, 'post');
-        }
-
         return self::find()
                    ->active()
-                   ->andWhere([
-                                  '_id'     => ['$in' => $ids],
-                                  '_author' => ['$nin' => [null, false, '']]
-                              ])
-                   ->orderBy(['published_on' => SORT_DESC])
+                   ->andWhere(['_author_post' => ['$gt' => -1]])
+                   ->orderBy(['_author_post' => SORT_ASC])
                    ->limit($limit)
                    ->all();
     }

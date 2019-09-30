@@ -36,6 +36,7 @@ use yii\helpers\StringHelper;
  * @property string     audio_url
  * @property string     video_url
  * @property string     template
+ * @property string     _author_post
  * @property mixed      info
  * @property mixed      type
  * @property mixed      label
@@ -84,6 +85,7 @@ use yii\helpers\StringHelper;
 class Post extends MongoModel
 {
     const SCENARIO_CONVERT = 'convert';
+    const AUTHOR_CATEGORY = '5d63dd4d18855a227578b4ab';
     protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
     protected $_booleanAttributes    = ['img_watermark', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
     protected $_integerAttributes    = ['views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
@@ -156,6 +158,7 @@ class Post extends MongoModel
             '_tags',
             '_related',
             '_similar',
+            '_author_post',
 
             'title_color',
             'image_source',
@@ -422,6 +425,82 @@ class Post extends MongoModel
         return $dataProvider;
     }
 
+    public function searchAuthorPosts($params = [])
+    {
+        $this->load($params);
+        $query = self::find()
+                     ->with('categories');
+
+        $dataProvider = new ActiveDataProvider([
+                                                   'query'      => $query,
+                                                   'sort'       => [
+                                                       'defaultOrder' => [
+                                                           'published_on' => SORT_DESC,
+                                                       ],
+                                                   ],
+                                                   'pagination' => [
+                                                       'pageSize' => 30,
+                                                   ],
+                                               ]);
+
+
+        if ($this->search) {
+            $query->orFilterWhere(['title' => ['$regex' => $this->search, '$options' => 'si']]);
+            foreach (Config::getLanguageCodes() as $code) {
+                $query->orFilterWhere(['_translations.title_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
+            }
+            $query->orFilterWhere(['slug' => ['$regex' => $this->search, '$options' => 'si']]);
+        }
+
+
+        $query->andFilterWhere([
+                                   '_author'     => [
+                                       '$in' => Admin::find()->select(['_id'])->column()
+                                   ],
+                                   '_categories' => [
+                                       '$elemMatch' => ['$in' => ['5d63dd4d18855a227578b4ab']]
+                                   ],
+                                   'status'      => ['$ne' => self::STATUS_IN_TRASH]
+                               ]);
+
+        return $dataProvider;
+    }
+
+
+    public static function indexAuthorPosts()
+    {
+        self::updateAll(['_author_post' => null]);
+        $items = self::find()
+                     ->select(['_id', '_author'])
+                     ->andFilterWhere([
+                                          '_author'     => [
+                                              '$in' => Admin::find()->select(['_id'])->column()
+                                          ],
+                                          '_categories' => [
+                                              '$elemMatch' => ['$in' => [self::AUTHOR_CATEGORY]]
+                                          ],
+                                          'status'      => self::STATUS_PUBLISHED
+                                      ])
+                     ->orderBy(['published_on' => SORT_DESC])
+                     ->asArray()
+                     ->all();
+
+        $authors = [];
+
+
+        foreach ($items as $k => $item) {
+            $id = (string)$item['_author'];
+            if (!isset($authors[$id])) {
+                $authors[$id] = $item['_id'];
+                self::updateAll(['_author_post' => $k], ['_id' => $item['_id']]);
+
+                if (count($authors) > 10) {
+                    break;
+                }
+            }
+        }
+    }
+
     public function searchTrash($params = [])
     {
         $this->load($params);
@@ -534,6 +613,15 @@ class Post extends MongoModel
 
         return parent::beforeSave($insert);
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($this->author) {
+            self::indexAuthorPosts();
+        }
+        parent::afterSave($insert, $changedAttributes);
+    }
+
 
     private function calculateReadingTime()
     {
@@ -1308,6 +1396,7 @@ class Post extends MongoModel
                                            'locked_on'       => $this->locked_on,
                                        ]);
     }
+
 
     /**
      * @param Admin $user

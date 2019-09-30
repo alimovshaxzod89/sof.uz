@@ -31,6 +31,10 @@ class View extends \yii\web\View
                     'label' => 'Video News',
                     'url'   => 'post/video',
                 ],
+                'post/columnist' => [
+                    'label' => 'Columnists',
+                    'url'   => 'post/columnist',
+                ],
                 'category/index' => [
                     'label' => 'Categories',
                     'url'   => 'category/index',

@@ -96,6 +96,13 @@ $types                         = [Post::TYPE_NEWS => 'fa-file-text', Post::TYPE_
                                          return $data->creator ? $data->creator->login : '';
                                      },
                                  ],
+                                 [
+                                     'attribute' => '_author',
+                                     'format'    => 'raw',
+                                     'value'     => function ($data) {
+                                         return $data->author ? $data->author->login : '';
+                                     },
+                                 ],
                                  $searchModel->status == Post::STATUS_DRAFT ?
                                      [
                                          'attribute' => 'created_at',

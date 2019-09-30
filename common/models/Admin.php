@@ -37,7 +37,7 @@ use yii\web\IdentityInterface;
 class Admin extends MongoModel implements IdentityInterface
 {
     protected $_searchableTextAttributes = ['full_name', 'login', 'email'];
-    protected $_translatedAttributes = ['full_name', 'description'];
+    protected $_translatedAttributes     = ['full_name', 'description'];
     const SCENARIO_PROFILE = 'profile';
 
     public function attributes()

@@ -85,6 +85,21 @@ class PostController extends BackendController
 
     /**
      * @return string
+     * @resource News |  Manage Posts | post/columnist
+     */
+    public function actionColumnist()
+    {
+        $searchModel = new Post(['scenario' => Post::SCENARIO_SEARCH]);
+
+
+        return $this->render('index', [
+            'dataProvider' => $searchModel->searchAuthorPosts($this->get()),
+            'searchModel'  => $searchModel,
+        ]);
+    }
+
+    /**
+     * @return string
      * @resource News |  Manage Posts | post/photo
      */
     public function actionPhoto()
