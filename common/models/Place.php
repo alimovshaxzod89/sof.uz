@@ -274,14 +274,16 @@ class Place extends MongoModel
                     return new ObjectId($id);
                 }, $this->_ads);
 
-                $ads = Ad::find()
-                         ->where(['_id' => ['$in' => $ids]])
-                         ->andWhere(['status' => self::STATUS_ENABLE])
-                         ->indexBy('id')
-                         ->all();
+                if (count($ids)) {
+                    $ads = Ad::find()
+                             ->where(['_id' => ['$in' => $ids]])
+                             ->andWhere(['status' => self::STATUS_ENABLE])
+                             ->indexBy('id')
+                             ->all();
 
-                if (count($ads)) {
-                    return $this->updateAttributes(['status' => self::STATUS_ENABLE]);
+                    if (count($ads)) {
+                        return $this->updateAttributes(['status' => self::STATUS_ENABLE]);
+                    }
                 }
             }
 
