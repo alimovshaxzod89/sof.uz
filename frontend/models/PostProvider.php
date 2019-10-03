@@ -462,7 +462,7 @@ class PostProvider extends Post
                                         ],
                                     ],
                                 ])
-                     ->orderBy(['published_on' => -1]);
+                     ->orderBy(['published_on' => SORT_DESC]);
 
         if (is_array($exclude) && count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);

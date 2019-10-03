@@ -14,7 +14,7 @@
                 <?php foreach ($posts as $post): ?>
                     <article class="post">
                         <div class="entry-thumbnail">
-                            <img src="<?= $post->getCroppedImage(150, 150, 1) ?>">
+                            <img src="<?= $post->getCroppedImage(300, 200, 1) ?>">
                         </div>
                         <header class="entry-header">
                             <h6 class="entry-title"><?= $post->title ?></h6>
