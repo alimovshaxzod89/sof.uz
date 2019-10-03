@@ -176,7 +176,7 @@ $this->registerJs($js);
                         <div class="entry-media">
                             <div class="placeholder">
                                 <a href="<?= $post->getViewUrl() ?>">
-                                    <img src="<?= $post->getCroppedImage(210, 140) ?>"
+                                    <img src="<?= $post->getCroppedImage(300, 200) ?>"
                                          alt="<?= $post->title ?>">
                                 </a>
                             </div>
