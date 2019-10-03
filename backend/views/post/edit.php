@@ -181,9 +181,9 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                                                    'containerOptions' => [],
                                                                    'clientEvents'     => [
                                                                        'dp.change' => new JsExpression('function(d){
-                                                               time = d.date._d.getTime() / 1000;
-                                                               $("#published_on_time").val(Math.round(time))
-                                                            }'),
+                                                                           time = d.date._d.getTime() / 1000;
+                                                                           $("#published_on_time").val(Math.round(time))
+                                                                        }'),
                                                                    ],
                                                                ]) ?>
                                 </div>
@@ -193,10 +193,9 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                     <?php $time = $model->getAutoPublishTimeSeconds() ?>
                                     <?= $form->field($model, 'auto_publish_time', [
                                         'options' => [
-                                            'id'       => 'hidden_auto_publish',
-                                            'disabled' => $model->status != Post::STATUS_AUTO_PUBLISH ? 'disabled' : false,
+                                            'id' => 'hidden_auto_publish',
                                         ],
-                                    ])->hiddenInput(['id' => 'publish_time', 'value' => $time]) ?>
+                                    ])->hiddenInput(['id' => 'publish_time']) ?>
 
                                     <?= DateTimeWidget::widget([
                                                                    'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
@@ -206,9 +205,9 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                                                    'containerOptions' => ['class' => ''],
                                                                    'clientEvents'     => [
                                                                        'dp.change' => new JsExpression('function(d){
-                                                               time = d.date._d.getTime() / 1000;
-                                                               $("#publish_time").val(Math.round(time))
-                                                            }'),
+                                                                           time = d.date._d.getTime() / 1000;
+                                                                           $("#publish_time").val(Math.round(time));
+                                                                        }'),
                                                                    ],
                                                                ]) ?>
                                 </div>
@@ -241,7 +240,6 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                                                    ],
                                                                ]); ?>
                         </div>
-
                         <?= $form->field($model, 'image')
                                  ->widget(Upload::className(), [
                                      'url'              => ['file-storage/upload', 'type' => 'post-image'],
@@ -348,10 +346,6 @@ $this->registerJs('initPostEditor();');
 
         $(document).ajaxStart(function () {
             $loading.hide();
-        });
-
-        $('button[type=submit]').on('click', function (e) {
-            $('#publish_time').val(Math.floor(Date.now() / 1000));
         });
     }
 
