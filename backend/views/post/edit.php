@@ -424,4 +424,8 @@ $this->registerJs('initPostEditor();');
     function setCounter() {
         $('#post-info').parent().find('.counter').text($('#post-info').val().length);
     }
+
+    function checkAutoPublishStatus() {
+        return $('#post-status').val() == 'auto_publish';
+    }
 </script>

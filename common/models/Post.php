@@ -268,8 +268,9 @@ class Post extends MongoModel
             }],
 
             [['auto_publish_time'], 'required',
-             'on'   => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS],
-             'when' => function ($model) {
+             'on'         => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS],
+             'whenClient' => 'checkAutoPublishStatus',
+             'when'       => function ($model) {
                  return $model->status == self::STATUS_AUTO_PUBLISH;
              }],
 
@@ -1130,7 +1131,7 @@ class Post extends MongoModel
 
     public function getAutoPublishTimeSeconds()
     {
-        return $this->auto_publish_time instanceof Timestamp ? $this->auto_publish_time->getTimestamp() : $this->auto_publish_time;
+        return $this->auto_publish_time instanceof Timestamp ? $this->auto_publish_time->getTimestamp() : intval($this->auto_publish_time);
     }
 
     public static function publishAutoPublishPosts($final)
