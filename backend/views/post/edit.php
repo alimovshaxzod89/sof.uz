@@ -193,9 +193,10 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                     <?php $time = $model->getAutoPublishTimeSeconds() ?>
                                     <?= $form->field($model, 'auto_publish_time', [
                                         'options' => [
-                                            'id' => 'hidden_auto_publish',
+                                            'id'       => 'hidden_auto_publish',
+                                            'disabled' => $model->status != Post::STATUS_AUTO_PUBLISH ? 'disabled' : false,
                                         ],
-                                    ])->hiddenInput(['id' => 'publish_time']) ?>
+                                    ])->hiddenInput(['id' => 'publish_time', 'value' => $time]) ?>
 
                                     <?= DateTimeWidget::widget([
                                                                    'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
@@ -426,6 +427,6 @@ $this->registerJs('initPostEditor();');
     }
 
     function checkAutoPublishStatus() {
-        return $('#post-status').val() == 'auto_publish';
+        return $('#post-status').val() == 'auto_publish' ;
     }
 </script>

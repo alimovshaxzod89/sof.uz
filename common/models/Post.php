@@ -1131,7 +1131,7 @@ class Post extends MongoModel
 
     public function getAutoPublishTimeSeconds()
     {
-        return $this->auto_publish_time instanceof Timestamp ? $this->auto_publish_time->getTimestamp() : intval($this->auto_publish_time);
+        return $this->auto_publish_time instanceof Timestamp ? $this->auto_publish_time->getTimestamp() : $this->auto_publish_time;
     }
 
     public static function publishAutoPublishPosts($final)
