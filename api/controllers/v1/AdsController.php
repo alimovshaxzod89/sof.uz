@@ -21,12 +21,12 @@ class AdsController extends BaseController
      * @return array
      * @throws NotFoundHttpException
      */
-    public function actionGet($place)
+    public function actionGet($place, $mobile = false)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model                      = $this->findModel($place);
 
-        return $model->getAds($this->get('device'), $this->get('w'));
+        return $model->getAds($this->get('device'), $this->get('w'), $mobile);
     }
 
     /**
