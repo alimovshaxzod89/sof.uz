@@ -26,7 +26,7 @@ class Ad extends AdModel
     {
         $ids = $place->_ads;
 
-        if (count($ids)) {
+        if (is_array($ids) && count($ids)) {
             $ids = array_map(function ($id) {
                 return new ObjectId($id);
             }, $ids);
