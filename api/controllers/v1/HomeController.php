@@ -31,6 +31,15 @@ class HomeController extends ApiController
         return Category::getCategoryTree(['is_menu' => true], $root);
     }
 
+    public function actionPage($slug)
+    {
+        if ($page = Page::findOne(['slug' => $slug, 'status' => Page::STATUS_PUBLISHED])) {
+            return ['content' => $page->content];
+        }
+
+        return ['content' => ''];
+    }
+
     public function actionAssets()
     {
         $tags = Tag::find()
