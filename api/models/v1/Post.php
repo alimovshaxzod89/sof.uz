@@ -26,8 +26,8 @@ class Post extends PostModel
             'short_id'     => 'short_id',
             'title'        => 'title',
             'info'         => 'info',
+            'views'        => 'views',
             'image'        => 'mobile_image',
-            'read_min'     => 'read_min',
             'has_gallery'  => function () {
                 return $this->has_gallery ? true : false;
             },

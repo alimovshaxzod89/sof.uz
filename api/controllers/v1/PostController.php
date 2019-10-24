@@ -129,6 +129,19 @@ class PostController extends ApiController
                      ->orderBy([$order => SORT_DESC])
                      ->offset($page * $limit);
 
+
+        if ($order == 'views') {
+            $date = new Timestamp(1, strtotime("-3 days"));
+            $posts->andFilterWhere([
+                                       'views'        => ['$gte' => 1],
+                                       'published_on' => ['$gte' => $date],
+                                   ])
+                  ->orderBy(['views' => SORT_DESC]);
+        } else {
+            $posts->orderBy([$order => SORT_DESC]);
+        }
+
+
         if ($category) {
             if ($category = Category::findOne($category)) {
                 $posts->andWhere([
@@ -153,41 +166,13 @@ class PostController extends ApiController
                              ]);
         }
 
-        if ($after && strlen($after) == 10) {
-            $posts->andWhere([
-                                 '$gt',
-                                 'published_on',
-                                 new Timestamp(1, intval($after) + 1)
-                             ]);
-        }
-
-        if ($before && strlen($before) == 10) {
-            $posts->andWhere(['$lt', 'published_on', new Timestamp(1, intval($before) - 1)]);
-        }
-
-
         $result = [];
-        if ($full) {
-            $fields = (new Post())->extraFields();
-            unset($fields['similar']);
-            unset($fields['similarTitle']);
-            unset($fields['tags']);
 
-            $fields = array_keys($fields);
-
-            foreach ($posts->all() as $post) {
-                $item                 = $post->toArray([], $fields, false);
-                $item['has_priority'] = $this->getPriority($post);
-                $result[]             = $item;
-            }
-        } else {
-            foreach ($posts->all() as $post) {
-                $item                 = $post->toArray([]);
-                $item['has_priority'] = $this->getPriority($post);
-                $result[]             = $item;
-            }
+        foreach ($posts->all() as $post) {
+            $item                 = $post->toArray([]);
+            $item['has_priority'] = $this->getPriority($post);
+            $result[]             = $item;
         }
-
 
         return [
             'items'    => $result,

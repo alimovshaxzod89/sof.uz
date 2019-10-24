@@ -213,7 +213,7 @@ class PostProvider extends Post
                                           'views'        => ['$gte' => 1],
                                           'published_on' => ['$gte' => $date],
                                       ])
-                     ->orderBy(['views_l3d' => SORT_DESC, 'views' => SORT_DESC])
+                     ->orderBy(['views' => SORT_DESC])
                      ->limit($limit);
 
         if (count($exclude)) {
