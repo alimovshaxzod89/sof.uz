@@ -6,7 +6,7 @@ use frontend\models\PostProvider;
  * @var $model PostProvider
  */
 ?>
-<?php if (is_array($model->gallery) && count($model->gallery)): ?>
+<?php if (is_array($model->gallery) && count($model->gallery)): $lang = Yii::$app->language == \common\components\Config::LANGUAGE_UZBEK ? 'uz' : 'oz' ?>
     <div class="entry-media">
         <div class="entry-gallery justified-gallery">
             <?php foreach ($model->gallery as $item):
@@ -21,9 +21,10 @@ use frontend\models\PostProvider;
                     <div class="gallery-item">
                         <a href="<?= PostProvider::getCropImage($item, 1200, null) ?>"
                            data-width="<?= $width ?>"
-                           data-height="<?= $height ?>">
+                           data-height="<?= $height ?>"
+                        >
                             <img src="<?= PostProvider::getCropImage($item, 320, 240) ?>"
-                                 alt="">
+                                 alt="<?= isset($item['caption']) && isset($item['caption'][$lang])?$item['caption'][$lang]:'' ?>">
                         </a>
                     </div>
                 <?php endif; ?>
@@ -60,7 +61,8 @@ use frontend\models\PostProvider;
            href="https://t.me/share/url?url=<?= $urlEnCode ?>">
             <i class="mdi mdi-telegram"></i>
         </a>
-        <input type="text" readonly class="select_text" value="<?= preg_replace('/https?:\/\//', '', $model->getShortViewUrl()) ?>">
+        <input type="text" readonly class="select_text"
+               value="<?= preg_replace('/https?:\/\//', '', $model->getShortViewUrl()) ?>">
     </div>
 </div>
 
