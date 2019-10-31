@@ -17,7 +17,7 @@ use yii\widgets\Pjax;
 $this->title                   = __('Manage Posts');
 $this->params['breadcrumbs'][] = $this->title;
 $user                          = $this->_user();
-$types                         = [Post::TYPE_NEWS => 'fa-file-text', Post::TYPE_GALLERY => 'fa-image', Post::TYPE_VIDEO => 'fa-film'];
+$types                         = [Post::TYPE_NEWS => 'fa-file-text'];
 ?>
 <div class="button-panel">
     <?php foreach ($types as $type => $icon): ?>

@@ -8,9 +8,10 @@ return [
     'showScriptName'            => false,
     'enablePrettyUrl'           => true,
     'rules'                     => [
-        '/'        => 'site/index',
-        '/contact' => 'site/contact',
-        '/search'  => 'category/search',
+        '/'            => 'site/index',
+        '/contact'     => 'site/contact',
+        '/search'      => 'category/search',
+        'post/preview' => 'post/preview',
 
         '/<short:[a-z0-9-]{3,4}>' => 'post/short',
         '<slug:[a-z0-9-]+>'       => 'category/view',

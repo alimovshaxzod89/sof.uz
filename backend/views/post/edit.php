@@ -17,6 +17,8 @@ use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use yii2mod\chosen\ChosenSelect;
 
+use dosamigos\tinymce\TinyMce;
+
 /* @var $this View */
 /* @var $model common\models\Post */
 /* @var $type string */
@@ -28,7 +30,7 @@ $this->params['breadcrumbs'][] = ['url' => ['post/index'], 'label' => __('Manage
 $this->params['breadcrumbs'][] = $this->title;
 $user                          = $this->context->_user();
 
-$label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(true), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
+$label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
 ?>
 <div class="post-create <?= $locked || !$canEdit ? '' : '' ?>">
     <div class="lock_area"></div>
@@ -39,7 +41,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
             <div class="col col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4><?= __('Post Information') ?> </h4>
+                        <h4><?= __('Post Information') . ' ' . $label ?> </h4>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -50,7 +52,49 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                         <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'placeholder' => __('Post Link')])->label(false) ?>
                         <?= $form->field($model, 'info', ['template' => '{label}{input}{error}<span class="counter"></span>'])->textarea(['maxlength' => true, 'rows' => 4, 'placeholder' => __('Short Information')])->label(false) ?>
 
-                        <?= $this->renderFile("@backend/views/post/_$type.php", ['form' => $form, 'model' => $model]) ?>
+
+                        <?= $form->field($model, 'content')->widget(TinyMce::className(), [
+                            'language'      => 'ru',
+                            'clientOptions' => [
+                                'plugins'                 => [
+                                    "advlist autolink lists link imagetools image charmap print hr anchor pagebreak",
+                                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                                    "insertdatetime media nonbreaking save table contextmenu directionality",
+                                    "emoticons template paste textcolor colorpicker textpattern cw myembed",
+                                ],
+                                'image_title'             => true,
+                                'image_class_list'        => [
+                                    ['title' => '', 'value' => ''],
+                                    ['title' => 'Full', 'value' => 'size-full'],
+                                    ['title' => 'Half Left', 'value' => 'size-half-left'],
+                                    ['title' => 'Half Right', 'value' => 'size-half-right']
+                                ],
+                                'image_dimensions'        => false,
+                                'automatic_uploads'       => true,
+                                'extended_valid_elements' => "script[src|async|defer|type|charset]",
+                                'paste_data_images'       => true,
+                                'image_caption'           => true,
+                                'fix_list_elements'       => true,
+                                'image_advtab'            => false,
+                                'default_link_target'     => '_blank',
+                                'entity_encoding'         => 'raw',
+                                'init_instance_callback'  => new \yii\web\JsExpression("
+                                    function(editor){
+                                        editor.on('Change', function (e) {
+                                          initAutoSave();
+                                        });
+                                    }
+                                "),
+                                //"paste_word_valid_elements" => "b,strong,i,em,h1,h2,h3,h4,h5,h6,p,blockquote,img,ul,ol,li,table,td,tr,thead,tbody,tfoot",
+                                'content_style'           => 'body {max-width: 768px; margin: 5px auto;}.mce-content-body img{width:98%; height:98%}figure.image{margin:0px;width:100%}.custom_card{padding:5px 20px;border:1px solid #e3e3e3;text-align:center;margin:10px 20px;}.cw-wrapper{display:block;padding:20px;background-color:#e3e3e3;}',
+                                'images_upload_url'       => Url::to(['file-storage/upload', 'type' => 'content-image', 'fileparam' => 'file']),
+                                'preview_url'             => Url::to('@frontendUrl/preview/' . $model->getId()),
+                                'toolbar1'                => "undo redo | styleselect blockquote superscript subscript cw | alignleft aligncenter alignright alignjustify | bullist numlist | link image table myembed| bold italic underline | code fullscreen",
+                            ],
+                            'options'       => ['rows' => 30],
+                        ]) ?>
+
+
                         <?= $form->field($model, '_tags')->widget(SelectizeTextInput::className(), [
                             'options' => [],
                             'loadUrl' => Url::to(['post/tag']),
@@ -67,7 +111,20 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                                 'plugins'      => ['remove_button', 'drag_drop'],
                             ],
                         ]) ?>
-                        <?= $form->field($model, 'content_source')->textInput(['maxlength' => true, 'placeholder' => __('Content Source')])->label(__('Content Source')) ?>
+
+
+                        <?= $form->field($model, 'gallery')->widget(Upload::className(), [
+                            'url'              => ['file-storage/upload', 'type' => 'gallery-image'],
+                            'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
+                            'maxFileSize'      => 15 * 1024 * 1024, // 10 MiB
+                            'multiple'         => true,
+                            'sortable'         => true,
+                            'maxNumberOfFiles' => 100,
+                            'languages'        => Config::getLanguageCodes(),
+                            'clientOptions'    => [],
+                            'value'            => $model->gallery,
+                        ]) ?>
+
                     </div>
                 </div>
             </div>
@@ -75,11 +132,37 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4><?= __('Settings') . ' ' . $label ?></h4>
+                        <h4><?= __('Settings') ?></h4>
                     </div>
                     <div class="panel-body">
+                        <table style="width: 100%">
+                            <?php if ($model->created_at): ?>
+                                <tr>
+                                    <td><label class="control-label"><?= __('Created At') ?></label></td>
+                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->created_at->getTimestamp()) ?></td>
+                                </tr>
+                            <?php endif; ?>
+                            <?php if ($model->published_on): ?>
+                                <tr>
+                                    <td><label class="control-label"><?= __('Published On') ?></label></td>
+                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->published_on->getTimestamp()) ?></td>
+                                </tr>
+                            <?php endif; ?>
 
-
+                            <?php if ($model->auto_publish_time): ?>
+                                <tr>
+                                    <td><label class="control-label"><?= __('Auto Published On') ?></label></td>
+                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->auto_publish_time->getTimestamp()) ?></td>
+                                </tr>
+                            <?php endif; ?>
+                            <?php if ($model->updated_on): ?>
+                                <tr>
+                                    <td><label class="control-label"><?= __('Updated On') ?></label></td>
+                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->updated_on->getTimestamp()) ?></td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                        <hr>
                         <div class="btn-group btn-group-justified">
                             <?php if ($user->canAccessToResource('post/share')): ?>
                                 <div class="btn-group" role="group">
@@ -102,28 +185,11 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getShortViewUrl(
                         <hr>
 
                         <?= $form->field($model, 'is_main')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Main')) ?>
+                        <?= $form->field($model, 'has_video')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Videoxabar')) ?>
+                        <?= $form->field($model, 'has_gallery')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Fotoxabar')) ?>
                         <?= $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
 
-                        <table style="width: 100%">
-                            <?php if ($model->created_at): ?>
-                                <tr>
-                                    <td><label class="control-label"><?= __('Created At') ?></label></td>
-                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->created_at->getTimestamp()) ?></td>
-                                </tr>
-                            <?php endif; ?>
-                            <?php if ($model->published_on instanceof \MongoDB\BSON\Timestamp): ?>
-                                <tr>
-                                    <td><label class="control-label"><?= __('Published On') ?></label></td>
-                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->published_on->getTimestamp()) ?></td>
-                                </tr>
-                            <?php endif; ?>
-                            <?php if ($model->updated_on): ?>
-                                <tr>
-                                    <td><label class="control-label"><?= __('Updated On') ?></label></td>
-                                    <td class="text-right"><?= Yii::$app->formatter->asDatetime($model->updated_on->getTimestamp()) ?></td>
-                                </tr>
-                            <?php endif; ?>
-                        </table>
+
                         <hr>
 
                         <?= $this->renderFile('@backend/views/layouts/_convert.php', ['link' => Url::to(['post/edit', 'id' => $model->getId(), 'convert' => 1])]) ?>
@@ -427,6 +493,6 @@ $this->registerJs('initPostEditor();');
     }
 
     function checkAutoPublishStatus() {
-        return $('#post-status').val() == 'auto_publish' ;
+        return $('#post-status').val() == 'auto_publish';
     }
 </script>

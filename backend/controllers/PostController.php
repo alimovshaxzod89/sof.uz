@@ -133,9 +133,7 @@ class PostController extends BackendController
         $model->_creator = $this->_user()->_id;
 
         if ($model->updatePost()) {
-            $this->addSuccess(__('Post `{type}` created successfully.', [
-                'type' => $model->getTypeLabel()
-            ]));
+            $this->addSuccess(__('Post created successfully.'));
 
             return $this->redirect(['edit', 'id' => $model->getId()]);
         }

@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Post;
 use frontend\models\PostProvider;
+use MongoDB\BSON\ObjectId;
 use Yii;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -72,6 +73,25 @@ class PostController extends BaseController
             return $this->render($view, [
                 'model' => $model,
             ]);
+        }
+
+        throw new NotFoundHttpException('Page not found');
+    }
+
+    public function actionPreview($id, $hash = '')
+    {
+        $model = PostProvider::findOne(['_id' => new ObjectId($id)]);
+
+        if ($model != null) {
+            if (Yii::$app->security->validatePassword($model->id, $hash)) {
+
+                $this->getView()->params['post'] = $model;
+                $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
+
+                return $this->render($view, [
+                    'model' => $model,
+                ]);
+            }
         }
 
         throw new NotFoundHttpException('Page not found');

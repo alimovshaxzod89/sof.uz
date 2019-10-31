@@ -60,9 +60,31 @@
                 }
             }
         });
+        $("input.select_text").on('focus', function () {
+            $(this).select();
+            copyToClipboard($(this).val())
+        })
     });
 }(jQuery));
 
 function getTimeStamp() {
     return new Date().getTime();
+}
+
+
+function copyToClipboard(text) {
+
+    if (window.clipboardData && window.clipboardData.setData) {
+        return clipboardData.setData("Text", text);
+
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        try {
+            return document.execCommand("copy");
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
 }

@@ -409,10 +409,6 @@
         position: relative;
     }
 
-    .post .entry-action > div {
-        position: absolute;
-    }
-
     .post .entry-action > div:first-child {
         left: 0;
     }
@@ -422,13 +418,7 @@
         margin-top: 0;
     }
 
-    .post .entry-action .action-share > a {
-        text-align: inherit;
-        width: inherit;
-        height: inherit;
-        padding: 0 4px;
-        align-items: baseline;
-    }
+
 }
 
 @media (max-width: 1025px) {
@@ -716,4 +706,16 @@ article.post .entry-header .entry-meta span {
 
 .entry-content img {
     width: 100%;
+}
+.pswp__bg{
+    opacity: 0.8!important;
+}
+.action-share input{
+    width: 120px;
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-left: 9px;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
 }

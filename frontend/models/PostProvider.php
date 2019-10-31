@@ -297,7 +297,7 @@ class PostProvider extends Post
         return static::find()
                      ->active()
                      ->andWhere(['has_video' => true])
-                     ->orderBy(['published_on' => -1])
+                     ->orderBy(['published_on' => SORT_DESC])
                      ->limit($limit)
                      ->all();
     }
@@ -311,8 +311,8 @@ class PostProvider extends Post
     {
         return static::find()
                      ->active()
-                     ->andWhere(['type' => self::TYPE_GALLERY])
-                     ->orderBy(['published_on' => -1])
+                     ->andWhere(['has_gallery' => true])
+                     ->orderBy(['published_on' => SORT_DESC])
                      ->limit($limit)
                      ->all();
     }
@@ -402,11 +402,11 @@ class PostProvider extends Post
         $query = self::find()
                      ->orderBy(['published_on' => -1]);
 
-        $attrs = ['name', 'content'];
+        $attrs = ['title', 'content'];
         foreach ($attrs as $attr) {
-            foreach (Config::getLanguageCodes() as $code) {
-                $query->orFilterWhere(["_translations.{$attr}_" . $code => ['$regex' => $string, '$options' => 'si']]);
-            }
+            $query->orFilterWhere([$attr => ['$regex' => $string, '$options' => 'si']]);
+            $query->orFilterWhere(["_translations.{$attr}_uz" => ['$regex' => $string, '$options' => 'si']]);
+            $query->orFilterWhere(["_translations.{$attr}_oz" => ['$regex' => $string, '$options' => 'si']]);
         }
 
         return new ActiveDataProvider([

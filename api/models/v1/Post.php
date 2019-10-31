@@ -28,9 +28,6 @@ class Post extends PostModel
             'info'         => 'info',
             'views'        => 'views',
             'image'        => 'mobile_image',
-            'has_gallery'  => function () {
-                return $this->has_gallery ? true : false;
-            },
             'hide_image'   => function () {
                 return boolval($this->hide_image) || empty($this->image) || $this->image == null;
             },

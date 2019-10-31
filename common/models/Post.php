@@ -367,12 +367,6 @@ class Post extends MongoModel
         ];
     }
 
-    public function getTypeLabel()
-    {
-        $status = self::getTypeArray();
-        return isset($status[$this->type]) ? $status[$this->type] : $this->type;
-    }
-
     public function getLabelLabel()
     {
         $status = self::getLabelArray();
@@ -564,9 +558,6 @@ class Post extends MongoModel
             $this->auto_publish_time = new Timestamp(1, intval($this->auto_publish_time));
         }
 
-        $this->has_video   = $this->type == self::TYPE_VIDEO;
-        $this->has_gallery = $this->type == self::TYPE_GALLERY;
-
         $this->processGallery(false);
         $this->processContent($force);
         $this->prepareMobilePost($force);
@@ -649,7 +640,6 @@ class Post extends MongoModel
                 }
             }
             $this->gallery     = $files;
-            $this->has_gallery = true;
         }
     }
 
@@ -838,13 +828,12 @@ class Post extends MongoModel
                 $this->image = $data;
             }
 
-            if ($this->type == self::TYPE_GALLERY)
-                $this->processGallery(function ($item) {
-                    if (is_array($item) && isset($item['caption']) && isset($item['caption']['uz'])) {
-                        $item['caption']['uz'] = $this->convertLatinQuotas($item['caption']['uz']);
-                    }
-                    return $item;
-                });
+            $this->processGallery(function ($item) {
+                if (is_array($item) && isset($item['caption']) && isset($item['caption']['uz'])) {
+                    $item['caption']['uz'] = $this->convertLatinQuotas($item['caption']['uz']);
+                }
+                return $item;
+            });
         }
     }
 
@@ -860,19 +849,18 @@ class Post extends MongoModel
 
         if ($data = $this->image) {
             if (is_array($data) && isset($data['caption']) && is_array($data['caption'])) {
-                if (isset($data['caption'], $data['caption']['cy'])) {
-                    $data['caption']['uz'] = $translator->translateToLatin($data['caption']['cy']);
+                if (isset($data['caption'], $data['caption']['oz'])) {
+                    $data['caption']['uz'] = $translator->translateToLatin($data['caption']['oz']);
                 }
             }
         }
 
-        if ($this->type == self::TYPE_GALLERY)
-            $this->processGallery(function ($item) use ($translator) {
-                if (is_array($item) && isset($item['caption']['cy'])) {
-                    $item['caption']['uz'] = $translator->translateToLatin($item['caption']['cy']);
-                }
-                return $item;
-            });
+        $this->processGallery(function ($item) use ($translator) {
+            if (is_array($item) && isset($item['caption']['oz'])) {
+                $item['caption']['uz'] = $translator->translateToLatin($item['caption']['oz']);
+            }
+            return $item;
+        });
 
         Yii::trace('Converted to Latin');
 
@@ -891,18 +879,17 @@ class Post extends MongoModel
         if ($data = $this->image) {
             if (is_array($data) && isset($data['caption']) && is_array($data['caption'])) {
                 if (isset($data['caption']['uz'])) {
-                    $data['caption']['cy'] = $translator->translateToCyrillic($data['caption']['uz']);
+                    $data['caption']['oz'] = $translator->translateToCyrillic($data['caption']['uz']);
                 }
             }
         }
 
-        if ($this->type == self::TYPE_GALLERY)
-            $this->processGallery(function ($item) use ($translator) {
-                if (is_array($item) && isset($item['caption']) && isset($item['caption']['uz'])) {
-                    $item['caption']['cy'] = $translator->translateToCyrillic($item['caption']['uz']);
-                }
-                return $item;
-            });
+        $this->processGallery(function ($item) use ($translator) {
+            if (is_array($item) && isset($item['caption']) && isset($item['caption']['uz'])) {
+                $item['caption']['oz'] = $translator->translateToCyrillic($item['caption']['uz']);
+            }
+            return $item;
+        });
 
         Yii::trace('Converted to Cyrillic');
 
@@ -1051,6 +1038,12 @@ class Post extends MongoModel
     {
         return Yii::$app->viewUrl
             ->createAbsoluteUrl(['post/short', 'short' => $this->short_id], $scheme);
+    }
+
+    public function getPreviewUrl($scheme = true)
+    {
+        return Yii::$app->viewUrl
+            ->createAbsoluteUrl(['post/preview', 'id' => $this->id, 'hash' => Yii::$app->security->generatePasswordHash($this->id)], $scheme);
     }
 
     public function getShortTitle()

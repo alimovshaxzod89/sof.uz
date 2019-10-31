@@ -15,6 +15,7 @@ $this->_canonical = Yii::$app->getHomeUrl();
 $this->addBodyClass('home page-template page-template-page-modular page-template-page-modular-php page sidebar-none modular-title-1');
 $limit      = 10;
 $photoPosts = PostProvider::getTopPhotos(10);
+$videoPosts = PostProvider::getTopVideos(10);
 $mainPosts  = PostProvider::getTopPost();
 $mainPost   = false;
 $mainPost   = array_shift($mainPosts);
@@ -171,6 +172,50 @@ $this->registerJs($js);
             <h5 class="u-border-title"><span><?= __('Photo news') ?></span></h5>
             <div class="module carousel owl">
                 <?php foreach ($photoPosts as $post): ?>
+                    <article
+                            class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
+                        <div class="entry-media">
+                            <div class="placeholder">
+                                <a href="<?= $post->getViewUrl() ?>">
+                                    <img src="<?= $post->getCroppedImage(300, 200) ?>"
+                                         alt="<?= $post->title ?>">
+                                </a>
+                            </div>
+                        </div>
+                        <header class="entry-header">
+                            <div class="entry-meta">
+                                            <span class="meta-category">
+                                                <?= $post->getShortFormattedDate() ?>
+                                            </span>
+                                <span class="meta-date">
+                                                <i class="mdi mdi-eye"></i> <?= $post->getViewLabel() ?>
+                                            </span>
+                                <?php if ($post->hasCategory()): ?>
+                                    <span class="meta-category">
+                                                    <a href="<?= $post->category->getViewUrl() ?>">
+                                                        <?= $post->category->name ?></a>
+                                                </span>
+                                <?php endif; ?>
+                            </div>
+                            <h2 class="entry-title">
+                                <a href="<?= $post->getViewUrl() ?>" rel="bookmark">
+                                    <?= $post->title ?>
+                                </a>
+                            </h2>
+                        </header>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (is_array($videoPosts) && count($videoPosts)): ?>
+    <div class="section widget_magsy_module_post_carousel">
+        <div class="container">
+            <h5 class="u-border-title"><span><?= __('Video xabarlar') ?></span></h5>
+            <div class="module carousel owl">
+                <?php foreach ($videoPosts as $post): ?>
                     <article
                             class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
                         <div class="entry-media">
