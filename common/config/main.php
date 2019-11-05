@@ -1,5 +1,8 @@
 <?php
 
+use backend\components\sharer\FacebookShare;
+use backend\components\sharer\TelegramBot;
+use backend\components\sharer\TwitterShare;
 use yii\helpers\ArrayHelper;
 
 $params = array_merge(
@@ -131,7 +134,24 @@ $config = [
                 'port'     => getenv('REDIS_PORT'),
                 'database' => getenv('REDIS_DB'),
             ],
-        ]
+        ],
+        'telegram'     => [
+            'class'       => TelegramBot::class,
+            'accessToken' => getenv('BOT_TOKEN'),
+            'channelId'   => getenv('CHANNEL_ID'),
+        ],
+        'facebook'     => [
+            'class'       => FacebookShare::class,
+            'pageId'      => getenv('FB_PAGE_ID'),
+            'accessToken' => getenv('FB_ACCESS_TOKEN'),
+        ],
+        'twitter'      => [
+            'class'             => TwitterShare::class,
+            'consumerKey'       => getenv('TWITTER_CONSUMER_KEY'),
+            'consumerSecret'    => getenv('TWITTER_CONSUMER_SECRET'),
+            'accessToken'       => getenv('TWITTER_TOKEN'),
+            'accessTokenSecret' => getenv('TWITTER_TOKEN_SECRET'),
+        ],
     ],
     'params'     => $params,
 ];

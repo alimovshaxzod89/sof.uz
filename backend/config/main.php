@@ -51,23 +51,7 @@ return [
         'errorHandler' => [
             'errorAction' => 'dashboard/error',
         ],
-        'telegram'     => [
-            'class'       => TelegramBot::class,
-            'accessToken' => getenv('BOT_TOKEN'),
-            'channelId'   => getenv('CHANNEL_ID'),
-        ],
-        'facebook'     => [
-            'class'       => FacebookShare::class,
-            'pageId'      => getenv('FB_PAGE_ID'),
-            'accessToken' => getenv('FB_ACCESS_TOKEN'),
-        ],
-        'twitter'      => [
-            'class'             => TwitterShare::class,
-            'consumerKey'       => getenv('TWITTER_CONSUMER_KEY'),
-            'consumerSecret'    => getenv('TWITTER_CONSUMER_SECRET'),
-            'accessToken'       => getenv('TWITTER_TOKEN'),
-            'accessTokenSecret' => getenv('TWITTER_TOKEN_SECRET'),
-        ],
+
         'assetManager' => array(
             'linkAssets'      => true,
             'appendTimestamp' => true,

@@ -356,7 +356,7 @@ class Post extends MongoModel
             self::SOCIAL_FACEBOOK => __('Facebook'),
             self::SOCIAL_TWITTER  => __('Twitter'),
             self::SOCIAL_TELEGRAM => __('Telegram'),
-            self::SOCIAL_TELEGRAM => __('Android'),
+            self::SOCIAL_ANDROID  => __('Android'),
         ];
     }
 
