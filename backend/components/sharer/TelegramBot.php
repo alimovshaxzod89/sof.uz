@@ -4,7 +4,6 @@ namespace backend\components\sharer;
 
 use common\components\Config;
 use Exception;
-use Spatie\Emoji\Emoji;
 use TelegramBot\Api\BotApi;
 use yii\base\InvalidArgumentException;
 
@@ -37,7 +36,7 @@ class TelegramBot extends BaseShare
         $channelLink = getenv('CHANNEL_LINK');
         $link        = $post->getShortViewUrl();
 
-        $hand   = Emoji::backhandIndexPointingRight();
+        $hand   =  "\u{1F449}";
         $text   = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
         $static = \Yii::getAlias('@staticUrl/uploads');
 
