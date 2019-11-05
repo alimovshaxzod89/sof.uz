@@ -31,11 +31,16 @@ class TwitterShare extends BaseShare
         $static = \Yii::getAlias('@staticUrl/uploads');
 
         /** @var TwitterOAuth $request */
-        $request = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
+        $connection = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
+        $connection->setTimeouts(10, 15);
 
-        $text     = $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl();
-        $response = $request->upload('', ['status' => $text, 'media_type', 'media' => "{$static}/{$post->image['path']}", 'media_type' => 'image/jpeg'], false);
-        //$response = $request->post('statuses/update', ['status' => $text]);
-        return $request->getLastHttpCode() == 200;
+        $media = $connection->upload('media/upload', ['media' => "{$static}/{$post->image['path']}"]);
+        $parameters = [
+            'status' => $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl(),
+            'media_ids' => $media->media_id_string
+        ];
+        $result = $connection->post('statuses/update', $parameters);
+
+        return $connection->getLastHttpCode() == 200;
     }
 }
