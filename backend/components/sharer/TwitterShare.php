@@ -34,7 +34,7 @@ class TwitterShare extends BaseShare
         $request = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
 
         $text     = $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl();
-        $response = $request->upload("{$static}/{$post->image['path']}", ['status' => $text], true);
+        $response = $request->upload('', ['status' => $text, 'media_type', 'media' => "{$static}/{$post->image['path']}", 'media_type' => 'image/jpeg'], true);
         //$response = $request->post('statuses/update', ['status' => $text]);
         return $request->getLastHttpCode() == 200;
     }
