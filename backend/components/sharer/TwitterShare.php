@@ -36,7 +36,7 @@ class TwitterShare extends BaseShare
 
         $media      = $connection->upload('media/upload', ['media' => $static . DS . $post->image['path']]);
         $parameters = [
-            'status'    => $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl(),
+            'status'    => $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n" . $post->getShortViewUrl(),
             'media_ids' => $media->media_id_string
         ];
         $result     = $connection->post('statuses/update', $parameters);
