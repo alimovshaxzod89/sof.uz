@@ -58,7 +58,7 @@
     "lav45/yii2-translated-behavior": "^1.4",
     "trntv/yii2-datetime-widget": "^1.0",
     "yiisoft/yii2-queue": "^2.0",
-    "abraham/twitteroauth": "^0.7.4",
+    "abraham/twitteroauth": "1.0.1",
     "wbraganca/yii2-dynamicform": "*",
     "unclead/yii2-multiple-input": "~2.0",
     "telegram-bot/api": "^2.3",
