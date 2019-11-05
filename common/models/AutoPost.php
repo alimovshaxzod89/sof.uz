@@ -139,7 +139,7 @@ class AutoPost extends MongoModel
                 }
             }
 
-            echo $post->title . PHP_EOL;
+            echo $post->post->title . PHP_EOL;
         }
     }
 
