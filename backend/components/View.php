@@ -27,6 +27,10 @@ class View extends \yii\web\View
                     'label' => 'Columnists',
                     'url'   => 'post/columnist',
                 ],
+                'post/schedule'  => [
+                    'label' => 'Schedules',
+                    'url'   => 'post/schedule',
+                ],
                 'category/index' => [
                     'label' => 'Categories',
                     'url'   => 'category/index',

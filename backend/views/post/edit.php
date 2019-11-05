@@ -163,25 +163,47 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                             <?php endif; ?>
                         </table>
                         <hr>
-                        <div class="btn-group btn-group-justified">
-                            <?php if ($user->canAccessToResource('post/share')): ?>
-                                <div class="btn-group" role="group">
-                                    <button type="button" id="telegram" class="btn btn-primary"
-                                            data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
-                                            onclick="shareTo(this, 'telegram')"><i class="fa fa-paper-plane"></i>
-                                    </button>
-                                </div>
-                            <?php endif; ?>
-                            <?php if ($user->canAccessToResource('post/notification')): ?>
-                                <?php if ($model->isPushNotificationExpired() && Config::get(Config::CONFIG_PUSH_TO_ANDROID)): ?>
+                        <?php if ($user->canAccessToResource('post/schedule')): ?>
+                            <div class="form-group">
+                                <div class="btn-group btn-group-justified">
+
                                     <div class="btn-group" role="group">
-                                        <a class="btn btn-success"
-                                           href="<?= Url::to(['post/notification', 'id' => $model->getId()]) ?>"><i
-                                                    class="fa fa-android"></i></a>
+                                        <button type="button" id="facebook" class="btn btn-facebook"
+                                                data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
+                                                onclick="shareTo(this, 'facebook')"><i class="fa fa-facebook"></i>
+                                        </button>
                                     </div>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" id="twitter" class="btn btn-info"
+                                                data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
+                                                onclick="shareTo(this, 'twitter')"><i class="fa fa-twitter"></i>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" id="telegram" class="btn btn-primary"
+                                                data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
+                                                onclick="shareTo(this, 'telegram')"><i class="fa fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+
+                                    <?php if ($model->isPushNotificationExpired()): ?>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" id="android" class="btn btn-success"
+                                                    data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
+                                                    onclick="shareTo(this, 'android')"><i class="fa fa-android"></i>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <a href="<?= Url::to(['post/schedule', 'p' => $model->id]) ?>"
+                                   id="schedule" class="btn btn-default btn-block" data-pjax="0">
+                                    <i class="fa fa-plus"></i> <?= __('Schedule') ?>
+                                </a>
+                            </div>
+                        <?php endif; ?>
                         <hr>
 
                         <?= $form->field($model, 'is_main')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Main')) ?>
@@ -477,11 +499,10 @@ $this->registerJs('initPostEditor();');
     function shareTo(button, social) {
         var btn = $(button);
         var data = {};
-        console.log(btn.html());
         btn.button('loading');
         data.sharer = social;
         $.post(
-            '<?= Url::to(['post/share', 'id' => $model->getId()]) ?>',
+            '<?= Url::to(['post/schedule', 'id' => $model->getId()]) ?>',
             data,
             function (res) {
                 btn.button("reset");

@@ -538,6 +538,8 @@ class Post extends MongoModel
                 unlink($dir . DS . $image['path']);
             }
         }
+        AutoPost::deleteAll(['_post' => $this->_id]);
+
         parent::afterDelete();
     }
 
@@ -639,7 +641,7 @@ class Post extends MongoModel
                     $files[] = $item;
                 }
             }
-            $this->gallery     = $files;
+            $this->gallery = $files;
         }
     }
 

@@ -451,6 +451,12 @@ class Stat extends MongoModel
 
     public function getAdminStatistics($params = [])
     {
+        $this->range = (new DateTime())
+                           ->setTimestamp(time() - 7 * 24 * 3600)
+                           ->setTime(0, 0, 0)
+                           ->format('d-m-Y H:i:s') . ' / ' . (new DateTime())
+                           ->setTime(0, 0, 0)
+                           ->format('d-m-Y H:i:s');
         $this->load($params);
 
         if (!$this->group) $this->group = self::GROUP_AUTHOR;
@@ -482,7 +488,7 @@ class Stat extends MongoModel
                     if ($fromDate && $toDate) {
                         $query->andFilterWhere([
                                                    'published_on' => [
-                                                       '$gt' => new Timestamp(1, $fromDate->getTimestamp()),// * 1000,
+                                                       '$gte' => new Timestamp(1, $fromDate->getTimestamp()),// * 1000,
                                                        '$lt' => new Timestamp(1, $toDate->getTimestamp()),// * 1000,
                                                    ],
                                                ]);
@@ -523,12 +529,6 @@ class Stat extends MongoModel
                     ];
                 }
                 $result[$day]['auth'][$id]['all']++;
-
-                if ($item->category->id == Category::ID_NEWS) {
-                    $result[$day]['auth'][$id]['news']++;
-                } else {
-                    $result[$day]['auth'][$id]['art']++;
-                }
             }
         }
 

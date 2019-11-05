@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\components\Config;
+use common\models\AutoPost;
 use common\models\Post;
 use common\models\Tag;
 use Yii;
@@ -368,21 +369,53 @@ class PostController extends BackendController
 
     /**
      * @param $id
-     * @return array
+     * @return array | string
      * @throws NotFoundHttpException
-     * @resource News | Share Posts | post/share
+     * @resource News | Share&Schedule Posts | post/schedule
      */
-    public function actionShare($id)
+    public function actionSchedule($id = false, $p = false)
     {
-        $model  = $this->findModel($id);
-        $social = $this->post('sharer');
-        $result = false;
-        if (isset(Post::getSocialArray()[$social])) {
-            $result = $model->shareTo($social);
+        $post = Post::findOne($p);
+
+        if ($id) {
+            $model = $this->findAutoPostModel($id);
+        } else {
+            $model = new AutoPost();
         }
 
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['success' => $result];
+        if ($post) {
+            if ($social = $this->post('sharer')) {
+                $result = false;
+                if (isset(Post::getSocialArray()[$social])) {
+                    $result = $post->shareTo($social);
+                }
+
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ['success' => $result];
+            }
+
+            $model->_post = $post->_id;
+        }
+
+        if ($post || $id) {
+            if ($this->get('delete') && $model->delete()) {
+                $this->addSuccess(__('Auto-post {b}{title}{bc} deleted successfully', ['title' => $model->post->getShortTitle()]));
+                return $this->redirect(['post/schedule']);
+            }
+
+            if ($model->load($this->post())) {
+                if ($model->save()) {
+                    $this->addSuccess(__('Auto-post {b}{title}{bc} scheduled on {b}{date}{bc}', ['title' => $model->post->getShortTitle(), 'date' => Yii::$app->formatter->asDatetime($model->getDateFromSeconds())]));
+                    return $this->redirect(['post/schedule', 'id' => $model->id]);
+                }
+            }
+
+            return $this->render('schedule', ['model' => $model]);
+        }
+
+        $searchModel = new AutoPost();
+
+        return $this->render('schedule-index', ['searchModel' => $searchModel, 'dataProvider' => $searchModel->search($this->get())]);
     }
 
     /**
@@ -479,6 +512,20 @@ class PostController extends BackendController
     protected function findModel($id)
     {
         if (($model = Post::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested post does not exist.');
+        }
+    }
+
+    /**
+     * @param $id
+     * @return null|Post|ActiveRecord
+     * @throws NotFoundHttpException
+     */
+    protected function findAutoPostModel($id)
+    {
+        if (($model = AutoPost::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested post does not exist.');
