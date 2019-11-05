@@ -166,13 +166,6 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         <?php if ($user->canAccessToResource('post/schedule')): ?>
                             <div class="form-group">
                                 <div class="btn-group btn-group-justified">
-
-                                    <div class="btn-group" role="group">
-                                        <button type="button" id="facebook" class="btn btn-facebook"
-                                                data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
-                                                onclick="shareTo(this, 'facebook')"><i class="fa fa-facebook"></i>
-                                        </button>
-                                    </div>
                                     <div class="btn-group" role="group">
                                         <button type="button" id="twitter" class="btn btn-info"
                                                 data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
@@ -502,10 +495,11 @@ $this->registerJs('initPostEditor();');
         btn.button('loading');
         data.sharer = social;
         $.post(
-            '<?= Url::to(['post/schedule', 'id' => $model->getId()]) ?>',
+            '<?= Url::to(['post/schedule', 'p' => $model->getId()]) ?>',
             data,
             function (res) {
                 btn.button("reset");
+                console.log(res);
             })
     }
 

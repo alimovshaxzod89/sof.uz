@@ -33,25 +33,31 @@ class TelegramBot extends BaseShare
             throw new InvalidArgumentException('Property `$channelId` must be set');
         }
         \Yii::beginProfile('Sending post to telegram channel');
-        $domain = \Yii::getAlias('@frontendUrl');
+        $domain      = \Yii::getAlias('@frontendUrl');
+        $channelLink = getenv('CHANNEL_LINK');
+        $link        = $post->getShortViewUrl();
+
         $hand   = Emoji::backhandIndexPointingRight();
-        $text   = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "$hand {$domain}/{$post->short_id}\n\nКаналга қўшилинг:\n$hand @zarnews_uz";
+        $text   = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\nЭнг сўнгги хабарларга обуна бўлинг:\n\n$hand $channelLink";
         $static = \Yii::getAlias('@staticUrl/uploads');
 
-        if ($this->_botApi->sendPhoto(
-            $this->channelId,
-            "{$static}/{$post->image['path']}",
-            $text,
-            null,
-            null,
-            false,
-            'html'
-        )) {
-            \Yii::info("Post shared to {$this->channelId} telegram channel successfully");
-            return true;
-        } else {
-            \Yii::error('Post share failed');
+        try {
+            if ($this->_botApi->sendPhoto(
+                $this->channelId,
+                "{$static}/{$post->image['path']}",
+                $text,
+                null,
+                null,
+                false,
+                'html'
+            )) {
+                \Yii::info("Post shared to {$this->channelId} telegram channel successfully");
+                return true;
+            }
+        } catch (Exception $e) {
+            \Yii::error($e->getMessage());
         }
+
         \Yii::error('Post share failed');
         \Yii::endProfile('Finish sending post to telegram channel');
         return false;

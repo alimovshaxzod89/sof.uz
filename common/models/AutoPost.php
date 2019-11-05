@@ -72,6 +72,8 @@ class AutoPost extends MongoModel
             'tg_status',
             'tw',
             'tw_status',
+            'an',
+            'an_status',
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace backend\components\sharer;
 
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use common\components\Config;
 
 class TwitterShare extends BaseShare
 {
@@ -29,7 +30,8 @@ class TwitterShare extends BaseShare
         /** @var TwitterOAuth $request */
         $request = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
 
-        $response = $request->post('statuses/update', ['status' => $post->info]);
+        $text     = $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl();
+        $response = $request->post('statuses/update', ['status' => $text]);
         \Yii::trace(var_dump($response));
         return $request->getLastHttpCode() == 200;
     }

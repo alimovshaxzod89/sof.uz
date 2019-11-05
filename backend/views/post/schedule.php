@@ -73,8 +73,8 @@ $user                          = $this->context->_user();
                         <div id="widget_published_on_wrapper" class="form-group">
 
                             <?= $form->field($model, 'tg')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Telegram') ?>
-                            <?= $form->field($model, 'fb')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Facebook') ?>
                             <?= $form->field($model, 'tw')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Twitter') ?>
+                            <?= $form->field($model, 'an')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Android') ?>
 
                             <hr>
                             <?= $form->field($model, 'status')

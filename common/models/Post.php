@@ -113,6 +113,7 @@ class Post extends MongoModel
     const SOCIAL_FACEBOOK = 'facebook';
     const SOCIAL_TWITTER = 'twitter';
     const SOCIAL_TELEGRAM = 'telegram';
+    const SOCIAL_ANDROID = 'android';
 
     public $user;
     public $post_type;
@@ -355,6 +356,7 @@ class Post extends MongoModel
             self::SOCIAL_FACEBOOK => __('Facebook'),
             self::SOCIAL_TWITTER  => __('Twitter'),
             self::SOCIAL_TELEGRAM => __('Telegram'),
+            self::SOCIAL_TELEGRAM => __('Android'),
         ];
     }
 

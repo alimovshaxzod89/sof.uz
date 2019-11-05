@@ -58,15 +58,15 @@ return [
         ],
         'facebook'     => [
             'class'       => FacebookShare::class,
-            'pageId'      => '2277876505771982',
-            'accessToken' => '1297980230257035|F2pBLoPcGk_2C7N9aHOBB0lyGHM',
+            'pageId'      => getenv('FB_PAGE_ID'),
+            'accessToken' => getenv('FB_ACCESS_TOKEN'),
         ],
         'twitter'      => [
             'class'             => TwitterShare::class,
             'consumerKey'       => getenv('TWITTER_CONSUMER_KEY'),
             'consumerSecret'    => getenv('TWITTER_CONSUMER_SECRET'),
-            'accessToken'       => '752737745462816768-EVB0m93gCTejbw76bn8P3GYa6rqOfuS',
-            'accessTokenSecret' => 'dUzJUnRFrELGKQQjWui1maEKvtt6ypZgc01VmiA1obyAP',
+            'accessToken'       => getenv('TWITTER_TOKEN'),
+            'accessTokenSecret' => getenv('TWITTER_TOKEN_SECRET'),
         ],
         'assetManager' => array(
             'linkAssets'      => true,
