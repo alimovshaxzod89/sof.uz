@@ -28,18 +28,18 @@ class TwitterShare extends BaseShare
     public function publish($post)
     {
 
-        $static = \Yii::getAlias('@staticUrl/uploads');
+        $static = \Yii::getAlias('@static/uploads');
 
         /** @var TwitterOAuth $request */
         $connection = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
         $connection->setTimeouts(10, 15);
 
-        $media = $connection->upload('media/upload', ['media' => "{$static}/{$post->image['path']}"]);
+        $media      = $connection->upload('media/upload', ['media' => $static . DS . $post->image['path']]);
         $parameters = [
-            'status' => $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl(),
+            'status'    => $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n\n" . $post->getShortViewUrl(),
             'media_ids' => $media->media_id_string
         ];
-        $result = $connection->post('statuses/update', $parameters);
+        $result     = $connection->post('statuses/update', $parameters);
 
         return $connection->getLastHttpCode() == 200;
     }
