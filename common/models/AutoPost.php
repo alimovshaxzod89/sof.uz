@@ -150,8 +150,12 @@ class AutoPost extends MongoModel
         foreach (['tg' => 'telegram', 'tw' => 'twitter', 'an' => 'android'] as $attribute => $sharer) {
             if ($this->$attribute) {
                 try {
-                    $result["{$attribute}_status"] = $this->post->shareTo($sharer);
+                    echo "Sending to $sharer\n";
+                    $status                        = $this->post->shareTo($sharer);
+                    $result["{$attribute}_status"] = $status;
+                    var_dump($status);
                 } catch (\Exception $e) {
+                    echo $e->getMessage() . "\n";
                     $result["{$attribute}_status"] = $e->getMessage();
                 }
             }
