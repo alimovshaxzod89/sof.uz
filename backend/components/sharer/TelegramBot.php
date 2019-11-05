@@ -38,7 +38,7 @@ class TelegramBot extends BaseShare
         $link        = $post->getShortViewUrl();
 
         $hand   = Emoji::backhandIndexPointingRight();
-        $text   = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\nЭнг сўнгги хабарларга обуна бўлинг:\n\n$hand $channelLink";
+        $text   = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n\n$channelLink";
         $static = \Yii::getAlias('@staticUrl/uploads');
 
         try {
