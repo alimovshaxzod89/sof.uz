@@ -123,7 +123,7 @@ class AutoPost extends MongoModel
     public static function publishAutoPublishPosts($final)
     {
         /**
-         * @var $post Post
+         * @var $post AutoPost
          */
         $posts = self::find()
                      ->where([
@@ -134,13 +134,30 @@ class AutoPost extends MongoModel
 
         foreach ($posts as $post) {
             if ($final) {
-                $date = new Timestamp(1, time());
-                $post->updateAttributes(['status' => self::STATUS_POSTED, 'updated_at' => $date]);
-                echo "PUBLISHED: ->";
+                if ($post->publish()) {
+                    echo "PUBLISHED: ->";
+                }
             }
 
             echo $post->title . PHP_EOL;
         }
+    }
+
+    public function publish()
+    {
+        $date   = new Timestamp(1, time());
+        $result = ['status' => self::STATUS_POSTED, 'updated_at' => $date];
+        foreach (['tg' => 'telegram', 'tw' => 'twitter', 'an' => 'android'] as $attribute => $sharer) {
+            if ($this->$attribute) {
+                try {
+                    $result["{$attribute}_status"] = $this->post->shareTo($sharer);
+                } catch (\Exception $e) {
+                    $result["{$attribute}_status"] = $e->getMessage();
+                }
+            }
+        }
+
+        return $this->updateAttributes($result);
     }
 
     public function isLocked()

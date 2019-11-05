@@ -5,6 +5,7 @@ namespace console\controllers;
 use Cmfcmf\OpenWeatherMap;
 use common\components\Config;
 use common\models\Ad;
+use common\models\AutoPost;
 use common\models\Currency;
 use common\models\Place;
 use common\models\Post;
@@ -26,6 +27,7 @@ class IndexerController extends Controller
     public function actionSuperFast($final = 1)
     {
         Post::publishAutoPublishPosts($final);
+        AutoPost::publishAutoPublishPosts($final);
     }
 
     /**
