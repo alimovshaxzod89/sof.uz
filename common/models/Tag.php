@@ -8,6 +8,7 @@ use MongoDB\BSON\Timestamp;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\web\Application;
 
 /**
  * Class Tag
@@ -125,8 +126,6 @@ class Tag extends MongoModel
             [['count'], 'default', 'value' => 0],
             [['name_oz', 'name_uz', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['slug'], 'unique', 'targetAttribute' => ['slug', 'name'], 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
-            [['slug', 'is_topic'], 'safe'],
-            [['is_topic'], 'default', 'value' => false],
             [['search'], 'safe', 'on' => 'search'],
         ];
     }
@@ -210,11 +209,13 @@ class Tag extends MongoModel
             $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         }
 
-        if ($this->name_uz) {
-            $this->setTranslation('name', $this->name_uz, Config::LANGUAGE_UZBEK);
-        }
-        if ($this->name_oz) {
-            $this->setTranslation('name', $this->name_oz, Config::LANGUAGE_CYRILLIC);
+        if (Yii::$app instanceof Application) {
+            if ($this->name_uz) {
+                $this->setTranslation('name', $this->name_uz, Config::LANGUAGE_UZBEK);
+            }
+            if ($this->name_oz) {
+                $this->setTranslation('name', $this->name_oz, Config::LANGUAGE_CYRILLIC);
+            }
         }
 
         return parent::beforeSave($insert);
@@ -249,6 +250,29 @@ class Tag extends MongoModel
     {
         return Yii::$app->viewUrl
             ->createAbsoluteUrl(['category/tag', 'slug' => $this->slug], $scheme);
+    }
+
+    public static function indexAllTags1()
+    {
+        echo "indexAllTags\n";
+        /**
+         * @var $post Post
+         * @var $tag  Tag
+         */
+
+        $posts = Post::find()
+                     ->select(['_id', '_tags'])
+                     ->where(['status' => Post::STATUS_PUBLISHED])
+                     ->orderBy(['published_on' => SORT_DESC])
+                     ->all();
+
+        self::updateAll(['count' => 0]);
+
+        foreach ($posts as $post) {
+            foreach ($post->getTags() as $tag) {
+                $tag->updateCounters(['count' => 1]);
+            }
+        }
     }
 
     public static function indexAllTags()
@@ -333,27 +357,28 @@ class Tag extends MongoModel
 
     public static function translateAllTags()
     {
+        Yii::$app->language = Config::LANGUAGE_CYRILLIC;
+
         $translator = Translator::getInstance();
         /**
          * @var  $item Tag
          */
         $slugs = [];
-        foreach (self::find()->all() as $item) {
-            $trans = $item->_translations;
-            if (!isset($trans['name_uz'])) {
-                $trans['name_uz'] = $translator->translateToLatin($item->name);
-            }
-            if (!isset($trans['name_oz'])) {
-                $trans['name_oz'] = $item->name;
-            }
+        foreach (self::find()->orderBy(['count' => SORT_DESC])->all() as $item) {
+            $trans               = $item->_translations;
+            $trans['name_uz']    = $translator->translateToLatin($item->name);
+            $trans['name_oz']    = $item->name;
+            $item->slug          = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($trans['name_uz'])), '-');
             $item->_translations = $trans;
-            if ($item->save()) {
+
+            if ($item->save(false)) {
                 echo $item->name_uz . PHP_EOL;
             }
 
             if (!isset($slugs[$item->slug])) {
                 $slugs[$item->slug] = [];
             }
+
             $slugs[$item->slug][] = $item;
         }
 
@@ -367,6 +392,7 @@ class Tag extends MongoModel
                         foreach ($tags as $i => $t) {
                             if ((string)$t == $item->id) {
                                 unset($tags[$i]);
+                                break;
                             }
                         }
                         $tags[] = $main->_id;
@@ -374,7 +400,7 @@ class Tag extends MongoModel
                     }
 
                     if (Tag::deleteAll(['_id' => $item->_id])) {
-                        print_r($item->getAttributes());
+                        echo $item->name . PHP_EOL;
                     }
                 }
             }

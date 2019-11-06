@@ -587,7 +587,7 @@ class Post extends MongoModel
             $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         }
 
-        if (!$this->short_id && $this->status == self::STATUS_PUBLISHED) {
+        if (!$this->short_id) {
             $attempt = 0;
             do {
                 $attempt++;
@@ -604,8 +604,6 @@ class Post extends MongoModel
         }
 
         $this->info = strip_tags($this->info);
-
-        $this->read_min = $this->calculateReadingTime();
 
         return parent::beforeSave($insert);
     }

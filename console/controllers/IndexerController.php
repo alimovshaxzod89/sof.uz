@@ -13,8 +13,10 @@ use common\models\Stat;
 use common\models\SystemMessage;
 use common\models\Tag;
 use common\models\Weather;
+use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use Yii;
+use yii\base\Object;
 use yii\console\Controller;
 use yii\helpers\Json;
 
@@ -345,5 +347,23 @@ class IndexerController extends Controller
     {
         Tag::translateAllTags();
         Tag::indexAllTags();
+    }
+
+    public function actionT()
+    {
+        foreach (Post::find()->all() as $post) {
+            echo $post->save(false);
+        }
+        echo Post::find()
+                 ->select(['_id'])
+                 ->where([
+                             'status' => Post::STATUS_PUBLISHED,
+                             '_tags'  => [
+                                 '$elemMatch' => [
+                                     '$eq' => new ObjectId('5d63dd4e18855a227578b57b')
+                                 ]
+                             ]
+                         ])
+                 ->count();
     }
 }
