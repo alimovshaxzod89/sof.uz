@@ -12358,13 +12358,13 @@ div.wpcf7-response-output {
     margin-top: 30px;
 }
 
-.single .type-post .entry-content > p,
-.page .type-page .entry-content > p,
+.single .type-post .entry-content  p,
+.page .type-page .entry-content  p,
 .single .type-post .entry-content ul,
 .page .type-page .entry-content ul,
 .single .type-post .entry-content ol,
 .page .type-page .entry-content ol,
-.wp-block-columns p {
+.wp-block-columns p,.entry-content table {
     font-family: Roboto, serif;
     font-size: 18px;
     line-height: 26px;
