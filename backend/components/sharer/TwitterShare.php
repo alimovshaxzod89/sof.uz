@@ -33,11 +33,14 @@ class TwitterShare extends BaseShare
         /** @var TwitterOAuth $request */
         $connection = new TwitterOAuth($this->consumerKey, $this->consumerSecret, $this->accessToken, $this->accessTokenSecret);
         $connection->setTimeouts(10, 15);
+        $photo = $post->getFilePath('image', true);
 
-        $media      = $connection->upload('media/upload', ['media' => $static . DS . $post->image['path']]);
+        if ($photo)
+            $media = $connection->upload('media/upload', ['media' => $photo]);
+
         $parameters = [
             'status'    => $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "\n" . $post->getShortViewUrl(),
-            'media_ids' => $media->media_id_string
+            'media_ids' => $photo ? $media->media_id_string : ''
         ];
         $result     = $connection->post('statuses/update', $parameters);
 
