@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\components\Config;
 use common\components\SystemLog;
+use common\components\Translator;
 use common\models\AutoPost;
 use common\models\Post;
 use common\models\Tag;
@@ -37,16 +38,41 @@ class PostController extends BackendController
      */
     public function actionTag($query)
     {
+        /**
+         * @var $tag Tag
+         */
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $tags = Tag::find()
+                   ->orderBy(['count' => SORT_DESC])
+                   ->limit(20);
+
+
+        if ($query) {
+            $tags->orFilterWhere(['_translations.name_uz' => ['$regex' => $query, '$options' => 'si']]);
+            $tags->orFilterWhere(['_translations.name_oz' => ['$regex' => $query, '$options' => 'si']]);
+            $tags->orFilterWhere(['slug' => ['$regex' => $query, '$options' => 'si']]);
+
+            $latin = Translator::getInstance()->translateToLatin($query);
+            $tags->orFilterWhere(['_translations.name_oz' => ['$regex' => $latin, '$options' => 'si']]);
+            $tags->orFilterWhere(['_translations.name_uz' => ['$regex' => $latin, '$options' => 'si']]);
+            $tags->orFilterWhere(['slug' => ['$regex' => $latin, '$options' => 'si']]);
+        }
+
         $result = [];
-        $tags   = Tag::searchTags($query);
-        foreach ($tags as $tag) {
+
+        foreach ($tags->all() as $tag) {
             $result[] = [
                 'v' => $tag->getId(),
                 't' => $tag->name,
+                's' => implode("#", [
+                    $tag->slug,
+                    $tag->getTranslation('name', Config::LANGUAGE_UZBEK),
+                    $tag->getTranslation('name', Config::LANGUAGE_CYRILLIC),
+                ]),
             ];
         }
 
-        Yii::$app->response->format = Response::FORMAT_JSON;
         return $result;
     }
 

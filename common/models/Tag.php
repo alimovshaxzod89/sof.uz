@@ -23,7 +23,11 @@ class Tag extends MongoModel
 {
     protected $_booleanAttributes    = ['is_topic'];
     protected $_integerAttributes    = ['count'];
+    protected $_translatedAttributes = ['name'];
     protected $_searchableAttributes = ['name', 'slug'];
+
+    public $name_uz;
+    public $name_oz;
 
     public static function getTagsAsOption()
     {
@@ -39,30 +43,24 @@ class Tag extends MongoModel
     public static function createTag($name)
     {
         if ($name = trim($name)) {
-            $slug = Translator::getInstance()->translateToLatin($name);
-            $slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
+
+            $trans = Translator::getInstance();
+
+            $slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($trans->translateToLatin($name))), '-');
 
             $old = self::find()
                        ->orFilterWhere(['name' => ['$regex' => $name, '$options' => 'si']])
-                       ->orFilterWhere(['slug' => ['$regex' => $name, '$options' => 'si']])
+                       ->orFilterWhere(['slug' => ['$regex' => $slug, '$options' => 'si']])
                        ->one();
             if ($old) {
                 return $old->_id;
             }
 
-            $tag = new Tag();
+            $tag       = new Tag();
+            $tag->name = $name;
+            $tag->setTranslation('name', $trans->translateToLatin($name), Config::LANGUAGE_UZBEK);
+            $tag->setTranslation('name', $trans->translateToCyrillic($name), Config::LANGUAGE_CYRILLIC);
 
-            if (Yii::$app->language == Config::LANGUAGE_CYRILLIC) {
-                $tag->name = Translator::getInstance()->translateToLatin($name);
-            } else if (Yii::$app->language == Config::LANGUAGE_UZBEK) {
-                $attr                      = self::getLanguageAttributeCode('name');
-                $tag->_translations[$attr] = Translator::getInstance()->translateToCyrillic($name);
-            } else {
-                foreach (Config::getLanguageCodes() as $code) {
-                    $attr                      = self::getLanguageAttributeCode('name', $code);
-                    $tag->_translations[$attr] = $name;
-                }
-            }
 
             $tag->slug      = $slug;
             $tag->count_l5d = 0;
@@ -81,16 +79,19 @@ class Tag extends MongoModel
      */
     public static function searchTags($text = false)
     {
-        $tags = Tag::find()
-                   ->select(['name', 'count', 'slug'])
-                   ->orderBy(['count' => SORT_DESC])
-                   ->limit(20);
+        $tags  = Tag::find()
+                    ->orderBy(['count' => SORT_DESC])
+                    ->limit(20);
+        $trans = Translator::getInstance();
 
         if ($text) {
+            $lat = $trans->translateToLatin($text);
+            $cyr = $trans->translateToCyrillic($text);
+
             foreach (Config::getLanguageCodes() as $code) {
-                $text2 = (new Translator())->translateToLatin($text);
-                $tags->orFilterWhere(['name_' . $code => ['$regex' => $text, '$options' => 'si']]);
-                $tags->orFilterWhere(['name_' . $code => ['$regex' => $text2, '$options' => 'si']]);
+                $tags->orFilterWhere(['_translations.name_' . $code => ['$regex' => $text, '$options' => 'si']]);
+                $tags->orFilterWhere(['_translations.name_' . $code => ['$regex' => $lat, '$options' => 'si']]);
+                $tags->orFilterWhere(['_translations.name_' . $code => ['$regex' => $cyr, '$options' => 'si']]);
             }
         }
 
@@ -122,7 +123,7 @@ class Tag extends MongoModel
     {
         return [
             [['count'], 'default', 'value' => 0],
-            [['name', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
+            [['name_oz', 'name_uz', 'slug'], 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['slug'], 'unique', 'targetAttribute' => ['slug', 'name'], 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['slug', 'is_topic'], 'safe'],
             [['is_topic'], 'default', 'value' => false],
@@ -178,10 +179,8 @@ class Tag extends MongoModel
 
         $this->load($params);
         if ($this->search) {
-            $query->orFilterWhere(['name' => ['$regex' => $this->search, '$options' => 'si']]);
-            foreach (Config::getLanguageCodes() as $code) {
-                $query->orFilterWhere(['_translations.name_' . $code => ['$regex' => $this->search, '$options' => 'si']]);
-            }
+            $query->orFilterWhere(['_translations.name_uz' => ['$regex' => $this->search, '$options' => 'si']]);
+            $query->orFilterWhere(['_translations.name_oz' => ['$regex' => $this->search, '$options' => 'si']]);
         }
 
         return $dataProvider;
@@ -211,8 +210,24 @@ class Tag extends MongoModel
             $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         }
 
+        if ($this->name_uz) {
+            $this->setTranslation('name', $this->name_uz, Config::LANGUAGE_UZBEK);
+        }
+        if ($this->name_oz) {
+            $this->setTranslation('name', $this->name_oz, Config::LANGUAGE_CYRILLIC);
+        }
+
         return parent::beforeSave($insert);
     }
+
+    public function afterFind()
+    {
+        $this->name_uz = $this->getTranslation('name', Config::LANGUAGE_UZBEK);
+        $this->name_oz = $this->getTranslation('name', Config::LANGUAGE_CYRILLIC);
+
+        parent::afterFind();
+    }
+
 
     /**
      * @return Post[]
@@ -238,23 +253,27 @@ class Tag extends MongoModel
 
     public static function indexAllTags()
     {
+        echo "indexAllTags\n";
         /**
          * @var $post Post
          * @var $tag  Tag
          */
 
-        $posts = Post::find()
-                     ->select(['_id', '_tags'])
-                     ->where(['status' => Post::STATUS_PUBLISHED])
-                     ->orderBy(['published_on' => SORT_DESC])
-                     ->all();
-
         self::updateAll(['count' => 0]);
 
-        foreach ($posts as $post) {
-            foreach ($post->getTags() as $tag) {
-                $tag->updateCounters(['count' => 1]);
-            }
+        foreach (self::find()->all() as $tag) {
+            $c = Post::find()
+                     ->select(['_id'])
+                     ->where([
+                                 'status' => Post::STATUS_PUBLISHED,
+                                 '_tags'  => [
+                                     '$elemMatch' => [
+                                         '$eq' => $tag->_id
+                                     ]
+                                 ]
+                             ])
+                     ->count();
+            $tag->updateAttributes(['count' => $c]);
         }
     }
 
@@ -265,7 +284,6 @@ class Tag extends MongoModel
          * @var $post Post
          * @var $tag  Tag
          */
-        Post::getCollection()->createIndex(['published_on' => -1]);
 
         $time  = new Timestamp(1, time() - 5 * 24 * 3600);
         $posts = Post::find()
@@ -311,5 +329,55 @@ class Tag extends MongoModel
                    ->orderBy(['count' => SORT_DESC])
                    ->limit($limit)
                    ->all();
+    }
+
+    public static function translateAllTags()
+    {
+        $translator = Translator::getInstance();
+        /**
+         * @var  $item Tag
+         */
+        $slugs = [];
+        foreach (self::find()->all() as $item) {
+            $trans = $item->_translations;
+            if (!isset($trans['name_uz'])) {
+                $trans['name_uz'] = $translator->translateToLatin($item->name);
+            }
+            if (!isset($trans['name_oz'])) {
+                $trans['name_oz'] = $item->name;
+            }
+            $item->_translations = $trans;
+            if ($item->save()) {
+                echo $item->name_uz . PHP_EOL;
+            }
+
+            if (!isset($slugs[$item->slug])) {
+                $slugs[$item->slug] = [];
+            }
+            $slugs[$item->slug][] = $item;
+        }
+
+        foreach ($slugs as $slug => $items) {
+            if (count($items) > 1) {
+                $main = array_pop($items);
+
+                foreach ($items as $item) {
+                    foreach ($item->posts as $post) {
+                        $tags = $post->getConvertedTags();
+                        foreach ($tags as $i => $t) {
+                            if ((string)$t == $item->id) {
+                                unset($tags[$i]);
+                            }
+                        }
+                        $tags[] = $main->_id;
+                        $post->updateAttributes(['_tags' => array_values($tags)]);
+                    }
+
+                    if (Tag::deleteAll(['_id' => $item->_id])) {
+                        print_r($item->getAttributes());
+                    }
+                }
+            }
+        }
     }
 }

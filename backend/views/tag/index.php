@@ -36,14 +36,9 @@ $user                          = $this->context->_user();
                     </div>
                 </div>
                 <div class="panel-body">
-                    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'name_oz')->textInput(['maxlength' => true])->label('Номи') ?>
+                    <?= $form->field($model, 'name_uz')->textInput(['maxlength' => true])->label('Nomi') ?>
                     <?= $form->field($model, 'slug')->textInput(['maxlength' => true])->label() ?>
-                    <div class="row">
-                        <div class="col col-md-6">
-                            <?= $form->field($model, 'is_topic')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Is Topic')) ?>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="panel-footer">
                     <div class="text-right">
@@ -76,14 +71,14 @@ $user                          = $this->context->_user();
 <?php
 
 $this->registerJs('
-$(\'#tag-name\').blur(function () {
+$(\'#tag-name_uz\').blur(function () {
     if ($(\'#tag-slug\').val().length < 2)$(\'#tag-slug\').val(convertToSlug($(this).val()));
-}).keyup(function () {
-    $(\'#tag-name_oz\').val(convertToCyrill($(this).val()));
-});
-$(\'#tag-name_oz\').keyup(function () {
-    if ($(\'#tag-name\').val().length < 2)$(\'#tag-name\').val(convertToLatin($(this).val()));
 })
+if ($(\'#tag-name_uz\').val().length < 2){
+    $(\'#tag-name_oz\').keyup(function () {
+        $(\'#tag-name_uz\').val(convertToLatin($(this).val()));
+    })
+}
 $(document).ready(function () {
     jQuery(\'#tag_settings\').theiaStickySidebar({
         additionalMarginTop: 70,

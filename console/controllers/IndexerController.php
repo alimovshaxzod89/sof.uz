@@ -339,4 +339,11 @@ class IndexerController extends Controller
                                     ]);
         }
     }
+
+
+    public function actionTag()
+    {
+        Tag::translateAllTags();
+        Tag::indexAllTags();
+    }
 }
