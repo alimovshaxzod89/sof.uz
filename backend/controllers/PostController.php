@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\components\Config;
+use common\components\SystemLog;
 use common\models\AutoPost;
 use common\models\Post;
 use common\models\Tag;
@@ -387,7 +388,9 @@ class PostController extends BackendController
             if ($social = $this->post('sharer')) {
                 $result = false;
                 if (isset(Post::getSocialArray()[$social])) {
-                    $result = $post->shareTo($social);
+                    if ($result = $post->shareTo($social)) {
+                        SystemLog::captureAction(__('{post} shared to {social}', ['post' => $post->getShortTitle(), 'social' => ucfirst($social)]));
+                    }
                 }
 
                 Yii::$app->response->format = Response::FORMAT_JSON;

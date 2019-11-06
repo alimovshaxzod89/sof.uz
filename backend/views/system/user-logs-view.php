@@ -11,7 +11,7 @@ use backend\widgets\AceEditorWidget;
 use yii\widgets\ActiveForm;
 
 $this->title                   = strip_tags($model->message);
-$this->params['breadcrumbs'][] = ['url' => ['system/user-logs'], 'label' => __('User Logs')];
+$this->params['breadcrumbs'][] = ['url' => ['system/logs'], 'label' => __('System Logs')];
 $this->params['breadcrumbs'][] = $this->title;
 
 $data         = $model->getAttributes();

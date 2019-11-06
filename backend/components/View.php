@@ -128,7 +128,7 @@ class View extends \yii\web\View
                     'url'   => 'system/login',
                 ],
                 'system/log'           => [
-                    'label' => 'Admin Logs',
+                    'label' => 'System Logs',
                     'url'   => 'system/log',
                 ],
                 'system/configuration' => [

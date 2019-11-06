@@ -59,9 +59,22 @@ class SystemController extends BackendController
     {
         $searchModel = new SystemLog();
 
-        return $this->render('logs', [
+        return $this->render('user-logs', [
             'searchModel'  => $searchModel,
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
+        ]);
+    }
+
+    /**
+     * @return string
+     * @resource System | System Logs | system/user-logs-view
+     */
+    public function actionUserLogsView($id)
+    {
+        $model = SystemLog::findOne($id);
+
+        return $this->render('user-logs-view', [
+            'model' => $model,
         ]);
     }
 

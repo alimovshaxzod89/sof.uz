@@ -11,7 +11,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $searchModel SystemLog */
 
-$this->title                   = __('User Logs');
+$this->title                   = __('System Logs');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
