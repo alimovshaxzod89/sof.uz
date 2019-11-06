@@ -16,7 +16,6 @@ use common\models\Weather;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
 use Yii;
-use yii\base\Object;
 use yii\console\Controller;
 use yii\helpers\Json;
 
