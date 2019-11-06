@@ -415,12 +415,15 @@ class MongoModel extends ActiveRecord
     }
 
 
-    public function getFileUrl($attribute = false)
+    public function getFileUrl($attribute = false, $clean = false)
     {
         $defaultFileUrl = Yii::$app->view->getImageUrl('images/002.jpg');
         if ($this->hasAttribute($attribute)) {
             $attribute = $this->getAttribute($attribute);
             if (is_array($attribute) && isset($attribute['path'])) {
+                if ($clean)
+                    $attribute['path'] = preg_replace('/[\d]{2,4}_[\d]{2,4}_/', '', $attribute['path']);
+
                 $filePath = Yii::getAlias("@static/uploads/") . $attribute['path'];
                 if (file_exists($filePath))
                     return Yii::getAlias("@staticUrl/uploads/") . $attribute['path'];
