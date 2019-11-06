@@ -4,7 +4,6 @@ namespace common\components;
 
 use common\models\Admin;
 use common\models\MongoModel;
-use common\models\User;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -86,7 +85,7 @@ class SystemLog extends MongoModel
 
         if (!Yii::$app->user->isGuest) {
             $log->_admin     = Yii::$app->user->identity->getId();
-            $admin           = User::findOne($log->_admin);
+            $admin           = Admin::findOne($log->_admin);
             $log->admin_name = $admin ? $admin->getFullname() : "";
         }
 
