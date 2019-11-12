@@ -113,7 +113,7 @@ $user                          = $this->context->_user();
                                                            ],
                                                        ]) ?>
                         </div>
-                        <?php if ($model->status == \common\models\AutoPost::STATUS_PENDING): ?>
+                        <?php if ($model->status == \common\models\AutoPost::STATUS_POSTED): ?>
                             <pre><?php print_r($model->getAttributes(['tg_status', 'tw_status', 'an_status'])) ?>
 
                         </pre>
