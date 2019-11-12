@@ -65,7 +65,6 @@ class IndexerController extends Controller
     public function actionNormal()
     {
         Tag::indexAllTags();
-        SitemapController::generate();
 
         //$this->actionWeather();
         //$this->actionCurrency();

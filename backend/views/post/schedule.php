@@ -68,26 +68,27 @@ $user                          = $this->context->_user();
                         <h4><?= __('Settings') ?></h4>
                     </div>
                     <div class="panel-body">
+
+                        <?= $form->field($model, 'tg')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Telegram') ?>
+                        <?= $form->field($model, 'tw')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Twitter') ?>
+                        <?= $form->field($model, 'an')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Android') ?>
+
+                        <hr>
+                        <?= $form->field($model, 'status')
+                                 ->widget(ChosenSelect::className(), [
+                                     'items'           => \common\models\AutoPost::getStatusOptions(),
+                                     'withPlaceHolder' => false,
+                                     'pluginOptions'   => [
+                                         'width'                 => '100%',
+                                         'allow_single_deselect' => false,
+                                         'disable_search'        => true
+                                     ],
+                                     'options'         => ['disabled' => true]
+                                 ]) ?>
+
                         <?php $time = $model->getDateFromSeconds() ?>
 
                         <div id="widget_published_on_wrapper" class="form-group">
-
-                            <?= $form->field($model, 'tg')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Telegram') ?>
-                            <?= $form->field($model, 'tw')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Twitter') ?>
-                            <?= $form->field($model, 'an')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Android') ?>
-
-                            <hr>
-                            <?= $form->field($model, 'status')
-                                     ->widget(ChosenSelect::className(), [
-                                         'items'           => \common\models\AutoPost::getStatusOptions(),
-                                         'withPlaceHolder' => false,
-                                         'pluginOptions'   => [
-                                             'width'                 => '100%',
-                                             'allow_single_deselect' => false,
-                                             'disable_search'        => true
-                                         ],
-                                         'options'         => ['disabled' => true]
-                                     ]) ?>
 
                             <?= $form->field($model, 'date', [
                                 'options' => [
@@ -112,6 +113,11 @@ $user                          = $this->context->_user();
                                                            ],
                                                        ]) ?>
                         </div>
+                        <?php if ($model->status == \common\models\AutoPost::STATUS_PENDING): ?>
+                            <pre><?php print_r($model->getAttributes(['tg_status', 'tw_status', 'an_status'])) ?>
+
+                        </pre>
+                        <?php endif; ?>
                     </div>
                     <div class="panel-footer">
                         <div class="text-right">

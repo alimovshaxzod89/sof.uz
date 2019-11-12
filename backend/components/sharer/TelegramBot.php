@@ -36,9 +36,9 @@ class TelegramBot extends BaseShare
         $channelLink = getenv('CHANNEL_LINK');
         $link        = $post->getShortViewUrl();
 
-        $hand   = "\u{1F449}";
-        $text   = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
-        $photo  = $post->getFileUrl('image', true);
+        $hand  = "\u{1F449}";
+        $text  = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
+        $photo = $post->getFileUrl('image', true);
 
         try {
             if ($this->_botApi->sendPhoto(
@@ -55,6 +55,8 @@ class TelegramBot extends BaseShare
             }
         } catch (Exception $e) {
             \Yii::error($e->getMessage());
+
+            echo $e->getMessage() . PHP_EOL;
         }
 
         \Yii::error('Post share failed');
