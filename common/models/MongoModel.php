@@ -417,7 +417,6 @@ class MongoModel extends ActiveRecord
 
     public function getFileUrl($attribute = false, $clean = false)
     {
-        $defaultFileUrl = Yii::$app->view->getImageUrl('images/002.jpg');
         if ($this->hasAttribute($attribute)) {
             $attribute = $this->getAttribute($attribute);
             if (is_array($attribute) && isset($attribute['path'])) {
@@ -430,7 +429,7 @@ class MongoModel extends ActiveRecord
             }
         }
 
-        return $defaultFileUrl;
+        return false;
     }
 
     public function getFilePath($attribute, $clean = false)
