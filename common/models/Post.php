@@ -1421,4 +1421,9 @@ class Post extends MongoModel
     {
         return $this->category instanceof Category;
     }
+
+    public function isColumnists()
+    {
+        return $this->_author || in_array(\common\models\Post::AUTHOR_CATEGORY, is_array($this->_categories) ? $this->_categories : []);
+    }
 }

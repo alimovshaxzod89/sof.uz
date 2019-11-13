@@ -77,7 +77,15 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                             </div>
                         <?php endif; ?>
                         <div class="entry-content u-text-format u-clearfix">
-                            <?= $model->content ;?>
+                            <?= $model->content; ?>
+                            <?php if ($model->isColumnists()): ?>
+                                <br>
+                                <p>
+                                    <i>
+                                        <?= __('{b}Эслатма:{bc} Муаллиф фикри таҳририят нуқтаи назарини ифодаламаслиги мумкин') ?>
+                                    </i>
+                                </p>
+                            <?php endif; ?>
                         </div>
 
                         <?= $this->renderFile('@frontend/views/post/_footer.php', ['model' => $model]) ?>

@@ -88,6 +88,14 @@ $this->registerJs($js);
                         <div class="entry-wrapper">
                             <div class="entry-content u-text-format u-clearfix">
                                 <?= $model->content ?>
+                                <?php if ($model->isColumnists()): ?>
+                                    <br>
+                                    <p>
+                                        <i>
+                                            <?= __('{b}Эслатма:{bc} Муаллиф фикри таҳририят нуқтаи назарини ифодаламаслиги мумкин') ?>
+                                        </i>
+                                    </p>
+                                <?php endif; ?>
                             </div>
 
                             <?= $this->renderFile('@frontend/views/post/_footer.php', ['model' => $model]) ?>
