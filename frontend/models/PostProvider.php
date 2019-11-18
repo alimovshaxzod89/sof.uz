@@ -411,6 +411,7 @@ class PostProvider extends Post
 
         return new ActiveDataProvider([
                                           'query'      => $query,
+                                          'totalCount' => 1000,
                                           'pagination' => [
                                               'pageSize' => intval(\Yii::$app->request->get('load', $limit)),
                                           ],

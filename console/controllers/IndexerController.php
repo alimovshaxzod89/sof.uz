@@ -261,13 +261,20 @@ class IndexerController extends Controller
         echo $collection->createIndex(['_domain' => 1]);
         echo $collection->createIndex(['_tags' => 1]);
         echo $collection->createIndex(['_categories' => 1]);
+        //echo $collection->createIndex(['_translations' => 1]);
+        echo $collection->createIndex(['_translations.title_uz' => 1]);
+        //echo $collection->createIndex(['_translations.content_uz' => 1]);
+        echo $collection->createIndex(['_translations.title_oz' => 1]);
+        //echo $collection->createIndex(['_translations.content_oz' => 1]);
 
         $collection = Tag::getCollection();
         echo $collection->createIndex(['count' => -1]);
         echo $collection->createIndex(['count_l5d' => -1]);
-        echo $collection->createIndex(['name_uz' => 1]);
-        echo $collection->createIndex(['name_ru' => 1]);
-        echo $collection->createIndex(['name_oz' => 1]);
+        echo $collection->createIndex(['name' => 1]);
+        echo $collection->createIndex(['slug' => 1]);
+        echo $collection->createIndex(['_translations' => 1]);
+        echo $collection->createIndex(['_translations.name_uz' => 1]);
+        echo $collection->createIndex(['_translations.name_oz' => 1]);
 
         $collection = Ad::getCollection();
         echo $collection->createIndex(['views' => -1]);
