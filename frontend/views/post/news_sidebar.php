@@ -75,11 +75,14 @@ $this->registerJs($js);
 
                     <?php if ($model->checkImageFileExists()) : ?>
                         <div class="">
-                            <div class="entry-media">
+                            <div class="entry-media u-clearfix">
                                 <div class="placeholder">
                                     <img src="<?= $model->getCroppedImage(826, null) ?>"
                                          alt="<?= $model->title ?>">
                                 </div>
+                                <?php if ($c = $model->image_caption): ?>
+                                    <p class="meta-author"><?= $c ?></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endif; ?>
