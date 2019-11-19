@@ -10,6 +10,11 @@ use yii\helpers\Url;
 
 ?>
 <header class="site-header">
+    <div class="header-messages" data-cookie="_man" data-count="1" style="">
+        <?= __('Sof xabarlar {b}Telegram{bc} kanalimizda') ?>
+        <a href="https://t.me/sofuzb" class="action-btn" target="_blank"><?= __('Obuna bo‘ling') ?></a>
+        <span class="close-btn">×</span>
+    </div>
     <div class="container">
         <div class="navbar">
 

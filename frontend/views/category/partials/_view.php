@@ -27,18 +27,19 @@
                 <span class="meta-date">
                     <i class="mdi mdi-eye"></i> <?= $model->getViewLabel() ?>
                 </span>
-                <?php if (0 && $model->hasAuthor()): ?>
+                <?php if ($model->category && !$model->isColumnists()): ?>
+                    <span class="meta-category">
+                        <?= \yii\helpers\Html::a($model->category->name, $model->category->getViewUrl(), ['data-pjax' => 0]) ?>
+                    </span>
+                <?php endif; ?>
+                <?php if ($model->hasAuthor()): ?>
                     <span class="meta-category">
                         <a data-pjax="0" href="<?= $model->author->getViewUrl() ?>">
                             <?= $model->author->getFullName() ?>
                         </a>
                     </span>
                 <?php endif; ?>
-                <?php if (is_array($model->categories) && count($model->categories)): ?>
-                    <span class="meta-category">
-                        <?= $model->metaCategoriesList() ?>
-                    </span>
-                <?php endif; ?>
+
             </div>
         </header>
         <div class="entry-excerpt u-text-format">
