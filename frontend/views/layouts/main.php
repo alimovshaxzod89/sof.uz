@@ -39,7 +39,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <meta property="og:description" content="<?= $description ?>">
         <meta property="og:image" content="<?= $this->getImage() ?>">
         <meta property="og:type" content="article"/>
-        <meta name="yandex-verification" content="90a7c91e07d99f26" />
+        <meta name="yandex-verification" content="90a7c91e07d99f26"/>
         <meta name="description" content="<?= $description ?>">
         <meta name="keywords" content="<?= $keywords ?>">
 
@@ -47,16 +47,24 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <link rel="apple-touch-icon" sizes="60x60" href="<?= $this->getImageUrl('favicon/apple-icon-60x60.png') ?>?v=1">
         <link rel="apple-touch-icon" sizes="72x72" href="<?= $this->getImageUrl('favicon/apple-icon-72x72.png') ?>?v=1">
         <link rel="apple-touch-icon" sizes="76x76" href="<?= $this->getImageUrl('favicon/apple-icon-76x76.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?= $this->getImageUrl('favicon/apple-icon-114x114.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="120x120" href="<?= $this->getImageUrl('favicon/apple-icon-120x120.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="144x144" href="<?= $this->getImageUrl('favicon/apple-icon-144x144.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="152x152" href="<?= $this->getImageUrl('favicon/apple-icon-152x152.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="180x180" href="<?= $this->getImageUrl('favicon/apple-icon-180x180.png') ?>?v=1">
+        <link rel="apple-touch-icon" sizes="114x114"
+              href="<?= $this->getImageUrl('favicon/apple-icon-114x114.png') ?>?v=1">
+        <link rel="apple-touch-icon" sizes="120x120"
+              href="<?= $this->getImageUrl('favicon/apple-icon-120x120.png') ?>?v=1">
+        <link rel="apple-touch-icon" sizes="144x144"
+              href="<?= $this->getImageUrl('favicon/apple-icon-144x144.png') ?>?v=1">
+        <link rel="apple-touch-icon" sizes="152x152"
+              href="<?= $this->getImageUrl('favicon/apple-icon-152x152.png') ?>?v=1">
+        <link rel="apple-touch-icon" sizes="180x180"
+              href="<?= $this->getImageUrl('favicon/apple-icon-180x180.png') ?>?v=1">
         <link rel="icon" type="image/png" sizes="192x192"
               href="<?= $this->getImageUrl('favicon/android-icon-192x192.png') ?>?v=1">
-        <link rel="icon" type="image/png" sizes="32x32" href="<?= $this->getImageUrl('favicon/favicon-32x32.png') ?>?v=1">
-        <link rel="icon" type="image/png" sizes="96x96" href="<?= $this->getImageUrl('favicon/favicon-96x96.png') ?>?v=1">
-        <link rel="icon" type="image/png" sizes="16x16" href="<?= $this->getImageUrl('favicon/favicon-16x16.png') ?>?v=1">
+        <link rel="icon" type="image/png" sizes="32x32"
+              href="<?= $this->getImageUrl('favicon/favicon-32x32.png') ?>?v=1">
+        <link rel="icon" type="image/png" sizes="96x96"
+              href="<?= $this->getImageUrl('favicon/favicon-96x96.png') ?>?v=1">
+        <link rel="icon" type="image/png" sizes="16x16"
+              href="<?= $this->getImageUrl('favicon/favicon-16x16.png') ?>?v=1">
         <link rel="manifest" href="<?= $this->getImageUrl('favicon/manifest.json') ?>?v=1">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="<?= $this->getImageUrl('favicon/ms-icon-144x144.png') ?>?v=1">
@@ -198,6 +206,36 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         };
     </script>
     <?php $this->endBody() ?>
+    <div id="banner-yandex"
+         style="display: none;position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
+        <!-- Yandex.RTB R-A-476227-1 -->
+        <div id="yandex_rtb_R-A-476227-1"></div>
+        <script type="application/javascript">
+            !function (a) {
+                a(document).ready(function () {
+                    if (a(window).width() < 769) {
+                        a("#banner-yandex").show();
+                        (function (w, d, n, s, t) {
+                            w[n] = w[n] || [];
+                            w[n].push(function () {
+                                Ya.Context.AdvManager.render({
+                                    blockId: "R-A-476227-1",
+                                    renderTo: "yandex_rtb_R-A-476227-1",
+                                    async: true
+                                });
+                            });
+                            t = d.getElementsByTagName("script")[0];
+                            s = d.createElement("script");
+                            s.type = "text/javascript";
+                            s.src = "//an.yandex.ru/system/context.js";
+                            s.async = true;
+                            t.parentNode.insertBefore(s, t);
+                        })(this, document, "yandexContextAsyncCallbacks");
+                    }
+                })
+            }(jQuery);
+        </script>
+    </div>
     </body>
     </html>
 <?php $this->endPage() ?>
