@@ -70,7 +70,9 @@ use yii\helpers\StringHelper;
  * @property boolean    is_mobile
  * @property Timestamp  pushed_on
  * @property Timestamp  locked_on
+ * @property integer    ad_time
  * @property boolean    hide_image
+ * @property boolean    is_ad
  * @property integer    views
  * @property integer    views_l3d
  * @property integer    views_l7d
@@ -87,8 +89,8 @@ class Post extends MongoModel
     const SCENARIO_CONVERT = 'convert';
     const AUTHOR_CATEGORY = '5d63dd4d18855a227578b4ab';
     protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
-    protected $_booleanAttributes    = ['img_watermark', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
-    protected $_integerAttributes    = ['views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
+    protected $_booleanAttributes    = ['img_watermark', 'is_ad', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
+    protected $_integerAttributes    = ['ad_time', 'views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
     protected $_searchableAttributes = ['title', 'info', 'category'];
     protected $_idAttributes         = ['_creator', '_author'];
 
@@ -188,6 +190,9 @@ class Post extends MongoModel
             'is_sidebar',
             'is_instant',
             'is_mobile',
+            'is_ad',
+            'ad_time',
+            'ad_show',
             'old_id',
             'old_slug',
             'old_views',
@@ -280,8 +285,9 @@ class Post extends MongoModel
 
             [['title'], 'string', 'max' => 512],
             [['slug'], 'string', 'max' => 256],
+            [['ad_time'], 'number', 'min' => 0, 'max' => 1000, 'integerOnly' => true],
 
-            [['old_id', 'old_slug', 'old_views'], 'safe'],
+            [['old_id', 'old_slug', 'old_views', 'is_ad', 'ad_time'], 'safe'],
 
             [['info'], 'string', 'min' => 50, 'max' => 500, 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
             [['short_id'], 'safe',
@@ -1148,6 +1154,33 @@ class Post extends MongoModel
                 echo "PUBLISHED: ->";
             }
 
+            echo $post->title . PHP_EOL;
+        }
+    }
+
+    public static function indexAdPosts($final)
+    {
+        /**
+         * @var $post Post
+         */
+        $posts = self::find()
+                     ->where([
+                                 'status'  => self::STATUS_PUBLISHED,
+                                 'is_ad'   => true,
+                                 'ad_time' => ['$gt' => 0],
+                             ])
+                     ->all();
+
+
+        foreach ($posts as $post) {
+            if ($final) {
+                $diff = (time() - $post->published_on->getTimestamp());
+                if ($diff > $post->ad_time * 3600) {
+                    if ($post->updateAttributes(['ad_time' => 0])) {
+                        echo "AD UNPUBLISHED >> ";
+                    }
+                }
+            }
             echo $post->title . PHP_EOL;
         }
     }

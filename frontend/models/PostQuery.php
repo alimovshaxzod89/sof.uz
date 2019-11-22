@@ -21,13 +21,10 @@ class PostQuery extends ActiveQuery
                                    '_categories',
                                    '_translations',
                                    'published_on',
-                                   'audio',
                                    'views',
                                    'views_l3d',
                                    'views_l7d',
-                                   'read_min',
-                                   'is_tagged',
-                                   'is_bbc',
+                                   'is_ad',
                                    '_author',
                                ], $fields))
                     ->andFilterWhere(['status' => PostProvider::STATUS_PUBLISHED]);

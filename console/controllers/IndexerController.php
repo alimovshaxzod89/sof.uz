@@ -28,6 +28,7 @@ class IndexerController extends Controller
     public function actionSuperFast($final = 1)
     {
         Post::publishAutoPublishPosts($final);
+        Post::indexAdPosts($final);
         AutoPost::publishAutoPublishPosts($final);
     }
 
@@ -254,6 +255,7 @@ class IndexerController extends Controller
         echo $collection->createIndex(['views_l7d' => -1]);
         echo $collection->createIndex(['views_l30d' => -1]);
         echo $collection->createIndex(['old_id' => -1]);
+        echo $collection->createIndex(['ad_time' => -1]);
 
         echo $collection->createIndex(['status' => 1]);
         echo $collection->createIndex(['is_mobile' => 1]);
@@ -356,19 +358,6 @@ class IndexerController extends Controller
 
     public function actionT()
     {
-        foreach (Post::find()->all() as $post) {
-            echo $post->save(false);
-        }
-        echo Post::find()
-                 ->select(['_id'])
-                 ->where([
-                             'status' => Post::STATUS_PUBLISHED,
-                             '_tags'  => [
-                                 '$elemMatch' => [
-                                     '$eq' => new ObjectId('5d63dd4e18855a227578b57b')
-                                 ]
-                             ]
-                         ])
-                 ->count();
+        echo Post::updateAll(['ad_time' => 0]);
     }
 }

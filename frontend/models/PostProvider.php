@@ -139,7 +139,7 @@ class PostProvider extends Post
     {
         $query = self::find()
                      ->active()
-                     ->orderBy(['published_on' => -1])
+                     ->orderBy(['ad_time' => SORT_DESC, 'published_on' => SORT_DESC])
                      ->limit($limit);
 
         if (count($exclude)) {
@@ -463,7 +463,7 @@ class PostProvider extends Post
                                         ],
                                     ],
                                 ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+                     ->orderBy(['ad_time' => SORT_DESC, 'published_on' => SORT_DESC]);
 
         if (is_array($exclude) && count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);

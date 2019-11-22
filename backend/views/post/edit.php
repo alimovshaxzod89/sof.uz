@@ -206,8 +206,11 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         <?= $form->field($model, 'has_video')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Videoxabar')) ?>
                         <?= $form->field($model, 'has_gallery')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Fotoxabar')) ?>
                         <?= $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
+                        <?= $form->field($model, 'is_ad')->widget(CheckBo::className(), ['type' => 'switch'], ['onchange' => 'showAdTime()'])->label(__('PR Maqola')) ?>
 
-
+                        <div id="ad_time" style="<?= !$model->is_ad ? 'display:none' : '' ?>">
+                            <?= $form->field($model, 'ad_time')->textInput(['placeholder' => __('Reklama muddati')])->label(false) ?>
+                        </div>
                         <hr>
 
                         <?= $this->renderFile('@backend/views/layouts/_convert.php', ['link' => Url::to(['post/edit', 'id' => $model->getId(), 'convert' => 1])]) ?>
@@ -384,6 +387,14 @@ $this->registerJs('initPostEditor();');
     var postLocked =<?=$locked ? 'true' : 'false'?>;
     var canEdit =<?=$canEdit ? 'true' : 'false'?>;
 
+    function showAdTime() {
+        if ($('#post-is_ad').is(':checked')) {
+            $('#ad_time').slideDown();
+        } else {
+            $('#ad_time').slideUp();
+        }
+    }
+
     function statusChanged(status) {
         if (status == 'auto_publish') {
             $('#widget_auto_publish_wrapper').removeClass('hidden');
@@ -409,6 +420,7 @@ $this->registerJs('initPostEditor();');
         $('#post-info').on('keydown', setCounter);
         $('#post-info').on('blur', setCounter);
         $('#post-info').on('focus', setCounter);
+        $('#post-is_ad').on('change', showAdTime);
 
         $('#post_form input, #post_form textarea').on("keydown", function (e) {
             initAutoSave();

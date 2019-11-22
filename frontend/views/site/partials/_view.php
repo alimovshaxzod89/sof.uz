@@ -7,7 +7,7 @@
 ?>
 <div class="col-12">
     <article
-            class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-design">
+            class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-design <?=$model->is_ad?'ad_post':''?>">
         <div class="entry-media">
             <div class="placeholder">
                 <a data-pjax="0" href="<?= $model->getViewUrl() ?>">
