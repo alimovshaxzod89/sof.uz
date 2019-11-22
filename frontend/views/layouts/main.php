@@ -206,36 +206,43 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         };
     </script>
     <?php $this->endBody() ?>
-    <div id="banner-yandex"
-         style="display: none;position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
-        <!-- Yandex.RTB R-A-476227-1 -->
-        <div id="yandex_rtb_R-A-476227-1"></div>
-        <script type="application/javascript">
-            !function (a) {
-                a(document).ready(function () {
-                    if (a(window).width() < 769) {
-                        a("#banner-yandex").show();
-                        (function (w, d, n, s, t) {
-                            w[n] = w[n] || [];
-                            w[n].push(function () {
-                                Ya.Context.AdvManager.render({
-                                    blockId: "R-A-476227-1",
-                                    renderTo: "yandex_rtb_R-A-476227-1",
-                                    async: true
+    <?php $banner = \frontend\widgets\Banner::widget([
+                                                         'place'   => 'footer_fixed',
+                                                         'options' => ['class' => 'ads-wrapper']
+                                                     ]) ?>
+    <?php if ($banner): echo $banner?>
+    <?php else: ?>
+        <div id="banner-yandex"
+             style="display: none;position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
+            <!-- Yandex.RTB R-A-476227-1 -->
+            <div id="yandex_rtb_R-A-476227-1"></div>
+            <script type="application/javascript">
+                !function (a) {
+                    a(document).ready(function () {
+                        if (a(window).width() < 769) {
+                            a("#banner-yandex").show();
+                            (function (w, d, n, s, t) {
+                                w[n] = w[n] || [];
+                                w[n].push(function () {
+                                    Ya.Context.AdvManager.render({
+                                        blockId: "R-A-476227-1",
+                                        renderTo: "yandex_rtb_R-A-476227-1",
+                                        async: true
+                                    });
                                 });
-                            });
-                            t = d.getElementsByTagName("script")[0];
-                            s = d.createElement("script");
-                            s.type = "text/javascript";
-                            s.src = "//an.yandex.ru/system/context.js";
-                            s.async = true;
-                            t.parentNode.insertBefore(s, t);
-                        })(this, document, "yandexContextAsyncCallbacks");
-                    }
-                })
-            }(jQuery);
-        </script>
-    </div>
+                                t = d.getElementsByTagName("script")[0];
+                                s = d.createElement("script");
+                                s.type = "text/javascript";
+                                s.src = "//an.yandex.ru/system/context.js";
+                                s.async = true;
+                                t.parentNode.insertBefore(s, t);
+                            })(window, document, "yandexContextAsyncCallbacks");
+                        }
+                    })
+                }(jQuery);
+            </script>
+        </div>
+    <?php endif; ?>
     </body>
     </html>
 <?php $this->endPage() ?>
