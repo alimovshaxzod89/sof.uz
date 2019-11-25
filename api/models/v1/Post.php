@@ -137,6 +137,17 @@ class Post extends PostModel
             'gallery'      => function () {
                 return empty($this->gallery_items) ? [] : $this->gallery_items;
             },
+            'author'       => function () {
+                if ($this->hasAuthor()) {
+                    return [
+                        'name'  => $this->author->getFullName(),
+                        'image' => $this->author->getCroppedImage(90, 90, 1),
+                        'info'  => $this->author->description,
+                    ];
+                }
+
+                return null;
+            }
 
         ];
     }

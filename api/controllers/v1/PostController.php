@@ -130,6 +130,12 @@ class PostController extends ApiController
                      ->offset($page * $limit);
 
 
+        if ($type == 'photo') {
+            $posts->andFilterWhere(['has_gallery' => true]);
+        }else if ($type == 'video') {
+            $posts->andFilterWhere(['has_video' => true]);
+        }
+
         if ($order == 'views') {
             $date = new Timestamp(1, strtotime("-3 days"));
             $posts->andFilterWhere([
