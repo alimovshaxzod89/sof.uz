@@ -50,8 +50,8 @@ class Tag extends MongoModel
             $slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($trans->translateToLatin($name))), '-');
 
             $old = self::find()
-                       ->orFilterWhere(['name' => ['$regex' => $name, '$options' => 'si']])
-                       ->orFilterWhere(['slug' => ['$regex' => $slug, '$options' => 'si']])
+                       ->orFilterWhere(['name' => ['$eq' => $name]])
+                       ->orFilterWhere(['slug' => ['$eq' => $slug]])
                        ->one();
             if ($old) {
                 return $old->_id;
