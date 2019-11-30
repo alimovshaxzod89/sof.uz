@@ -95,7 +95,7 @@ class PostController extends ApiController
 
     }
 
-    public function actionList($page = 0, $category = false, $tag = false, $type = 'all', $order = self::ORDER_DEFAULT, $full = false)
+    public function actionList($page = 0, $category = false, $tag = false, $type = 'all', $order = self::ORDER_DEFAULT, $full = false, $author = false)
     {
         $page  = intval($page);
         $limit = 15;
@@ -132,8 +132,14 @@ class PostController extends ApiController
 
         if ($type == 'photo') {
             $posts->andFilterWhere(['has_gallery' => true]);
-        }else if ($type == 'video') {
+        } else if ($type == 'video') {
             $posts->andFilterWhere(['has_video' => true]);
+        }
+
+        if ($author) {
+            $posts->andFilterWhere([
+                                       '_author' => new ObjectId($author),
+                                   ]);
         }
 
         if ($order == 'views') {
