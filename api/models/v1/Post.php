@@ -140,6 +140,7 @@ class Post extends PostModel
             'author'       => function () {
                 if ($this->hasAuthor()) {
                     return [
+                        'id'    => $this->author->getId(),
                         'name'  => $this->author->getFullName(),
                         'image' => $this->author->getCroppedImage(90, 90, 1),
                         'info'  => $this->author->description,
