@@ -62,7 +62,7 @@ use frontend\models\PostProvider;
             <i class="mdi mdi-telegram"></i>
         </a>
         <input type="text" readonly class="select_text"
-               value="<?= preg_replace('/https?:\/\//', '', $model->getShortViewUrl()) ?>">
+               value="<?= $model->getShortViewUrl() ?>">
     </div>
 </div>
 
