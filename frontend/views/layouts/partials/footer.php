@@ -55,5 +55,7 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
         <div class="site-info">
             <?= __('© 2018 Magsy - Magazine &amp; Blog Theme. All rights reserved') ?>
         </div>
+
+        <a href="https://sammi.uz/uz" style="opacity: 0">Samarqand davlat meditsina instituti</a>
     </div>
 </footer>
