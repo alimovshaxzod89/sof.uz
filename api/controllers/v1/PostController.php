@@ -71,19 +71,20 @@ class PostController extends ApiController
     {
         $page  = intval($page);
         $limit = 30;
-        $query = strip_tags($query);
+        $query = trim(strip_tags($query));
 
-        $result = Post::find()->orderBy(['published_on' => SORT_DESC]);
+        $result = Post::find()
+                      ->orderBy(['published_on' => SORT_DESC]);
 
-        $result->orFilterWhere(['title' => ['$regex' => $query, '$options' => 'si']]);
-        $result->orFilterWhere(["content" => ['$regex' => $query, '$options' => 'si']]);
-        $result->andFilterWhere(['status' => Post::STATUS_PUBLISHED, 'is_mobile' => true]);
-        foreach (Config::getLanguageCodes() as $code) {
-            $result->orFilterWhere(["_translations.title_" . $code => ['$regex' => $query, '$options' => 'si']]);
-            $result->orFilterWhere(["_translations.content_" . $code => ['$regex' => $query, '$options' => 'si']]);
+
+        $attrs = ['title', 'content'];
+        foreach ($attrs as $attr) {
+            $result->orFilterWhere(["_translations.{$attr}_uz" => ['$regex' => $query, '$options' => 'si']]);
+            $result->orFilterWhere(["_translations.{$attr}_oz" => ['$regex' => $query, '$options' => 'si']]);
         }
 
         $result->limit($limit)
+               ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
                ->offset($page * $limit);
 
         return [

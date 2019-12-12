@@ -404,10 +404,11 @@ class PostProvider extends Post
 
         $attrs = ['title', 'content'];
         foreach ($attrs as $attr) {
-            $query->orFilterWhere([$attr => ['$regex' => $string, '$options' => 'si']]);
             $query->orFilterWhere(["_translations.{$attr}_uz" => ['$regex' => $string, '$options' => 'si']]);
             $query->orFilterWhere(["_translations.{$attr}_oz" => ['$regex' => $string, '$options' => 'si']]);
         }
+
+        $query->active();
 
         return new ActiveDataProvider([
                                           'query'      => $query,

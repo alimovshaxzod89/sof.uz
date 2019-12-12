@@ -25,7 +25,6 @@ class Post extends PostModel
             'id'           => 'id',
             'short_id'     => 'short_id',
             'title'        => 'title',
-            'info'         => 'info',
             'views'        => 'views',
             'image'        => 'mobile_image',
             'hide_image'   => function () {
