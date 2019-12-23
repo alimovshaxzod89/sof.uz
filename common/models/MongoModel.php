@@ -303,6 +303,10 @@ class MongoModel extends ActiveRecord
 
         $info      = pathinfo($imagePath);
         $imageName = crc32($filename) . '.' . $info['extension'];
+        if (strpos($imageName, '?')) {
+            $imageName = explode('?', $imageName);
+            $imageName = $imageName[0];
+        }
 
         $cropPath = $imageName[0] . DS . $imageName[1] . DS;
         $cropName = $width . '_' . $height . '_' . $quality . '_' . $imageName;
