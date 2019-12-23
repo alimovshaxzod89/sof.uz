@@ -341,6 +341,8 @@ class IndexerController extends Controller
                              ])->all();
         foreach ($posts as $post) {
             $post->prepareMobilePost();
+            echo $post->mobile_image . PHP_EOL;
+
             $post->updateAttributes([
                                         'is_mobile'     => true,
                                         'mobile_image'  => $post->mobile_image,
