@@ -329,7 +329,7 @@ class IndexerController extends Controller
         }
     }
 
-    public function actionPostMobile()
+    public function actionPostMobile($limit = 200)
     {
         ini_set('memory_limit', '-1');
         /* @var $posts Post[] */
@@ -338,7 +338,9 @@ class IndexerController extends Controller
                      ->where([
                                  'is_mobile' => ['$ne' => true],
                                  'status'    => Post::STATUS_PUBLISHED,
-                             ])->all();
+                             ])
+                     ->limit($limit)
+                     ->all();
         foreach ($posts as $post) {
             $post->prepareMobilePost();
             echo $post->mobile_image . PHP_EOL;
