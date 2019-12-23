@@ -1314,23 +1314,28 @@ class Post extends MongoModel
 
     public function prepareMobilePost($force = false)
     {
-        /** @var GalleryItem[] $gallery */
-        $items              = [];
-        $this->mobile_image = trim($this->getDefaultMobileImage());
-        $gallery            = $this->getGalleryItemsModel();
+        try {
+            /** @var GalleryItem[] $gallery */
+            $items              = [];
+            $this->mobile_image = trim($this->getDefaultMobileImage());
+            $gallery            = $this->getGalleryItemsModel();
 
-        if (count($gallery) > 0) {
-            foreach ($gallery as $item) {
-                if ($fullImage = $item->getImageCropped(720, null)) {
-                    $items[] = [
-                        'thumb'   => trim($item->getImageCropped(320, 320)),
-                        'image'   => trim($fullImage),
-                        'caption' => $item->caption,
-                    ];
+            if (count($gallery) > 0) {
+                foreach ($gallery as $item) {
+                    if ($fullImage = $item->getImageCropped(720, null)) {
+                        $items[] = [
+                            'thumb'   => trim($item->getImageCropped(320, 320)),
+                            'image'   => trim($fullImage),
+                            'caption' => $item->caption,
+                        ];
+                    }
                 }
+                $this->gallery_items = $items;
             }
-            $this->gallery_items = $items;
+        } catch (\Exception $exception) {
+            echo $exception->getMessage() . PHP_EOL;
         }
+
     }
 
     public function getReadMinLabel()

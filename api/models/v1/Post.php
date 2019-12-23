@@ -119,10 +119,9 @@ class Post extends PostModel
                     $similar = self::find()
                                    ->where([
                                                'status'    => Post::STATUS_PUBLISHED,
-                                               'is_mobile' => true,
                                                '_id'       => ['$nin' => [$this->_id]],
                                            ])
-                                   ->addOrderBy(['published_on' => SORT_DESC])
+                                   ->addOrderBy(['ad_time' => SORT_DESC, 'published_on' => SORT_DESC])
                                    ->limit(6)
                                    ->all();
 
