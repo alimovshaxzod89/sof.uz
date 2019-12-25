@@ -58,7 +58,7 @@ class Place extends PlaceModel
 
             return [
                 'type'    => $ad->type,
-                'content' => $ad->url ? Html::a($content, $ad->url, ['target' => '_blank']) : $content,
+                'content' => $ad->url && $ad->type == Ad::TYPE_IMAGE ? Html::a($content, $ad->url, ['target' => '_blank']) : $content,
                 'id'      => $ad->id,
             ];
         }
