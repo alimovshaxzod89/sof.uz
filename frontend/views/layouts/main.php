@@ -239,10 +239,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
 
         </script>
     </div>
-    <?php if ($banner): echo $banner?>
-    <?php else: ?>
 
-    <?php endif; ?>
     </body>
     </html>
 <?php $this->endPage() ?>
