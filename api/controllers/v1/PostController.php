@@ -222,20 +222,15 @@ class PostController extends ApiController
         /**
          * @var $post Post
          */
-        $ios = [];
-        $and = [];
+        $result = [];
 
         if ($post = $this->findPost()) {
             if ($push = $this->get('push')) {
-                if ($push == 'android') {
-                    $and = $post->sendPushNotificationAndroid(true);
-                }
+                $result = $post->sendPushNotificationAndroid(true);
             }
+
             return [
-                'push' => [
-                    'ios' => $ios,
-                    'and' => $and,
-                ],
+                'push' => $result,
                 'post' => $post->toArray([], array_keys($post->extraFields())),
             ];
         }

@@ -56,46 +56,12 @@ class Post extends PostModel
         return $this->is_main;// || $this->is_tagged;
     }
 
-    public function sendPushNotification()
-    {
-        $result = false;
-        if (Config::get(Config::CONFIG_PUSH_TO_ANDROID)) {
-            $result = $result || $this->sendPushNotificationAndroid() != false;
-        }
-
-        return $result;
-    }
 
     public function sendPushNotificationAndroid($force = false)
     {
-        if ($this->getPushedOnTimeDiffAndroid() == 0 || $force) {
-            $client = new Client(['base_uri' => 'https://fcm.googleapis.com/']);
+        $publisher = \Yii::$app->get(\common\models\Post::SOCIAL_ANDROID);
 
-            $params = [
-                'json'    => [
-                    'to'       => YII_DEBUG ? '/topics/allTest' : '/topics/all',
-                    'priority' => 'normal',
-                    'data'     => [
-                        'post_id' => $this->getId(),
-                    ],
-                ],
-                'headers' => [
-                    'Authorization' => getenv('FCM_KEY'),
-                ],
-            ];
-
-            $result = $client->post('fcm/send', $params);
-            $result = $result->getBody()->getContents();
-
-            if ($data = Json::decode($result, true)) {
-                if (isset($data['message_id'])) {
-                    $this->updateAttributes(['pushed_on' => call_user_func($this->getTimestampValue())]);
-                }
-                return $data;
-            }
-        }
-
-        return false;
+        return $publisher->publish($this, true);
     }
 
     public function extraFields()
@@ -118,8 +84,8 @@ class Post extends PostModel
                 if (count($similar) < 2) {
                     $similar = self::find()
                                    ->where([
-                                               'status'    => Post::STATUS_PUBLISHED,
-                                               '_id'       => ['$nin' => [$this->_id]],
+                                               'status' => Post::STATUS_PUBLISHED,
+                                               '_id'    => ['$nin' => [$this->_id]],
                                            ])
                                    ->addOrderBy(['ad_time' => SORT_DESC, 'published_on' => SORT_DESC])
                                    ->limit(6)

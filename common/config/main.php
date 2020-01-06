@@ -3,6 +3,7 @@
 use backend\components\sharer\FacebookShare;
 use backend\components\sharer\TelegramBot;
 use backend\components\sharer\TwitterShare;
+use common\components\Config;
 use yii\helpers\ArrayHelper;
 
 $params = array_merge(
@@ -151,6 +152,18 @@ $config = [
             'consumerSecret'    => getenv('TWITTER_CONSUMER_SECRET'),
             'accessToken'       => getenv('TWITTER_TOKEN'),
             'accessTokenSecret' => getenv('TWITTER_TOKEN_SECRET'),
+        ],
+        'android'      => [
+            'class'     => \backend\components\sharer\Firebase::class,
+            'apiKey'    => getenv('BOT_TOKEN'),
+            'to'        => [
+                Config::LANGUAGE_UZBEK    => "/topics/sofuz_android_latin",
+                Config::LANGUAGE_CYRILLIC => "/topics/sofuz_android_cyril",
+            ],
+            'condition' => [
+                Config::LANGUAGE_UZBEK    => "'sofuz_android_latin' in topics || 'sofuz_ios_latin' in topics",
+                Config::LANGUAGE_CYRILLIC => "'sofuz_android_cyril' in topics || 'sofuz_ios_cyril' in topics",
+            ],
         ],
     ],
     'params'     => $params,
