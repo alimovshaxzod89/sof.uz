@@ -33,7 +33,7 @@ class PostController extends ApiController
                 'class'      => 'yii\filters\PageCache',
                 'only'       => ['view', 'view-url', 'list', 'home'],
                 'duration'   => 60,
-                'enabled'    => !YII_DEBUG,
+                'enabled'    => !YII_DEBUG && !$this->get('push'),
                 'variations' => [
                     Yii::$app->id,
                     Yii::$app->language,
