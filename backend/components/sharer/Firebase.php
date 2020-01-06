@@ -29,15 +29,15 @@ class Firebase extends BaseShare
         if (empty($this->apiKey)) {
             throw new Exception('Firebase API Key cannot be empty');
         }
-        if (empty($this->topics)) {
-            throw new Exception('Topics cannot be empty');
-        }
     }
 
     public function publish($post, $force = false)
     {
-        $result = [];
-        $post   = Post::findOne($post->id);
+        $results = [
+            'errors'   => [],
+            'messages' => [],
+        ];
+        $post    = Post::findOne($post->id);
 
         if ($post->getPushedOnTimeDiffAndroid() == 0 || $force) {
             $client = new Client(['base_uri' => 'https://fcm.googleapis.com/']);
@@ -73,10 +73,10 @@ class Firebase extends BaseShare
                         if (isset($data['message_id'])) {
                             $post->updateAttributes(['pushed_on' => call_user_func($post->getTimestampValue())]);
                         }
-                        $result[] = $data;
+                        $results['messages'][] = $data;
                     }
                 } catch (Exception $e) {
-
+                    $results['errors'][] = $e->getMessage();
                 }
             }
 
@@ -84,6 +84,6 @@ class Firebase extends BaseShare
         }
 
 
-        return $result;
+        return $results;
     }
 }

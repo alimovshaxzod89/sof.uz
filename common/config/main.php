@@ -155,7 +155,7 @@ $config = [
         ],
         'android'      => [
             'class'     => \backend\components\sharer\Firebase::class,
-            'apiKey'    => getenv('BOT_TOKEN'),
+            'apiKey'    => getenv('FCM_KEY'),
             'to'        => [
                 Config::LANGUAGE_UZBEK    => "/topics/sofuz_android_latin",
                 Config::LANGUAGE_CYRILLIC => "/topics/sofuz_android_cyril",
