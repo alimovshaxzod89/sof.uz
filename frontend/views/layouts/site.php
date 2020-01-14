@@ -19,6 +19,9 @@ $globalVars = [
     'u'    => !Yii::$app->user->getIsGuest() ? $this->getUser()->getId() : $this->context->getUserId()
 ];
 if (isset($this->params['post'])) $globalVars['p'] = $this->params['post']->getId();
+if (isset($this->params['post']) && strpos($this->params['post']->content, 'abt_test')) {
+    \frontend\assets\TestAsset::register($this);
+}
 if (isset($this->params['category'])) $globalVars['c'] = $this->params['category']->getId();
 $this->registerJs('var globalVars=' . \yii\helpers\Json::encode($globalVars) . ';', View::POS_HEAD);
 $this->beginContent('@app/views/layouts/main.php');
