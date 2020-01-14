@@ -769,7 +769,7 @@ class Post extends MongoModel
                 /**
                  * @var $img AbstractNode
                  */
-                $images = $dom->find('iframe');
+                /*$images = $dom->find('iframe');
 
                 foreach ($images as $img) {
                     $parentClass = $img->getParent()->getAttribute('class');
@@ -816,7 +816,7 @@ class Post extends MongoModel
 
                 $content = (string)$dom;
 
-                $this->content = $content;
+                $this->content = $content;*/
             }
         }
 
