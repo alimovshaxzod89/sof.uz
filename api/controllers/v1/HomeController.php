@@ -28,7 +28,7 @@ class HomeController extends ApiController
     private function getCategoryList()
     {
         $root = Config::get(Config::CONFIG_MENU_CATEGORY);
-        return Category::getCategoryTree(['is_menu' => true], $root);
+        return Category::getCategoryTree([], $root);
     }
 
     public function actionPage($slug)

@@ -20,6 +20,9 @@ class Category extends CategoryModel
                 return ($this->created_at instanceof Timestamp) ? $this->created_at->getTimestamp() : $this->created_at;
             },
             'child',
+            'is_menu'    => function () {
+                return boolval($this->is_menu);
+            },
         ];
     }
 }
