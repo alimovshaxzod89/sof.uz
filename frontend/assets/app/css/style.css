@@ -582,7 +582,7 @@ article.post .entry-header .entry-meta span {
     float: right;
 }
 
-.ad_post {
+.primary_post {
     background-color: rgba(255, 252, 0, 0.22);
     padding: 10px;
     margin-left: -10px;
