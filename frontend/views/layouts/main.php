@@ -207,7 +207,8 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         };
     </script>
     <?php $this->endBody() ?>
-    <div id="banner-yandex" style="display: none;position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
+    <div id="banner-yandex"
+         style="display: none; box-shadow: 0 0 1px 1px rgba(0,0,0,0.2); position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
         <!-- Yandex.RTB R-A-476227-1 -->
         <div id="yandex_rtb_R-A-476227-1"></div>
         <script type="application/javascript">
@@ -215,6 +216,10 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
                 a(document).ready(function () {
                     if (a(window).width() < 769) {
                         a("#banner-yandex").show();
+                        a('#close').click(function (e) {
+                            e.preventDefault();
+                            a('#banner-yandex').slideDown(500);
+                        });
                         (function (w, d, n, s, t) {
                             w[n] = w[n] || [];
                             w[n].push(function () {
@@ -224,7 +229,10 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
                                         async: true
                                     },
                                     function () {
-                                        jQuery('#banner-yandex').initBanner({"place":"yandex-callback","language":globalVars.l});
+                                        jQuery('#banner-yandex').initBanner({
+                                            "place": "yandex-callback",
+                                            "language": globalVars.l
+                                        });
                                     });
                             });
                             t = d.getElementsByTagName("script")[0];
@@ -239,6 +247,8 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
             }(jQuery);
 
         </script>
+        <span id="close"
+              style="background: #00aa51;width: 20px;line-height: 20px;color: #fffdisplay: inline-block;text-align: center;position: absolute;top: -10px;right: -10px;cursor: pointer; z-index: 999999;box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);">×</span>
     </div>
 
     </body>

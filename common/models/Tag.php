@@ -59,8 +59,8 @@ class Tag extends MongoModel
 
             $tag       = new Tag();
             $tag->name = $name;
-            $tag->setTranslation('name', $trans->translateToLatin($name), Config::LANGUAGE_UZBEK);
-            $tag->setTranslation('name', $trans->translateToCyrillic($name), Config::LANGUAGE_CYRILLIC);
+            //$tag->setTranslation('name', $trans->translateToLatin($name), Config::LANGUAGE_UZBEK);
+            //$tag->setTranslation('name', $trans->translateToCyrillic($name), Config::LANGUAGE_CYRILLIC);
 
 
             $tag->slug      = $slug;
