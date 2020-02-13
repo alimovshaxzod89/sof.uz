@@ -210,7 +210,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
     <div id="banner-yandex"
          style="display: none; box-shadow: 0 0 1px 1px rgba(0,0,0,0.2); position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
         <!-- Yandex.RTB R-A-476227-1 -->
-        <span id="close-banner"  style="background: #00aa51;width: 26px;line-height: 26px;color: #fff;display: inline-block;text-align: center;position: absolute;top: -13px;right: 2px;cursor: pointer; z-index: 999999;box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);">×</span>
+        <span id="close-banner"  style="border-radius:50%;background: #00aa51;width: 26px;line-height: 26px;color: #fff;display: inline-block;text-align: center;position: absolute;top: -13px;right: 2px;cursor: pointer; z-index: 999999;box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);">×</span>
 
         <div id="yandex_rtb_R-A-476227-1"></div>
         <script type="application/javascript">
@@ -220,7 +220,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
                         a("#banner-yandex").show();
                         a('#close-banner').click(function (e) {
                             e.preventDefault();
-                            a('#banner-yandex').slideDown(500);
+                            a('#banner-yandex').slideUp();
                         });
                         (function (w, d, n, s, t) {
                             w[n] = w[n] || [];
