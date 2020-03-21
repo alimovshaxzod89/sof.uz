@@ -212,7 +212,7 @@ class LocaleSitemap
             $url = $this->getDomain() . $loc;
         }
 
-        $this->getWriter()->writeElement('loc', trim($url,'/'));
+        $this->getWriter()->writeElement('loc', str_replace($this->getDomain(), $this->getDomain() . 'oz/', $url));
         $this->getWriter()->writeElement('priority', $priority);
 
         if ($changefreq)

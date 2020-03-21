@@ -22,18 +22,10 @@ class PostController extends ApiController
 
         return ArrayHelper::merge($data, [
             [
-                'class'              => 'yii\filters\HttpCache',
-                'cacheControlHeader' => 'public, max-age=60',
-                'lastModified'       => function ($action, $params) {
-                    $q = new \yii\mongodb\Query();
-                    return $q->from('post')->max('updated_at')->getTimestamp();
-                },
-            ],
-            [
-                'class'      => 'yii\filters\PageCache',
-                'only'       => ['view', 'view-url', 'list', 'home'],
-                'duration'   => 60,
-                'enabled'    => !(YII_DEBUG || $this->get('push')),
+                'class' => 'yii\filters\PageCache',
+                'only' => ['view', 'view-url', 'list', 'home'],
+                'duration' => 60,
+                'enabled' => !(YII_DEBUG || $this->get('push')),
                 'variations' => [
                     Yii::$app->id,
                     Yii::$app->language,
@@ -69,12 +61,12 @@ class PostController extends ApiController
 
     public function actionSearch($query, $page = 0)
     {
-        $page  = intval($page);
+        $page = intval($page);
         $limit = 30;
         $query = trim(strip_tags($query));
 
         $result = Post::find()
-                      ->orderBy(['published_on' => SORT_DESC]);
+            ->orderBy(['published_on' => SORT_DESC]);
 
 
         $attrs = ['title', 'content'];
@@ -84,12 +76,12 @@ class PostController extends ApiController
         }
 
         $result->limit($limit)
-               ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
-               ->offset($page * $limit);
+            ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
+            ->offset($page * $limit);
 
         return [
             'items' => $result->all(),
-            'page'  => $page,
+            'page' => $page,
             'limit' => $limit,
             'query' => $query,
         ];
@@ -98,10 +90,10 @@ class PostController extends ApiController
 
     public function actionList($page = 0, $category = false, $tag = false, $type = 'all', $order = self::ORDER_DEFAULT, $full = false, $author = false)
     {
-        $page  = intval($page);
+        $page = intval($page);
         $limit = 15;
 
-        $after  = intval($this->get('after', false));
+        $after = intval($this->get('after', false));
         $before = intval($this->get('before', false));
 
         $full = ($page < 2) ? true : $full;
@@ -112,23 +104,23 @@ class PostController extends ApiController
 
         if ($order && $order != self::ORDER_DEFAULT && $page > 3) {
             return [
-                'items'    => [],
-                'page'     => $page,
-                'type'     => $type,
-                'limit'    => $limit,
+                'items' => [],
+                'page' => $page,
+                'type' => $type,
+                'limit' => $limit,
                 'category' => $category ? $category->getId() : null,
-                'tag'      => $tag ? $tag->getId() : null,
+                'tag' => $tag ? $tag->getId() : null,
             ];
         }
 
         $posts = Post::find()
-                     ->where([
-                                 'status' => Post::STATUS_PUBLISHED,
-                                 //'is_mobile' => true,
-                             ])
-                     ->limit($limit)
-                     ->orderBy([$order => SORT_DESC])
-                     ->offset($page * $limit);
+            ->where([
+                'status' => Post::STATUS_PUBLISHED,
+                //'is_mobile' => true,
+            ])
+            ->limit($limit)
+            ->orderBy([$order => SORT_DESC])
+            ->offset($page * $limit);
 
 
         if ($type == 'photo') {
@@ -139,17 +131,17 @@ class PostController extends ApiController
 
         if ($author) {
             $posts->andFilterWhere([
-                                       '_author' => new ObjectId($author),
-                                   ]);
+                '_author' => new ObjectId($author),
+            ]);
         }
 
         if ($order == 'views') {
             $date = new Timestamp(1, strtotime("-3 days"));
             $posts->andFilterWhere([
-                                       'views'        => ['$gte' => 1],
-                                       'published_on' => ['$gte' => $date],
-                                   ])
-                  ->orderBy(['views' => SORT_DESC]);
+                'views' => ['$gte' => 1],
+                'published_on' => ['$gte' => $date],
+            ])
+                ->orderBy(['views' => SORT_DESC]);
         } else {
             $posts->orderBy([$order => SORT_DESC]);
         }
@@ -158,12 +150,12 @@ class PostController extends ApiController
         if ($category) {
             if ($category = Category::findOne($category)) {
                 $posts->andWhere([
-                                     '_categories' => [
-                                         '$elemMatch' => [
-                                             '$eq' => $category->getId(),
-                                         ],
-                                     ],
-                                 ]);
+                    '_categories' => [
+                        '$elemMatch' => [
+                            '$eq' => $category->getId(),
+                        ],
+                    ],
+                ]);
             } else {
                 $category = null;
             }
@@ -171,39 +163,40 @@ class PostController extends ApiController
 
         if ($tag) {
             $posts->andWhere([
-                                 '_tags' => [
-                                     '$elemMatch' => [
-                                         '$eq' => new ObjectId($tag),
-                                     ],
-                                 ],
-                             ]);
+                '_tags' => [
+                    '$elemMatch' => [
+                        '$eq' => new ObjectId($tag),
+                    ],
+                ],
+            ]);
         }
 
         $result = [];
 
         foreach ($posts->all() as $post) {
-            $item                 = $post->toArray([]);
+            $item = $post->toArray([]);
             $item['has_priority'] = $this->getPriority($post);
-            $result[]             = $item;
+            $result[] = $item;
         }
 
         return [
-            'items'    => $result,
-            'page'     => $page,
-            'type'     => $type,
-            'limit'    => $limit,
+            'items' => $result,
+            'page' => $page,
+            'type' => $type,
+            'limit' => $limit,
             'category' => $category ? $category->getId() : null,
-            'tag'      => $tag ?: null,
+            'tag' => $tag ?: null,
         ];
     }
 
     public function actionViewUrl($slug)
     {
         if ($post = Post::find()
-                        ->orFilterWhere(['short_id' => $slug])
-                        ->orFilterWhere(['slug' => $slug])
-                        ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
-                        ->one()
+            ->orFilterWhere(['short_id' => $slug])
+            ->orFilterWhere(['slug' => $slug])
+            ->andFilterWhere(['status' => Post::STATUS_PUBLISHED])
+            ->limit(1)
+            ->one()
         ) {
             return [
                 'post' => $post->toArray([], array_keys($post->extraFields())),
@@ -243,11 +236,12 @@ class PostController extends ApiController
     private function findPost()
     {
         if ($post = Post::find()
-                        ->where([
-                                    '_id'    => $this->get('id', time()),
-                                    'status' => Post::STATUS_PUBLISHED
-                                ])
-                        ->one()
+            ->where([
+                '_id' => $this->get('id', time()),
+                'status' => Post::STATUS_PUBLISHED
+            ])
+            ->limit(1)
+            ->one()
         ) {
             return $post;
         }

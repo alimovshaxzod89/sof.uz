@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('HTTPS_ON', isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
@@ -24,7 +25,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
     $_SERVER['HTTPS'] = 'on';
 
 if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $ips                    = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+    $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
     $_SERVER['REMOTE_ADDR'] = trim($ips[0]);
 } elseif (isset($_SERVER['HTTP_X_REAL_IP']) && !empty($_SERVER['HTTP_X_REAL_IP'])) {
     $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_REAL_IP'];
@@ -32,50 +33,22 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
     $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CLIENT_IP'];
 }
 
-
-function __($message, $params = array(), $category = 'app.ui')
+function linkTo($params, $schema = false)
 {
-    $language = Yii::$app->language;
-    switch (Yii::$app->id) {
-        case 'app-backend' :
-            $category = 'app.backend';
-            break;
-        case 'app-frontend' :
-            $category = 'app.frontend';
-            break;
-        case 'app-console' :
-            $category = 'app.console';
-            break;
-    }
+    return Url::to($params, $schema);
+}
 
+
+function __($message, $params = [], $language = false)
+{
     $params = ArrayHelper::merge($params, [
-        'br'  => '<br>',
-        'b'   => '<b>',
-        'bc'  => '</b>',
-        'sp'  => '<span>',
+        'br' => '<br>',
+        'b' => '<b>',
+        'bc' => '</b>',
+        'sp' => '<span>',
         'spc' => '</span>',
-        'em'  => '<em>',
+        'em' => '<em>',
         '/em' => '</em>',
     ]);
-
-    /* @var $mongodb \yii\mongodb\Connection */
-    /*$mongodb    = Yii::$app->mongodb;
-    $collection = $mongodb->getCollection('_system_message');
-    $collection->remove(['message' => '']);
-
-    $old = ['category' => 'app.ui', 'message' => $message];
-    $msg = $collection->findOne($old);
-    if ($msg != null) {
-        try {
-            $collection->update($old, [
-                'category' => $category,
-                'message'  => $message
-            ]);
-
-        } catch (Exception $e) {
-            Yii::error($e->getMessage());
-        }
-    } else {*/
-        return Yii::t($category, trim($message), $params, $language);
-    //}
+    return Yii::t('app', trim($message), $params, $language ?: Yii::$app->language);
 }

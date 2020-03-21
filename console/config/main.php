@@ -36,7 +36,10 @@ return [
         'queue'      => [
             'class' => Queue::className(),
         ],
-        'urlManager' => require(dirname(dirname(__DIR__)) . '/frontend/config/url-manager.php'),
+        'urlManager' => \yii\helpers\ArrayHelper::merge([
+            'baseUrl' => Yii::getAlias('@frontendUrl'),
+            'hostInfo' => Yii::getAlias('@frontendUrl'),
+        ], require(dirname(dirname(__DIR__)) . '/frontend/config/url-manager.php')),
         'log'        => [
             'targets' => [
                 [

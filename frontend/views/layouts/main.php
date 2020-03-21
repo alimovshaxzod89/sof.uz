@@ -12,7 +12,7 @@ use frontend\components\View;
 
 AppAsset::register($this);
 
-$url   = $this->getCanonical();
+$url = $this->getCanonical();
 $title = $this->title ? $this->title . ' — Sof.uz' : __('Xabarlar — Sof.uz');
 
 if (!$this->hasDescription())
@@ -21,7 +21,7 @@ if (!$this->hasKeywords())
     $this->addKeywords([__('Yangiliklar, xabarlar, voqealar, hodisalar, dunyo yangiliklari, mahalliy yangiliklar, kun xabarlari, tezkor xabarlar, tezkor yangiliklar, sof.uz')]);
 
 $description = $this->getDescription();
-$keywords    = $this->getKeywords();
+$keywords = $this->getKeywords();
 $this->registerCsrfMetaTags();
 $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
 
@@ -208,9 +208,10 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
     </script>
     <?php $this->endBody() ?>
     <div id="banner-yandex"
-         style="display: none; box-shadow: 0 0 1px 1px rgba(0,0,0,0.2); position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
+         style="height:50px;display: none; box-shadow: 0 0 1px 1px rgba(0,0,0,0.2); position: fixed;z-index: 9999;left: 0;bottom: 0;max-height: 50px;background-color: #fff;width: 100%">
         <!-- Yandex.RTB R-A-476227-1 -->
-        <span id="close-banner"  style="border-radius: 50%;background: #00aa51;width: 28px;line-height: 29px;color: #fff;border-bottom-right-radius: 0;display: inline-block;text-align: center;position: absolute;top: -13px;right: 0px; cursor: pointer;z-index: 999999;box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);">×</span>
+        <span id="close-banner"
+              style="border-radius: 50%;background: #00aa51;width: 28px;line-height: 29px;color: #fff;border-bottom-right-radius: 0;display: inline-block;text-align: center;position: absolute;top: -13px;right: 0px; cursor: pointer;z-index: 999999;box-shadow: 0 0 1px 1px rgba(0,0,0,0.2);">×</span>
 
         <div id="yandex_rtb_R-A-476227-1"></div>
         <script type="application/javascript">

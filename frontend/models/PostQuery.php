@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\components\Config;
 use yii\helpers\ArrayHelper;
 use yii\mongodb\ActiveQuery;
 
@@ -9,25 +10,28 @@ class PostQuery extends ActiveQuery
 {
     public function active($fields = [])
     {
+        $lang = Config::getLanguageCode();
+
         return $this->select(
             ArrayHelper::merge([
-                                   'title',
-                                   'slug',
-                                   'short_id',
-                                   'is_main',
-                                   'status',
-                                   'info',
-                                   'image',
-                                   '_categories',
-                                   '_translations',
-                                   'published_on',
-                                   'views',
-                                   'views_l3d',
-                                   'views_l7d',
-                                   'is_ad',
-                                   '_author',
-                               ], $fields))
-                    ->andFilterWhere(['status' => PostProvider::STATUS_PUBLISHED]);
+                'title',
+                '_categories',
+                "_translations.title_$lang",
+                "_translations.info_$lang",
+                'slug',
+                'short_id',
+                'is_main',
+                'status',
+                'image',
+                'published_on',
+                'views',
+                'views_l3d',
+                'views_l7d',
+                'is_ad',
+                '_author',
+                '_author_post',
+            ], $fields))
+            ->andFilterWhere(['status' => PostProvider::STATUS_PUBLISHED]);
     }
 
     /**

@@ -18,70 +18,70 @@ use yii\helpers\StringHelper;
 
 /**
  * Class Post
- * @property string     title
- * @property string     title_color
- * @property string     content
- * @property string     content_source
- * @property string     slug
- * @property string     status
- * @property string     old_id
- * @property string     old_slug
- * @property integer    old_views
- * @property array      image
- * @property array      image_source
- * @property array      image_caption
- * @property array      image_size
- * @property string     mobile_image
- * @property array      gallery_items
- * @property string     audio_url
- * @property string     video_url
- * @property string     template
- * @property string     _author_post
- * @property mixed      info
- * @property mixed      type
- * @property mixed      label
- * @property mixed      _tags
- * @property mixed      _similar
- * @property mixed      gallery
- * @property mixed      _categories
+ * @property string title
+ * @property string title_color
+ * @property string content
+ * @property string content_source
+ * @property string slug
+ * @property string status
+ * @property string old_id
+ * @property string old_slug
+ * @property integer old_views
+ * @property array image
+ * @property array image_source
+ * @property array image_caption
+ * @property array image_size
+ * @property string mobile_image
+ * @property array gallery_items
+ * @property string audio_url
+ * @property string video_url
+ * @property string template
+ * @property string _author_post
+ * @property mixed info
+ * @property mixed type
+ * @property mixed label
+ * @property mixed _tags
+ * @property mixed _similar
+ * @property mixed gallery
+ * @property mixed _categories
  * @property Category[] categories
- * @property Category   category
- * @property Tag[]      tags
- * @property mixed      audio
- * @property mixed      audio_duration
- * @property mixed      audio_duration_formatted
- * @property mixed      video
- * @property mixed      youtube_url
- * @property mixed      mover_url
- * @property mixed      auto_publish_time
- * @property Timestamp  published_on
- * @property mixed      updated_on
- * @property mixed      creator_type
- * @property mixed      _creator
- * @property mixed      _author
- * @property string     creator_session
- * @property integer    short_id
- * @property boolean    has_video
- * @property boolean    has_gallery
- * @property boolean    has_info
- * @property boolean    is_main
- * @property boolean    is_instant
- * @property boolean    is_sidebar
- * @property boolean    is_mobile
- * @property Timestamp  pushed_on
- * @property Timestamp  locked_on
- * @property integer    ad_time
- * @property boolean    hide_image
- * @property boolean    is_ad
- * @property integer    views
- * @property integer    views_l3d
- * @property integer    views_l7d
- * @property integer    views_l30d
- * @property integer    views_today
- * @property integer    read_min
- * @property boolean    img_watermark
- * @property Admin      creator
- * @property Admin      author
+ * @property Category category
+ * @property Tag[] tags
+ * @property mixed audio
+ * @property mixed audio_duration
+ * @property mixed audio_duration_formatted
+ * @property mixed video
+ * @property mixed youtube_url
+ * @property mixed mover_url
+ * @property mixed auto_publish_time
+ * @property Timestamp published_on
+ * @property mixed updated_on
+ * @property mixed creator_type
+ * @property mixed _creator
+ * @property mixed _author
+ * @property string creator_session
+ * @property integer short_id
+ * @property boolean has_video
+ * @property boolean has_gallery
+ * @property boolean has_info
+ * @property boolean is_main
+ * @property boolean is_instant
+ * @property boolean is_sidebar
+ * @property boolean is_mobile
+ * @property Timestamp pushed_on
+ * @property Timestamp locked_on
+ * @property integer ad_time
+ * @property boolean hide_image
+ * @property boolean is_ad
+ * @property integer views
+ * @property integer views_l3d
+ * @property integer views_l7d
+ * @property integer views_l30d
+ * @property integer views_today
+ * @property integer read_min
+ * @property boolean img_watermark
+ * @property Admin creator
+ * @property Admin author
  * @package common\models
  */
 class Post extends MongoModel
@@ -89,10 +89,10 @@ class Post extends MongoModel
     const SCENARIO_CONVERT = 'convert';
     const AUTHOR_CATEGORY = '5d63dd4d18855a227578b4ab';
     protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
-    protected $_booleanAttributes    = ['img_watermark', 'is_ad', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
-    protected $_integerAttributes    = ['ad_time', 'views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
+    protected $_booleanAttributes = ['img_watermark', 'is_ad', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
+    protected $_integerAttributes = ['ad_time', 'views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
     protected $_searchableAttributes = ['title', 'info', 'category'];
-    protected $_idAttributes         = ['_creator', '_author'];
+    protected $_idAttributes = ['_creator', '_author'];
 
     const LABEL_REGULAR = 'regular';
     const LABEL_IMPORTANT = 'important';
@@ -235,7 +235,7 @@ class Post extends MongoModel
             [['info', 'image_source', 'content_source'], 'safe', 'on' => self::SCENARIO_CREATE],
 
             [['title', 'info', 'slug', 'content', 'title_color', 'image', 'hide_image', 'status', 'label', 'gallery', 'info', '_categories', '_tags', 'audio', 'video', 'published_on', 'is_sidebar', 'is_main', 'is_instant', '_creator', '_author'],
-             'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
+                'safe', 'on' => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
 
             [['slug'], 'match', 'skipOnEmpty' => true, 'pattern' => '/^[a-z0-9-]{3,255}$/', 'message' => __('Use URL friendly character')],
 
@@ -246,20 +246,20 @@ class Post extends MongoModel
             [$this->_booleanAttributes, 'safe'],
 
             [['title', 'slug', 'info', '_categories'], 'required',
-             'on'   => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO],
-             'when' => function ($model) {
-                 return $model->status != self::STATUS_DRAFT;
-             }],
+                'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO],
+                'when' => function ($model) {
+                    return $model->status != self::STATUS_DRAFT;
+                }],
 
             [['title', 'slug'], 'required', 'on' => self::SCENARIO_CONVERT, 'when' => function ($model) {
                 return $model->status != self::STATUS_DRAFT;
             }],
 
             [['content'], 'required',
-             'on'   => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT],
-             'when' => function ($model) {
-                 return $model->status != self::STATUS_DRAFT && empty($this->audio);
-             }],
+                'on' => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT],
+                'when' => function ($model) {
+                    return $model->status != self::STATUS_DRAFT && empty($this->audio);
+                }],
 
             [['gallery'], 'required', 'on' => [self::SCENARIO_GALLERY], 'when' => function ($model) {
                 return $model->status != self::STATUS_DRAFT;
@@ -274,14 +274,14 @@ class Post extends MongoModel
             }],
 
             [['auto_publish_time'], 'required',
-             'on'         => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS],
-             'whenClient' => 'checkAutoPublishStatus',
-             'when'       => function ($model) {
-                 return $model->status == self::STATUS_AUTO_PUBLISH;
-             }],
+                'on' => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS],
+                'whenClient' => 'checkAutoPublishStatus',
+                'when' => function ($model) {
+                    return $model->status == self::STATUS_AUTO_PUBLISH;
+                }],
 
             [['status'], 'in', 'range' => array_keys(self::getStatusArray()),
-             'on'                      => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS, self::SCENARIO_CONVERT]],
+                'on' => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS, self::SCENARIO_CONVERT]],
 
             [['title'], 'string', 'max' => 512],
             [['slug'], 'string', 'max' => 256],
@@ -291,10 +291,10 @@ class Post extends MongoModel
 
             [['info'], 'string', 'min' => 50, 'max' => 500, 'on' => [self::SCENARIO_NEWS, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO]],
             [['short_id'], 'safe',
-             'on'   => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO],
-             'when' => function ($model) {
-                 return $model->status != self::STATUS_DRAFT;
-             }],
+                'on' => [self::SCENARIO_NEWS, self::SCENARIO_CONVERT, self::SCENARIO_GALLERY, self::SCENARIO_VIDEO],
+                'when' => function ($model) {
+                    return $model->status != self::STATUS_DRAFT;
+                }],
         ];
     }
 
@@ -339,18 +339,18 @@ class Post extends MongoModel
     public static function getStatusArray()
     {
         return [
-            self::STATUS_DRAFT        => __('Draft'),
-            self::STATUS_PUBLISHED    => __('Published'),
+            self::STATUS_DRAFT => __('Draft'),
+            self::STATUS_PUBLISHED => __('Published'),
             self::STATUS_AUTO_PUBLISH => __('Auto Publish'),
-            self::STATUS_DISABLED     => __('Disabled'),
+            self::STATUS_DISABLED => __('Disabled'),
         ];
     }
 
     public static function getLabelArray($empty = false)
     {
         $options = [
-            self::LABEL_REGULAR        => __('Regular News'),
-            self::LABEL_IMPORTANT      => __('Important News'),
+            self::LABEL_REGULAR => __('Regular News'),
+            self::LABEL_IMPORTANT => __('Important News'),
             self::LABEL_CREATOR_CHOICE => __('Creator\'s Choice'),
         ];
         return $empty ? ArrayHelper::merge(['' => ''], $options) : $options;
@@ -360,18 +360,18 @@ class Post extends MongoModel
     {
         return [
             self::SOCIAL_FACEBOOK => __('Facebook'),
-            self::SOCIAL_TWITTER  => __('Twitter'),
+            self::SOCIAL_TWITTER => __('Twitter'),
             self::SOCIAL_TELEGRAM => __('Telegram'),
-            self::SOCIAL_ANDROID  => __('Android'),
+            self::SOCIAL_ANDROID => __('Android'),
         ];
     }
 
     public static function getTypeArray()
     {
         return [
-            self::TYPE_NEWS    => __('News'),
+            self::TYPE_NEWS => __('News'),
             self::TYPE_GALLERY => __('Gallery'),
-            self::TYPE_VIDEO   => __('Video'),
+            self::TYPE_VIDEO => __('Video'),
         ];
     }
 
@@ -391,22 +391,22 @@ class Post extends MongoModel
     {
         $this->load($params);
         $query = self::find()
-                     ->with('categories');
+            ->with('categories');
 
         $dataProvider = new ActiveDataProvider([
-                                                   'query'      => $query,
-                                                   'sort'       => [
-                                                       'defaultOrder' => $this->status == self::STATUS_DRAFT ?
-                                                           [
-                                                               'created_at' => SORT_DESC,
-                                                           ] : [
-                                                               'published_on' => SORT_DESC,
-                                                           ],
-                                                   ],
-                                                   'pagination' => [
-                                                       'pageSize' => 30,
-                                                   ],
-                                               ]);
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => $this->status == self::STATUS_DRAFT ?
+                    [
+                        'created_at' => SORT_DESC,
+                    ] : [
+                        'published_on' => SORT_DESC,
+                    ],
+            ],
+            'pagination' => [
+                'pageSize' => 30,
+            ],
+        ]);
 
 
         if ($this->search) {
@@ -432,19 +432,19 @@ class Post extends MongoModel
     {
         $this->load($params);
         $query = self::find()
-                     ->with('categories');
+            ->with('categories');
 
         $dataProvider = new ActiveDataProvider([
-                                                   'query'      => $query,
-                                                   'sort'       => [
-                                                       'defaultOrder' => [
-                                                           'published_on' => SORT_DESC,
-                                                       ],
-                                                   ],
-                                                   'pagination' => [
-                                                       'pageSize' => 30,
-                                                   ],
-                                               ]);
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'published_on' => SORT_DESC,
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 30,
+            ],
+        ]);
 
 
         if ($this->search) {
@@ -457,14 +457,14 @@ class Post extends MongoModel
 
 
         $query->andFilterWhere([
-                                   '_author'     => [
-                                       '$in' => Admin::find()->select(['_id'])->column()
-                                   ],
-                                   '_categories' => [
-                                       '$elemMatch' => ['$in' => ['5d63dd4d18855a227578b4ab']]
-                                   ],
-                                   'status'      => ['$ne' => self::STATUS_IN_TRASH]
-                               ]);
+            '_author' => [
+                '$in' => Admin::find()->select(['_id'])->column()
+            ],
+            '_categories' => [
+                '$elemMatch' => ['$in' => ['5d63dd4d18855a227578b4ab']]
+            ],
+            'status' => ['$ne' => self::STATUS_IN_TRASH]
+        ]);
 
         return $dataProvider;
     }
@@ -474,19 +474,19 @@ class Post extends MongoModel
     {
         self::updateAll(['_author_post' => null]);
         $items = self::find()
-                     ->select(['_id', '_author'])
-                     ->andFilterWhere([
-                                          '_author'     => [
-                                              '$in' => Admin::find()->select(['_id'])->column()
-                                          ],
-                                          '_categories' => [
-                                              '$elemMatch' => ['$in' => [self::AUTHOR_CATEGORY]]
-                                          ],
-                                          'status'      => self::STATUS_PUBLISHED
-                                      ])
-                     ->orderBy(['published_on' => SORT_DESC])
-                     ->asArray()
-                     ->all();
+            ->select(['_id', '_author'])
+            ->andFilterWhere([
+                '_author' => [
+                    '$in' => Admin::find()->select(['_id'])->column()
+                ],
+                '_categories' => [
+                    '$elemMatch' => ['$in' => [self::AUTHOR_CATEGORY]]
+                ],
+                'status' => self::STATUS_PUBLISHED
+            ])
+            ->orderBy(['published_on' => SORT_DESC])
+            ->asArray()
+            ->all();
 
         $authors = [];
 
@@ -508,19 +508,19 @@ class Post extends MongoModel
     {
         $this->load($params);
         $query = self::find()
-                     ->with('categories');
+            ->with('categories');
 
         $dataProvider = new ActiveDataProvider([
-                                                   'query'      => $query,
-                                                   'sort'       => [
-                                                       'defaultOrder' => [
-                                                           'published_on' => SORT_DESC,
-                                                       ],
-                                                   ],
-                                                   'pagination' => [
-                                                       'pageSize' => 30,
-                                                   ],
-                                               ]);
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'published_on' => SORT_DESC,
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 30,
+            ],
+        ]);
 
         if ($this->search) {
             foreach (Config::getLanguageCodes() as $code) {
@@ -589,7 +589,7 @@ class Post extends MongoModel
         }
 
         if (empty($this->slug) || $this->isNewRecord) {
-            $slug       = Translator::getInstance()->translateToLatin($this->title);
+            $slug = Translator::getInstance()->translateToLatin($this->title);
             $this->slug = trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', strtolower($slug)), '-');
         }
 
@@ -597,7 +597,7 @@ class Post extends MongoModel
             $attempt = 0;
             do {
                 $attempt++;
-                $code           = self::offerRandomSequence(3 + round($attempt / 10));
+                $code = self::offerRandomSequence(3 + round($attempt / 10));
                 $this->short_id = $code;
             } while (self::find()->where(['short_id' => $code])->count() > 0);
         }
@@ -685,8 +685,9 @@ class Post extends MongoModel
     public function afterFind()
     {
         if (empty($this->category)) {
-            $ids            = $this->_categories;
-            $this->category = Category::findOne($ids);
+            $cats = $this->_categories;
+            if (!empty($cats))
+                $this->category = Category::getCached(array_pop($cats));
         }
 
         if (is_array($this->_categories))
@@ -697,9 +698,9 @@ class Post extends MongoModel
 
         if ($this->image && is_array($this->image)) {
             $this->image_caption = $this->getImageCaption($this->image);
-            $image               = $this->image;
-            $image['base_url']   = Yii::getAlias('@staticUrl/uploads');
-            $this->image         = $image;
+            $image = $this->image;
+            $image['base_url'] = Yii::getAlias('@staticUrl/uploads');
+            $this->image = $image;
         }
 
         if (is_numeric($this->published_on))
@@ -736,7 +737,7 @@ class Post extends MongoModel
         if ($this->isAttributeChanged('image') || $force || is_array($image) && !isset($image['width'])) {
             if ($file = $this->getFilePath('image', true)) {
                 if ($size = @getimagesize($file)) {
-                    $image['width']  = $size[0];
+                    $image['width'] = $size[0];
                     $image['height'] = $size[1];
 
                     $this->image = $image;
@@ -1081,7 +1082,7 @@ class Post extends MongoModel
                 $match_date->setTimestamp($this->published_on->getTimestamp());
                 $match_date->setTime(0, 0, 0);
 
-                $diff     = $today->diff($match_date);
+                $diff = $today->diff($match_date);
                 $diffDays = (integer)$diff->format("%R%a");
                 switch ($diffDays) {
                     case 0:
@@ -1141,11 +1142,11 @@ class Post extends MongoModel
          * @var $post Post
          */
         $posts = self::find()
-                     ->where([
-                                 'status'            => self::STATUS_AUTO_PUBLISH,
-                                 'auto_publish_time' => ['$lte' => new Timestamp(1, time())],
-                             ])
-                     ->all();
+            ->where([
+                'status' => self::STATUS_AUTO_PUBLISH,
+                'auto_publish_time' => ['$lte' => new Timestamp(1, time())],
+            ])
+            ->all();
 
         foreach ($posts as $post) {
             if ($final) {
@@ -1164,12 +1165,12 @@ class Post extends MongoModel
          * @var $post Post
          */
         $posts = self::find()
-                     ->where([
-                                 'status'  => self::STATUS_PUBLISHED,
-                                 'is_ad'   => true,
-                                 'ad_time' => ['$gt' => 0],
-                             ])
-                     ->all();
+            ->where([
+                'status' => self::STATUS_PUBLISHED,
+                'is_ad' => true,
+                'ad_time' => ['$gt' => 0],
+            ])
+            ->all();
 
 
         foreach ($posts as $post) {
@@ -1196,9 +1197,9 @@ class Post extends MongoModel
     {
         if (!$posts) {
             $posts = Post::find()
-                         ->where(['status' => self::STATUS_PUBLISHED])
-                         ->andFilterWhere(['_tags' => ['$in' => is_string($this->_tags) ? $this->getConvertedTags() : $this->_tags]])
-                         ->all();
+                ->where(['status' => self::STATUS_PUBLISHED])
+                ->andFilterWhere(['_tags' => ['$in' => is_string($this->_tags) ? $this->getConvertedTags() : $this->_tags]])
+                ->all();
         }
 
 
@@ -1207,16 +1208,16 @@ class Post extends MongoModel
         $counted = 0;
 
         for ($i = 0; $i < count($posts) && $counted < 150; $i++) {
-            $postB  = $posts[$i];
+            $postB = $posts[$i];
             $common = $this->hasCommonTags($postB);
 
             if ($common && $postB->id != $this->id) {
-                $counted   += $common;
+                $counted += $common;
                 $tagData[] = [
-                    'id'      => $postB->_id,
-                    'count'   => $common,
+                    'id' => $postB->_id,
+                    'count' => $common,
                     'updated' => $postB->published_on->getTimestamp(),
-                    'title'   => $postB->title,
+                    'title' => $postB->title,
                 ];
             }
         }
@@ -1247,9 +1248,9 @@ class Post extends MongoModel
          * @var $postB Post
          */
         $posts = Post::find()
-                     ->where(['status' => Post::STATUS_PUBLISHED])
-                     ->orderBy(['published_on' => SORT_DESC])
-                     ->all();
+            ->where(['status' => Post::STATUS_PUBLISHED])
+            ->orderBy(['published_on' => SORT_DESC])
+            ->all();
 
         foreach ($posts as $postA) {
             $similar = $postA->indexSimilarPosts($posts);
@@ -1271,14 +1272,14 @@ class Post extends MongoModel
 
         if ($categories && is_array($categories) && count($categories)) {
             return self::find()
-                       ->where([
-                                   '_tags'  => ['$elemMatch' => ['$in' => $categories]],
-                                   'status' => self::STATUS_PUBLISHED,
-                                   '_id'    => ['$ne' => $this->_id],
-                               ])
-                       ->orderBy(['published_on' => SORT_DESC])
-                       ->limit($limit)
-                       ->all();
+                ->where([
+                    '_tags' => ['$elemMatch' => ['$in' => $categories]],
+                    'status' => self::STATUS_PUBLISHED,
+                    '_id' => ['$ne' => $this->_id],
+                ])
+                ->orderBy(['published_on' => SORT_DESC])
+                ->limit($limit)
+                ->all();
         } else {
             return [];
         }
@@ -1316,16 +1317,16 @@ class Post extends MongoModel
     {
         try {
             /** @var GalleryItem[] $gallery */
-            $items              = [];
+            $items = [];
             $this->mobile_image = trim($this->getDefaultMobileImage());
-            $gallery            = $this->getGalleryItemsModel();
+            $gallery = $this->getGalleryItemsModel();
 
             if (count($gallery) > 0) {
                 foreach ($gallery as $item) {
                     if ($fullImage = $item->getImageCropped(720, null)) {
                         $items[] = [
-                            'thumb'   => trim($item->getImageCropped(320, 320)),
-                            'image'   => trim($fullImage),
+                            'thumb' => trim($item->getImageCropped(320, 320)),
+                            'image' => trim($fullImage),
                             'caption' => $item->caption,
                         ];
                     }
@@ -1369,7 +1370,7 @@ class Post extends MongoModel
             $title = strip_tags($data[1]);
 
             $this->_cards[] = $title;
-            $id             = count($this->_cards);
+            $id = count($this->_cards);
 
             return "<h3 class=\"custom_card\" id='card_step_$id' data-step='$id'><span>$id</span>{$title}</h3>";
         }, $this->content);
@@ -1412,23 +1413,23 @@ class Post extends MongoModel
     public function releasePostLock(Admin $user = null)
     {
         return $this->updateAttributes([
-                                           '_creator'        => '',
-                                           'creator_session' => '',
-                                           'locked_on'       => '',
-                                       ]);
+            '_creator' => '',
+            'creator_session' => '',
+            'locked_on' => '',
+        ]);
     }
 
     public function locForUser(Admin $user, $sessionId)
     {
-        $this->_creator        = $user->_id;
+        $this->_creator = $user->_id;
         $this->creator_session = $sessionId;
-        $this->locked_on       = call_user_func($this->getTimestampValue());
+        $this->locked_on = call_user_func($this->getTimestampValue());
 
         return $this->updateAttributes([
-                                           '_creator'        => $this->_creator,
-                                           'creator_session' => $this->creator_session,
-                                           'locked_on'       => $this->locked_on,
-                                       ]);
+            '_creator' => $this->_creator,
+            'creator_session' => $this->creator_session,
+            'locked_on' => $this->locked_on,
+        ]);
     }
 
 

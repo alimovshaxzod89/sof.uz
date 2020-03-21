@@ -1,0 +1,18 @@
+.entry-content ul {
+    margin-bottom: 15px;
+}
+.entry-content ul li{
+    font-family: Roboto, serif;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
+    margin: 0 0 8px;
+}
+.single .type-post .entry-content p,
+.single .type-post .entry-content blockquote
+{
+    font-family: Roboto, serif;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400
+}

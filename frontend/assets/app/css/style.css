@@ -588,6 +588,10 @@ article.post .entry-header .entry-meta span {
     margin-left: -10px;
 }
 
+.entry-title a {
+    display: block;
+}
+
 @media (max-width: 320px) {
     .post-list .entry-header .entry-title {
         font-size: 13px;

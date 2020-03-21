@@ -45,6 +45,23 @@ class Category extends MongoModel
      */
     public $child  = [];
     public $_posts = [];
+    protected static $CATEGORIES;
+
+    /**
+     * @param $_categories
+     * @return Category
+     */
+    public static function getCached($_id)
+    {
+        if (self::$CATEGORIES == null) {
+            self::$CATEGORIES = ArrayHelper::map(self::find()->all(), 'id', function ($item) {
+                return $item;
+            });
+        }
+
+        $_id = (string)$_id;
+        return isset(self::$CATEGORIES[$_id]) ? self::$CATEGORIES[$_id] : Category::findOne($_id);
+    }
 
     public static function getAsOption()
     {

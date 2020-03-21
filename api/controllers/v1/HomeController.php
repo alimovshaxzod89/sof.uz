@@ -55,9 +55,6 @@ class HomeController extends ApiController
         return [
             'css'        => file_get_contents(Yii::getAlias('@frontend/assets/app/css/mobile.css')),
             'js'         => file_get_contents(Yii::getAlias('@frontend/assets/app/js/mobile.js')),
-            'tags'       => $tags,
-            'contact'    => $contact,
-            'categories' => $this->getCategoryList(),
         ];
     }
 }

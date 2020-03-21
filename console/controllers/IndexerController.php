@@ -6,12 +6,14 @@ use Cmfcmf\OpenWeatherMap;
 use common\components\Config;
 use common\models\Ad;
 use common\models\AutoPost;
+use common\models\Comment;
 use common\models\Currency;
 use common\models\Place;
 use common\models\Post;
 use common\models\Stat;
 use common\models\SystemMessage;
 use common\models\Tag;
+use common\models\User;
 use common\models\Weather;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
@@ -66,7 +68,7 @@ class IndexerController extends Controller
     public function actionNormal()
     {
         Tag::indexAllTags();
-
+        SitemapController::generate();
         //$this->actionWeather();
         //$this->actionCurrency();
     }
@@ -95,26 +97,26 @@ class IndexerController extends Controller
     public function actionWeather()
     {
         $cities = [
-            'Tashkent'  => ['lat' => '41.310586', 'lon' => '69.280214'],
-            'Andijon'   => ['lat' => '40.773563', 'lon' => '72.359219'],
-            'Sirdaryo'  => ['lat' => '40.491509', 'lon' => '68.781077'],
-            'Buxoro'    => ['lat' => '39.772547', 'lon' => '64.422712'],
-            'Fargona'   => ['lat' => '40.379023', 'lon' => '71.797199'],
-            'Jizzax'    => ['lat' => '40.144018', 'lon' => '67.830791'],
-            'Namangan'  => ['lat' => '40.999743', 'lon' => '71.669912'],
-            'Navoiy'    => ['lat' => '40.103922', 'lon' => '65.368833'],
-            'Nukus'     => ['lat' => '42.461891', 'lon' => '59.616631'],
+            'Tashkent' => ['lat' => '41.310586', 'lon' => '69.280214'],
+            'Andijon' => ['lat' => '40.773563', 'lon' => '72.359219'],
+            'Sirdaryo' => ['lat' => '40.491509', 'lon' => '68.781077'],
+            'Buxoro' => ['lat' => '39.772547', 'lon' => '64.422712'],
+            'Fargona' => ['lat' => '40.379023', 'lon' => '71.797199'],
+            'Jizzax' => ['lat' => '40.144018', 'lon' => '67.830791'],
+            'Namangan' => ['lat' => '40.999743', 'lon' => '71.669912'],
+            'Navoiy' => ['lat' => '40.103922', 'lon' => '65.368833'],
+            'Nukus' => ['lat' => '42.461891', 'lon' => '59.616631'],
             'Samarqand' => ['lat' => '39.650153', 'lon' => '66.965618'],
-            'Urganch'   => ['lat' => '41.549997', 'lon' => '60.633373'],
-            'Termiz'    => ['lat' => '37.235291', 'lon' => '67.283192'],
-            'Qarshi'    => ['lat' => '38.848574', 'lon' => '65.793171'],
+            'Urganch' => ['lat' => '41.549997', 'lon' => '60.633373'],
+            'Termiz' => ['lat' => '37.235291', 'lon' => '67.283192'],
+            'Qarshi' => ['lat' => '38.848574', 'lon' => '65.793171'],
         ];
 
         $owm = new OpenWeatherMap('7036ec8641edbec8a9a8ff0828395e6f');
-        $cc  = 0;
-        $wd  = 0;
-        $wc  = 0;
-        $wu  = 0;
+        $cc = 0;
+        $wd = 0;
+        $wc = 0;
+        $wu = 0;
         foreach ($cities as $c => $city) {
             $weathers[] = $owm->getRawDailyForecastData(
                 $city,
@@ -128,7 +130,7 @@ class IndexerController extends Controller
             if (count($weathers)) {
                 foreach ($weathers as $k => $weather) {
                     $weather = Json::decode($weather, true);
-                    $data    = [];
+                    $data = [];
                     if (count($weather['list'])):
                         foreach ($weather['list'] as $item) {
 
@@ -137,21 +139,21 @@ class IndexerController extends Controller
                             $date->setTime(0, 0, 0);
                             // echo $date->format('d/m/y') . PHP_EOL;
                             $wd++;
-                            $data['day']         = $date->format('U');
-                            $data['cityName']    = $weather['city']['name'];
-                            $data['cityId']      = $weather['city']['id'];
+                            $data['day'] = $date->format('U');
+                            $data['cityName'] = $weather['city']['name'];
+                            $data['cityId'] = $weather['city']['id'];
                             $data['temperature'] = $item['temp'];
-                            $data['date']        = $item['dt'];
-                            $data['status']      = $item['weather'][0]['main'];
-                            $data['info']        = $item['weather'][0]['description'];
+                            $data['date'] = $item['dt'];
+                            $data['status'] = $item['weather'][0]['main'];
+                            $data['info'] = $item['weather'][0]['description'];
 
                             if ($exists = Weather::findOne(['cityId' => $weather['city']['id'], 'day' => $data['day']])) {
                                 $wu++;
                                 $exists->updateAttributes([
-                                                              'temperature' => $data['temperature'],
-                                                              'status'      => $data['status'],
-                                                              'info'        => $data['info'],
-                                                          ]);
+                                    'temperature' => $data['temperature'],
+                                    'status' => $data['status'],
+                                    'info' => $data['info'],
+                                ]);
                             } else {
                                 $wc++;
                                 $model = new Weather($data);
@@ -195,7 +197,7 @@ class IndexerController extends Controller
                 $rates = [];
                 foreach ($data['CcyNtry'] as $index => $symbol) {
                     if (in_array($symbol['Ccy'], $currencies)) {
-                        $rates['date']         = $symbol['date'];
+                        $rates['date'] = $symbol['date'];
                         $rates[$symbol['Ccy']] = round(floatval($symbol['Rate']), 2);
                     }
                 }
@@ -229,15 +231,15 @@ class IndexerController extends Controller
 
     public function actionCleanPosts()
     {
-        $date  = new \DateTime();
-        $time  = (int)$date->format('U') - 30 * 24 * 3600;
+        $date = new \DateTime();
+        $time = (int)$date->format('U') - 30 * 24 * 3600;
         $posts = Post::find()
-                     ->where([
-                                 'created_at' => ['$lt' => new Timestamp(1, $time)],
-                                 'status'     => Post::STATUS_DRAFT,
-                                 'title'      => ['$in' => [null, '']],
-                             ])
-                     ->all();
+            ->where([
+                'created_at' => ['$lt' => new Timestamp(1, $time)],
+                'status' => Post::STATUS_DRAFT,
+                'title' => ['$in' => [null, '']],
+            ])
+            ->all();
 
         foreach ($posts as $post) {
             $post->delete();
@@ -249,34 +251,56 @@ class IndexerController extends Controller
     {
         $collection = Post::getCollection();
         echo $collection->createIndex(['published_on' => -1]);
+        echo $collection->createIndex(['created_at' => -1]);
+        echo $collection->createIndex(['ad_time' => -1]);
         echo $collection->createIndex(['views' => -1]);
         echo $collection->createIndex(['views_today' => -1]);
         echo $collection->createIndex(['views_l3d' => -1]);
         echo $collection->createIndex(['views_l7d' => -1]);
         echo $collection->createIndex(['views_l30d' => -1]);
-        echo $collection->createIndex(['old_id' => -1]);
-        echo $collection->createIndex(['ad_time' => -1]);
+        echo $collection->createIndex(['_author_post' => -1]);
+        echo $collection->createIndex(['is_ad' => -1]);
 
+        echo $collection->createIndex(['published_on' => 1]);
         echo $collection->createIndex(['status' => 1]);
+        echo $collection->createIndex(['views' => 1]);
+        echo $collection->createIndex(['url' => 1]);
+        echo $collection->createIndex(['short_id' => 1]);
         echo $collection->createIndex(['is_mobile' => 1]);
         echo $collection->createIndex(['is_main' => 1]);
-        echo $collection->createIndex(['_domain' => 1]);
+        echo $collection->createIndex(['_author' => 1]);
+        echo $collection->createIndex(['_author_post' => 1]);
+        echo $collection->createIndex(['has_audio' => 1]);
+        echo $collection->createIndex(['has_video' => 1]);
+        echo $collection->createIndex(['has_gallery' => 1]);
+        echo $collection->createIndex(['has_info' => 1]);
         echo $collection->createIndex(['_tags' => 1]);
-        echo $collection->createIndex(['_categories' => 1]);
-        //echo $collection->createIndex(['_translations' => 1]);
-        echo $collection->createIndex(['_translations.title_uz' => 1]);
-        //echo $collection->createIndex(['_translations.content_uz' => 1]);
-        echo $collection->createIndex(['_translations.title_oz' => 1]);
-        //echo $collection->createIndex(['_translations.content_oz' => 1]);
+        echo $collection->createIndex(['is_ad' => 1]);
+        echo $collection->createIndex([
+            'status' => 1,
+            'is_main' => 1,
+            'is_mobile' => 1,
+            'has_video' => 1,
+            'has_gallery' => 1,
+            'is_ad' => 1,
+            '_categories' => 1,
+        ], ['name' => 'post_filter_all_fields']);
+
+        echo $collection->createIndex([
+            'status' => 1,
+            'url' => 1,
+            'short_id' => 1,
+            'is_mobile' => 1,
+        ]);
+
 
         $collection = Tag::getCollection();
-        echo $collection->createIndex(['count' => -1]);
-        echo $collection->createIndex(['count_l5d' => -1]);
-        echo $collection->createIndex(['name' => 1]);
         echo $collection->createIndex(['slug' => 1]);
-        echo $collection->createIndex(['_translations' => 1]);
-        echo $collection->createIndex(['_translations.name_uz' => 1]);
-        echo $collection->createIndex(['_translations.name_oz' => 1]);
+        echo $collection->createIndex(['count' => -1]);
+        echo $collection->createIndex(['count' => 1]);
+        echo $collection->createIndex(['count_l5d' => -1]);
+        echo $collection->createIndex(['count_l5d' => 1]);
+
 
         $collection = Ad::getCollection();
         echo $collection->createIndex(['views' => -1]);
@@ -291,6 +315,14 @@ class IndexerController extends Controller
         echo $collection->createIndex(['month' => 1]);
         echo $collection->createIndex(['year' => 1]);
         echo $collection->createIndex(['time' => 1]);
+
+        echo $collection->createIndex([
+            'year' => 1,
+            'month' => 1,
+            'hour' => 1,
+            'model' => 1,
+            'type' => 1,
+        ]);
 
 
         $collection = SystemMessage::getCollection();
@@ -334,22 +366,22 @@ class IndexerController extends Controller
         ini_set('memory_limit', '-1');
         /* @var $posts Post[] */
         $posts = Post::find()
-                     ->select(['gallery_items', 'gallery', 'image', 'mobile_image', 'is_mobile'])
-                     ->where([
-                                 'is_mobile' => ['$ne' => true],
-                                 'status'    => Post::STATUS_PUBLISHED,
-                             ])
-                     ->limit($limit)
-                     ->all();
+            ->select(['gallery_items', 'gallery', 'image', 'mobile_image', 'is_mobile'])
+            ->where([
+                'is_mobile' => ['$ne' => true],
+                'status' => Post::STATUS_PUBLISHED,
+            ])
+            ->limit($limit)
+            ->all();
         foreach ($posts as $post) {
             $post->prepareMobilePost();
             echo $post->mobile_image . PHP_EOL;
 
             $post->updateAttributes([
-                                        'is_mobile'     => true,
-                                        'mobile_image'  => $post->mobile_image,
-                                        'gallery_items' => $post->gallery_items,
-                                    ]);
+                'is_mobile' => true,
+                'mobile_image' => $post->mobile_image,
+                'gallery_items' => $post->gallery_items,
+            ]);
         }
     }
 
