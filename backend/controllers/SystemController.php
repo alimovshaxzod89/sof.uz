@@ -60,7 +60,7 @@ class SystemController extends BackendController
         $searchModel = new SystemLog();
 
         return $this->render('user-logs', [
-            'searchModel'  => $searchModel,
+            'searchModel' => $searchModel,
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
         ]);
     }
@@ -152,8 +152,8 @@ class SystemController extends BackendController
 
         return $this->render('translation', [
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
-            'searchModel'  => $searchModel,
-            'model'        => $model,
+            'searchModel' => $searchModel,
+            'model' => $model,
         ]);
     }
 
@@ -168,14 +168,14 @@ class SystemController extends BackendController
          * @var $message SystemMessage
          */
         $languages = Config::getLanguageOptions();
-        $result    = [
+        $result = [
             array_merge(['category', 'message'], array_keys($languages)),
         ];
 
         foreach (SystemMessage::find()->orderBy(['_id' => SORT_ASC])->all() as $message) {
             $data = [
                 'category' => $message->category,
-                'message'  => $message->message,
+                'message' => $message->message,
             ];
 
             foreach ($languages as $lang => $label) {
@@ -205,13 +205,13 @@ class SystemController extends BackendController
     public function actionDictionary($id = false)
     {
         $searchModel = new SystemDictionary();
-        $model       = $id ? SystemDictionary::findOne($id) : new SystemDictionary();
+        $model = $id ? SystemDictionary::findOne($id) : new SystemDictionary();
 
         if ($this->get('save')) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 $this->addSuccess(
                     __('Dictionary {name} updated successfully', [
-                        'name'   => $model->latin,
+                        'name' => $model->latin,
                         'action' => __($id ? 'updated' : 'created')
                     ])
                 );
@@ -236,8 +236,8 @@ class SystemController extends BackendController
         }
 
         return $this->render('dictionary', [
-            'model'        => $model,
-            'searchModel'  => $searchModel,
+            'model' => $model,
+            'searchModel' => $searchModel,
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
         ]);
     }
@@ -294,7 +294,7 @@ class SystemController extends BackendController
         }
 
         Yii::$app->cache->flush();
-
+        file_get_contents('https://sof.uz/uz/site/dom');
         $this->addSuccess(__('System cache cleared successfully'));
         return $this->redirect(Yii::$app->request->getReferrer() ?: ['dashboard/index']);
     }
@@ -309,7 +309,7 @@ class SystemController extends BackendController
 
         return $this->render('logins', [
             'dataProvider' => $searchModel->search(Yii::$app->request->get()),
-            'searchModel'  => $searchModel,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -340,7 +340,7 @@ class SystemController extends BackendController
 
         return $this->render('trash', [
             'dataProvider' => $searchModel->searchTrash(Yii::$app->request->get()),
-            'searchModel'  => $searchModel,
+            'searchModel' => $searchModel,
         ]);
     }
 

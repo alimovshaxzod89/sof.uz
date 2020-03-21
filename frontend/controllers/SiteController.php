@@ -20,7 +20,7 @@ class SiteController extends BaseController
     {
         return [
             'captcha' => [
-                'class'           => 'yii\captcha\CaptchaAction',
+                'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -39,10 +39,10 @@ class SiteController extends BaseController
     {
         return [
             [
-                'class'      => 'yii\filters\PageCache',
-                'only'       => ['index', 'browser'],
-                'duration'   => 600,
-                'enabled'    => !YII_DEBUG,
+                'class' => 'yii\filters\PageCache',
+                'only' => ['index', 'browser'],
+                'duration' => 600,
+                'enabled' => !YII_DEBUG,
                 'variations' => [
                     $this->getFlashes(),
                     Yii::$app->request->hostName,
@@ -116,8 +116,8 @@ class SiteController extends BaseController
      */
     public function actionTypo($q = '')
     {
-        $result      = false;
-        $model       = new ErrorForm();
+        $result = false;
+        $model = new ErrorForm();
         $model->text = strip_tags($q);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -139,5 +139,10 @@ class SiteController extends BaseController
 
             return $this->render('500', ['exception' => $exception]);
         }
+    }
+
+    public function actionDom()
+    {
+        return Yii::$app->cache->flush();
     }
 }
