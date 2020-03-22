@@ -19,6 +19,7 @@ class Firebase extends BaseShare
     public $topics;
     public $condition;
     public $to;
+    public $toIos;
     /**
      * @var BotApi
      */
@@ -34,36 +35,92 @@ class Firebase extends BaseShare
     public function publish($post, $force = false)
     {
         $results = [
-            'errors'   => [],
+            'params' => [],
+            'errors' => [],
             'messages' => [],
         ];
-        $post    = Post::findOne($post->id);
+        $post = Post::findOne($post->id);
 
         if ($post->getPushedOnTimeDiffAndroid() == 0 || $force) {
             $client = new Client(['base_uri' => 'https://fcm.googleapis.com/']);
 
             $oldLang = \Yii::$app->language;
 
-            foreach (!empty($this->condition) ? $this->condition : $this->to as $lang => $topic) {
+            foreach ($this->to as $lang => $topic) {
 
                 \Yii::$app->language = $lang;
                 $post->refresh();
 
                 $params = [
-                    'json'    => [
+                    'json' => [
                         'priority' => 'normal',
-                        'data'     => $post->toArray(),
+                        'data' => $post->toArray(),
                     ],
                     'headers' => [
                         'Authorization' => $this->apiKey,
                     ],
                 ];
 
-                if (!empty($this->condition)) {
-                    $params['json']['condition'] = $topic;
-                } else {
-                    $params['json']['to'] = $topic;
+                $params['json']['to'] = $topic;
+                $results['params'] = $params;
+
+                try {
+                    $result = $client->post('fcm/send', $params);
+                    $result = $result->getBody()->getContents();
+
+                    if ($data = Json::decode($result, true)) {
+                        if (isset($data['message_id'])) {
+                            $post->updateAttributes(['pushed_on' => call_user_func($post->getTimestampValue())]);
+                        }
+                        $results['messages'][] = $data;
+                    }
+                } catch (Exception $e) {
+                    $results['errors'][] = $e->getMessage();
                 }
+            }
+
+            \Yii::$app->language = $oldLang;
+        }
+
+
+        return $results;
+    }
+
+    public function publishIos($post, $force = false)
+    {
+        $results = [
+            'params' => [],
+            'errors' => [],
+            'messages' => [],
+        ];
+        $post = Post::findOne($post->id);
+
+        if ($post->getPushedOnTimeDiffAndroid() == 0 || $force) {
+            $client = new Client(['base_uri' => 'https://fcm.googleapis.com/']);
+
+            $oldLang = \Yii::$app->language;
+
+            foreach ($this->toIos as $lang => $topic) {
+
+                \Yii::$app->language = $lang;
+                $post->refresh();
+
+                $params = [
+                    'json' => [
+                        'priority' => 'normal',
+                        'data' => $post->toArray(),
+                        'notification' => [
+                            'title' => $post->title,
+                            'body' => $post->info,
+                        ]
+                    ],
+                    'headers' => [
+                        'Authorization' => $this->apiKey,
+                    ],
+                ];
+
+                $params['json']['to'] = $topic;
+                $results['params'][] = $params;
 
                 try {
                     $result = $client->post('fcm/send', $params);

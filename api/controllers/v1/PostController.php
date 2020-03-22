@@ -219,7 +219,12 @@ class PostController extends ApiController
 
         if ($post = $this->findPost()) {
             if ($push = $this->get('push')) {
-                $result = $post->sendPushNotificationAndroid(true);
+                if ($push == 'android') {
+                    $result = $post->sendPushNotificationAndroid(true);
+                }
+                if ($push == 'ios') {
+                    $result = $post->sendPushNotificationIOS(true);
+                }
             }
 
             return [

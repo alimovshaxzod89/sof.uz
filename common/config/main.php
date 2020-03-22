@@ -160,10 +160,10 @@ $config = [
                 Config::LANGUAGE_UZBEK    => "/topics/sofuz_android_latin",
                 Config::LANGUAGE_CYRILLIC => "/topics/sofuz_android_cyril",
             ],
-            'condition' => [
-                Config::LANGUAGE_UZBEK    => "'sofuz_android_latin' in topics || 'sofuz_ios_latin' in topics",
-                Config::LANGUAGE_CYRILLIC => "'sofuz_android_cyril' in topics || 'sofuz_ios_cyril' in topics",
-            ],
+            'toIos'        => [
+                Config::LANGUAGE_UZBEK    => "/topics/sofuz_ios_latin",
+                Config::LANGUAGE_CYRILLIC => "/topics/sofuz_testtest",
+            ]
         ],
     ],
     'params'     => $params,
