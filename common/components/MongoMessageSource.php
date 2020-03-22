@@ -67,41 +67,43 @@ class MongoMessageSource extends MessageSource
     {
         parent::init();
 
-        self::$_collection      = $this->collection;
+        self::$_collection = $this->collection;
         self::$_cachingDuration = $this->cachingDuration;
-        $this->db               = Instance::ensure($this->db, Connection::className());
+        $this->db = Instance::ensure($this->db, Connection::className());
 
         if ($this->enableCaching) {
             $this->cache = Instance::ensure($this->cache, Cache::className());
         }
+
+
     }
 
     public static function handleMissingTranslation(MissingTranslationEvent $event)
     {
         $event->translatedMessage = $event->message;
-        $message                  = trim($event->message);
+        $message = trim($event->message);
 
         if (empty($message)) return;
 
 
-        if (!isset(self::$messages[$event->category])) {
-            self::$messages[$event->category] = [];
+        if (!isset(self::$messages[$event->language])) {
+            self::$messages[$event->language] = [];
         }
 
         /* @var $mongodb \yii\mongodb\Connection */
         $mongodb = Yii::$app->mongodb;
 
-        self::$messages[$event->category] = self::loadCategoryMessagesFromDb($event->category, $event->language);
+        self::$messages[$event->language] = self::loadCategoryMessagesFromDb($event->category, $event->language);
 
-        if (!isset(self::$messages[$event->category][$message])) {
+        if (!isset(self::$messages[$event->language][$message])) {
             $collection = $mongodb->getCollection('_system_message');
 
             try {
                 $collection->insert(
                     ArrayHelper::merge([
-                                           'category' => $event->category,
-                                           'message'  => $message,
-                                       ], Config::getLanguagesTrans())
+                        'category' => $event->category,
+                        'message' => $message,
+                    ], Config::getLanguagesTrans())
                 );
 
                 $key = [
@@ -112,7 +114,7 @@ class MongoMessageSource extends MessageSource
 
                 Yii::$app->cache->delete($key);
 
-                self::$messages[$event->category][$message] = $message;
+                self::$messages[$event->language][$message] = $message;
             } catch (Exception $e) {
                 Yii::error($e->getMessage());
             }
@@ -123,7 +125,7 @@ class MongoMessageSource extends MessageSource
     protected function loadMessages($category, $language)
     {
         if ($this->enableCaching) {
-            $key      = [
+            $key = [
                 __CLASS__,
                 $category,
                 $language,
@@ -133,11 +135,9 @@ class MongoMessageSource extends MessageSource
                 $messages = $this->loadMessagesFromDb($category, $language);
                 $this->cache->set($key, $messages, $this->cachingDuration);
             }
-            self::$messages[$category] = $messages;
             return $messages;
         } else {
-            self::$messages[$category] = $this->loadMessagesFromDb($category, $language);
-            return self::$messages[$category];
+            return $this->loadMessagesFromDb($category, $language);
         }
     }
 
@@ -146,14 +146,15 @@ class MongoMessageSource extends MessageSource
         $messages = [];
 
         $rows = SystemMessage::find()
-                             ->select(['message', $language])
-                             ->where(['category' => $category])
-                             ->asArray()
-                             ->all();
+            ->select(['message', $language])
+            //->where(['category' => $category])
+            ->asArray()
+            ->all();
 
         if (count($rows) > 0) {
             foreach ($rows as $row) {
-                $messages[trim($row['message'])] = isset($row[$language]) && $row[$language] ? $row[$language] : trim($row['message']);
+                if (!isset($messages[trim($row['message'])]))
+                    $messages[trim($row['message'])] = isset($row[$language]) && $row[$language] ? $row[$language] : trim($row['message']);
             }
         }
 
@@ -165,14 +166,15 @@ class MongoMessageSource extends MessageSource
         $messages = [];
 
         $rows = SystemMessage::find()
-                             ->select(['message', $language])
-                             ->where(['category' => $category])
-                             ->asArray()
-                             ->all();
+            ->select(['message', $language])
+            //->where(['category' => $category])
+            ->asArray()
+            ->all();
 
         if (count($rows) > 0) {
             foreach ($rows as $row) {
-                $messages[trim($row['message'])] = isset($row[$language]) && $row[$language] ? $row[$language] : trim($row['message']);
+                if (!isset($messages[trim($row['message'])]))
+                    $messages[trim($row['message'])] = isset($row[$language]) && $row[$language] ? $row[$language] : trim($row['message']);
             }
         }
 

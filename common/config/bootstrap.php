@@ -50,5 +50,5 @@ function __($message, $params = [], $language = false)
         'em' => '<em>',
         '/em' => '</em>',
     ]);
-    return Yii::t('app-frontend', trim($message), $params, $language ?: Yii::$app->language);
+    return Yii::t('app', trim($message), $params, $language ?: Yii::$app->language);
 }
