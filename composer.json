@@ -65,6 +65,7 @@
     "paquettg/php-html-parser": "^1.7",
     "yiimaker/yii2-social-share": "^2.0",
     "spatie/emoji": "2.1.1",
+    "jaybizzle/crawler-detect": "^1.2",
     "ext-mongodb": "*"
   },
   "require-dev": {
