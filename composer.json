@@ -62,7 +62,7 @@
     "wbraganca/yii2-dynamicform": "*",
     "unclead/yii2-multiple-input": "~2.0",
     "telegram-bot/api": "^2.3",
-    "paquettg/php-html-parser": "^1.7",
+    "paquettg/php-html-parser": "^2.2",
     "yiimaker/yii2-social-share": "^2.0",
     "spatie/emoji": "2.1.1",
     "jaybizzle/crawler-detect": "^1.2",

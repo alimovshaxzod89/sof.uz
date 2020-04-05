@@ -15,8 +15,12 @@ use common\models\SystemMessage;
 use common\models\Tag;
 use common\models\User;
 use common\models\Weather;
+use GuzzleHttp\Client;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Timestamp;
+use PHPHtmlParser\Dom;
+use PHPHtmlParser\Dom\HtmlNode;
+use PHPHtmlParser\Dom\TextNode;
 use Yii;
 use yii\console\Controller;
 use yii\helpers\Json;
@@ -47,6 +51,7 @@ class IndexerController extends Controller
      */
     public function actionFast()
     {
+        $this->actionCovid();
         Ad::reindexStatuses();
         Place::reindexStatuses();
 
@@ -344,6 +349,53 @@ class IndexerController extends Controller
                     echo $post->title . PHP_EOL;
                 }
             }
+        }
+    }
+
+    public function actionCovid()
+    {
+        $client = new Client([]);
+        $hasCases = 0;
+        $cases = [
+            'World' => [],
+            'Uzbekistan' => [],
+        ];
+
+        if ($result = $client->get('https://www.worldometers.info/coronavirus/')) {
+            $dom = new Dom();
+            $dom->load($result->getBody());
+
+            /**
+             * @var $tags HtmlNode[]
+             * @var $cols TextNode[]
+             */
+            $tags = $dom->find('#main_table_countries_today tbody tr');
+
+            foreach ($tags as $tag) {
+                $cols = $tag->getChildren();
+                if (strip_tags($cols[1]->innerHtml()) == 'World') {
+                    $hasCases++;
+                    $cases['World'][] = $cols[3]->innerHtml();
+                    $cases['World'][] = $cols[11]->innerHtml();
+                    $cases['World'][] = $cols[7]->innerHtml();
+                    echo $cols[3]->innerHtml() . PHP_EOL;
+                    echo $cols[7]->innerHtml() . PHP_EOL;
+                    echo $cols[11]->innerHtml() . PHP_EOL;
+                }
+                if (strip_tags($cols[1]->innerHtml()) == 'Uzbekistan') {
+                    $hasCases++;
+                    echo $cols[3]->innerHtml() . PHP_EOL;
+                    echo $cols[7]->innerHtml() . PHP_EOL;
+                    echo $cols[11]->innerHtml() . PHP_EOL;
+                    $cases['Uzbekistan'][] = $cols[3]->innerHtml();
+                    $cases['Uzbekistan'][] = $cols[11]->innerHtml();
+                    $cases['Uzbekistan'][] = $cols[7]->innerHtml();
+                }
+            }
+        }
+
+        if ($hasCases == 2) {
+            Config::set('covid', $cases);
         }
     }
 
