@@ -674,8 +674,9 @@ article.post .entry-header .entry-meta span {
 
 @media (min-width: 1200px) {
     .banner.banner-before_main {
-        min-height: 100px;
-
+        height: 90px;
+        overflow: hidden;
+        margin-top: 30px;
     }
 
     .banner.banner-before_content {
