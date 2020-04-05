@@ -199,7 +199,7 @@ class PostProvider extends Post
         $query = self::find()
             ->active()
             ->andWhere(['_id' => ['$in' => $postIds]])
-            ->orderBy(['published_on' => -1]);
+            ->orderBy(['published_on' => SORT_DESC]);
 
         if (\count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
@@ -262,7 +262,7 @@ class PostProvider extends Post
                     ],
                 ],
             ])
-            ->orderBy(['published_on' => -1]);
+            ->orderBy(['published_on' => SORT_DESC]);
 
         if (\count($exclude)) {
             $query->andFilterWhere(['_id' => ['$nin' => array_values($exclude)]]);
@@ -287,7 +287,7 @@ class PostProvider extends Post
             ->andWhere([
                 '_author' => $model->_id,
             ])
-            ->orderBy(['published_on' => -1]);
+            ->orderBy(['published_on' => SORT_DESC]);
 
         return new WithoutCountActiveDataProvider([
             'query' => $query,

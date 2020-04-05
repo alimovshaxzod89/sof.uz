@@ -404,7 +404,7 @@ class Post extends MongoModel
                     ],
             ],
             'pagination' => [
-                'pageSize' => 30,
+                'pageSize' => 50,
             ],
         ]);
 
