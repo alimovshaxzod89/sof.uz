@@ -218,7 +218,7 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
             !function (a) {
                 a(document).ready(function () {
                     if (a(window).width() < 769) {
-                        if (Math.random() * 3 == 1) {
+                        if (Math.floor(Math.random() * 2) == 1) {
                             jQuery('#banner-yandex').initBanner({
                                 "place": "yandex-callback",
                                 "language": globalVars.l
