@@ -223,40 +223,13 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
                             e.preventDefault();
                             a('#banner-yandex').slideUp();
                         });
-                        if (Math.floor(Math.random() * 2) == 1) {
-                            a('#banner-yandex').initBanner({
-                                "place": "yandex-callback",
-                                "language": globalVars.l
-                            });
-                        } else {
-
-                            (function (w, d, n, s, t) {
-                                w[n] = w[n] || [];
-                                w[n].push(function () {
-                                    Ya.Context.AdvManager.render({
-                                            blockId: "R-A-476227-1",
-                                            renderTo: "yandex_rtb_R-A-476227-1",
-                                            async: true
-                                        },
-                                        function () {
-                                            jQuery('#banner-yandex').initBanner({
-                                                "place": "yandex-callback",
-                                                "language": globalVars.l
-                                            });
-                                        });
-                                });
-                                t = d.getElementsByTagName("script")[0];
-                                s = d.createElement("script");
-                                s.type = "text/javascript";
-                                s.src = "//an.yandex.ru/system/context.js";
-                                s.async = true;
-                                t.parentNode.insertBefore(s, t);
-                            })(window, document, "yandexContextAsyncCallbacks");
-                        }
+                        a('#banner-yandex').initBanner({
+                            "place": "footer_fixed",
+                            "language": globalVars.l
+                        });
                     }
                 })
             }(jQuery);
-
         </script>
     </div>
 
