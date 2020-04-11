@@ -14,10 +14,10 @@ use yii2mod\chosen\ChosenSelect;
 /* @var $this View */
 /* @var $model common\models\Ad */
 
-$this->title                   = $model->isNewRecord ? __('Create Advertising') : $model->title;
+$this->title = $model->isNewRecord ? __('Create Advertising') : $model->title;
 $this->params['breadcrumbs'][] = ['url' => ['adv/index'], 'label' => __('Manage Advertising')];
 $this->params['breadcrumbs'][] = $this->title;
-$user                          = $this->context->_user();
+$user = $this->context->_user();
 
 $ic = $model->type == Ad::TYPE_CODE ? true : false;
 $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
@@ -25,7 +25,7 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
     <div class="user-create">
         <div class="user-form">
             <?php $form = ActiveForm::begin(['enableAjaxValidation' => true]); ?>
-            <?=$form->errorSummary($model)?>
+            <?= $form->errorSummary($model) ?>
             <div class="row">
                 <div class="col col-md-9">
                     <div class="panel panel-primary">
@@ -56,29 +56,29 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
                                         </div>
                                         <div class="col-md-12">
                                             <?= $form->field($model, 'image')
-                                                     ->widget(Upload::className(),
-                                                              [
-                                                                  'url'              => ['file-storage/upload', 'type' => 'ad'],
-                                                                  'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
-                                                                  'sortable'         => true,
-                                                                  'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
-                                                                  'maxNumberOfFiles' => 1,
-                                                                  'clientOptions'    => [],
-                                                              ]
-                                                     )->label() ?>
+                                                ->widget(Upload::className(),
+                                                    [
+                                                        'url' => ['file-storage/upload', 'type' => 'ad'],
+                                                        'acceptFileTypes' => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
+                                                        'sortable' => true,
+                                                        'maxFileSize' => 10 * 1024 * 1024, // 10 MiB
+                                                        'maxNumberOfFiles' => 1,
+                                                        'clientOptions' => [],
+                                                    ]
+                                                )->label() ?>
                                         </div>
                                         <div class="col-md-12">
                                             <?= $form->field($model, 'image_mobile')
-                                                     ->widget(Upload::className(),
-                                                              [
-                                                                  'url'              => ['file-storage/upload', 'type' => 'ad'],
-                                                                  'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
-                                                                  'sortable'         => true,
-                                                                  'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
-                                                                  'maxNumberOfFiles' => 1,
-                                                                  'clientOptions'    => [],
-                                                              ]
-                                                     )->label() ?>
+                                                ->widget(Upload::className(),
+                                                    [
+                                                        'url' => ['file-storage/upload', 'type' => 'ad'],
+                                                        'acceptFileTypes' => new JsExpression('/(\.|\/)(jpe?g|png|gif)$/i'),
+                                                        'sortable' => true,
+                                                        'maxFileSize' => 10 * 1024 * 1024, // 10 MiB
+                                                        'maxNumberOfFiles' => 1,
+                                                        'clientOptions' => [],
+                                                    ]
+                                                )->label() ?>
                                         </div>
                                     </div>
                                 </div>
@@ -99,11 +99,11 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
                                     <div class="row">
                                         <div class="col-md-12">
                                             <?= $form->field($model, 'code')
-                                                     ->widget(AceEditorWidget::className())->label('Desktop code') ?>
+                                                ->widget(AceEditorWidget::className())->label('Desktop code') ?>
                                         </div>
                                         <div class="col-md-12">
                                             <?= $form->field($model, 'code_mobile')
-                                                     ->widget(AceEditorWidget::className())->label('Mobile code') ?>
+                                                ->widget(AceEditorWidget::className())->label('Mobile code') ?>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +121,12 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
                         <div class="panel-body">
 
                             <?= $form->field($model, 'status')->widget(ChosenSelect::className(), [
-                                'items'         => Ad::getStatusOptions(),
+                                'items' => Ad::getStatusOptions(),
+                                'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
+                            ]) ?>
+                            <?= $form->field($model, 'platforms')->widget(ChosenSelect::className(), [
+                                'items' => Ad::getPlatformOptions(),
+                                'options' => ['multiple' => true],
                                 'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
                             ]) ?>
                             <?= $form->field($model, 'limit_click')->textInput(['type' => 'number', 'min' => 0]) ?>
@@ -136,19 +141,19 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
 
                                 <?php $time = $model->getDateFromSeconds() ?>
                                 <?= DateTimeWidget::widget([
-                                                               'id'               => 'widget_date_from',
-                                                               'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                                               'model'            => $model,
-                                                               'name'             => 'date_from_time',
-                                                               'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                                               'containerOptions' => [],
-                                                               'clientEvents'     => [
-                                                                   'dp.change' => new JsExpression('function(d){
+                                    'id' => 'widget_date_from',
+                                    'locale' => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                    'model' => $model,
+                                    'name' => 'date_from_time',
+                                    'value' => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                    'containerOptions' => [],
+                                    'clientEvents' => [
+                                        'dp.change' => new JsExpression('function(d){
                                                                time = d.date._d.getTime() / 1000;
                                                                $("#date_from_time").val(Math.round(time))
                                                             }'),
-                                                               ],
-                                                           ]) ?>
+                                    ],
+                                ]) ?>
                             </div>
                             <div class="form-group">
                                 <?= $form->field($model, 'date_to', [
@@ -159,19 +164,19 @@ $ii = $model->type == Ad::TYPE_IMAGE ? true : false;
 
                                 <?php $time = $model->getDateToSeconds() ?>
                                 <?= DateTimeWidget::widget([
-                                                               'id'               => 'widget_date_to',
-                                                               'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                                               'model'            => $model,
-                                                               'name'             => 'date_to_time',
-                                                               'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                                               'containerOptions' => [],
-                                                               'clientEvents'     => [
-                                                                   'dp.change' => new JsExpression('function(d){
+                                    'id' => 'widget_date_to',
+                                    'locale' => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                    'model' => $model,
+                                    'name' => 'date_to_time',
+                                    'value' => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                    'containerOptions' => [],
+                                    'clientEvents' => [
+                                        'dp.change' => new JsExpression('function(d){
                                                                time = d.date._d.getTime() / 1000;
                                                                $("#date_to_time").val(Math.round(time))
                                                             }'),
-                                                               ],
-                                                           ]) ?>
+                                    ],
+                                ]) ?>
 
                             </div>
                         </div>

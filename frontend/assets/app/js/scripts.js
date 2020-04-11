@@ -3,7 +3,7 @@
         var $self = $(this);
 
         $.get(globalVars.a + "/ads/get",
-            {place: options.place, device: getDevice(), t: new Date().getTime(), l: options.language, w: $self.width()},
+            {place: options.place, device: getDevice(), os:getDeviceOS(), t: new Date().getTime(), l: options.language, w: $self.width()},
             function (res) {
                 if (res.success) {
                     $self.append(res.content);
@@ -160,6 +160,28 @@ function getTimeStamp() {
     return new Date().getTime();
 }
 
+function getDeviceOS() {
+    var userAgent = window.navigator.userAgent || navigator.vendor || window.opera,
+        platform = window.navigator.platform,
+        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+        os = null;
+
+    if (macosPlatforms.indexOf(platform) !== -1) {
+        os = 'mac';
+    } else if (iosPlatforms.indexOf(platform) !== -1) {
+        os = 'ios';
+    } else if (windowsPlatforms.indexOf(platform) !== -1) {
+        os = 'windows';
+    } else if (/Android/.test(userAgent)) {
+        os = 'android';
+    } else if (!os && /Linux/.test(platform)) {
+        os = 'linux';
+    }
+
+    return os;
+}
 
 function copyToClipboard(text) {
 

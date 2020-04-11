@@ -22,7 +22,7 @@ class Ad extends AdModel
      * @param Place $place
      * @return self
      */
-    public static function getBanner(Place $place)
+    public static function getBanner(Place $place, $os)
     {
         $ids = $place->_ads;
 
@@ -32,43 +32,48 @@ class Ad extends AdModel
             }, $ids);
 
             $ads = self::find()
-                       ->where(['_id' => ['$in' => $ids]])
-                       ->andWhere(['status' => self::STATUS_ENABLE])
-                       ->indexBy('id')
-                       ->all();
+                ->where(['_id' => ['$in' => $ids]])
+                ->andWhere(['status' => self::STATUS_ENABLE])
+                ->indexBy('id')
+                ->all();
 
             if (count($ads)) {
-                $data      = [];
-                $allAds    = [];
+                $data = [];
+                $allAds = [];
                 $maxWeight = 0;
-                $maxId     = 0;
+                $maxId = 0;
 
 
                 foreach ($ads as $ad) {
+                    if (is_array($ad->platforms) && count($ad->platforms) > 0 && $os) {
+                        if (!in_array($os, $ad->platforms)) {
+                            continue;
+                        }
+                    }
                     $allAds[$ad->getId()] = $ad;
-                    $weight               = $place->getAddPercent($ad);
+                    $weight = $place->getAddPercent($ad);
 
                     $data = array_merge($data, array_fill(0, $weight, $ad->getId()));
 
                     if ($weight > $maxWeight) {
                         $weight = $maxWeight;
-                        $maxId  = $ad->getId();
+                        $maxId = $ad->getId();
                     }
                 }
 
-                if ($place->mode == Place::MODE_RAND) {
-                    $index = rand(0, count($data) - 1);
-                    $ad    = $allAds[$data[$index]];
-                } else {
-                    if ($maxId) {
-                        $ad = $allAds[$maxId];
+                if (count($data)) {
+                    if ($place->mode == Place::MODE_RAND) {
+                        $index = rand(0, count($data) - 1);
+                        $ad = $allAds[$data[$index]];
+                    } else {
+                        if ($maxId) {
+                            $ad = $allAds[$maxId];
+                        }
                     }
+                    Stat::registerAdView($ad);
+
+                    return $ad;
                 }
-
-
-                Stat::registerAdView($ad);
-
-                return $ad;
             }
         }
 

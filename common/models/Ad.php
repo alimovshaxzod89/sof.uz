@@ -9,27 +9,28 @@ use yii\helpers\ArrayHelper;
 /**
  * Class Ad
  * @package common\models
- * @property string    title
- * @property array     image
- * @property array     image_tablet
- * @property array     image_mobile
- * @property string    status
- * @property string    code
- * @property string    type
- * @property string    code_mobile
- * @property string    url
+ * @property string title
+ * @property array image
+ * @property array image_tablet
+ * @property array image_mobile
+ * @property string status
+ * @property string code
+ * @property string type
+ * @property string code_mobile
+ * @property string url
  * @property Timestamp date_from
  * @property Timestamp date_to
- * @property string    place
- * @property string    user
- * @property string    views
- * @property string    clicks
- * @property string    limit_click
- * @property string    limit_view
+ * @property string place
+ * @property string platforms
+ * @property string user
+ * @property string views
+ * @property string clicks
+ * @property string limit_click
+ * @property string limit_view
  */
 class Ad extends MongoModel
 {
-    protected $_integerAttributes    = ['limit_click', 'limit_view'];
+    protected $_integerAttributes = ['limit_click', 'limit_view'];
     protected $_searchableAttributes = ['title'];
 
     public $clickable = false;
@@ -44,6 +45,12 @@ class Ad extends MongoModel
     const STATUS_LIMITED_VIEW = 'limited_view';
     const STATUS_LIMITED_CLICK = 'limited_click';
 
+    const PLATFORM_ANDROID = 'android';
+    const PLATFORM_IOS = 'ios';
+    const PLATFORM_LINUX = 'linxux';
+    const PLATFORM_MAC = 'mac';
+    const PLATFORM_WINDOWS = 'windows';
+
     public static function collectionName()
     {
         return 'ad';
@@ -53,18 +60,29 @@ class Ad extends MongoModel
     {
         return [
             self::TYPE_IMAGE => __('Image'),
-            self::TYPE_CODE  => __('Code'),
+            self::TYPE_CODE => __('Code'),
+        ];
+    }
+
+    public static function getPlatformOptions()
+    {
+        return [
+            self::PLATFORM_ANDROID => __('Android'),
+            self::PLATFORM_IOS => __('iOS'),
+            self::PLATFORM_LINUX => __('Linux'),
+            self::PLATFORM_MAC => __('Mac'),
+            self::PLATFORM_WINDOWS => __('Windows'),
         ];
     }
 
     public static function getStatusOptions()
     {
         return [
-            self::STATUS_ENABLE        => __('Enable'),
-            self::STATUS_DISABLE       => __('Disable'),
-            self::STATUS_EXPIRE        => __('Expired'),
-            self::STATUS_PENDING       => __('Pending'),
-            self::STATUS_LIMITED_VIEW  => __('View Completed'),
+            self::STATUS_ENABLE => __('Enable'),
+            self::STATUS_DISABLE => __('Disable'),
+            self::STATUS_EXPIRE => __('Expired'),
+            self::STATUS_PENDING => __('Pending'),
+            self::STATUS_LIMITED_VIEW => __('View Completed'),
             self::STATUS_LIMITED_CLICK => __('Click Completed'),
         ];
     }
@@ -93,6 +111,7 @@ class Ad extends MongoModel
             'status',
             'views',
             'clicks',
+            'platforms',
         ]);
     }
 
@@ -102,7 +121,7 @@ class Ad extends MongoModel
             ['title', 'required', 'on' => [self::SCENARIO_INSERT, self::SCENARIO_UPDATE]],
             [['date_from', 'date_to', 'limit_click', 'limit_view'], 'safe'],
             [['image', 'image_mobile'], 'safe'],
-            [['code', 'code_mobile'], 'safe'],
+            [['code', 'code_mobile', 'platforms'], 'safe'],
             ['url', 'url'],
             ['url', 'safe'],
             [['search'], 'safe'],
@@ -121,6 +140,8 @@ class Ad extends MongoModel
         if (is_numeric($this->date_to)) {
             $this->date_to = new Timestamp(1, intval($this->date_to));
         }
+
+        $this->platforms = array_filter($this->platforms);
 
         return parent::beforeSave($insert);
     }
@@ -179,7 +200,7 @@ class Ad extends MongoModel
     public function checkStatus()
     {
         $from = is_object($this->date_from) ? $this->date_from->getTimestamp() : $this->date_from;
-        $to   = is_object($this->date_to) ? $this->date_to->getTimestamp() : $this->date_to;
+        $to = is_object($this->date_to) ? $this->date_to->getTimestamp() : $this->date_to;
 
         $time = time();
 
@@ -228,8 +249,8 @@ class Ad extends MongoModel
     {
         echo "reindexStatuses====================\n";
         $ads = self::find()
-                   ->where(['status' => ['$in' => [self::STATUS_ENABLE, self::STATUS_PENDING]]])
-                   ->all();
+            ->where(['status' => ['$in' => [self::STATUS_ENABLE, self::STATUS_PENDING]]])
+            ->all();
         /** @var self[] $ads */
 
         foreach ($ads as $ad) {
