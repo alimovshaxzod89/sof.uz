@@ -218,17 +218,18 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
             !function (a) {
                 a(document).ready(function () {
                     if (a(window).width() < 769) {
+                        a("#banner-yandex").show();
+                        a('#close-banner').click(function (e) {
+                            e.preventDefault();
+                            a('#banner-yandex').slideUp();
+                        });
                         if (Math.floor(Math.random() * 2) == 1) {
-                            jQuery('#banner-yandex').initBanner({
+                            a('#banner-yandex').initBanner({
                                 "place": "yandex-callback",
                                 "language": globalVars.l
                             });
                         } else {
-                            a("#banner-yandex").show();
-                            a('#close-banner').click(function (e) {
-                                e.preventDefault();
-                                a('#banner-yandex').slideUp();
-                            });
+
                             (function (w, d, n, s, t) {
                                 w[n] = w[n] || [];
                                 w[n].push(function () {
