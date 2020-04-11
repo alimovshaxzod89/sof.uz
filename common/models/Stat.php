@@ -97,7 +97,7 @@ class Stat extends MongoModel
         $key = [
             'type'  => self::TYPE_AD_VIEW,
             'model' => $ad->_id,
-            //'hour'  => (int)$date->format('H'),
+            'hour'  => (int)$date->format('H'),
             'day'   => (int)$date->format('d'),
             'month' => (int)$date->format('m'),
             'year'  => (int)$date->format('Y'),
@@ -122,7 +122,7 @@ class Stat extends MongoModel
         $key = [
             'type'  => self::TYPE_AD_CLICK,
             'model' => $ad->_id,
-            //'hour'  => (int)$date->format('H'),
+            'hour'  => (int)$date->format('H'),
             'day'   => (int)$date->format('d'),
             'month' => (int)$date->format('m'),
             'year'  => (int)$date->format('Y'),
