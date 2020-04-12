@@ -27,12 +27,12 @@ class Ad extends AdModel
         $ids = $place->_ads;
 
         if (is_array($ids) && count($ids)) {
-            $ids = array_map(function ($id) {
+            $ids = array_filter(array_map(function ($id) {
                 return new ObjectId($id);
-            }, $ids);
+            }, $ids));
 
             $ads = self::find()
-                ->where(['_id' => ['$in' => $ids]])
+                ->where(['_id' => ['$in' => array_values($ids)]])
                 ->andWhere(['status' => self::STATUS_ENABLE])
                 ->indexBy('id')
                 ->all();
