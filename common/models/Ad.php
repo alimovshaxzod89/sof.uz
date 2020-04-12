@@ -141,7 +141,7 @@ class Ad extends MongoModel
             $this->date_to = new Timestamp(1, intval($this->date_to));
         }
 
-        $this->platforms = array_filter($this->platforms);
+        if (is_array($this->platforms)) $this->platforms = array_filter($this->platforms);
 
         return parent::beforeSave($insert);
     }
