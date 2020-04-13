@@ -8,12 +8,12 @@ use Yii;
 
 /**
  * Class Stat
- * @property string     question
- * @property string     status
- * @property string     expire_time
- * @property string[]   answers
+ * @property string question
+ * @property string status
+ * @property string expire_time
+ * @property string[] answers
  * @property PollItem[] items
- * @property integer    votes
+ * @property integer votes
  * @package common\models
  */
 class Stat extends MongoModel
@@ -28,16 +28,16 @@ class Stat extends MongoModel
     const GROUP_DAY = 'day';
     const GROUP_AUTHOR = 'author';
     const GROUP_MONTH = 'month';
-    public    $group;
-    public    $range;
-    public    $view;
+    public $group;
+    public $range;
+    public $view;
     protected $_integerAttributes = ['count', 'day', 'month', 'year'];
 
     public static function getGroupOptions()
     {
         return [
-            self::GROUP_HOUR  => __('Hourly'),
-            self::GROUP_DAY   => __('Daily'),
+            self::GROUP_HOUR => __('Hourly'),
+            self::GROUP_DAY => __('Daily'),
             self::GROUP_MONTH => __('Monthly'),
         ];
     }
@@ -46,17 +46,17 @@ class Stat extends MongoModel
     {
         return [
             self::GROUP_AUTHOR => __('Author'),
-            self::GROUP_DAY    => __('Daily'),
-            self::GROUP_MONTH  => __('Monthly'),
+            self::GROUP_DAY => __('Daily'),
+            self::GROUP_MONTH => __('Monthly'),
         ];
     }
 
     public static function getViewOptions()
     {
         return [
-            self::VIEW_VIEW  => __('View'),
+            self::VIEW_VIEW => __('View'),
             self::VIEW_CLICK => __('Click'),
-            self::VIEW_BOTH  => __('View/Click'),
+            self::VIEW_BOTH => __('View/Click'),
         ];
     }
 
@@ -65,23 +65,23 @@ class Stat extends MongoModel
         $date = new \DateTime();
 
         $key = [
-            'type'  => self::TYPE_POST_VIEW,
+            'type' => self::TYPE_POST_VIEW,
             'model' => $post->_id,
             //'hour'  => (int)$date->format('H'),
-            'day'   => (int)$date->format('d'),
+            'day' => (int)$date->format('d'),
             'month' => (int)$date->format('m'),
-            'year'  => (int)$date->format('Y'),
+            'year' => (int)$date->format('Y'),
         ];
 
         if ($stat = self::find()->where($key)->one()) {
             return $stat->updateCounters(['count' => $count]);
         } else {
             $key['count'] = $count;
-            $key['time']  = (int)$date->format('U');
+            $key['time'] = (int)$date->format('U');
 
             return boolval(self::getConnection()
-                               ->getCollection(self::collectionName())
-                               ->insert($key));
+                ->getCollection(self::collectionName())
+                ->insert($key));
         }
     }
 
@@ -95,23 +95,23 @@ class Stat extends MongoModel
         $date = new \DateTime();
 
         $key = [
-            'type'  => self::TYPE_AD_VIEW,
+            'type' => self::TYPE_AD_VIEW,
             'model' => $ad->_id,
-            'hour'  => (int)$date->format('H'),
-            'day'   => (int)$date->format('d'),
+            'hour' => (int)$date->format('H'),
+            'day' => (int)$date->format('d'),
             'month' => (int)$date->format('m'),
-            'year'  => (int)$date->format('Y'),
+            'year' => (int)$date->format('Y'),
         ];
 
         if ($stat = self::find()->where($key)->one()) {
             return $stat->updateCounters(['count' => 1]);
         } else {
             $key['count'] = 1;
-            $key['time']  = (int)$date->format('U');
+            $key['time'] = (int)$date->format('U');
 
             return boolval(self::getConnection()
-                               ->getCollection(self::collectionName())
-                               ->insert($key));
+                ->getCollection(self::collectionName())
+                ->insert($key));
         }
     }
 
@@ -120,23 +120,23 @@ class Stat extends MongoModel
         $date = new \DateTime();
 
         $key = [
-            'type'  => self::TYPE_AD_CLICK,
+            'type' => self::TYPE_AD_CLICK,
             'model' => $ad->_id,
-            'hour'  => (int)$date->format('H'),
-            'day'   => (int)$date->format('d'),
+            'hour' => (int)$date->format('H'),
+            'day' => (int)$date->format('d'),
             'month' => (int)$date->format('m'),
-            'year'  => (int)$date->format('Y'),
+            'year' => (int)$date->format('Y'),
         ];
 
         if ($stat = self::find()->where($key)->one()) {
             return $stat->updateCounters(['count' => 1]);
         } else {
             $key['count'] = 1;
-            $key['time']  = (int)$date->format('U');
+            $key['time'] = (int)$date->format('U');
 
             return boolval(self::getConnection()
-                               ->getCollection(self::collectionName())
-                               ->insert($key));
+                ->getCollection(self::collectionName())
+                ->insert($key));
         }
     }
 
@@ -144,18 +144,18 @@ class Stat extends MongoModel
     {
         echo "indexAdViewsAll===================\n";
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => [
-                                          'time' => ['$gt' => 0],
-                                          'type' => ['$eq' => self::TYPE_AD_VIEW],
-                                      ]
-                                      ],
-                                      array('$group' => array(
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      )),
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => [
+                    'time' => ['$gt' => 0],
+                    'type' => ['$eq' => self::TYPE_AD_VIEW],
+                ]
+                ],
+                array('$group' => array(
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                )),
+            ]);
 
         foreach ($result as $item) {
             Ad::updateAll(['views' => $item['count']], ['_id' => $item['_id']]);
@@ -166,17 +166,17 @@ class Stat extends MongoModel
     {
         echo "indexAdClicksAll===================\n";
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => [
-                                          'time' => ['$gt' => 0],
-                                          'type' => ['$eq' => self::TYPE_AD_CLICK],
-                                      ]],
-                                      array('$group' => array(
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      )),
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => [
+                    'time' => ['$gt' => 0],
+                    'type' => ['$eq' => self::TYPE_AD_CLICK],
+                ]],
+                array('$group' => array(
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                )),
+            ]);
 
         foreach ($result as $item) {
             Ad::updateAll(['clicks' => $item['count']], ['_id' => $item['_id']]);
@@ -186,25 +186,25 @@ class Stat extends MongoModel
     public static function indexPostViewsReset()
     {
         Post::updateAll([
-                            'views_l3d'   => 0,
-                            'views_l7d'   => 0,
-                            'views_l30d'  => 0,
-                            'views_today' => 0,
-                        ]);
+            'views_l3d' => 0,
+            'views_l7d' => 0,
+            'views_l30d' => 0,
+            'views_today' => 0,
+        ]);
     }
 
     public static function indexPostViewsAll()
     {
         echo "indexPostViewsAll===================\n";
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => ['time' => ['$gt' => 0]]],
-                                      ['$group' => [
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      ]],
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => ['time' => ['$gt' => 0]]],
+                ['$group' => [
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                ]],
+            ]);
 
         foreach ($result as $item) {
             Post::updateAll(['views' => $item['count']], ['_id' => $item['_id']]);
@@ -216,18 +216,18 @@ class Stat extends MongoModel
         echo "indexPostViewL3D===================\n";
         $date = new \DateTime();
         $time = (int)$date->format('U')
-                - 3 * 24 * 3600
-                - ((int)$date->format('h')) * 3600;
+            - 3 * 24 * 3600
+            - ((int)$date->format('h')) * 3600;
 
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => ['time' => ['$gt' => $time]]],
-                                      ['$group' => [
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      ]],
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => ['time' => ['$gt' => $time]]],
+                ['$group' => [
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                ]],
+            ]);
 
         foreach ($result as $item) {
             Post::updateAll(['views_l3d' => $item['count']], ['_id' => $item['_id']]);
@@ -239,18 +239,18 @@ class Stat extends MongoModel
         echo "indexPostViewL7D===================\n";
         $date = new \DateTime();
         $time = (int)$date->format('U')
-                - 7 * 24 * 3600
-                - ((int)$date->format('h')) * 3600;
+            - 7 * 24 * 3600
+            - ((int)$date->format('h')) * 3600;
 
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => ['time' => ['$gt' => $time]]],
-                                      ['$group' => [
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      ]],
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => ['time' => ['$gt' => $time]]],
+                ['$group' => [
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                ]],
+            ]);
 
         foreach ($result as $item) {
             Post::updateAll(['views_l7d' => $item['count']], ['_id' => $item['_id']]);
@@ -263,18 +263,18 @@ class Stat extends MongoModel
 
         $date = new \DateTime();
         $time = (int)$date->format('U')
-                - 30 * 24 * 3600
-                - ((int)$date->format('h')) * 3600;
+            - 30 * 24 * 3600
+            - ((int)$date->format('h')) * 3600;
 
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => ['time' => ['$gt' => $time]]],
-                                      ['$group' => [
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      ]],
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => ['time' => ['$gt' => $time]]],
+                ['$group' => [
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                ]],
+            ]);
 
         foreach ($result as $item) {
             Post::updateAll(['views_l30d' => $item['count']], ['_id' => $item['_id']]);
@@ -286,18 +286,18 @@ class Stat extends MongoModel
         echo "indexPostViewToday===================\n";
         $date = new \DateTime();
         $time = (int)$date->format('U')
-                - ((int)$date->format('h')) * 3600;
+            - ((int)$date->format('h')) * 3600;
 
 
         $result = self::getConnection()
-                      ->getCollection(self::collectionName())
-                      ->aggregate([
-                                      ['$match' => ['time' => ['$gt' => $time]]],
-                                      ['$group' => [
-                                          '_id'   => '$model',
-                                          'count' => ['$sum' => '$count'],
-                                      ]],
-                                  ]);
+            ->getCollection(self::collectionName())
+            ->aggregate([
+                ['$match' => ['time' => ['$gt' => $time]]],
+                ['$group' => [
+                    '_id' => '$model',
+                    'count' => ['$sum' => '$count'],
+                ]],
+            ]);
 
         foreach ($result as $item) {
             Post::updateAll(['views_today' => $item['count']], ['_id' => $item['_id']]);
@@ -329,21 +329,21 @@ class Stat extends MongoModel
         $this->load($params);
 
         $data = [
-            'labels'   => [],
+            'labels' => [],
             'datasets' => [
                 [
-                    'data'            => [],
-                    'label'           => __("View"),
+                    'data' => [],
+                    'label' => __("View"),
                     'backgroundColor' => ['rgba(255, 99, 132, 0.2)'],
-                    'borderColor'     => ['rgba(255,99,132,1)'],
-                    'borderWidth'     => 1,
+                    'borderColor' => ['rgba(255,99,132,1)'],
+                    'borderWidth' => 1,
                 ],
                 [
-                    'data'            => [],
-                    'label'           => __("Click"),
+                    'data' => [],
+                    'label' => __("Click"),
                     'backgroundColor' => ['rgba(153, 102, 255, 0.2)'],
-                    'borderColor'     => ['rgba(54, 162, 235, 1)'],
-                    'borderWidth'     => 1,
+                    'borderColor' => ['rgba(54, 162, 235, 1)'],
+                    'borderWidth' => 1,
                 ],
             ],
         ];
@@ -353,11 +353,11 @@ class Stat extends MongoModel
 
 
         $query = self::find()
-                     ->where([
-                                 'model' => $model->_id,
-                             ])
-                     ->orderBy(['time' => SORT_ASC])
-                     ->asArray();
+            ->where([
+                'model' => $model->_id,
+            ])
+            ->orderBy(['time' => SORT_ASC])
+            ->asArray();
 
         if ($this->range) {
             $ranges = explode(' / ', preg_replace('!\s+!', ' ', $this->range));
@@ -378,11 +378,11 @@ class Stat extends MongoModel
 
                     if ($fromDate && $toDate) {
                         $query->andFilterWhere([
-                                                   'time' => [
-                                                       '$gt' => $fromDate->getTimestamp(),// * 1000,
-                                                       '$lt' => $toDate->getTimestamp(),// * 1000,
-                                                   ],
-                                               ]);
+                            'time' => [
+                                '$gt' => $fromDate->getTimestamp(),// * 1000,
+                                '$lt' => $toDate->getTimestamp(),// * 1000,
+                            ],
+                        ]);
                     }
                 }
             }
@@ -401,24 +401,24 @@ class Stat extends MongoModel
         }
 
         $labels = [];
-        $view   = [];
-        $click  = [];
+        $view = [];
+        $click = [];
 
 
         foreach ($query->all() as $i => $item) {
             if ($this->group == self::GROUP_DAY) {
-                $day   = Yii::$app->formatter->asDate($item['time'], 'php:d/m/Y');
+                $day = Yii::$app->formatter->asDate($item['time'], 'php:d/m/Y');
                 $label = Yii::$app->formatter->asDate($item['time'], 'php:d/m');
             } elseif ($this->group == self::GROUP_HOUR) {
                 $day = Yii::$app->formatter->asDate($item['time'], 'php:d/m/Y H');
-
+                if (!isset($item['hour'])) $item['hour'] = 0;
                 if ($item['hour'] == 0) {
                     $label = Yii::$app->formatter->asDate($item['time'], 'php:d/m');
                 } else {
                     $label = Yii::$app->formatter->asDate($item['time'], 'H');
                 }
             } else if ($this->group == self::GROUP_MONTH) {
-                $day   = Yii::$app->formatter->asDate($item['time'], 'php:m/Y');
+                $day = Yii::$app->formatter->asDate($item['time'], 'php:m/Y');
                 $label = Yii::$app->formatter->asDate($item['time'], 'php:F, Y');
             }
 
@@ -435,7 +435,7 @@ class Stat extends MongoModel
 
         }
 
-        $data['labels']              = array_values($labels);
+        $data['labels'] = array_values($labels);
         $data['datasets'][0]['data'] = array_values($view);
         $data['datasets'][1]['data'] = array_values($click);
 
@@ -452,21 +452,21 @@ class Stat extends MongoModel
     public function getAdminStatistics($params = [])
     {
         $this->range = (new DateTime())
-                           ->setTimestamp(time() - 7 * 24 * 3600)
-                           ->setTime(0, 0, 0)
-                           ->format('d-m-Y H:i:s') . ' / ' . (new DateTime())
-                           ->setTime(0, 0, 0)
-                           ->format('d-m-Y H:i:s');
+                ->setTimestamp(time() - 7 * 24 * 3600)
+                ->setTime(0, 0, 0)
+                ->format('d-m-Y H:i:s') . ' / ' . (new DateTime())
+                ->setTime(0, 0, 0)
+                ->format('d-m-Y H:i:s');
         $this->load($params);
 
         if (!$this->group) $this->group = self::GROUP_AUTHOR;
 
         $query = Post::find()
-                     ->select(['_categories', '_creator', '_id', 'published_on'])
-                     ->where([
-                                 'status' => Post::STATUS_PUBLISHED,
-                             ])
-                     ->orderBy(['published_on' => SORT_DESC]);
+            ->select(['_categories', '_creator', '_id', 'published_on'])
+            ->where([
+                'status' => Post::STATUS_PUBLISHED,
+            ])
+            ->orderBy(['published_on' => SORT_DESC]);
 
         if ($this->range) {
             $ranges = explode(' / ', preg_replace('!\s+!', ' ', $this->range));
@@ -487,11 +487,11 @@ class Stat extends MongoModel
 
                     if ($fromDate && $toDate) {
                         $query->andFilterWhere([
-                                                   'published_on' => [
-                                                       '$gte' => new Timestamp(1, $fromDate->getTimestamp()),// * 1000,
-                                                       '$lt' => new Timestamp(1, $toDate->getTimestamp()),// * 1000,
-                                                   ],
-                                               ]);
+                            'published_on' => [
+                                '$gte' => new Timestamp(1, $fromDate->getTimestamp()),// * 1000,
+                                '$lt' => new Timestamp(1, $toDate->getTimestamp()),// * 1000,
+                            ],
+                        ]);
                     }
                 }
             }
@@ -502,13 +502,13 @@ class Stat extends MongoModel
             $id = (string)$item->_creator;
             if ($id) {
                 if ($this->group == self::GROUP_DAY) {
-                    $day   = Yii::$app->formatter->asDate($item->published_on->getTimestamp(), 'php:d/m/Y');
+                    $day = Yii::$app->formatter->asDate($item->published_on->getTimestamp(), 'php:d/m/Y');
                     $label = Yii::$app->formatter->asDate($item->published_on->getTimestamp(), 'php:d/m/Y');
                 } else if ($this->group == self::GROUP_MONTH) {
-                    $day   = Yii::$app->formatter->asDate($item->published_on->getTimestamp(), 'php:m/Y');
+                    $day = Yii::$app->formatter->asDate($item->published_on->getTimestamp(), 'php:m/Y');
                     $label = Yii::$app->formatter->asDate($item->published_on->getTimestamp(), 'php:F, Y');
                 } else {
-                    $day   = $id;
+                    $day = $id;
                     $label = $item->creator->getFullname();
                 }
 
@@ -523,9 +523,9 @@ class Stat extends MongoModel
                 if (!isset($result[$day]['auth'][$id])) {
                     $result[$day]['auth'][$id] = [
                         'author' => $item->creator,
-                        'news'   => 0,
-                        'art'    => 0,
-                        'all'    => 0,
+                        'news' => 0,
+                        'art' => 0,
+                        'all' => 0,
                     ];
                 }
                 $result[$day]['auth'][$id]['all']++;
