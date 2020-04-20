@@ -27,6 +27,7 @@ class Post extends PostModel
             'title' => 'title',
             'views' => 'views',
             'image' => 'mobile_image',
+            'thumb' => 'mobile_thumb',
             'hide_image' => function () {
                 return boolval($this->hide_image) || empty($this->image) || $this->image == null;
             },

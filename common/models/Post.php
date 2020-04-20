@@ -32,6 +32,7 @@ use yii\helpers\StringHelper;
  * @property array image_caption
  * @property array image_size
  * @property string mobile_image
+ * @property string mobile_thumb
  * @property array gallery_items
  * @property string audio_url
  * @property string video_url
@@ -175,6 +176,7 @@ class Post extends MongoModel
             'mover_url',
             'gallery',
             'mobile_image',
+            'mobile_thumb',
             'gallery_items',
 
             'short_id',
@@ -1292,10 +1294,9 @@ class Post extends MongoModel
 
     const IMAGE_WIDTH = 720;
 
-    protected function getDefaultMobileImage()
+    protected function getDefaultMobileImage($width = 720, $height = null)
     {
-        self::getCropImage($this->image, 150, 150, ManipulatorInterface::THUMBNAIL_OUTBOUND, false);
-        return self::getCropImage($this->image, self::IMAGE_WIDTH, null, ManipulatorInterface::THUMBNAIL_OUTBOUND, false);
+        return self::getCropImage($this->image, $width, $height, ManipulatorInterface::THUMBNAIL_OUTBOUND, false);
     }
 
     public function isPushNotificationExpired()
@@ -1320,6 +1321,7 @@ class Post extends MongoModel
             /** @var GalleryItem[] $gallery */
             $items = [];
             $this->mobile_image = trim($this->getDefaultMobileImage());
+            $this->mobile_thumb = trim($this->getDefaultMobileImage(150, 150));
             $gallery = $this->getGalleryItemsModel();
 
             if (count($gallery) > 0) {

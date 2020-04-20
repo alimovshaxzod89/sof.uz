@@ -433,6 +433,7 @@ class IndexerController extends Controller
             $post->updateAttributes([
                 'is_mobile' => true,
                 'mobile_image' => $post->mobile_image,
+                'mobile_thumb' => $post->mobile_thumb,
                 'gallery_items' => $post->gallery_items,
             ]);
         }
