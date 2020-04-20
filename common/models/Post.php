@@ -1294,6 +1294,7 @@ class Post extends MongoModel
 
     protected function getDefaultMobileImage()
     {
+        self::getCropImage($this->image, 150, 150, ManipulatorInterface::THUMBNAIL_OUTBOUND, false);
         return self::getCropImage($this->image, self::IMAGE_WIDTH, null, ManipulatorInterface::THUMBNAIL_OUTBOUND, false);
     }
 

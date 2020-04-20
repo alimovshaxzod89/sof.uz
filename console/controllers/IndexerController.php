@@ -423,6 +423,7 @@ class IndexerController extends Controller
                 'is_mobile' => ['$ne' => true],
                 'status' => Post::STATUS_PUBLISHED,
             ])
+            ->orderBy(['published_on' => SORT_DESC])
             ->limit($limit)
             ->all();
         foreach ($posts as $post) {
@@ -446,6 +447,6 @@ class IndexerController extends Controller
 
     public function actionT()
     {
-        echo Post::updateAll(['ad_time' => 0]);
+        echo Post::updateAll(['is_mobile' => false]);
     }
 }
