@@ -153,9 +153,9 @@ class AutoPost extends MongoModel
                     echo "Sending to $sharer\n";
                     $status                        = $this->post->shareTo($sharer);
                     $result["{$attribute}_status"] = $status;
-                    var_dump($status);
                 } catch (\Exception $e) {
                     echo $e->getMessage() . "\n";
+                    echo $e->getTraceAsString(). "\n";
                     $result["{$attribute}_status"] = $e->getMessage();
                 }
             }

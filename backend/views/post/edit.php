@@ -449,7 +449,7 @@ $this->registerJs('initPostEditor();');
     var timeout;
 
     function initStatus() {
-        timeout = setTimeout(function () {
+        /*timeout = setTimeout(function () {
             tinymce.triggerSave();
             var form = $('#post_form');
 
@@ -460,7 +460,7 @@ $this->registerJs('initPostEditor();');
                     console.log(postUpdated !== data.updated);
                     console.log(data);
                     if (postEditor !== data.author || postUpdated !== data.updated) {
-                        if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {
+                        if (confirm('<?php //echo addslashes(__('Post has changed, do you want to reload it?'))?>')) {
                             document.location.href = document.location.href;
                         } else {
                             postUpdated = data.updated;
@@ -471,7 +471,7 @@ $this->registerJs('initPostEditor();');
                     }
                 }
             );
-        }, 5000);
+        }, 5000);*/
     }
 
     function initAutoSave() {

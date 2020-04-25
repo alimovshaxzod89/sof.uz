@@ -33,10 +33,26 @@ class IndexerController extends Controller
      */
     public function actionSuperFast($final = 1)
     {
+        AutoPost::publishAutoPublishPosts($final);
         Post::publishAutoPublishPosts($final);
         Post::indexAdPosts($final);
-        AutoPost::publishAutoPublishPosts($final);
     }
+
+    public function actionPublish($post)
+    {
+        /**
+         * @var $post AutoPost
+         */
+
+        if ($post = AutoPost::findOne($post)) {
+            if ($post->publish()) {
+                echo "PUBLISHED: ->";
+            }
+            echo $post->post->title . PHP_EOL;
+        }
+
+    }
+
 
     /**
      * every 1 minutes

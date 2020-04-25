@@ -41,6 +41,7 @@ class TelegramBot extends BaseShare
         $photo = $post->getFileUrl('image', true);
 
         try {
+            echo $photo.PHP_EOL;
             if ($this->_botApi->sendPhoto(
                 $this->channelId,
                 $photo ? $photo : null,
@@ -57,6 +58,7 @@ class TelegramBot extends BaseShare
             \Yii::error($e->getMessage());
 
             echo $e->getMessage() . PHP_EOL;
+            echo $e->getTraceAsString() . PHP_EOL;
         }
 
         \Yii::error('Post share failed');
