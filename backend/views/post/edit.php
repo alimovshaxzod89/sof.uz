@@ -32,7 +32,7 @@ $user                          = $this->context->_user();
 
 $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
 ?>
-<div class="post-create <?= $locked || !$canEdit ? '' : '' ?>">
+<div class="post-create ">
     <div class="lock_area"></div>
     <div class="post-form">
         <?php $form = ActiveForm::begin(['enableAjaxValidation' => true, 'enableClientValidation' => true, 'validateOnSubmit' => true, 'options' => ['id' => 'post_form']]); ?>
@@ -475,7 +475,7 @@ $this->registerJs('initPostEditor();');
     }
 
     function initAutoSave() {
-        if (!postLocked && canEdit) {
+        if (canEdit) {
             clearTimeout(timeout);
             timeout = setTimeout(function () {
                 tinymce.triggerSave();
@@ -489,9 +489,9 @@ $this->registerJs('initPostEditor();');
                         postEditor = data.author;
 
                         if (data.reload != undefined && data.reload == 1) {
-                            if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {
+                            /*if (confirm('<?=addslashes(__('Post has changed, do you want to reload it?'))?>')) {
                                 document.location.href = document.location.href;
-                            }
+                            }*/
                         }
                     }
                 );
