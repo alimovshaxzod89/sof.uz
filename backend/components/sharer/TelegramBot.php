@@ -32,16 +32,18 @@ class TelegramBot extends BaseShare
             throw new InvalidArgumentException('Property `$channelId` must be set');
         }
         \Yii::beginProfile('Sending post to telegram channel');
-        $domain      = \Yii::getAlias('@frontendUrl');
+        $domain = \Yii::getAlias('@frontendUrl');
         $channelLink = getenv('CHANNEL_LINK');
-        $link        = $post->getShortViewUrl();
+        $link = $post->getShortViewUrl();
 
-        $hand  = "\u{1F449}";
-        $text  = "<b>" . $post->getTranslation('title', Config::LANGUAGE_CYRILLIC) . "</b>\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
+        $hand = "\u{1F449}";
+        $title = $post->getTranslation('title', Config::LANGUAGE_CYRILLIC);
+        $info = $post->getTranslation('info', Config::LANGUAGE_CYRILLIC);
+        $text = "<b>$title</b>\n\n{$info}\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
         $photo = $post->getFileUrl('image', true);
 
         try {
-            echo $photo.PHP_EOL;
+            echo $photo . PHP_EOL;
             if ($this->_botApi->sendPhoto(
                 $this->channelId,
                 $photo ? $photo : null,
