@@ -43,6 +43,7 @@ class PostController extends ApiController
                     $this->get('id'),
                     $this->get('slug'),
                     $this->get('v'),
+                    $this->get('author'),
                     $this->get('push'),
                 ],
             ],
