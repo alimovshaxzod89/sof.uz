@@ -911,6 +911,11 @@ class Post extends MongoModel
     {
         /** @var BaseShare $sharer */
         $sharer = Yii::$app->get($social);
+
+        if ($social == Post::SOCIAL_ANDROID) {
+            $sharer->publishIos($this);
+        }
+
         return $sharer->publish($this);
     }
 

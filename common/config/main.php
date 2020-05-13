@@ -162,7 +162,7 @@ $config = [
             ],
             'toIos'        => [
                 Config::LANGUAGE_UZBEK    => "/topics/sofuz_ios_latin",
-                Config::LANGUAGE_CYRILLIC => "/topics/sofuz_testtest",
+                Config::LANGUAGE_CYRILLIC => "/topics/sofuz_ios_cyril",
             ]
         ],
     ],
