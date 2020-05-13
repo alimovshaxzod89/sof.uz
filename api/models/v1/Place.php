@@ -25,7 +25,7 @@ class Place extends PlaceModel
         if ($device == 'mobile') {
             if ($ad->type == Ad::TYPE_IMAGE) {
                 if ($url = $ad->getMobileImageUrl()) {
-                    $content = Html::img($url, ['style' => 'display:none', 'onload' => '$(this).fadeIn()']);
+                    $content = Html::img($url, $this->slug != 'mobile' ? ['style' => 'display:none', 'onload' => '$(this).fadeIn()'] : []);
                 } else {
                     $content = Html::img($ad->getDesktopImageUrl());
                 }
@@ -38,7 +38,7 @@ class Place extends PlaceModel
             }
         } else {
             if ($ad->type == Ad::TYPE_IMAGE) {
-                $content = Html::img($ad->getDesktopImageUrl(), ['style' => 'display:none', 'onload' => '$(this).fadeIn()']);
+                $content = Html::img($ad->getDesktopImageUrl(), $this->slug != 'mobile' ? ['style' => 'display:none', 'onload' => '$(this).fadeIn()'] : []);
             } else {
                 $content = $ad->code;
             }
