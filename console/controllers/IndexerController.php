@@ -389,23 +389,19 @@ class IndexerController extends Controller
 
             foreach ($tags as $tag) {
                 $cols = $tag->getChildren();
-                if (strip_tags($cols[1]->innerHtml()) == 'World') {
+                if (strip_tags($cols[3]->innerHtml()) == 'World') {
                     $hasCases++;
-                    $cases['World'][] = $cols[3]->innerHtml();
-                    $cases['World'][] = $cols[11]->innerHtml();
-                    $cases['World'][] = $cols[7]->innerHtml();
-                    echo $cols[3]->innerHtml() . PHP_EOL;
-                    echo $cols[7]->innerHtml() . PHP_EOL;
-                    echo $cols[11]->innerHtml() . PHP_EOL;
+                    $cases['World'][] = $cols[5]->innerHtml();
+                    $cases['World'][] = $cols[13]->innerHtml();
+                    $cases['World'][] = $cols[9]->innerHtml();
+                    print_r($cases['World']);
                 }
-                if (strip_tags($cols[1]->innerHtml()) == 'Uzbekistan') {
+                if (strip_tags($cols[3]->innerHtml()) == 'Uzbekistan') {
                     $hasCases++;
-                    echo $cols[3]->innerHtml() . PHP_EOL;
-                    echo $cols[7]->innerHtml() . PHP_EOL;
-                    echo $cols[11]->innerHtml() . PHP_EOL;
-                    $cases['Uzbekistan'][] = $cols[3]->innerHtml();
-                    $cases['Uzbekistan'][] = $cols[11]->innerHtml();
-                    $cases['Uzbekistan'][] = $cols[7]->innerHtml();
+                    $cases['Uzbekistan'][] = $cols[5]->innerHtml();
+                    $cases['Uzbekistan'][] = $cols[13]->innerHtml();
+                    $cases['Uzbekistan'][] = $cols[9]->innerHtml();
+                    print_r($cases['Uzbekistan']);
                 }
             }
         }
