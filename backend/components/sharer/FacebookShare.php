@@ -25,7 +25,8 @@ class FacebookShare extends BaseShare
             $response = $fb->post(
                 getenv('FB_PAGE_ID') . '/feed',
                 [
-                    'message' => $post->info . "\n\nБатафсил: $link"
+                    'message' => $post->info . "\n\nБатафсил: $link",
+                    'link' => $link,
                 ],
                 getenv('FB_ACCESS_TOKEN')
             );
