@@ -38,10 +38,9 @@ class TelegramBot extends BaseShare
 
         $hand = "\u{1F449}";
         $title = $post->getTranslation('title', Config::LANGUAGE_CYRILLIC);
-        $tgInfo = trim($post->getTranslation('tg_info', Config::LANGUAGE_CYRILLIC));
-        $info = $tgInfo ? $tgInfo : trim($post->getTranslation('info', Config::LANGUAGE_CYRILLIC));
+        $info = $post->tg_info ? trim($post->getTranslation('info', Config::LANGUAGE_CYRILLIC)) . "\n\n" : '';
 
-        $text = "<b>$title</b>\n\n{$info}\n\n" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
+        $text = "<b>$title</b>\n\n{$info}" . "Батафсил: $link\n\n<b>Энг сўнгги хабарларга обуна бўлинг:</b> $hand \n$channelLink";
         $photo = $post->getFileUrl('image', true);
 
         try {

@@ -37,7 +37,7 @@ use yii\helpers\StringHelper;
  * @property string audio_url
  * @property string video_url
  * @property string template
- * @property string tg_info
+ * @property boolean tg_info
  * @property string _author_post
  * @property mixed info
  * @property mixed type
@@ -90,8 +90,8 @@ class Post extends MongoModel
 {
     const SCENARIO_CONVERT = 'convert';
     const AUTHOR_CATEGORY = '5d63dd4d18855a227578b4ab';
-    protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source', 'tg_info'];
-    protected $_booleanAttributes = ['img_watermark', 'is_ad', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
+    protected $_translatedAttributes = ['title', 'content', 'info', 'audio', 'image_source'];
+    protected $_booleanAttributes = ['img_watermark', 'is_ad', 'tg_info', 'has_video', 'has_gallery', 'has_info', 'is_sidebar', 'is_main', 'is_instant', 'is_mobile', 'hide_image'];
     protected $_integerAttributes = ['ad_time', 'views', 'template', 'read_min', 'views_l3d', 'views_l7d', 'views_l30d', 'views_today'];
     protected $_searchableAttributes = ['title', 'info', 'category'];
     protected $_idAttributes = ['_creator', '_author'];
@@ -287,7 +287,8 @@ class Post extends MongoModel
             [['status'], 'in', 'range' => array_keys(self::getStatusArray()),
                 'on' => [self::SCENARIO_GALLERY, self::SCENARIO_VIDEO, self::SCENARIO_NEWS, self::SCENARIO_CONVERT]],
 
-            [['title', 'tg_info'], 'string', 'max' => 512],
+            [['tg_info'], 'default', 'value' => true],
+            [['title'], 'string', 'max' => 512],
             [['slug'], 'string', 'max' => 256],
             [['ad_time'], 'number', 'min' => 0, 'max' => 1000, 'integerOnly' => true],
 

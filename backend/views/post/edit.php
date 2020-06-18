@@ -25,10 +25,10 @@ use dosamigos\tinymce\TinyMce;
 /* @var $user Admin */
 
 
-$this->title                   = $model->getTitleView();
+$this->title = $model->getTitleView();
 $this->params['breadcrumbs'][] = ['url' => ['post/index'], 'label' => __('Manage Posts')];
 $this->params['breadcrumbs'][] = $this->title;
-$user                          = $this->context->_user();
+$user = $this->context->_user();
 
 $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(), ['data-pjax' => 0, 'class' => 'pull-right', 'target' => '_blank']);
 ?>
@@ -51,51 +51,50 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         </div>
                         <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'placeholder' => __('Post Link')])->label(false) ?>
                         <?= $form->field($model, 'info', ['template' => '{label}{input}{error}<span class="counter"></span>'])->textarea(['maxlength' => true, 'rows' => 4, 'placeholder' => __('Short Information')])->label(false) ?>
-                        <?= $form->field($model, 'tg_info')->textarea(['maxlength' => true, 'rows' => 4])->label(__('Telegram Short Info')) ?>
 
 
                         <?= $form->field($model, 'content')->widget(TinyMce::className(), [
-                            'language'      => 'ru',
+                            'language' => 'ru',
                             'clientOptions' => [
-                                'plugins'                       => [
+                                'plugins' => [
                                     "advlist autolink lists link imagetools image charmap print hr anchor pagebreak",
                                     "searchreplace wordcount visualblocks visualchars code fullscreen",
                                     "insertdatetime media nonbreaking save table contextmenu directionality",
                                     "emoticons template paste textcolor colorpicker textpattern cw myembed paste",
                                 ],
-                                'image_title'                   => true,
-                                'image_class_list'              => [
+                                'image_title' => true,
+                                'image_class_list' => [
                                     ['title' => '', 'value' => ''],
                                     ['title' => 'Full', 'value' => 'size-full'],
                                     ['title' => 'Half Left', 'value' => 'size-half-left'],
                                     ['title' => 'Half Right', 'value' => 'size-half-right']
                                 ],
-                                'image_dimensions'              => false,
-                                'automatic_uploads'             => true,
-                                'extended_valid_elements'       => "script[src|async|defer|type|charset]",
-                                'paste_data_images'             => true,
-                                'image_caption'                 => true,
-                                'fix_list_elements'             => true,
-                                'image_advtab'                  => false,
-                                'default_link_target'           => '_blank',
-                                'entity_encoding'               => 'raw',
-                                'init_instance_callback'        => new \yii\web\JsExpression("
+                                'image_dimensions' => false,
+                                'automatic_uploads' => true,
+                                'extended_valid_elements' => "script[src|async|defer|type|charset]",
+                                'paste_data_images' => true,
+                                'image_caption' => true,
+                                'fix_list_elements' => true,
+                                'image_advtab' => false,
+                                'default_link_target' => '_blank',
+                                'entity_encoding' => 'raw',
+                                'init_instance_callback' => new \yii\web\JsExpression("
                                     function(editor){
                                         editor.on('Change', function (e) {
                                           initAutoSave();
                                         });
                                     }
                                 "),
-                                'paste_webkit_styles'           => 'none',
+                                'paste_webkit_styles' => 'none',
                                 'paste_remove_styles_if_webkit' => true,
-                                'paste_enable_default_filters'  => true,
-                                "paste_word_valid_elements"     => "b,strong,i,em,h1,h2,h3,h4,h5,h6,p,blockquote,img,ul,ol,li,table,td,tr,thead,tbody,tfoot",
-                                'content_style'                 => 'body {max-width: 768px; margin: 5px auto;}.mce-content-body img{width:98%; height:98%}figure.image{margin:0px;width:100%}.custom_card{padding:5px 20px;border:1px solid #e3e3e3;text-align:center;margin:10px 20px;}.cw-wrapper{display:block;padding:20px;background-color:#e3e3e3;}',
-                                'images_upload_url'             => Url::to(['file-storage/upload', 'type' => 'content-image', 'fileparam' => 'file']),
-                                'preview_url'                   => Url::to('@frontendUrl/preview/' . $model->getId()),
-                                'toolbar1'                      => "undo redo | styleselect blockquote superscript subscript cw | alignleft aligncenter alignright alignjustify | bullist numlist | link image table myembed| bold italic underline | code fullscreen",
+                                'paste_enable_default_filters' => true,
+                                "paste_word_valid_elements" => "b,strong,i,em,h1,h2,h3,h4,h5,h6,p,blockquote,img,ul,ol,li,table,td,tr,thead,tbody,tfoot",
+                                'content_style' => 'body {max-width: 768px; margin: 5px auto;}.mce-content-body img{width:98%; height:98%}figure.image{margin:0px;width:100%}.custom_card{padding:5px 20px;border:1px solid #e3e3e3;text-align:center;margin:10px 20px;}.cw-wrapper{display:block;padding:20px;background-color:#e3e3e3;}',
+                                'images_upload_url' => Url::to(['file-storage/upload', 'type' => 'content-image', 'fileparam' => 'file']),
+                                'preview_url' => Url::to('@frontendUrl/preview/' . $model->getId()),
+                                'toolbar1' => "undo redo | styleselect blockquote superscript subscript cw | alignleft aligncenter alignright alignjustify | bullist numlist | link image table myembed| bold italic underline | code fullscreen",
                             ],
-                            'options'       => ['rows' => 30],
+                            'options' => ['rows' => 30],
                         ]) ?>
 
 
@@ -104,29 +103,29 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                             'loadUrl' => Url::to(['post/tag']),
 
                             'clientOptions' => [
-                                'maxItems'     => 100,
-                                'maxOptions'   => 10,
+                                'maxItems' => 100,
+                                'maxOptions' => 10,
                                 'hideSelected' => true,
-                                'create'       => true,
-                                'valueField'   => 'v',
-                                'labelField'   => 't',
-                                'searchField'  => 's',
-                                'options'      => $model->getTagsData(),
-                                'plugins'      => ['remove_button', 'drag_drop'],
+                                'create' => true,
+                                'valueField' => 'v',
+                                'labelField' => 't',
+                                'searchField' => 's',
+                                'options' => $model->getTagsData(),
+                                'plugins' => ['remove_button', 'drag_drop'],
                             ],
                         ]) ?>
 
 
                         <?= $form->field($model, 'gallery')->widget(Upload::className(), [
-                            'url'              => ['file-storage/upload', 'type' => 'gallery-image'],
-                            'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
-                            'maxFileSize'      => 15 * 1024 * 1024, // 10 MiB
-                            'multiple'         => true,
-                            'sortable'         => true,
+                            'url' => ['file-storage/upload', 'type' => 'gallery-image'],
+                            'acceptFileTypes' => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
+                            'maxFileSize' => 15 * 1024 * 1024, // 10 MiB
+                            'multiple' => true,
+                            'sortable' => true,
                             'maxNumberOfFiles' => 100,
-                            'languages'        => Config::getLanguageCodes(),
-                            'clientOptions'    => [],
-                            'value'            => $model->gallery,
+                            'languages' => Config::getLanguageCodes(),
+                            'clientOptions' => [],
+                            'value' => $model->gallery,
                         ]) ?>
 
                     </div>
@@ -213,6 +212,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         <?= $form->field($model, 'has_gallery')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Fotoxabar')) ?>
                         <?= $form->field($model, 'is_sidebar')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Sidebar')) ?>
                         <?= $form->field($model, 'is_ad')->widget(CheckBo::className(), ['type' => 'switch'], ['onchange' => 'showAdTime()'])->label(__('PR Maqola')) ?>
+                        <?= $form->field($model, 'tg_info')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Telegram Info')) ?>
 
                         <div id="ad_time" style="<?= !$model->is_ad ? 'display:none' : '' ?>">
                             <?= $form->field($model, 'ad_time')->textInput(['placeholder' => __('Reklama muddati')])->label(false) ?>
@@ -223,18 +223,18 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         <?php $authors = Admin::getArrayOptions(); ?>
                         <?php if (count($authors)): ?>
                             <?= $form->field($model, '_author')
-                                     ->widget(ChosenSelect::class, [
-                                         'items'         => $authors,
-                                         'pluginOptions' => [
-                                             'width'                 => '100%',
-                                             'allow_single_deselect' => true,
-                                             'disable_search'        => true
-                                         ],
-                                     ])->label() ?>
+                                ->widget(ChosenSelect::class, [
+                                    'items' => $authors,
+                                    'pluginOptions' => [
+                                        'width' => '100%',
+                                        'allow_single_deselect' => true,
+                                        'disable_search' => true
+                                    ],
+                                ])->label() ?>
                         <?php endif; ?>
                         <?php if ($user->canAccessToResource('post/creator')): ?>
                             <?= $form->field($model, '_creator')->widget(ChosenSelect::className(), [
-                                'items'         => Admin::getArrayOptions(),
+                                'items' => Admin::getArrayOptions(),
                                 'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
                             ])->label() ?>
                         <?php endif; ?>
@@ -242,15 +242,15 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         <?php if ($model->getId() && $model->status != Post::STATUS_IN_TRASH): ?>
                             <?php if ($user->canAccessToResource('post/publish')): ?>
                                 <?= $form->field($model, 'status')
-                                         ->widget(ChosenSelect::className(), [
-                                             'items'         => Post::getStatusArray(),
-                                             'options'       => ['onchange' => 'statusChanged(this.value)'],
-                                             'pluginOptions' => [
-                                                 'width'                 => '100%',
-                                                 'allow_single_deselect' => true,
-                                                 'disable_search'        => true
-                                             ],
-                                         ]) ?>
+                                    ->widget(ChosenSelect::className(), [
+                                        'items' => Post::getStatusArray(),
+                                        'options' => ['onchange' => 'statusChanged(this.value)'],
+                                        'pluginOptions' => [
+                                            'width' => '100%',
+                                            'allow_single_deselect' => true,
+                                            'disable_search' => true
+                                        ],
+                                    ]) ?>
 
 
                                 <?php $time = $model->getPublishedOnSeconds() ?>
@@ -260,25 +260,25 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
 
                                     <?= $form->field($model, 'published_on', [
                                         'options' => [
-                                            'value'    => $model->getPublishedOnSeconds(),
-                                            'id'       => 'hidden_published_on',
+                                            'value' => $model->getPublishedOnSeconds(),
+                                            'id' => 'hidden_published_on',
                                             'disabled' => !($model->status == Post::STATUS_PUBLISHED || $model->status == Post::STATUS_DRAFT),
                                         ],
                                     ])->hiddenInput(['id' => 'published_on_time', 'value' => $time]) ?>
                                     <?= DateTimeWidget::widget([
-                                                                   'id'               => 'widget_published_on',
-                                                                   'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                                                   'model'            => $model,
-                                                                   'name'             => 'date_published_on_time',
-                                                                   'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                                                   'containerOptions' => [],
-                                                                   'clientEvents'     => [
-                                                                       'dp.change' => new JsExpression('function(d){
+                                        'id' => 'widget_published_on',
+                                        'locale' => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                        'model' => $model,
+                                        'name' => 'date_published_on_time',
+                                        'value' => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                        'containerOptions' => [],
+                                        'clientEvents' => [
+                                            'dp.change' => new JsExpression('function(d){
                                                                            time = d.date._d.getTime() / 1000;
                                                                            $("#published_on_time").val(Math.round(time))
                                                                         }'),
-                                                                   ],
-                                                               ]) ?>
+                                        ],
+                                    ]) ?>
                                 </div>
 
                                 <div id="widget_auto_publish_wrapper"
@@ -286,29 +286,29 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                                     <?php $time = $model->getAutoPublishTimeSeconds() ?>
                                     <?= $form->field($model, 'auto_publish_time', [
                                         'options' => [
-                                            'id'       => 'hidden_auto_publish',
+                                            'id' => 'hidden_auto_publish',
                                             'disabled' => $model->status != Post::STATUS_AUTO_PUBLISH ? 'disabled' : false,
                                         ],
                                     ])->hiddenInput(['id' => 'publish_time', 'value' => $time]) ?>
 
                                     <?= DateTimeWidget::widget([
-                                                                   'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                                                   'model'            => $model,
-                                                                   'name'             => 'auto_publish_time',
-                                                                   'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                                                   'containerOptions' => ['class' => ''],
-                                                                   'clientEvents'     => [
-                                                                       'dp.change' => new JsExpression('function(d){
+                                        'locale' => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                        'model' => $model,
+                                        'name' => 'auto_publish_time',
+                                        'value' => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                        'containerOptions' => ['class' => ''],
+                                        'clientEvents' => [
+                                            'dp.change' => new JsExpression('function(d){
                                                                            time = d.date._d.getTime() / 1000;
                                                                            $("#publish_time").val(Math.round(time));
                                                                         }'),
-                                                                   ],
-                                                               ]) ?>
+                                        ],
+                                    ]) ?>
                                 </div>
                             <?php else: ?>
                                 <?= $form->field($model, 'status')->widget(ChosenSelect::className(), [
-                                    'items'         => Post::getStatusArray(),
-                                    'options'       => ['disabled' => true],
+                                    'items' => Post::getStatusArray(),
+                                    'options' => ['disabled' => true],
                                     'pluginOptions' => ['width' => '100%', 'allow_single_deselect' => true, 'disable_search' => true],
                                 ]) ?>
                             <?php endif; ?>
@@ -318,12 +318,12 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         <div class="form-group">
                             <?= $form->field($model, '_categories', ['options' => ['class' => '']])->hiddenInput(['id' => '_categories']); ?>
                             <?php echo FancytreeWidget::widget([
-                                                                   'options' => [
-                                                                       'checkbox'   => true,
-                                                                       'selectMode' => 2,
-                                                                       'source'     => Category::getCategoryTreeAsArray(explode(",", $model->_categories), Config::getRootCatalog()),
-                                                                       'extensions' => ['dnd'],
-                                                                       'select'     => new JsExpression('function(event, data) {
+                                'options' => [
+                                    'checkbox' => true,
+                                    'selectMode' => 2,
+                                    'source' => Category::getCategoryTreeAsArray(explode(",", $model->_categories), Config::getRootCatalog()),
+                                    'extensions' => ['dnd'],
+                                    'select' => new JsExpression('function(event, data) {
                                                                                     var selNodes = data.tree.getSelectedNodes();
                                                                                     var selKeys = $.map(selNodes, function(node){
                                                                                             return node.key;
@@ -331,21 +331,21 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                                                                                     $("#_categories").val(selKeys.join(","));
                                                                                     console.log(data);
                                                                                 }'),
-                                                                   ],
-                                                               ]); ?>
+                                ],
+                            ]); ?>
                         </div>
                         <?= $form->field($model, 'image')
-                                 ->widget(Upload::className(), [
-                                     'url'              => ['file-storage/upload', 'type' => 'post-image'],
-                                     'acceptFileTypes'  => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
-                                     'sortable'         => true,
-                                     'maxFileSize'      => 10 * 1024 * 1024, // 10 MiB
-                                     'maxNumberOfFiles' => 1,
-                                     'multiple'         => false,
-                                     'useCaption'       => true,
-                                     'languages'        => Config::getLanguageCodes(),
-                                     'clientOptions'    => [],
-                                 ])->label(); ?>
+                            ->widget(Upload::className(), [
+                                'url' => ['file-storage/upload', 'type' => 'post-image'],
+                                'acceptFileTypes' => new JsExpression('/(\.|\/)(jpe?g|png)$/i'),
+                                'sortable' => true,
+                                'maxFileSize' => 10 * 1024 * 1024, // 10 MiB
+                                'maxNumberOfFiles' => 1,
+                                'multiple' => false,
+                                'useCaption' => true,
+                                'languages' => Config::getLanguageCodes(),
+                                'clientOptions' => [],
+                            ])->label(); ?>
 
                         <?= $form->field($model, 'hide_image')->widget(CheckBo::className(), ['type' => 'switch'])->label(__('Hide Image')) ?>
 
