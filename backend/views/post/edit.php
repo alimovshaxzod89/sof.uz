@@ -51,6 +51,7 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                         </div>
                         <?= $form->field($model, 'slug')->textInput(['maxlength' => true, 'placeholder' => __('Post Link')])->label(false) ?>
                         <?= $form->field($model, 'info', ['template' => '{label}{input}{error}<span class="counter"></span>'])->textarea(['maxlength' => true, 'rows' => 4, 'placeholder' => __('Short Information')])->label(false) ?>
+                        <?= $form->field($model, 'tg_info')->textarea(['maxlength' => true, 'rows' => 4])->label(__('Telegram Short Info')) ?>
 
 
                         <?= $form->field($model, 'content')->widget(TinyMce::className(), [
@@ -170,21 +171,26 @@ $label = Html::a('<i class="fa fa-external-link"></i>', $model->getPreviewUrl(),
                             <div class="form-group">
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group" role="group">
-                                        <button type="button" id="twitter" class="btn btn-info"
+                                        <button type="button" id="twitter" class="btn btn-default"
                                                 data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
                                                 onclick="shareTo(this, 'twitter')"><i class="fa fa-twitter"></i>
                                         </button>
                                     </div>
                                     <div class="btn-group" role="group">
-                                        <button type="button" id="telegram" class="btn btn-primary"
+                                        <button type="button" id="telegram" class="btn btn-default"
                                                 data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
                                                 onclick="shareTo(this, 'telegram')"><i class="fa fa-paper-plane"></i>
                                         </button>
                                     </div>
-
+                                    <div class="btn-group" role="group">
+                                        <button type="button" id="facebook" class="btn btn-default"
+                                                data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
+                                                onclick="shareTo(this, 'facebook')"><i class="fa fa-facebook"></i>
+                                        </button>
+                                    </div>
                                     <?php if ($model->isPushNotificationExpired()): ?>
                                         <div class="btn-group" role="group">
-                                            <button type="button" id="android" class="btn btn-success"
+                                            <button type="button" id="android" class="btn btn-default"
                                                     data-loading-text="<i class='fa fa-spin fa-spinner'></i>"
                                                     onclick="shareTo(this, 'android')"><i class="fa fa-android"></i>
                                             </button>
