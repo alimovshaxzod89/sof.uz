@@ -17,11 +17,11 @@ use backend\widgets\checkbo\CheckBo;
 /* @var $model common\models\AutoPost */
 
 
-$this->title                   = __('Schedule Post');
+$this->title = __('Schedule Post');
 $this->params['breadcrumbs'][] = ['url' => ['post/index'], 'label' => __('Manage Posts')];
 $this->params['breadcrumbs'][] = ['url' => ['post/edit', 'id' => $model->post->id], 'label' => $model->post->getShortTitle()];
 $this->params['breadcrumbs'][] = $this->title;
-$user                          = $this->context->_user();
+$user = $this->context->_user();
 
 ?>
 
@@ -71,20 +71,21 @@ $user                          = $this->context->_user();
 
                         <?= $form->field($model, 'tg')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Telegram') ?>
                         <?= $form->field($model, 'tw')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Twitter') ?>
+                        <?= $form->field($model, 'fb')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Facebook') ?>
                         <?= $form->field($model, 'an')->widget(CheckBo::className(), ['type' => 'switch', 'options' => ['disabled' => $model->isLocked()]])->label('Android') ?>
 
                         <hr>
                         <?= $form->field($model, 'status')
-                                 ->widget(ChosenSelect::className(), [
-                                     'items'           => \common\models\AutoPost::getStatusOptions(),
-                                     'withPlaceHolder' => false,
-                                     'pluginOptions'   => [
-                                         'width'                 => '100%',
-                                         'allow_single_deselect' => false,
-                                         'disable_search'        => true
-                                     ],
-                                     'options'         => ['disabled' => true]
-                                 ]) ?>
+                            ->widget(ChosenSelect::className(), [
+                                'items' => \common\models\AutoPost::getStatusOptions(),
+                                'withPlaceHolder' => false,
+                                'pluginOptions' => [
+                                    'width' => '100%',
+                                    'allow_single_deselect' => false,
+                                    'disable_search' => true
+                                ],
+                                'options' => ['disabled' => true]
+                            ]) ?>
 
                         <?php $time = $model->getDateFromSeconds() ?>
 
@@ -92,26 +93,26 @@ $user                          = $this->context->_user();
 
                             <?= $form->field($model, 'date', [
                                 'options' => [
-                                    'value'    => $time,
-                                    'id'       => 'hidden_published_on',
+                                    'value' => $time,
+                                    'id' => 'hidden_published_on',
                                     'disabled' => ($model->status == \common\models\AutoPost::STATUS_POSTED),
                                 ],
                             ])->hiddenInput(['id' => 'published_on_time', 'value' => $time]) ?>
                             <?= DateTimeWidget::widget([
-                                                           'id'               => 'widget_published_on',
-                                                           'locale'           => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
-                                                           'model'            => $model,
-                                                           'name'             => 'date_published_on_time',
-                                                           'value'            => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
-                                                           'containerOptions' => [],
-                                                           'options'          => ['disabled' => $model->isLocked()],
-                                                           'clientEvents'     => [
-                                                               'dp.change' => new JsExpression('function(d){
+                                'id' => 'widget_published_on',
+                                'locale' => Yii::$app->language == Config::LANGUAGE_UZBEK ? 'uz-latn' : (Yii::$app->language == Config::LANGUAGE_CYRILLIC ? 'uz' : 'ru'),
+                                'model' => $model,
+                                'name' => 'date_published_on_time',
+                                'value' => $time ? Yii::$app->formatter->asDatetime($time, 'dd.MM.yyyy, HH:mm') : null,
+                                'containerOptions' => [],
+                                'options' => ['disabled' => $model->isLocked()],
+                                'clientEvents' => [
+                                    'dp.change' => new JsExpression('function(d){
                                                                            time = d.date._d.getTime() / 1000;
                                                                            $("#published_on_time").val(Math.round(time))
                                                                         }'),
-                                                           ],
-                                                       ]) ?>
+                                ],
+                            ]) ?>
                         </div>
                         <?php if ($model->status == \common\models\AutoPost::STATUS_POSTED): ?>
                             <pre><?php print_r($model->getAttributes(['tg_status', 'tw_status', 'an_status'])) ?>

@@ -11,22 +11,22 @@ use yii\helpers\ArrayHelper;
 /**
  * Class Ad
  * @package common\models
- * @property string    status
- * @property string    _post
- * @property boolean   fb
- * @property boolean   tg
- * @property boolean   tw
- * @property string    fb_status
- * @property string    tg_status
- * @property string    tw_status
+ * @property string status
+ * @property string _post
+ * @property boolean fb
+ * @property boolean tg
+ * @property boolean tw
+ * @property string fb_status
+ * @property string tg_status
+ * @property string tw_status
  * @property Timestamp date
- * @property Post      post
+ * @property Post post
  */
 class AutoPost extends MongoModel
 {
     protected $_integerAttributes = ['limit_click', 'limit_view'];
     protected $_booleanAttributes = ['fb', 'tg', 'tw'];
-    protected $_idAttributes      = ['_post'];
+    protected $_idAttributes = ['_post'];
 
     const STATUS_PENDING = 'pending';
     const STATUS_POSTED = 'posted';
@@ -50,7 +50,7 @@ class AutoPost extends MongoModel
     {
         return [
             self::STATUS_PENDING => __('Pending'),
-            self::STATUS_POSTED  => __('Posted'),
+            self::STATUS_POSTED => __('Posted'),
         ];
     }
 
@@ -126,11 +126,11 @@ class AutoPost extends MongoModel
          * @var $post AutoPost
          */
         $posts = self::find()
-                     ->where([
-                                 'status' => self::STATUS_PENDING,
-                                 'date'   => ['$lte' => new Timestamp(1, time())],
-                             ])
-                     ->all();
+            ->where([
+                'status' => self::STATUS_PENDING,
+                'date' => ['$lte' => new Timestamp(1, time())],
+            ])
+            ->all();
 
         foreach ($posts as $post) {
             if ($final) {
@@ -145,17 +145,17 @@ class AutoPost extends MongoModel
 
     public function publish()
     {
-        $date   = new Timestamp(1, time());
+        $date = new Timestamp(1, time());
         $result = ['status' => self::STATUS_POSTED, 'updated_at' => $date];
-        foreach (['tg' => 'telegram', 'tw' => 'twitter', 'an' => 'android'] as $attribute => $sharer) {
+        foreach (['tg' => 'telegram', 'tw' => 'twitter', 'an' => 'android', 'fb' => 'facebook'] as $attribute => $sharer) {
             if ($this->$attribute) {
                 try {
                     echo "Sending to $sharer\n";
-                    $status                        = $this->post->shareTo($sharer);
+                    $status = $this->post->shareTo($sharer);
                     $result["{$attribute}_status"] = $status;
                 } catch (\Exception $e) {
                     echo $e->getMessage() . "\n";
-                    echo $e->getTraceAsString(). "\n";
+                    echo $e->getTraceAsString() . "\n";
                     $result["{$attribute}_status"] = $e->getMessage();
                 }
             }
@@ -179,7 +179,7 @@ class AutoPost extends MongoModel
         if ($this->search) {
 
             $query = Post::find()
-                         ->select(['_id']);
+                ->select(['_id']);
 
             $query->orFilterWhere(['title' => ['$regex' => $this->search, '$options' => 'si']]);
             foreach (['uz', 'oz'] as $code) {
@@ -192,16 +192,16 @@ class AutoPost extends MongoModel
 
 
         $dataProvider = new ActiveDataProvider([
-                                                   'query'      => $queryData,
-                                                   'sort'       => [
-                                                       'defaultOrder' => [
-                                                           'date' => SORT_DESC,
-                                                       ],
-                                                   ],
-                                                   'pagination' => [
-                                                       'pageSize' => 30,
-                                                   ],
-                                               ]);
+            'query' => $queryData,
+            'sort' => [
+                'defaultOrder' => [
+                    'date' => SORT_DESC,
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 30,
+            ],
+        ]);
 
         return $dataProvider;
     }
