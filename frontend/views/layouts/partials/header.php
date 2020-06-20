@@ -55,7 +55,7 @@ use yii\helpers\Url;
                     <input type="search" class="search-field inline-field"
                            placeholder="<?= __('Enter keyword...') ?>"
                            autocomplete="off" name="q"
-                           value="<?= Yii::$app->controller->action->id == 'search' ? Yii::$app->request->get('q', '') : ''; ?>">
+                           >
                     <button type="submit" class="search-submit">
                         <i class="mdi mdi-magnify"></i>
                     </button>
