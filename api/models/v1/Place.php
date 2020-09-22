@@ -22,7 +22,7 @@ class Place extends PlaceModel
 
         $content = null;
 
-        if ($device == 'mobile' || $this->slug = 'mobile') {
+        if ($device == 'mobile' || $this->slug == 'mobile') {
             if ($ad->type == Ad::TYPE_IMAGE) {
                 if ($url = $ad->getMobileImageUrl()) {
                     $content = Html::img($url, $this->slug != 'mobile' ? ['style' => 'display:none', 'onload' => '$(this).fadeIn()'] : ['style' => 'width:100%;margin:0 auto;']);
