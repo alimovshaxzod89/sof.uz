@@ -61,6 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                              return Yii::$app->formatter->asDatetime($data->date->getTimestamp());
                                          },
                                      ],
+                                     'tg_status',
+                                     'fb_status',
+                                     'tw_status',
+                                     'an_status',
                                      [
                                          'attribute' => 'updated_at',
                                          'format'    => 'raw',
