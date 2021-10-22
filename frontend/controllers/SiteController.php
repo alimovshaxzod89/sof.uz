@@ -65,7 +65,7 @@ class SiteController extends BaseController
     "apps": [],
     "details": [
       {
-        "appID": "H5VVCZ32P5.simplesolutions.sof.uz",
+        "appID": "BJ6RZUTA33.simplesolutions.sof.uz",
         "paths": [
           "*"
         ]
