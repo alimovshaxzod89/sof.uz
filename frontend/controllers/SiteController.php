@@ -57,6 +57,24 @@ class SiteController extends BaseController
         ];
     }
 
+    public function actionApple()
+    {
+        header('Content-Type: application/pkcs7-mime');
+        echo '{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "H5VVCZ32P5.simplesolutions.sof.uz",
+        "paths": [
+          "*"
+        ]
+      }
+    ]
+  }
+}';
+        die;
+    }
     /**
      * Displays homepage.
      * @return mixed

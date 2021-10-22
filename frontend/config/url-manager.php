@@ -8,6 +8,7 @@ return [
     'showScriptName'            => false,
     'enablePrettyUrl'           => true,
     'rules'                     => [
+        '.well-known/apple-app-site-association'        => 'site/apple',
         '/'            => 'site/index',
         '/contact'     => 'site/contact',
         '/search'      => 'category/search',
