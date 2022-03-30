@@ -370,6 +370,7 @@ class IndexerController extends Controller
 
     public function actionCovid()
     {
+        return;
         $client = new Client([]);
         $hasCases = 0;
         $cases = [

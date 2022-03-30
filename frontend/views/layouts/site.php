@@ -29,48 +29,10 @@ $this->beginContent('@app/views/layouts/main.php');
 <div class="site">
     <?= $this->renderFile('@frontend/views/layouts/partials/header.php') ?>
     <div class="container">
-        <div class="row">
-            <?php if ($cases = \common\components\Config::get('covid')): ?>
-                <div class="col-lg-45 col-md-6 covid-wrapper">
-                    <a href="<?= linkTo(['/tag/koronavirus']) ?>">
-                        <div class="covid">
-                            <span class="decor"></span>
-                            <table width="100%">
-                                <thead>
-                                <tr>
-                                    <th><?= __('COVID-19') ?></th>
-                                    <th class="num"><?= __('kasallandi') ?></th>
-                                    <th class="num"><?= __('davolandi') ?></th>
-                                    <th class="num"><?= __('o\'lim') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><?= __('JAHON') ?></td>
-                                    <td class="num red"><?= $cases['World'][0] ?></td>
-                                    <td class="num green"><?= $cases['World'][1] ?></td>
-                                    <td class="num"><?= $cases['World'][2] ?></td>
-                                </tr>
-                                <tr>
-                                    <td><?= __('O\'ZBEKISTON') ?></td>
-                                    <td class="num red"><?= $cases['Uzbekistan'][0] ?></td>
-                                    <td class="num green"><?= $cases['Uzbekistan'][1] ?></td>
-                                    <td class="num"><?= $cases['Uzbekistan'][2] ?></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <span class="decor right"></span>
-                        </div>
-                    </a>
-                </div>
-            <?php endif; ?>
-            <div class="col-lg-55 col-md-6">
-                <?= \frontend\widgets\Banner::widget([
-                    'place' => 'before_main',
-                    'options' => ['class' => 'ads-wrapper']
-                ]) ?>
-            </div>
-        </div>
+        <?= \frontend\widgets\Banner::widget([
+            'place' => 'before_main',
+            'options' => ['class' => 'ads-wrapper']
+        ]) ?>
     </div>
     <div class="site-content">
         <div class="content-area  pt40 pb40">
