@@ -251,6 +251,17 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         </script>
     </div>
 
+    <!-- Start Native Network Ads -->
+    <script>window.yaContextCb = window.yaContextCb || []</script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
+
+    <script> 
+    var cscr = document.createElement("script");
+    cscr.src = "https://ads.nativenetwork.uz/ads.min.js" + "?ts=" + new Date().getTime();
+    document.getElementsByTagName("body")[0].appendChild(cscr);
+    </script>
+    <!-- End Native Network Ads -->
+
     </body>
     </html>
 <?php $this->endPage() ?>
