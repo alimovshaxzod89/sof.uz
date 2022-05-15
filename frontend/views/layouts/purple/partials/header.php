@@ -1,0 +1,106 @@
+<?php
+
+use common\components\Config;
+use frontend\models\CategoryProvider;
+use yii\helpers\Url;
+
+/**
+ * @var $this frontend\components\View
+ */
+
+?>
+
+<!-- Navbar is here -->
+<header>
+    <nav class="nav">
+
+        <a href="<?= Yii::$app->getHomeUrl() ?>" class="logo"></a>
+
+        <div class="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+
+        <?php $links = CategoryProvider::getCategoryTree(['is_menu' => ['$eq' => true]], Config::get(Config::CONFIG_MENU_CATEGORY)) ?>
+        <?php if (is_array($links) && count($links)): ?>
+            <div class="nav__link hide">
+                <?php foreach ($links as $link): ?>
+                    <?php if ($link->hasChild()): ?>
+
+                        <a href="<?= $link->getViewUrl() ?>" class="nav_link"
+                           style="color: white;"><?= $link->name ?></a> <span class="break">|</span>
+
+                        <ul class="sub-menu">
+                            <?php foreach ($link->child as $item): ?>
+                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item current_page_item">
+                                <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>
+                                <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <a href="<?= $link->getViewUrl() ?>" class="nav_link"
+                           style="color: white;"><?= $link->name ?></a> <span class="break">|</span>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+
+        <div class="nav_second">
+            <form method="get" action="<?= Url::to(['/search']) ?>">
+                <a href="#" class="search" style="color: white;">
+                    <div class="search-box">
+                        <button class="btn-search" type="button"><i class="fa fa-search"></i></button>
+                        <input type="text" class="input-search" autocomplete="off"
+                               placeholder="<?= __('Enter keyword...') ?>" name="q">
+                    </div>
+                </a>
+            </form>
+            <div></div>
+            <div>
+                <a href="#" class="mode">
+                    <label class="switch">
+                        <input onclick="darkMode()" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </a>
+            </div>
+            <div>
+                <div>
+                    <?php
+                    $langs = [
+                        Config::LANGUAGE_CYRILLIC => [
+                            'text' => __('Ўз'),
+                            'link' => Url::current(['language' => 'oz']),
+                        ],
+                        Config::LANGUAGE_UZBEK => [
+                            'text' => __('O‘z'),
+                            'link' => Url::current(['language' => 'uz']),
+                        ]
+                    ];
+
+                    //joriy tilni birinchiga chiqarish
+                    $lang = $langs[Yii::$app->language];
+                    unset($langs[Yii::$app->language]);
+                    $langs = [$lang] + $langs;
+                    ?>
+                    <select class="select1" onchange="la(this.value)">
+
+                        <?php foreach ($langs as $value => $lang): ?>
+                            <option value="<?= $lang['link'] ?>"
+                            <?= Yii::$app->language == $value ? 'selected' : '' ?>"
+                            ><?= $lang['text'] ?></option>
+                        <?php endforeach; ?>
+
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+</header>
+
+<script>
+
+</script>

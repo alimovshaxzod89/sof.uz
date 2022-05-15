@@ -14,7 +14,8 @@ use yii\web\NotFoundHttpException;
  */
 class PostController extends BaseController
 {
-    public $layout = 'site';
+//    public $layout = 'site';
+    public $layout = 'purple/post';
 
     /**
      * @return array
@@ -68,7 +69,10 @@ class PostController extends BaseController
         $model = $this->findModel($slug);
         if ($model != null) {
             $this->getView()->params['post'] = $model;
-            $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
+//            $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
+            $view = 'view';
+
+            Yii::$app->view->params['model'] = $model;
 
             return $this->render($view, [
                 'model' => $model,

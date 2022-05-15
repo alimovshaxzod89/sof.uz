@@ -15,7 +15,7 @@ use Jaybizzle\CrawlerDetect\CrawlerDetect;
  */
 class CategoryController extends BaseController
 {
-    public $layout = 'site';
+    public $layout = 'purple/site';
 
     public function beforeAction($action)
     {
@@ -83,7 +83,7 @@ class CategoryController extends BaseController
 
         return $this->render('view', [
             'model'    => $category,
-            'provider' => $category->getProvider()
+            'provider' => $category->getProvider(14)
         ]);
     }
 

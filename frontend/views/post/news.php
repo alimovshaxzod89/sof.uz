@@ -65,8 +65,8 @@ $this->addBodyClass('post-template-default single single-post single-format-gall
                         </header>
                     </div>
 
-                    <div class="entry-wrapper">
-                        <?php if ($model->checkImageFileExists()) : ?>
+                    <div cl="entry-wrapper">
+                        <?php if ($model->checkImageFileExists()) : ?>ass
                             <div class="">
                                 <div class="entry-media u-clearfix">
                                     <div class="placeholder">

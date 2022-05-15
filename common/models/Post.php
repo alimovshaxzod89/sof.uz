@@ -1105,9 +1105,9 @@ class Post extends MongoModel
                         break;
                 }
 
-                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), 'php:j.m H:i');
+                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), $format);
             } elseif ($diff < 31536000) {
-                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), 'php:j.m H:i');
+                return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), $format);
             }
 
             return Yii::$app->formatter->asDate($this->published_on->getTimestamp(), $format);

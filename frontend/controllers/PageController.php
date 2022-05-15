@@ -8,7 +8,7 @@ use yii\web\NotFoundHttpException;
 
 class PageController extends BaseController
 {
-    public $layout = 'site';
+    public $layout = 'purple/site';
 
     public function actionView($slug)
     {
@@ -34,6 +34,5 @@ class PageController extends BaseController
         }
 
     }
-
 
 }
