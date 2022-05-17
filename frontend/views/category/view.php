@@ -27,9 +27,7 @@ $post = array_shift($posts);
 
 <div class="news_block">
 
-    <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false]) ?>
-
-    <div class="latest_news">
+    <?php Pjax::begin(['timeout' => 10000, 'enablePushState' => false, 'options' => ['class' => 'latest_news']]) ?>
 
         <?php if ($post instanceof PostProvider): ?>
 
@@ -149,8 +147,6 @@ $post = array_shift($posts);
 
         <?php endif; ?>
 
-    </div>
-
     <br/>
     <br/>
     <br/>
@@ -168,7 +164,7 @@ $post = array_shift($posts);
 
     echo ScrollPager::widget([
         'pagination' => $provider->getPagination(),
-        'options' => ['class' => 'infinite-scroll-button button', '_pjax' => '#latest_news'],
+        'options' => ['class' => 'infinite-scroll-button button', '1_pjax' => '#latest_news'],
         'perLoad' => 12,
     ]);
     ?>
