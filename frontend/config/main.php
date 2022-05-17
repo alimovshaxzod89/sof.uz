@@ -80,8 +80,8 @@ return [
             ],
             'linkAssets'      => true,
             'appendTimestamp' => true,
-            'basePath'        => '@static/assets',
-            'baseUrl'         => getenv('STATIC_URL') . 'assets/',
+//            'basePath'        => '@static/assets',
+//            'baseUrl'         => getenv('STATIC_URL') . 'assets/',
         ],
         'socialShare'          => [
             'class'              => Configurator::class,
