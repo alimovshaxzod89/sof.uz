@@ -50,17 +50,19 @@ $this->addDescription([$model->info]);
     </div>
 <?php endif; ?>
 
-<div class="content">
-    <div class="title_post">
-        <?= $model->title ?>
-    </div>
-    <div class="date_post_whole">
-        <div class="calendar_icon"></div>
-        <div class="date_text"><?= $model->getShortFormattedDate() ?></div>
-    </div>
-    <div class="paragraph_whole">
-        <?= $model->content; ?>
+<div class="left-m">
+    <div class="content">
+        <div class="title_post">
+            <?= $model->title ?>
+        </div>
+        <div class="date_post_whole">
+            <div class="calendar_icon"></div>
+            <div class="date_text"><?= $model->getShortFormattedDate() ?></div>
+        </div>
+        <div class="paragraph_whole">
+            <?= $model->content; ?>
+        </div>
     </div>
 </div>
 
-<?//= $this->renderFile('@frontend/views/post/_footer.php', ['model' => $model]) ?>
+<? //= $this->renderFile('@frontend/views/post/_footer.php', ['model' => $model]) ?>

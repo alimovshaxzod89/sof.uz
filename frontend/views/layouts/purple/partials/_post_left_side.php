@@ -19,8 +19,7 @@ $posts = PostProvider::getLastPosts(7);
                     <div class="calendar_icon"></div>
                     <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
                 </div>
-                <a class="dark_mode" href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p>
-                </a>
+                <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
             </div>
         </div>
         <hr>

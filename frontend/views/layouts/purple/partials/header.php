@@ -47,14 +47,12 @@ use yii\helpers\Url;
 
 
         <div class="nav_second">
+
             <form method="get" action="<?= Url::to(['/search']) ?>">
-                <a href="#" class="search" style="color: white;">
-                    <div class="search-box">
-                        <button class="btn-search" type="button"><i class="fa fa-search"></i></button>
-                        <input type="text" class="input-search" autocomplete="off"
-                               placeholder="<?= __('Enter keyword...') ?>" name="q">
-                    </div>
-                </a>
+                <div class="search-box">
+                    <button type="button" class="btn-search"><i class="fa fa-search"></i></button>
+                    <input type="text" class="input-search" placeholder="<?= __('Enter keyword...') ?>" name="q" autocomplete="off">
+                </div>
             </form>
             <div></div>
             <div>

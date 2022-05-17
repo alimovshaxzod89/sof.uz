@@ -5,15 +5,12 @@ hamburger.addEventListener('click', () => {
   navLink.classList.toggle('hide');
 });
 
-
 function darkMode() {
   var element = document.body;
   element.classList.toggle("dark-mode");
 }
 
-
-function la(src) 
-{
+function la(src) {
   window.location=src;
 }
 

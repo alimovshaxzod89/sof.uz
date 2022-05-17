@@ -138,10 +138,10 @@ $post = array_shift($posts);
                         </a>
                     </div>
 
-                    <?php if($i%3 == 0):?>
+                <?php if($i%3 == 0):?>
             </div>
             <div class="category_block">
-                    <?php endif; ?>
+                <?php endif; ?>
 
                 <?php endfor; ?>
             </div>

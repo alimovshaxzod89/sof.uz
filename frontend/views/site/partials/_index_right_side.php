@@ -16,9 +16,8 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
                 <div class="calendar_icon"></div>
                 <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
             </div>
-            <a class="dark_mode" href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p>
+            <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
         </div>
-        </a>
     </div>
     <hr>
     <?php endforeach; ?>
@@ -27,6 +26,7 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
         <a href="">
             <!-- todo: bossa ishlaydigan qilish-->
             <div class="button_more">Ko'proq ko'rish</div>
+            <!-- <div class="button_more">Кўпроқ кўриш</div>-->
         </a>
     </div>
 
