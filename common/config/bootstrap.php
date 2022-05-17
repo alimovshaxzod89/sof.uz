@@ -52,3 +52,24 @@ function __($message, $params = [], $language = false)
     ]);
     return Yii::t('app', trim($message), $params, $language ?: Yii::$app->language);
 }
+
+/**
+ * <pre>$var</pre>
+ */
+function pr($variable)
+{
+    echo '<pre>';
+    print_r($variable);
+    echo '</pre>';
+}
+
+/**
+ * <pre>$var</pre>;die();
+ */
+function prd($variable)
+{
+    echo '<pre>';
+    print_r($variable);
+    echo '</pre>';
+    die;
+}
