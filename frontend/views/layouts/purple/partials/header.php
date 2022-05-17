@@ -25,8 +25,8 @@ use yii\helpers\Url;
         <?php
         $links = CategoryProvider::getCategoryTree(['is_menu' => ['$eq' => true]], Config::get(Config::CONFIG_MENU_CATEGORY));
         $moreLinks = [];
-        if (count($links) > 4) {
-            $moreLinks = array_splice($links, 4, count($links) - 4);
+        if (count($links) > 5) {
+            $moreLinks = array_splice($links, 5, count($links) - 5);
         }
         ?>
         <?php if (is_array($links) && count($links)): ?>
