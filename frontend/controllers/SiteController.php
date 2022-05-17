@@ -7,6 +7,7 @@ use frontend\models\ErrorForm;
 use frontend\widgets\SidebarWeather;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * Site controller
@@ -75,6 +76,7 @@ class SiteController extends BaseController
 }';
         die;
     }
+
     /**
      * Displays homepage.
      * @return mixed
@@ -163,5 +165,12 @@ class SiteController extends BaseController
     public function actionDom()
     {
         return Yii::$app->cache->flush();
+    }
+
+    public function actionExchangeRate()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return Yii::$app->exchangeRate->getRates();
     }
 }

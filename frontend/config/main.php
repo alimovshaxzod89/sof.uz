@@ -144,6 +144,9 @@ return [
                 ],
             ],
         ],
+        'exchangeRate' => [
+            'class' => \frontend\components\ExchangeRate::class,
+        ]
     ],
     'params'              => $params,
 ];
