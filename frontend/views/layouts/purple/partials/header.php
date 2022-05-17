@@ -22,26 +22,45 @@ use yii\helpers\Url;
             <span class="line"></span>
         </div>
 
-        <?php $links = CategoryProvider::getCategoryTree(['is_menu' => ['$eq' => true]], Config::get(Config::CONFIG_MENU_CATEGORY)) ?>
+        <?php
+        $links = CategoryProvider::getCategoryTree(['is_menu' => ['$eq' => true]], Config::get(Config::CONFIG_MENU_CATEGORY));
+        $moreLinks = [];
+        if (count($links) > 6) {
+            $moreLinks = array_splice($links, 6, count($links) - 6);
+        }
+        ?>
         <?php if (is_array($links) && count($links)): ?>
             <div class="nav__link hide">
                 <?php foreach ($links as $link): ?>
                     <?php if ($link->hasChild()): ?>
 
-                        <a href="<?= $link->getViewUrl() ?>" class="nav_link"
-                           style="color: white;"><?= $link->name ?></a> <span class="break">|</span>
+                        <!--                        <a href="--><? //= $link->getViewUrl() ?><!--" class="nav_link"-->
+                        <!--                           style="color: white;">--><? //= $link->name ?><!--</a> <span class="break">|</span>-->
 
-                        <ul class="sub-menu">
-                            <?php foreach ($link->child as $item): ?>
-                            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item current_page_item">
-                                <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>
+                        <div class="dropdown">
+                            <button class="dropbtn"><?= $link->name ?></button>
+                            <div class="dropdown-content">
+                                <?php foreach ($link->child as $item): ?>
+                                    <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>
                                 <?php endforeach; ?>
-                        </ul>
+                            </div>
+                        </div>
                     <?php else: ?>
                         <a href="<?= $link->getViewUrl() ?>" class="nav_link"
                            style="color: white;"><?= $link->name ?></a> <span class="break">|</span>
                     <?php endif; ?>
                 <?php endforeach; ?>
+
+                <?php if (!empty($moreLinks)): ?>
+                    <div class="dropdown">
+                        <button class="dropbtn">КЎПРОҚ</button>
+                        <div class="dropdown-content">
+                            <?php foreach ($moreLinks as $item): ?>
+                                <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
 
@@ -51,7 +70,8 @@ use yii\helpers\Url;
             <form method="get" action="<?= Url::to(['/search']) ?>">
                 <div class="search-box">
                     <button type="button" class="btn-search"><i class="fa fa-search"></i></button>
-                    <input type="text" class="input-search" placeholder="<?= __('Enter keyword...') ?>" name="q" autocomplete="off">
+                    <input type="text" class="input-search" placeholder="<?= __('Enter keyword...') ?>" name="q"
+                           autocomplete="off">
                 </div>
             </form>
             <div></div>
