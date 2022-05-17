@@ -27,22 +27,18 @@ $this->registerJs('var globalVars=' . \yii\helpers\Json::encode($globalVars) . '
 $this->beginContent('@app/views/layouts/purple/main.php');
 ?>
 
-<div class="main_body">
+<?= $this->renderFile('@frontend/views/layouts/purple/partials/before_header.php') ?>
 
-    <?= $this->renderFile('@frontend/views/layouts/purple/partials/before_header.php') ?>
-
-    <?= $this->renderFile('@frontend/views/layouts/purple/partials/header.php') ?>
+<?= $this->renderFile('@frontend/views/layouts/purple/partials/header.php') ?>
 
 
-    <!--    <div class="container">-->
-    <!--        --><? //= \frontend\widgets\Banner::widget([
-    //            'place' => 'before_main',
-    //            'options' => ['class' => 'ads-wrapper']
-    //        ]) ?>
-    <!--    </div>-->
+<!--    <div class="container">-->
+<!--        --><? //= \frontend\widgets\Banner::widget([
+//            'place' => 'before_main',
+//            'options' => ['class' => 'ads-wrapper']
+//        ]) ?>
+<!--    </div>-->
 
-    <?= $content ?>
-
-</div>
+<?= $content ?>
 
 <?php $this->endContent() ?>

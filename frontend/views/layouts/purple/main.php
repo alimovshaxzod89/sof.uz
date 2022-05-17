@@ -85,22 +85,27 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
     <body>
     <?php $this->beginBody() ?>
 
-    <?= $content ?>
 
-    <!---- Poster  -->
-    <div class="poster">
-        <div class="addvert"></div>
-        <div class="context">
-            <div class="p-text">
-                <h4>Ҳар доим хабардор бўлинг!</h4>
-                <p>carzone.uz мобил иловаларини кўчириб олинг
-                    ва барча янгиликлар сиз билан</p>
+    <div class="main_body">
+
+        <?= $content ?>
+
+        <!---- Poster  -->
+        <div class="poster">
+            <div class="addvert"></div>
+            <div class="context">
+                <div class="p-text">
+                    <h4>Ҳар доим хабардор бўлинг!</h4>
+                    <p>carzone.uz мобил иловаларини кўчириб олинг
+                        ва барча янгиликлар сиз билан</p>
+                </div>
+                <div class="google-play"></div>
             </div>
-            <div class="google-play"></div>
         </div>
-    </div>
 
-    <?= $this->renderFile('@frontend/views/layouts/purple/partials/footer.php') ?>
+        <?= $this->renderFile('@frontend/views/layouts/purple/partials/footer.php') ?>
+
+    </div>
 
     <script>
         (function (i, s, o, g, r, a, m) {
