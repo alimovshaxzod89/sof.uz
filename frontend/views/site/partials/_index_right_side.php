@@ -16,7 +16,7 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
                 <div class="calendar_icon"></div>
                 <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
             </div>
-            <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
+            <a href="<?= $post->getViewUrl() ?>"><p class="title_mini_popular"><?= $post->title ?></p></a>
         </div>
     </div>
     <hr>
@@ -29,5 +29,7 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
             <!-- <div class="button_more">Кўпроқ кўриш</div>-->
         </a>
     </div>
+
+    <div class="reklama"><h4> Reklama </h4></div>
 
 </div>

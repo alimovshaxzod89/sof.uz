@@ -65,20 +65,23 @@ $posts = PostProvider::getLastPosts(7);
 
             <?php foreach ($mainPosts as $i => $post): ?>
 
-            <div class="<?= $i % 2 == 0 ? 'block_news_first' : 'block_news' ?>">
-                <div class="block_image_middle" style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
-                    <div></div>
-                    <div class="tag_bigger"><?= $post->category->name ?></div>
-                </div>
+            <div class="block_news">
+                <a href="<?= $post->getViewUrl() ?>">
+                    <div class="block_image_middle"
+                         style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
+                        <div></div>
+                        <div class="tag_bigger"><?= $post->category->name ?></div>
+                    </div>
+                </a>
                 <div class="date_post_bold">
                     <div class="calendar_icon"></div>
                     <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
                 </div>
-                <a href="<?= $post->getViewUrl() ?>">
-                    <div class="paragraph_bold">
+                <div class="paragraph_bold">
+                    <a href="<?= $post->getViewUrl() ?>">
                         <?= $post->title ?>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
             <?php if ($i == 1): ?>
         </div>

@@ -48,11 +48,11 @@ if (count($similarPosts) < $needed) {
                     <div class="calendar_icon"></div>
                     <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
                 </div>
-                <a href="<?= $post->getViewUrl() ?>">
-                    <div class="paragraph_bold">
+                <div class="paragraph_bold">
+                    <a href="<?= $post->getViewUrl() ?>">
                         <?= $post->title ?>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
         <?php endforeach; ?>
 

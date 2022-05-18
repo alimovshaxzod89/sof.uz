@@ -11,18 +11,18 @@ use yii\helpers\Url;
         <div class="foot_currency">
 
             <div class="usd">
-                <div class="block"><span>USD</span> <br> <span id="rate_usd"></span></div>
+                <div class="block"><span>USD</span> <br> <span id="rate_usd" class="course"></span></div>
                 <div class="block"><span class="micro">АҚШ доллари</span> <span class="micro" id="diff_usd"></span>
                 </div>
             </div>
 
             <div class="euro">
-                <div class="block"><span>EUR</span> <br> <span id="rate_eur"></span></div>
+                <div class="block"><span>EUR</span> <br> <span id="rate_eur" class="course"></span></div>
                 <div class="block"><span class="micro">EВРО</span><span class="micro" id="diff_eur"></span></div>
             </div>
 
             <div class="rub">
-                <div class="block"><span>RUB</span> <br> <span id="rate_rub"></span></div>
+                <div class="block"><span>RUB</span> <br> <span id="rate_rub" class="course"></span></div>
                 <div class="block"><span class="micro">Россия рубли</span><span class="micro" id="diff_rub"></span>
                 </div>
             </div>

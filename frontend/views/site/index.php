@@ -44,9 +44,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                     <div class="latest_img" style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
                         <div class="first"></div>
                         <div class="second">
-                            <a href="">
-                                <div class="share"></div>
-                            </a>
+                            <div class="share"></div>
                             <div class="social">
                                 <a href="">
                                     <div class="tg"></div>
@@ -84,10 +82,13 @@ $recommendedPosts = PostProvider::getTopPost(3);
             <div class="st_block">
                 <?php foreach ($mahalliyPosts as $i => $post): ?>
                 <div class="mini_post">
-                    <div class="img_mini" style='background-image: url("<?= $post->getCroppedImage(190, 100, 1) ?>")'>
-                        <div></div>
-                        <div class="tag"><?= $post->category->name ?></div>
-                    </div>
+                    <a href="<?= $post->getViewUrl() ?>">
+                        <div class="img_mini"
+                             style='background-image: url("<?= $post->getCroppedImage(190, 100, 1) ?>")'>
+                            <div></div>
+                            <div class="tag"><?= $post->category->name ?></div>
+                        </div>
+                    </a>
                     <div class="text_mini">
                         <div class="date_post">
                             <div class="calendar_icon"></div>
@@ -119,20 +120,23 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
                 <?php foreach ($recommendedPosts as $i => $post): ?>
                     <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
-                        <div class="block_image" style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
-                            <div></div>
-                            <div class="tag_bigger"><?= $post->category->name ?></div>
-                        </div>
+                        <a href="<?= $post->getViewUrl() ?>">
+                            <div class="block_image"
+                                 style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
+                                <div></div>
+                                <div class="tag_bigger"><?= $post->category->name ?></div>
+                            </div>
+                        </a>
                         <div class="date_post_bold">
                             <div class="calendar_icon"></div>
                             <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
                         </div>
 
-                        <a href="<?= $post->getViewUrl() ?>">
-                            <div class="paragraph_bold">
+                        <div class="paragraph_bold">
+                            <a href="<?= $post->getViewUrl() ?>">
                                 <?= $post->title ?>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

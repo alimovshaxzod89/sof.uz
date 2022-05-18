@@ -115,7 +115,7 @@ $post = array_shift($posts);
 
         <div class="mini_news_nd">
 
-            <div class="category_block">
+            <div class="nd_block">
 
                 <?php for ($i = 4; $i < count($posts); $i++): ?>
                     <?php $post = $posts[$i] ?>
@@ -129,16 +129,16 @@ $post = array_shift($posts);
                             <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
                         </div>
 
-                        <a href="<?= $post->getViewUrl() ?>">
-                            <div class="paragraph_bold">
+                        <div class="paragraph_bold">
+                            <a href="<?= $post->getViewUrl() ?>">
                                 <?= $post->title ?>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
 
                 <?php if($i%3 == 0):?>
             </div>
-            <div class="category_block">
+            <div class="nd_block">
                 <?php endif; ?>
 
                 <?php endfor; ?>
