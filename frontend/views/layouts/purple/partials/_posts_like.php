@@ -40,7 +40,8 @@ if (count($similarPosts) < $needed) {
 
         <?php foreach ($posts as $i => $post): ?>
             <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
-                <div class="block_image">
+                <div class="block_image"
+                     style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
                     <div></div>
                     <div class="tag_bigger"><?= $post->category->name ?></div>
                 </div>
