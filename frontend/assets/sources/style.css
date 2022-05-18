@@ -1940,6 +1940,10 @@ input:checked + .slider:before {
     }
 }
 
+.whole_post_page p {
+    margin-bottom: 20px;
+}
+
 
 
 
