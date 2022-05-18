@@ -401,7 +401,6 @@ input:checked + .slider:before {
 
 .latest_block_post {
     max-width: 620px;
-    max-height: 300px;
     margin-top: 5px;
 }
 
@@ -1595,7 +1594,7 @@ input:checked + .slider:before {
     }
 
     .latest_block_post {
-        height: 300px;
+
     }
 
     .content {
