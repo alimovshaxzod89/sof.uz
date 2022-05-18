@@ -173,4 +173,24 @@ class SiteController extends BaseController
 
         return Yii::$app->exchangeRate->getRates();
     }
+
+    public function actionBirja()
+    {
+        try {
+            $url = 'https://uzex.uz/Quote/GetQuotes';
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_HTTPGET, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response_json = curl_exec($ch);
+            curl_close($ch);
+            $response = json_decode($response_json, true);
+
+        } catch (Exception $e) {
+            $response = [];
+        }
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return $response;
+    }
 }
