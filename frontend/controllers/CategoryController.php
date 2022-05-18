@@ -20,7 +20,7 @@ class CategoryController extends BaseController
     public function beforeAction($action)
     {
         $CrawlerDetect = new CrawlerDetect;
-        if($CrawlerDetect->isCrawler()) {
+        if ($CrawlerDetect->isCrawler()) {
             die;
         }
 
@@ -30,14 +30,14 @@ class CategoryController extends BaseController
     public function behaviors()
     {
         $category = Yii::$app->controller->action->id == 'view' ? $this->findModel($this->get('slug')) : false;
-        $tag      = Yii::$app->controller->action->id == 'tag' ? $this->findTag($this->get('slug')) : false;
+        $tag = Yii::$app->controller->action->id == 'tag' ? $this->findTag($this->get('slug')) : false;
 
         return [
             [
-                'class'      => 'yii\filters\PageCache',
-                'only'       => ['view'],
-                'duration'   => 60,
-                'enabled'    => !YII_DEBUG,
+                'class' => 'yii\filters\PageCache',
+                'only' => ['view'],
+                'duration' => 60,
+                'enabled' => !YII_DEBUG,
                 'variations' => [
                     $this->getFlashes(),
                     Yii::$app->id,
@@ -52,10 +52,10 @@ class CategoryController extends BaseController
                 ],
             ],
             [
-                'class'      => 'yii\filters\PageCache',
-                'only'       => ['audio', 'audio', 'photo', 'author', 'tag'],
-                'duration'   => 60,
-                'enabled'    => !YII_DEBUG,
+                'class' => 'yii\filters\PageCache',
+                'only' => ['audio', 'audio', 'photo', 'author', 'tag'],
+                'duration' => 60,
+                'enabled' => !YII_DEBUG,
                 'variations' => [
                     $this->getFlashes(),
                     Yii::$app->id,
@@ -78,11 +78,11 @@ class CategoryController extends BaseController
      */
     public function actionView($slug)
     {
-        $category                            = $this->findModel($slug);
+        $category = $this->findModel($slug);
         $this->getView()->params['category'] = $category;
 
         return $this->render('view', [
-            'model'    => $category,
+            'model' => $category,
             'provider' => $category->getProvider(14)
         ]);
     }
@@ -95,11 +95,11 @@ class CategoryController extends BaseController
      */
     public function actionOld($_id = false, $_slug = false)
     {
-        $category                            = $this->findOldModel($_id, $_slug);
+        $category = $this->findOldModel($_id, $_slug);
         $this->getView()->params['category'] = $category;
 
         return $this->render('view', [
-            'model'    => $category,
+            'model' => $category,
             'provider' => $category->getProvider()
         ]);
     }
@@ -109,7 +109,7 @@ class CategoryController extends BaseController
         $tag = $this->findTag($slug);
 
         return $this->render('view', [
-            'model'    => $tag,
+            'model' => $tag,
             'provider' => $tag->getProvider()
         ]);
     }
