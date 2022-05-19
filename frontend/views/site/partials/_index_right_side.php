@@ -30,6 +30,6 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
         </a>
     </div>
 
-    <div class="reklama"><h4> Reklama </h4></div>
+<!--    <div class="reklama"><h4> Reklama </h4></div>-->
 
 </div>

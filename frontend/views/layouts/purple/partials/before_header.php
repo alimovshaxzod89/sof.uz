@@ -12,18 +12,21 @@ use yii\helpers\Url;
 
             <div class="usd">
                 <div class="block"><span>USD</span> <br> <span id="rate_usd" class="course"></span></div>
-                <div class="block"><span class="micro">АҚШ доллари</span> <span class="micro" id="diff_usd"></span>
+                <div class="block"><span class="micro">АҚШ доллари</span> <span class="micro_increase"
+                                                                                id="diff_usd"></span>
                 </div>
             </div>
 
             <div class="euro">
                 <div class="block"><span>EUR</span> <br> <span id="rate_eur" class="course"></span></div>
-                <div class="block"><span class="micro">EВРО</span><span class="micro" id="diff_eur"></span></div>
+                <div class="block"><span class="micro">EВРО</span><span class="micro_increase" id="diff_eur"></span>
+                </div>
             </div>
 
             <div class="rub">
                 <div class="block"><span>RUB</span> <br> <span id="rate_rub" class="course"></span></div>
-                <div class="block"><span class="micro">Россия рубли</span><span class="micro" id="diff_rub"></span>
+                <div class="block"><span class="micro">Россия рубли</span><span class="micro_increase"
+                                                                                id="diff_rub"></span>
                 </div>
             </div>
         </div>
@@ -51,12 +54,29 @@ use yii\helpers\Url;
                 document.getElementById('rate_usd').innerHTML = rates.USD.Rate
                 document.getElementById('rate_eur').innerHTML = rates.EUR.Rate
                 document.getElementById('rate_rub').innerHTML = rates.RUB.Rate
-                document.getElementById('diff_usd').innerHTML = rates.USD.Diff
-                document.getElementById('diff_eur').innerHTML = rates.EUR.Diff
-                document.getElementById('diff_rub').innerHTML = rates.RUB.Diff
+
+                var usd_diff = document.getElementById('diff_usd')
+                usd_diff.innerHTML = rates.USD.Diff > 0 ? `+${rates.USD.Diff}` : rates.USD.Diff
+                if (rates.USD.Diff < 0) {
+                    usd_diff.classList.remove('micro_increase')
+                    usd_diff.classList.add('micro_decrease')
+                }
+                var eur_diff = document.getElementById('diff_eur')
+                eur_diff.innerHTML = rates.EUR.Diff > 0 ? `+${rates.EUR.Diff}` : rates.EUR.Diff
+                if (rates.EUR.Diff < 0) {
+                    eur_diff.classList.remove('micro_increase')
+                    eur_diff.classList.add('micro_decrease')
+                }
+                var rub_diff = document.getElementById('diff_rub')
+                rub_diff.innerHTML = rates.RUB.Diff > 0 ? `+${rates.RUB.Diff}` : rates.RUB.Diff
+                if (rates.RUB.Diff < 0) {
+                    rub_diff.classList.remove('micro_increase')
+                    rub_diff.classList.add('micro_decrease')
+                }
             }
         }
     }
+
     loadRates()
 
     function loadBirja() {

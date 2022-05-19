@@ -96,6 +96,19 @@ body {
 
 .micro {
     font-size: 12px;
+    color: #252525;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.micro_decrease {
+    font-size: 12px;
+    color: red;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.micro_increase {
+    font-size: 12px;
+    color: green;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -261,6 +274,7 @@ input:checked + .slider:before {
 .custom-select select {
     display: none; /*hide original SELECT element: */
 }
+
 
 .select-selected {
     height: 35px;
@@ -1061,6 +1075,14 @@ input:checked + .slider:before {
     color: #3B115B;
 }
 
+.dark-mode .micro_decrease {
+    color: red;
+}
+
+.dark-mode .micro_increase {
+    color: green;
+}
+
 .dark-mode span {
     color: #3B115B;
 }
@@ -1665,6 +1687,14 @@ input:checked + .slider:before {
         margin-left: 6px;
     }
 
+    .latest_block {
+        background-color: transparent;
+    }
+
+    .poster {
+        background: none;
+    }
+
     .block_news_third {
         margin-left: 6px;
     }
@@ -1700,7 +1730,7 @@ input:checked + .slider:before {
 
     .paragraph_bold {
         margin-left: 6px;
-        width: 378px;
+        width: 315px;
     }
 
     .date_post_bold {
@@ -1787,7 +1817,16 @@ input:checked + .slider:before {
 
     .title_mini {
         font-size: 11px;
-        width: 190px;
+        width: 149px;
+    }
+
+    .running_info {
+        font-size: 10px;
+        padding: 10px;
+    }
+
+    .button {
+        margin-left: 8px;
     }
 
     .title_mini_popular {
@@ -1850,7 +1889,7 @@ input:checked + .slider:before {
     }
 
     .img_mini {
-        width: 180px;
+        width: 153px;
     }
 
     .title_search {
@@ -1942,10 +1981,34 @@ input:checked + .slider:before {
 .whole_post_page p {
     margin-bottom: 20px;
 }
+
 .whole_post_page img {
     width: 100%;
 }
 
+.button {
+    display: inline-block;
+    outline: none;
+    margin-top: 20px;
+    cursor: pointer;
+    border: 1px solid #3B115B;
+    text-align: left;
+    vertical-align: top;
+    padding: calc(.875rem - 3px) 26px calc(.875rem - 3px) 26px;
+    background-color: #00000000;
+    font-size: 14px;
+    letter-spacing: 0.16px;
+    min-height: 48px;
+    line-height: 1.29;
+    color: #3B115B;
+    font-weight: 400;
+    transition: background 70ms cubic-bezier(0, 0, .38, .9), box-shadow 70ms cubic-bezier(0, 0, .38, .9), border-color 70ms cubic-bezier(0, 0, .38, .9), outline 70ms cubic-bezier(0, 0, .38, .9);
+}
+
+.button:hover {
+    background-color: #3B115B;
+    color: #fff;
+}
 
 
 

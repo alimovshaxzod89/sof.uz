@@ -29,6 +29,7 @@ class ScrollPager extends LinkPager
         }
         Html::removeCssClass($this->options, 'pagination');
         Html::addCssClass($this->options, 'load-button load-more');
+        Html::addCssClass($this->options, 'button');
     }
 
     /**
@@ -43,7 +44,10 @@ class ScrollPager extends LinkPager
         }
 
         $options = $this->options;
-        return Html::a("<i class='loading-circle'></i> " . $this->buttonText, Url::current([$this->loadParam => $this->perLoad + $this->pagination->getPageSize()]), $options);
+        return
+            "<div>" .
+            Html::a("<i class='loading-circle'></i> " . $this->buttonText, Url::current([$this->loadParam => $this->perLoad + $this->pagination->getPageSize()]), $options)
+            . "</div>";
     }
 
 
