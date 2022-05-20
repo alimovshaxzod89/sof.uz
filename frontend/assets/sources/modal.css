@@ -1,0 +1,173 @@
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.share_modal{
+    max-width: 200px;
+    margin-top: 5px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.sm-modal{
+    width: 12%;
+    align-items: center;
+    display: inline;
+    margin-top: 15px;
+}
+
+.tg-icon-modal{
+    width: 52px;
+    height: 52px;
+    border-radius: 100px;
+    background-image: url("imgs/telegram-modal.svg");
+    background-size: contain;
+}
+
+.ig-icon-modal{
+    width: 52px;
+    height: 52px;
+    border-radius: 100px;
+    background-image: url("imgs/instagram-modal.svg");
+    background-size: contain;
+}
+
+.fc-icon-modal{
+    width: 52px;
+    height: 52px;
+    border-radius: 100px;
+    background-image: url("imgs/facebook-modal.svg");
+    background-size: contain;
+}
+
+.icon-text{
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-top: 5px;
+}
+
+.link-modal{
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 2px solid rgba(203, 203, 203, 0.77);
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.post-link{
+    max-width: 400px;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+}
+
+.share-btn{
+    width: 100px;
+    max-width: 100px;
+    height: 30px;
+    color: #581c88;
+    background-color: transparent;
+    border: 1px solid #581c88;
+    font-weight: bolder;
+    font-size: 13px;
+}
+
+.share-btn:hover{
+    background-color: #581c88;
+    color: white;
+    transition: 0.5s;
+}
+
+
+.mt-4{
+    margin-top: 7px;
+}
+
+
+@media all and (max-width: 600px){
+
+    .share-btn {
+        width: 54px;
+        height: 30px;
+        font-size: 10px;
+        padding: 2px;
+        align-items: center;
+    }
+
+    .modal-content {
+        margin: 100px auto;
+    }
+
+    .post-link{
+        max-width: 80px;
+    }
+}
+
+@media all and (max-width: 772px) {
+   .tg-icon-modal{
+       width: 30px;
+       height: 30px;
+   }
+    .ig-icon-modal{
+        width: 30px;
+        height: 30px;
+    }
+    .fc-icon-modal{
+        width: 30px;
+        height: 30px;
+    }
+
+    .icon-text{
+        font-size: 9px;
+    }
+}
+
+
+
+

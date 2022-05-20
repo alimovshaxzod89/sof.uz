@@ -33,7 +33,7 @@ $this->addDescription([$model->info]);
         <div class="first"></div>
         <div class="second">
             <a href="">
-                <div class="share"></div>
+                <div class="share" id="myBtn"></div>
             </a>
             <div class="social">
                 <a href="">
@@ -47,6 +47,43 @@ $this->addDescription([$model->info]);
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Ўлашиш</p>
+            <div class="share_modal">
+                <div class="sm-modal">
+                    <a href="">
+                        <div class="tg-icon-modal"></div>
+                        <div class="icon-text">Telegram</div>
+                    </a>
+                </div>
+                <div class="sm-modal">
+                    <a href="">
+                        <div class="ig-icon-modal"></div>
+                        <div class="icon-text">Instagram</div>
+                    </a>
+                </div>
+                <div class="sm-modal">
+                    <a href="">
+                        <div class="fc-icon-modal"></div>
+                        <div class="icon-text">Facebook</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="link-modal">
+                <div class="mt-4"><span class="post-link">https://new.sof.uz/uz/post/haydovchilik-guvohnomasini-almashtirish-muddati-uzaytirilishi-dxmlarga-haydovchilar-oqimini-10-barobardan-koproq-kamaytirdi</span>
+                </div>
+                <button class="share-btn">Нусха олиш</button>
+            </div>
+        </div>
+
     </div>
 <?php endif; ?>
 

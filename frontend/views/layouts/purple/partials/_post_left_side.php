@@ -5,7 +5,7 @@ use frontend\models\PostProvider;
 $posts = PostProvider::getLastPosts(7);
 ?>
 
-<div class="suggested_news">
+<div class="suggested_news_post">
 
     <div class="latest_title">
         <div class="icon"></div>

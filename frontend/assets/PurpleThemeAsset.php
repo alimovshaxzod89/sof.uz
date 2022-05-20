@@ -10,16 +10,20 @@ class PurpleThemeAsset extends AssetBundle
 
     public $css = ASSET_BUNDLE ? [
         'https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,700,700i|Roboto:300,300i,400,700,700i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext',
-        'style.css?version=6',
+        'style.css?version=7',
+        'modal.css?version=7',
     ] : [
         'https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,700,700i|Roboto:300,300i,400,700,700i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext',
-        'style.css?version=6',
+        'style.css?version=7',
+        'modal.css?version=7',
     ];
 
     public $js = ASSET_BUNDLE ? [
-        'script.js?version=6',
+        'script.js?version=7',
+        'modal.js?version=7',
     ] : [
-        'script.js?version=6',
+        'script.js?version=7',
+        'modal.js?version=7',
     ];
 
     public $depends = [

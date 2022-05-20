@@ -41,10 +41,13 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
                 <div class="whole_post">
 
-                    <div class="latest_img" style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                        <div class="first"></div>
+                    <div class="latest_img"
+                         style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
+                        <a href="post.html">
+                            <div class="first"></div>
+                        </a>
                         <div class="second">
-                            <div class="share"></div>
+                            <div class="share" id="myBtn"></div>
                             <div class="social">
                                 <a href="">
                                     <div class="tg"></div>
@@ -57,6 +60,37 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                 </a>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p>Ulashish</p>
+                            <div class="share_modal">
+                                <div class="sm-modal">
+                                    <div class="tg-icon-modal"></div>
+                                    <div class="icon-text">Telegram</div>
+                                </div>
+                                <div class="sm-modal">
+                                    <div class="ig-icon-modal"></div>
+                                    <div class="icon-text">Instagram</div>
+                                </div>
+                                <div class="sm-modal">
+                                    <div class="fc-icon-modal"></div>
+                                    <div class="icon-text">Facebook</div>
+                                </div>
+                            </div>
+
+                            <div class="link-modal">
+                                <div class="mt-4"><span class="post-link">https://new.sof.uz/uz/post/haydovchilik-guvohnomasini-almashtirish-muddati-uzaytirilishi-dxmlarga-haydovchilar-oqimini-10-barobardan-koproq-kamaytirdi</span>
+                                </div>
+                                <button class="share-btn">Нусха олиш</button>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="content">
@@ -80,7 +114,9 @@ $recommendedPosts = PostProvider::getTopPost(3);
         <div class="mini_news">
 
             <div class="st_block">
-                <?php foreach ($mahalliyPosts as $i => $post): ?>
+                <?php foreach ($mahalliyPosts
+
+                as $i => $post): ?>
                 <div class="mini_post">
                     <a href="<?= $post->getViewUrl() ?>">
                         <div class="img_mini"
