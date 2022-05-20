@@ -95,9 +95,9 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
             <div class="addvert"></div>
             <div class="context">
                 <div class="p-text">
-                    <h4>Ҳар доим хабардор бўлинг!</h4>
-                    <p>carzone.uz мобил иловаларини кўчириб олинг
-                        ва барча янгиликлар сиз билан</p>
+                    <h4><?= __('Ҳар доим хабардор бўлинг!') ?></h4>
+                    <p><?= __('carzone.uz мобил иловаларини кўчириб олинг
+                        ва барча янгиликлар сиз билан') ?></p>
                 </div>
                 <div class="google-play"></div>
             </div>

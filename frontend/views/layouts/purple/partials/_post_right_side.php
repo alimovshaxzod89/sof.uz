@@ -10,7 +10,7 @@ $posts = PostProvider::getTopPost(7);
 
     <div class="latest_title">
         <div class="icon"></div>
-        <h4 class="title_con">Тавсия этамиз</h4>
+        <h4 class="title_con"><?= __('Тавсия Этамиз') ?></h4>
     </div>
 
 

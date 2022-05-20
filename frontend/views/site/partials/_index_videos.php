@@ -10,7 +10,7 @@ $videoPosts = PostProvider::getTopVideos(4);
     <div class="video_blocks">
         <div class="latest_title">
             <div class="icon"></div>
-            <h4 class="title_con">Видео</h4>
+            <h4 class="title_con"><?= __('Видео') ?></h4>
         </div>
 
         <div class="videos_back">

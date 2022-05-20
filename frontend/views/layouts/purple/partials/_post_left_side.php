@@ -9,7 +9,7 @@ $posts = PostProvider::getLastPosts(7);
 
     <div class="latest_title">
         <div class="icon"></div>
-        <h4 class="title_con">Сўнгги янгиликлар</h4>
+        <h4 class="title_con"><?= __('Сўнгги янгиликлар') ?></h4>
     </div>
 
     <?php foreach ($posts as $i => $post): ?>

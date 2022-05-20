@@ -16,7 +16,7 @@ $posts = PostProvider::getLastPosts(7);
 
         <div class="latest_title">
             <div class="icon"></div>
-            <h4 class="title_con">Долзарб Хабарлар</h4>
+            <h4 class="title_con"><?= __('Долзарб xабарлар') ?></h4>
         </div>
 
         <?php if ($mainPost instanceof PostProvider): ?>

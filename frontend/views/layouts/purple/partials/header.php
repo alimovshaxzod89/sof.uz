@@ -53,7 +53,7 @@ use yii\helpers\Url;
 
                 <?php if (!empty($moreLinks)): ?>
                     <div class="dropdown">
-                        <button class="dropbtn">Кўпроқ</button>
+                        <button class="dropbtn"><?= __('Ko\'proq') ?></button>
                         <div class="dropdown-content">
                             <?php foreach ($moreLinks as $item): ?>
                                 <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>

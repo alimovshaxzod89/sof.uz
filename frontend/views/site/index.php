@@ -43,7 +43,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
                     <div class="latest_img"
                          style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                        <a href="post.html">
+                        <a href="<?= $mahalliyPost->getViewUrl() ?>">
                             <div class="first"></div>
                         </a>
                         <div class="second">
@@ -148,7 +148,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
             <div class="st_block">
                 <div class="latest_title_nd">
                     <div class="icon"></div>
-                    <h4 class="title_con">Тавсия Этамиз</h4>
+                    <h4 class="title_con"><?= __('Тавсия этамиз') ?></h4>
                 </div>
             </div>
 

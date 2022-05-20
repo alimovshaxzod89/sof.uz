@@ -32,7 +32,7 @@ if (count($similarPosts) < $needed) {
     <div class="st_block">
         <div class="latest_title_nd">
             <div class="icon"></div>
-            <h4 class="title_con">Тавсия Этамиз</h4>
+            <h4 class="title_con"><?= __('Тавсия Этамиз') ?></h4>
         </div>
     </div>
 

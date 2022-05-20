@@ -16,9 +16,9 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
     <div class="foot_link">
         <div class="nav__link hide">
 
-            <a href="<?= Url::to(['page/sayt-haqida']) ?>" class="nav_link" style="color: white;">Сайт ҳақида</a> <span class="break">|</span>
+            <a href="<?= Url::to(['page/sayt-haqida']) ?>" class="nav_link" style="color: white;"><?= __('Сайт ҳақида') ?></a> <span class="break">|</span>
 <!--            <a href="#" class="nav_link" style="color: white;">Алоқа</a> <span class="break">|</span>-->
-            <a href="<?= Url::to(['page/reklama']) ?>" class="nav_link" style="color: white;">Реклама</a>
+            <a href="<?= Url::to(['page/reklama']) ?>" class="nav_link" style="color: white;"><?= __('Реклама') ?></a>
 
         </div>
     </div>
@@ -26,9 +26,9 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
 </div>
 
 <footer class="main_footer">
-    <div class="text_footer">Сайт материалларидан тўлиқ ёки қисман фойдаланилганда веб-сайт манзили кўрсатилиши
+    <div class="text_footer"><?= __('Сайт материалларидан тўлиқ ёки қисман фойдаланилганда веб-сайт манзили кўрсатилиши
         шарт.​ ЎзМАА интернет-ОАВ гувоҳномаси рақами: 1124 Расмий хабарларда ва блогларда кетган маълумот -
-        мақолаларга муаллифлар ва блогерларнинг ўзлари масъулдирлар.
+        мақолаларга муаллифлар ва блогерларнинг ўзлари масъулдирлар.') ?>
     </div>
     <div class="icons_footer">
         <?php if ($yt): ?>
