@@ -1025,7 +1025,7 @@ input:checked + .slider:before {
 }
 
 .dark-mode .button_more {
-    background-image: url(/imgs/more-light.png);
+    background-image: url(imgs/more-light.png);
     color: white;
 }
 
@@ -1068,11 +1068,11 @@ input:checked + .slider:before {
 }
 
 .dark-mode .play_btn {
-    background-image: url(/imgs/white_play.png);
+    background-image: url(imgs/white_play.png);
 }
 
 .dark-mode .calendar_icon {
-    background-image: url(/imgs/Vector.png);
+    background-image: url(imgs/Vector.png);
 }
 
 .dark-mode .title_post {
