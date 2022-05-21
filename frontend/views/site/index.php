@@ -71,20 +71,28 @@ $recommendedPosts = PostProvider::getTopPost(3);
                             <p>Ulashish</p>
                             <div class="share_modal">
                                 <div class="sm-modal">
+                                    <a href="">
                                     <div class="tg-icon-modal"></div>
                                     <div class="icon-text">Telegram</div>
+                                    </a>
                                 </div>
                                 <div class="sm-modal">
+                                    <a href="">
                                     <div class="tw-icon-modal"></div>
                                     <div class="icon-text">Twitter</div>
+                                    </a>
                                 </div>
                                 <div class="sm-modal">
+                                    <a href="">
                                     <div class="vk-icon-modal"></div>
                                     <div class="icon-text">VKontakte</div>
+                                    </a>
                                 </div>
                                 <div class="sm-modal">
+                                    <a href="">
                                     <div class="fc-icon-modal"></div>
                                     <div class="icon-text">Facebook</div>
+                                    </a>
                                 </div>
                             </div>
 
