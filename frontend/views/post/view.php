@@ -29,20 +29,29 @@ $this->addDescription([$model->info]);
 ?>
 
 <?php if ($model->checkImageFileExists()) : ?>
+<style>
+
+    .custom-btn[disabled="true"]{
+        background-color: #581c88 !important;
+        color: white;
+    }
+
+</style>
     <div class="latest_img_post" style='background-image: url("<?= $model->getCroppedImage(826, null) ?>")'>
         <div class="first"></div>
         <div class="second">
-            
-                <div class="share" id="myBtn"></div>
-            
+            <?php
+                $urlEnCode = urlencode($model->getShortViewUrl());
+            ?>
+            <div class="share" style="cursor:pointer;" id="myBtn"></div>
             <div class="social">
-                <a href="">
+                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                     <div class="tg"></div>
                 </a>
-                <a href="">
+                <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="fc"></div>
                 </a>
-                <a href="">
+                <a href="<?= 'https://www.instagram.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="insta"></div>
                 </a>
             </div>
@@ -55,28 +64,28 @@ $this->addDescription([$model->info]);
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Ўлашиш</p>
+            <p>Ulashish</p>
             <div class="share_modal">
                 <div class="sm-modal">
-                    <a href="">
+                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="tg-icon-modal"></div>
                         <div class="icon-text">Telegram</div>
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="">
+                    <a href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
                         <div class="vk-icon-modal"></div>
                         <div class="icon-text">VKontakte</div>
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="">
+                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
                         <div class="tw-icon-modal"></div>
                         <div class="icon-text">Twitter</div>
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="">
+                    <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                         <div class="fc-icon-modal"></div>
                         <div class="icon-text">Facebook</div>
                     </a>
@@ -84,9 +93,9 @@ $this->addDescription([$model->info]);
             </div>
 
             <div class="link-modal">
-                <div class="mt-4"><span class="post-link">https://new.sof.uz/uz/post/haydovchilik-guvohnomasini-almashtirish-muddati-uzaytirilishi-dxmlarga-haydovchilar-oqimini-10-barobardan-koproq-kamaytirdi</span>
-                </div>
-                <button class="share-btn">Нусха олиш</button>
+                <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="<?= $model->getViewUrl()?>">
+                
+                <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
             </div>
         </div>
 
@@ -103,9 +112,33 @@ $this->addDescription([$model->info]);
             <div class="date_text"><?= $model->getShortFormattedDate() ?></div>
         </div>
         <div class="paragraph_whole">
-            <?= $model->content; ?>
+            <?= $model->content ?>
         </div>
     </div>
 </div>
+<script>
+    var copyText = document.getElementById("postValue");
+    function myFunction() {
+        /* Get the text field */
+       
 
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+    }
+
+    function checkingBtn() {
+        var btn = document.querySelector(".share-btn")
+        if(copyText.value.length > 0){
+            btn.setAttribute("disabled", "true");
+            btn.innerHTML = "Nusxa olindi";           
+        }else{
+            btn.setAttribute("disabled", "false");
+            
+        }
+    }
+</script>
 <? //= $this->renderFile('@frontend/views/post/_footer.php', ['model' => $model]) ?>

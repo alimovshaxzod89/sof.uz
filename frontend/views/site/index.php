@@ -24,8 +24,18 @@ $mainPost = false;
 
 $recommendedPosts = PostProvider::getPopularPosts(3);
 $recommendedPosts = PostProvider::getTopPost(3);
+
+
 ?>
 
+<style>
+    
+    .custom-btn[disabled="true"]{
+        background-color: #581c88 !important;
+        color: white;
+    }
+
+</style>
 <div class="news_block">
 
     <div class="latest_news">
@@ -47,15 +57,18 @@ $recommendedPosts = PostProvider::getTopPost(3);
                             <div class="first"></div>
                         </a>
                         <div class="second">
-                            <div class="share" id="myBtn"></div>
+                            <?php
+                            $urlEnCode = urlencode($mahalliyPost->getShortViewUrl());
+                            ?>
+                            <div class="share" style="cursor:pointer;" id="myBtn"></div>
                             <div class="social">
-                                <a href="">
+                                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                                     <div class="tg"></div>
                                 </a>
-                                <a href="">
+                                <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                                     <div class="fc"></div>
                                 </a>
-                                <a href="">
+                                <a href="" target="_blank">
                                     <div class="insta"></div>
                                 </a>
                             </div>
@@ -70,36 +83,36 @@ $recommendedPosts = PostProvider::getTopPost(3);
                             <span class="close">&times;</span>
                             <p>Ulashish</p>
                             <div class="share_modal">
-                                <div class="sm-modal">
-                                    <a href="">
+                            <div class="sm-modal">
+                                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                                     <div class="tg-icon-modal"></div>
                                     <div class="icon-text">Telegram</div>
-                                    </a>
-                                </div>
-                                <div class="sm-modal">
-                                    <a href="">
-                                    <div class="tw-icon-modal"></div>
-                                    <div class="icon-text">Twitter</div>
-                                    </a>
-                                </div>
-                                <div class="sm-modal">
-                                    <a href="">
+                                </a>
+                            </div>
+                            <div class="sm-modal">
+                                <a href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
                                     <div class="vk-icon-modal"></div>
                                     <div class="icon-text">VKontakte</div>
-                                    </a>
-                                </div>
-                                <div class="sm-modal">
-                                    <a href="">
+                                </a>
+                            </div>
+                            <div class="sm-modal">
+                                <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
+                                    <div class="tw-icon-modal"></div>
+                                    <div class="icon-text">Twitter</div>
+                                </a>
+                            </div>
+                            <div class="sm-modal">
+                                <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                                     <div class="fc-icon-modal"></div>
                                     <div class="icon-text">Facebook</div>
-                                    </a>
-                                </div>
+                                </a>
+                            </div>
                             </div>
 
                             <div class="link-modal">
-                                <div class="mt-4"><span class="post-link">https://new.sof.uz/uz/post/haydovchilik-guvohnomasini-almashtirish-muddati-uzaytirilishi-dxmlarga-haydovchilar-oqimini-10-barobardan-koproq-kamaytirdi</span>
-                                </div>
-                                <button class="share-btn">Нусха олиш</button>
+                                <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="https://old.sof.uz/uz/post/<?= $mahalliyPost->slug ?>">
+                               
+                                <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
                             </div>
                         </div>
 
@@ -194,6 +207,31 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
     <?= $this->render('partials/_index_right_side') ?>
 
+<script>
+    var copyText = document.getElementById("postValue");
+    function myFunction() {
+        /* Get the text field */
+       
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+    }
+
+    function checkingBtn() {
+        var btn = document.querySelector(".share-btn")
+        if(copyText.value.length > 0){
+            btn.setAttribute("disabled", "true");
+            btn.innerHTML = "Nusxa olindi";           
+        }else{
+            btn.setAttribute("disabled", "false");
+            
+        }
+    }
+</script>
 </div>
 
 <?= $this->render('partials/_index_dolzarb') ?>

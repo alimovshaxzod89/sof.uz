@@ -32,31 +32,31 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
     </div>
     <div class="icons_footer">
         <?php if ($yt): ?>
-        <a href="<?= $yt ?>">
+        <a href="<?= $yt ?>" target="_blank">
             <div class="youtube"></div>
         </a>
         <?php endif; ?>
 
         <?php if ($tg): ?>
-            <a href="<?= $tg ?>">
+            <a href="<?= $tg ?>" target="_blank">
                 <div class="telegram"></div>
             </a>
         <?php endif; ?>
 
         <?php if ($fb): ?>
-            <a href="<?= $fb ?>">
+            <a href="<?= $fb ?>" target="_blank">
                 <div class="facebook"></div>
             </a>
         <?php endif; ?>
 
         <?php if ($tw): ?>
-            <a href="<?= $tw ?>">
+            <a href="<?= $tw ?>" target="_blank">
                 <div class="twitter"></div>
             </a>
         <?php endif; ?>
 
         <?php if ($ig): ?>
-            <a href="<?= $ig ?>">
+            <a href="<?= $ig ?>" target="_blank">
                 <div class="instagram"></div>
             </a>
         <?php endif; ?>
