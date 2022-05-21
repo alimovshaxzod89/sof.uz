@@ -41,131 +41,129 @@ $recommendedPosts = PostProvider::getTopPost(3);
     <div class="latest_news">
 
         <?php if ($mahalliyPost instanceof PostProvider): ?>
+            <article class="post post-large type-post status-publish format-video has-post-thumbnail hentry category-food post_format-post-format-video">
+                <div class="latest_block">
 
-            <div class="latest_block">
+                    <div class="latest_title">
+                        <div class="icon"></div>
+                        <h4 class="title_con"><?= $mahalliyPost->category->name ?></h4>
+                    </div>
 
-                <div class="latest_title">
-                    <div class="icon"></div>
-                    <h4 class="title_con"><?= $mahalliyPost->category->name ?></h4>
+                    <div class="whole_post">
+
+                        <div class="latest_img"
+                            style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
+                            <a href="<?= $mahalliyPost->getViewUrl() ?>">
+                                <div class="first"></div>
+                            </a>
+                            <div class="second">
+                                <?php
+                                $urlEnCode = urlencode($mahalliyPost->getShortViewUrl());
+                                ?>
+                                <div class="share" style="cursor:pointer;" id="myBtn"></div>
+                                <div class="social">
+                                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
+                                        <div class="tg"></div>
+                                    </a>
+                                    <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
+                                        <div class="fc"></div>
+                                    </a>
+                                    <a href="" target="_blank">
+                                        <div class="insta"></div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <p>Ulashish</p>
+                                <div class="share_modal">
+                                <div class="sm-modal">
+                                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
+                                        <div class="tg-icon-modal"></div>
+                                        <div class="icon-text">Telegram</div>
+                                    </a>
+                                </div>
+                                <div class="sm-modal">
+                                    <a href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
+                                        <div class="vk-icon-modal"></div>
+                                        <div class="icon-text">VKontakte</div>
+                                    </a>
+                                </div>
+                                <div class="sm-modal">
+                                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
+                                        <div class="tw-icon-modal"></div>
+                                        <div class="icon-text">Twitter</div>
+                                    </a>
+                                </div>
+                                <div class="sm-modal">
+                                    <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
+                                        <div class="fc-icon-modal"></div>
+                                        <div class="icon-text">Facebook</div>
+                                    </a>
+                                </div>
+                                </div>
+
+                                <div class="link-modal">
+                                    <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="https://old.sof.uz/uz/post/<?= $mahalliyPost->slug ?>">
+                                
+                                    <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="content">
+                            <a href="<?= $mahalliyPost->getViewUrl() ?>">
+                                <div class="title">
+                                    <?= $mahalliyPost->title ?>
+                                </div>
+                            </a>
+                            <div class="date_post">
+                                <div class="calendar_icon"></div>
+                                <div class="date_text"><?= $mahalliyPost->getShortFormattedDate() ?></div>
+                            </div>
+                            <div class="paragraph">
+                                <?= $mahalliyPost->info ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="whole_post">
-
-                    <div class="latest_img"
-                         style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                        <a href="<?= $mahalliyPost->getViewUrl() ?>">
-                            <div class="first"></div>
-                        </a>
-                        <div class="second">
-                            <?php
-                            $urlEnCode = urlencode($mahalliyPost->getShortViewUrl());
-                            ?>
-                            <div class="share" style="cursor:pointer;" id="myBtn"></div>
-                            <div class="social">
-                                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
-                                    <div class="tg"></div>
-                                </a>
-                                <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
-                                    <div class="fc"></div>
-                                </a>
-                                <a href="" target="_blank">
-                                    <div class="insta"></div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- The Modal -->
-                    <div id="myModal" class="modal">
-
-                        <!-- Modal content -->
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <p>Ulashish</p>
-                            <div class="share_modal">
-                            <div class="sm-modal">
-                                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
-                                    <div class="tg-icon-modal"></div>
-                                    <div class="icon-text">Telegram</div>
-                                </a>
-                            </div>
-                            <div class="sm-modal">
-                                <a href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
-                                    <div class="vk-icon-modal"></div>
-                                    <div class="icon-text">VKontakte</div>
-                                </a>
-                            </div>
-                            <div class="sm-modal">
-                                <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
-                                    <div class="tw-icon-modal"></div>
-                                    <div class="icon-text">Twitter</div>
-                                </a>
-                            </div>
-                            <div class="sm-modal">
-                                <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
-                                    <div class="fc-icon-modal"></div>
-                                    <div class="icon-text">Facebook</div>
-                                </a>
-                            </div>
-                            </div>
-
-                            <div class="link-modal">
-                                <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="https://old.sof.uz/uz/post/<?= $mahalliyPost->slug ?>">
-                               
-                                <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="content">
-                        <a href="<?= $mahalliyPost->getViewUrl() ?>">
-                            <div class="title">
-                                <?= $mahalliyPost->title ?>
-                            </div>
-                        </a>
-                        <div class="date_post">
-                            <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $mahalliyPost->getShortFormattedDate() ?></div>
-                        </div>
-                        <div class="paragraph">
-                            <?= $mahalliyPost->info ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </article>
         <?php endif; ?>
 
         <div class="mini_news">
 
             <div class="st_block">
-                <?php foreach ($mahalliyPosts
-
-                as $i => $post): ?>
-                <div class="mini_post">
-                    <a href="<?= $post->getViewUrl() ?>">
-                        <div class="img_mini"
-                             style='background-image: url("<?= $post->getCroppedImage(190, 100, 1) ?>")'>
-                            <div></div>
-                            <div class="tag"><?= $post->category->name ?></div>
+                <?php foreach ($mahalliyPosts as $i => $post): ?>
+                    <article class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-food">
+                        <div class="mini_post">
+                            <a href="<?= $post->getViewUrl() ?>">
+                                <div class="img_mini"
+                                    style='background-image: url("<?= $post->getCroppedImage(190, 100, 1) ?>")'>
+                                    <div></div>
+                                    <div class="tag"><?= $post->category->name ?></div>
+                                </div>
+                            </a>
+                            <div class="text_mini">
+                                <div class="date_post">
+                                    <div class="calendar_icon"></div>
+                                    <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
+                                </div>
+                                <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
+                            </div>
                         </div>
-                    </a>
-                    <div class="text_mini">
-                        <div class="date_post">
-                            <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
-                        </div>
-                        <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
-                    </div>
-                </div>
-                <?php if ($i == 1): ?>
-            </div>
-            <div class="nd_block">
-                <?php endif; ?>
-
+                    </article>
                 <?php endforeach; ?>
-
             </div>
+                
+
+            
         </div>
 
         <div class="mini_news_nd">
@@ -180,25 +178,27 @@ $recommendedPosts = PostProvider::getTopPost(3);
             <div class="nd_block">
 
                 <?php foreach ($recommendedPosts as $i => $post): ?>
-                    <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
-                        <a href="<?= $post->getViewUrl() ?>">
-                            <div class="block_image"
-                                 style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
-                                <div></div>
-                                <div class="tag_bigger"><?= $post->category->name ?></div>
-                            </div>
-                        </a>
-                        <div class="date_post_bold">
-                            <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
-                        </div>
-
-                        <div class="paragraph_bold">
+                    <article class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-food">
+                        <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
                             <a href="<?= $post->getViewUrl() ?>">
-                                <?= $post->title ?>
+                                <div class="block_image"
+                                    style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
+                                    <div></div>
+                                    <div class="tag_bigger"><?= $post->category->name ?></div>
+                                </div>
                             </a>
+                            <div class="date_post_bold">
+                                <div class="calendar_icon"></div>
+                                <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
+                            </div>
+
+                            <div class="paragraph_bold">
+                                <a href="<?= $post->getViewUrl() ?>">
+                                    <?= $post->title ?>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </article>
                 <?php endforeach; ?>
             </div>
         </div>
