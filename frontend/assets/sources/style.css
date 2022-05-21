@@ -1545,8 +1545,8 @@ input:checked + .slider:before {
     }
 
     .latest_img {
-        min-width: 325px;
-        min-height: 200px;
+        min-width: 95%;
+        min-height: 250px;
     }
 
     .st_block {
