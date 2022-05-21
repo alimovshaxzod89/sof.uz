@@ -75,8 +75,12 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                     <div class="icon-text">Telegram</div>
                                 </div>
                                 <div class="sm-modal">
-                                    <div class="ig-icon-modal"></div>
-                                    <div class="icon-text">Instagram</div>
+                                    <div class="tw-icon-modal"></div>
+                                    <div class="icon-text">Twitter</div>
+                                </div>
+                                <div class="sm-modal">
+                                    <div class="vk-icon-modal"></div>
+                                    <div class="icon-text">VKontakte</div>
                                 </div>
                                 <div class="sm-modal">
                                     <div class="fc-icon-modal"></div>

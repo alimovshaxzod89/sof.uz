@@ -32,9 +32,9 @@ $this->addDescription([$model->info]);
     <div class="latest_img_post" style='background-image: url("<?= $model->getCroppedImage(826, null) ?>")'>
         <div class="first"></div>
         <div class="second">
-            <a href="">
+            
                 <div class="share" id="myBtn"></div>
-            </a>
+            
             <div class="social">
                 <a href="">
                     <div class="tg"></div>
@@ -65,8 +65,14 @@ $this->addDescription([$model->info]);
                 </div>
                 <div class="sm-modal">
                     <a href="">
-                        <div class="ig-icon-modal"></div>
-                        <div class="icon-text">Instagram</div>
+                        <div class="vk-icon-modal"></div>
+                        <div class="icon-text">VKontakte</div>
+                    </a>
+                </div>
+                <div class="sm-modal">
+                    <a href="">
+                        <div class="tw-icon-modal"></div>
+                        <div class="icon-text">Twitter</div>
                     </a>
                 </div>
                 <div class="sm-modal">
