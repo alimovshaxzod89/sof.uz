@@ -51,14 +51,6 @@ $this->addDescription([$model->info]);
                 <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="fc"></div>
                 </a>
-                <a class="twitter" target="_blank"
-                    href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
-                    <div class="mdi mdi-twitter"></div>
-                </a>
-                <a class="vk" target="_blank"
-                    href="http://vk.com/share.php?url=<?= $urlEnCode ?>" target="_blank">
-                    <div class="mdi mdi-vk"></div>
-                </a>
                 <a href="<?= 'https://www.instagram.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="insta"></div>
                 </a>
@@ -86,24 +78,10 @@ $this->addDescription([$model->info]);
                         <div class="icon-text">Facebook</div>
                     </a>
                 </div>
-                <div class="sm-modal">
-                    <a class="twitter" target="_blank"
-                        href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
-                        <div class="mdi mdi-twitter"></div>
-                        <div class="icon-text">Twitter</div>
-                    </a>
-                </div>
-                <div class="sm-modal">
-                    <a class="vk" target="_blank"
-                        href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
-                        <div class="mdi mdi-vk"></div>
-                        <div class="icon-text">VKontakte</div>
-                    </a>
-                </div>
             </div>
 
             <div class="link-modal">
-                <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="https://old.sof.uz/uz/post/<?= $model->slug ?>">
+                <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="<?= $model->getViewUrl()?>">
                 
                 <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
             </div>
@@ -122,7 +100,7 @@ $this->addDescription([$model->info]);
             <div class="date_text"><?= $model->getShortFormattedDate() ?></div>
         </div>
         <div class="paragraph_whole">
-            <?= $model->content; ?>
+            <?= $model->content ?>
         </div>
     </div>
 </div>
