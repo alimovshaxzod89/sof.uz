@@ -29,20 +29,37 @@ $this->addDescription([$model->info]);
 ?>
 
 <?php if ($model->checkImageFileExists()) : ?>
+<style>
+
+    .custom-btn[disabled="true"]{
+        background-color: #581c88 !important;
+        color: white;
+    }
+
+</style>
     <div class="latest_img_post" style='background-image: url("<?= $model->getCroppedImage(826, null) ?>")'>
         <div class="first"></div>
         <div class="second">
-            <a href="">
-                <div class="share" id="myBtn"></div>
-            </a>
+            <?php
+                $urlEnCode = urlencode($model->getShortViewUrl());
+            ?>
+            <div class="share" style="cursor:pointer;" id="myBtn"></div>
             <div class="social">
-                <a href="">
+                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                     <div class="tg"></div>
                 </a>
-                <a href="">
+                <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="fc"></div>
                 </a>
-                <a href="">
+                <a class="twitter" target="_blank"
+                    href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
+                    <div class="mdi mdi-twitter"></div>
+                </a>
+                <a class="vk" target="_blank"
+                    href="http://vk.com/share.php?url=<?= $urlEnCode ?>" target="_blank">
+                    <div class="mdi mdi-vk"></div>
+                </a>
+                <a href="<?= 'https://www.instagram.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="insta"></div>
                 </a>
             </div>
@@ -55,32 +72,40 @@ $this->addDescription([$model->info]);
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Ўлашиш</p>
+            <p>Ulashish</p>
             <div class="share_modal">
                 <div class="sm-modal">
-                    <a href="">
+                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="tg-icon-modal"></div>
                         <div class="icon-text">Telegram</div>
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="">
-                        <div class="ig-icon-modal"></div>
-                        <div class="icon-text">Instagram</div>
+                    <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
+                        <div class="fc-icon-modal"></div>
+                        <div class="icon-text">Facebook</div>
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="">
-                        <div class="fc-icon-modal"></div>
-                        <div class="icon-text">Facebook</div>
+                    <a class="twitter" target="_blank"
+                        href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
+                        <div class="mdi mdi-twitter"></div>
+                        <div class="icon-text">Twitter</div>
+                    </a>
+                </div>
+                <div class="sm-modal">
+                    <a class="vk" target="_blank"
+                        href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
+                        <div class="mdi mdi-vk"></div>
+                        <div class="icon-text">VKontakte</div>
                     </a>
                 </div>
             </div>
 
             <div class="link-modal">
-                <div class="mt-4"><span class="post-link">https://new.sof.uz/uz/post/haydovchilik-guvohnomasini-almashtirish-muddati-uzaytirilishi-dxmlarga-haydovchilar-oqimini-10-barobardan-koproq-kamaytirdi</span>
-                </div>
-                <button class="share-btn">Нусха олиш</button>
+                <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="https://old.sof.uz/uz/post/<?= $model->slug ?>">
+                
+                <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
             </div>
         </div>
 
@@ -101,5 +126,29 @@ $this->addDescription([$model->info]);
         </div>
     </div>
 </div>
+<script>
+    var copyText = document.getElementById("postValue");
+    function myFunction() {
+        /* Get the text field */
+       
 
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+    }
+
+    function checkingBtn() {
+        var btn = document.querySelector(".share-btn")
+        if(copyText.value.length > 0){
+            btn.setAttribute("disabled", "true");
+            btn.innerHTML = "Nusxa olindi";           
+        }else{
+            btn.setAttribute("disabled", "false");
+            
+        }
+    }
+</script>
 <? //= $this->renderFile('@frontend/views/post/_footer.php', ['model' => $model]) ?>
