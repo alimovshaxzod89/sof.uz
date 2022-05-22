@@ -68,7 +68,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                 <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                                     <div class="fc"></div>
                                 </a>
-                                <a href="" target="_blank">
+                                <a href=""<?= 'https://www.twitter.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                                     <div class="insta"></div>
                                 </a>
                             </div>
@@ -126,7 +126,9 @@ $recommendedPosts = PostProvider::getTopPost(3);
                         </a>
                         <div class="date_post">
                             <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $mahalliyPost->getShortFormattedDate() ?></div>
+                            <div class="date_text"><?= $mahalliyPost->getShortFormattedDate() ?>, &nbsp;</div>
+                            <div class="eye_icon"></div>
+                            <div class="date_text">120</div>
                         </div>
                         <div class="paragraph">
                             <?= $mahalliyPost->info ?>
@@ -153,7 +155,9 @@ $recommendedPosts = PostProvider::getTopPost(3);
                     <div class="text_mini">
                         <div class="date_post">
                             <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
+                            <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
+                            <div class="eye_icon"></div>
+                            <div class="date_text">120</div>
                         </div>
                         <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
                     </div>
@@ -190,7 +194,9 @@ $recommendedPosts = PostProvider::getTopPost(3);
                         </a>
                         <div class="date_post_bold">
                             <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
+                            <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
+                            <div class="eye_icon"></div>
+                            <div class="date_text">120</div>
                         </div>
 
                         <div class="paragraph_bold">
