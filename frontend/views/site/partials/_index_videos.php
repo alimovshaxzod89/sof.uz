@@ -31,7 +31,7 @@ $videoPosts = PostProvider::getTopVideos(4);
                             <div class="calendar_icon"></div>
                 <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
                 <div class="eye_icon"></div>
-                <div class="date_text">120</div>
+                <div class="date_text"><?= $post->getViewLabel() ?></div>
                         </div>
                         <div class="paragraph_bold">
                             <a href="<?= $post->getViewUrl() ?>">
