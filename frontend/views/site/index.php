@@ -50,31 +50,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
                     </div>
 
                     <div class="whole_post">
-
-<<<<<<< HEAD
-                <div class="whole_post">
-
-                    <div class="latest_img"
-                         style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                        <a href="<?= $mahalliyPost->getViewUrl() ?>">
-                            <div class="first"></div>
-                        </a>
-                        <div class="second">
-                            <?php
-                            $urlEnCode = urlencode($mahalliyPost->getShortViewUrl());
-                            ?>
-                            <div class="share" style="cursor:pointer;" id="myBtn"></div>
-                            <div class="social">
-                                <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
-                                    <div class="tg"></div>
-                                </a>
-                                <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
-                                    <div class="fc"></div>
-                                </a>
-                                <a href=""<?= 'https://www.twitter.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
-                                    <div class="insta"></div>
-                                </a>
-=======
                         <div class="latest_img"
                             style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
                             <a href="<?= $mahalliyPost->getViewUrl() ?>">
@@ -96,7 +71,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                         <div class="insta"></div>
                                     </a>
                                 </div>
->>>>>>> 6bcbc06fe1b7489113f977a28b0646a760d1f310
                             </div>
                         </div>
 
@@ -156,18 +130,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
                             <div class="paragraph">
                                 <?= $mahalliyPost->info ?>
                             </div>
-<<<<<<< HEAD
-                        </a>
-                        <div class="date_post">
-                            <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $mahalliyPost->getShortFormattedDate() ?>, &nbsp;</div>
-                            <div class="eye_icon"></div>
-                            <div class="date_text">120</div>
-                        </div>
-                        <div class="paragraph">
-                            <?= $mahalliyPost->info ?>
-=======
->>>>>>> 6bcbc06fe1b7489113f977a28b0646a760d1f310
                         </div>
                     </div>
                 </div>
@@ -177,25 +139,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
         <div class="mini_news">
 
             <div class="st_block">
-<<<<<<< HEAD
-                <?php foreach ($mahalliyPosts
-
-                as $i => $post): ?>
-                <div class="mini_post">
-                    <a href="<?= $post->getViewUrl() ?>">
-                        <div class="img_mini"
-                             style='background-image: url("<?= $post->getCroppedImage(190, 100, 1) ?>")'>
-                            <div></div>
-                            <div class="tag"><?= $post->category->name ?></div>
-                        </div>
-                    </a>
-                    <div class="text_mini">
-                        <div class="date_post">
-                            <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
-                            <div class="eye_icon"></div>
-                            <div class="date_text">120</div>
-=======
                 <?php foreach ($mahalliyPosts as $i => $post): ?>
                     <article class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-food">
                         <div class="mini_post">
@@ -213,14 +156,16 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                 </div>
                                 <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
                             </div>
->>>>>>> 6bcbc06fe1b7489113f977a28b0646a760d1f310
                         </div>
+                        <?php if ($i == 1): ?>
+                </div>
+                <div class="nd_block">
+                    <?php endif; ?>
                     </article>
                 <?php endforeach; ?>
+                    
             </div>
-                
 
-            
         </div>
 
         <div class="mini_news_nd">
@@ -235,27 +180,8 @@ $recommendedPosts = PostProvider::getTopPost(3);
             <div class="nd_block">
 
                 <?php foreach ($recommendedPosts as $i => $post): ?>
-<<<<<<< HEAD
-                    <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
-                        <a href="<?= $post->getViewUrl() ?>">
-                            <div class="block_image"
-                                 style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
-                                <div></div>
-                                <div class="tag_bigger"><?= $post->category->name ?></div>
-                            </div>
-                        </a>
-                        <div class="date_post_bold">
-                            <div class="calendar_icon"></div>
-                            <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
-                            <div class="eye_icon"></div>
-                            <div class="date_text">120</div>
-                        </div>
-
-                        <div class="paragraph_bold">
-=======
                     <article class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-food">
                         <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
->>>>>>> 6bcbc06fe1b7489113f977a28b0646a760d1f310
                             <a href="<?= $post->getViewUrl() ?>">
                                 <div class="block_image"
                                     style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
@@ -282,7 +208,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
     </div>
 
     <?= $this->render('partials/_index_right_side') ?>
-
+</div>
 <script>
     var copyText = document.getElementById("postValue");
     function myFunction() {
@@ -308,7 +234,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
         }
     }
 </script>
-</div>
+
 
 <?= $this->render('partials/_index_dolzarb') ?>
 
