@@ -2013,6 +2013,7 @@ input:checked + .slider:before {
 }
 .whole_post_page img {
     width: 100%;
+    height: auto;
 }
 
 .button{

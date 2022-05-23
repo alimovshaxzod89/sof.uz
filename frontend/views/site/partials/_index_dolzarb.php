@@ -27,17 +27,18 @@ $posts = PostProvider::getLastPosts(7);
                 <div class="big_tag"><?= $mainPost->category->name ?></div>
             </div>
             <div class="second">
-                <a href="">
-                    <div class="share"></div>
-                </a>
+                <?php
+                    $urlEnCode = urlencode($mainPost->getShortViewUrl());
+                ?>
+                <div class="share" style="cursor:pointer;" id="myBtnPost"></div>
                 <div class="social">
-                    <a href="">
+                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="tg"></div>
                     </a>
-                    <a href="">
+                    <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                         <div class="fc"></div>
                     </a>
-                    <a href="">
+                    <a href="" target="_blank">
                         <div class="insta"></div>
                     </a>
                 </div>

@@ -51,9 +51,8 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
                     <div class="whole_post">
 
-                        <div class="latest_img"
-                            style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                            <a href="<?= $mahalliyPost->getViewUrl() ?>">
+                        <div class="latest_img" style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
+                            <a href="<?= $mahalliyPost->getViewUrl() ?>" target="_blank">
                                 <div class="first"></div>
                             </a>
                             <div class="second">
@@ -110,7 +109,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                 </div>
 
                                 <div class="link-modal">
-                                    <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="https://old.sof.uz/uz/post/<?= $mahalliyPost->slug ?>">
+                                    <input type="text" name="postValue"  id="postValue" style="width:700px; border:none;overflow: hidden;text-overflow: ellipsis;" disabled value="<?= $mahalliyPost->getViewUrl()?>">
                                 
                                     <button style="cursor:pointer;" class="share-btn custom-btn" onclick="myFunction(); checkingBtn()">Nusxa olish</button>
                                 </div>
@@ -158,6 +157,10 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                 <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
                             </div>
                         </div>
+                    <?php if ($i == 1): ?>
+                </div>
+                <div class="nd_block">
+                    <?php endif; ?>
                     </article>
                 <?php endforeach; ?>
             </div>
@@ -178,7 +181,8 @@ $recommendedPosts = PostProvider::getTopPost(3);
             <div class="nd_block">
 
                 <?php foreach ($recommendedPosts as $i => $post): ?>
-                    <article class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-food">
+                    <article
+                            class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
                         <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
                             <a href="<?= $post->getViewUrl() ?>">
                                 <div class="block_image"
@@ -207,6 +211,10 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
     <?= $this->render('partials/_index_right_side') ?>
 
+
+</div>
+
+<?= $this->render('partials/_index_dolzarb') ?>
 <script>
     var copyText = document.getElementById("postValue");
     function myFunction() {
@@ -232,8 +240,4 @@ $recommendedPosts = PostProvider::getTopPost(3);
         }
     }
 </script>
-</div>
-
-<?= $this->render('partials/_index_dolzarb') ?>
-
 <?= $this->render('partials/_index_videos') ?>

@@ -26,17 +26,19 @@ $this->params['category'] = $category;
 $this->params['post'] = $model;
 
 $this->addDescription([$model->info]);
+$this->addBodyClass('post-template-default single single-post single-format-standard navbar-sticky sidebar-right pagination-infinite_button');
 ?>
-
+<article class="post post-list type-post status-publish format-standard has-post-thumbnail hentry category-food">
 <?php if ($model->checkImageFileExists()) : ?>
-<style>
 
-    .custom-btn[disabled="true"]{
-        background-color: #581c88 !important;
-        color: white;
-    }
+    <style>
 
-</style>
+        .custom-btn[disabled="true"]{
+            background-color: #581c88 !important;
+            color: white;
+        }
+
+    </style>
     <div class="latest_img_post" style='background-image: url("<?= $model->getCroppedImage(826, null) ?>")'>
         <div class="first"></div>
         <div class="second">
@@ -100,6 +102,7 @@ $this->addDescription([$model->info]);
         </div>
 
     </div>
+
 <?php endif; ?>
 
 <div class="left-m">
@@ -116,6 +119,7 @@ $this->addDescription([$model->info]);
         </div>
     </div>
 </div>
+</article>
 <script>
     var copyText = document.getElementById("postValue");
     function myFunction() {

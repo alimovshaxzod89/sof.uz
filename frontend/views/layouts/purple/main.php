@@ -35,10 +35,14 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta property="og:url" content="<?= $url ?>">
+        <meta property="og:type" content="article"/>
         <meta property="og:title" content="<?= $this->title ? $this->title : __('Xabarlar — Sof.uz') ?>">
         <meta property="og:description" content="<?= $description ?>">
-        <meta property="og:image" content="<?= $this->getImage() ?>">
-        <meta property="og:type" content="article"/>
+        <meta property="og:image:secure_url" content="<?= $this->getImage() ?>">
+        <meta name="twitter:description" content="<?= $description ?>">
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="<?= $this->getImage() ?>" />
+
         <meta name="yandex-verification" content="90a7c91e07d99f26"/>
         <meta name="description" content="<?= $description ?>">
         <meta name="keywords" content="<?= $keywords ?>">
