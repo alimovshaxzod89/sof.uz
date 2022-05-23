@@ -14,7 +14,9 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
         <div class="text_popular">
             <div class="date_post_popular">
                 <div class="calendar_icon"></div>
-                <div class="date_text"><?= $post->getShortFormattedDate() ?></div>
+                <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
+                <div class="eye_icon"></div>
+                <div class="date_text">120</div>
             </div>
             <a href="<?= $post->getViewUrl() ?>"><p class="title_mini_popular"><?= $post->title ?></p></a>
         </div>

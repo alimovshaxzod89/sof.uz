@@ -50,7 +50,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
                     </div>
 
                     <div class="whole_post">
-
                         <div class="latest_img" style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
                             <a href="<?= $mahalliyPost->getViewUrl() ?>" target="_blank">
                                 <div class="first"></div>
@@ -157,14 +156,14 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                 <a href="<?= $post->getViewUrl() ?>"><p class="title_mini"><?= $post->title ?></p></a>
                             </div>
                         </div>
-                    <?php if ($i == 1): ?>
+                        <?php if ($i == 1): ?>
                 </div>
                 <div class="nd_block">
                     <?php endif; ?>
                     </article>
                 <?php endforeach; ?>
+                    
             </div>
-                
         </div>
 
         <div class="mini_news_nd">
@@ -208,7 +207,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
     </div>
 
     <?= $this->render('partials/_index_right_side') ?>
-
 
 </div>
 
