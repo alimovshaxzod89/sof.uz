@@ -165,8 +165,6 @@ $recommendedPosts = PostProvider::getTopPost(3);
                 <?php endforeach; ?>
             </div>
                 
-
-            
         </div>
 
         <div class="mini_news_nd">
