@@ -53,7 +53,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                 <a href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                     <div class="fc"></div>
                 </a>
-                <a href="<?= 'https://www.instagram.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
+                <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
                     <div class="insta"></div>
                 </a>
             </div>
@@ -75,13 +75,13 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="http://vk.com/share.php?url=<?= $urlEnCode ?>">
+                    <a href="http://vk.com/share.php?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="vk-icon-modal"></div>
                         <div class="icon-text">VKontakte</div>
                     </a>
                 </div>
                 <div class="sm-modal">
-                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>">
+                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="tw-icon-modal"></div>
                         <div class="icon-text">Twitter</div>
                     </a>

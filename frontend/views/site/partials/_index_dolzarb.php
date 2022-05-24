@@ -38,7 +38,7 @@ $posts = PostProvider::getLastPosts(7);
                     <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                         <div class="fc"></div>
                     </a>
-                    <a href="" target="_blank">
+                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="insta"></div>
                     </a>
                 </div>
