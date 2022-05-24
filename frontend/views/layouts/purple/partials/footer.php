@@ -14,15 +14,15 @@ $tg = Config::get(Config::CONFIG_SOCIAL_TELEGRAM_LINK);
 ?>
 <div class="nav_foot">
     <div class="foot_link">
-        <div class="nav__link hide">
+        <div class="nav-foot">
 
-            <a href="<?= Url::to(['page/sayt-haqida']) ?>" class="nav_link" style="color: white;"><?= __('Сайт ҳақида') ?></a> <span class="break">|</span>
+            <a href="<?= Url::to(['page/sayt-haqida']) ?>" class="link" style="color: white;"><?= __('Сайт ҳақида') ?></a> <span class="break">|</span>
 <!--            <a href="#" class="nav_link" style="color: white;">Алоқа</a> <span class="break">|</span>-->
-            <a href="<?= Url::to(['page/reklama']) ?>" class="nav_link" style="color: white;"><?= __('Реклама') ?></a>
+            <a href="<?= Url::to(['page/reklama']) ?>" class="link" style="color: white;"><?= __('Реклама') ?></a>
 
         </div>
     </div>
-    <div></div>
+    <div class="plus-icon" id="myBtn"></div>
 </div>
 
 <footer class="main_footer">

@@ -150,11 +150,29 @@ a {
 
 .nav {
     width: 100%;
-    height: 90px;
+    height: 94px;
     display: flex;
     justify-content: space-between;
+    background-image: url(imgs/Component\ 11.svg);
+    background-position: center;
+    background-size: cover;
     align-items: center;
-    background-image: url("imgs/Component 11.svg");
+}
+
+.nav-foot {
+    width: 100%;
+    height: 46px;
+    display: flex;
+    justify-content: space-between;
+    background-position: center;
+    background-size: cover;
+    margin-left: 15px;
+}
+
+.plus-icon{
+    width: 24px;
+    height: 24px;
+    background-image: url(imgs/18plus.svg);
     background-position: center;
     background-size: cover;
 }
@@ -1360,12 +1378,12 @@ input:checked + .slider:before {
 .nav_foot {
     width: 100%;
     height: 70px;
-    background-image: url(imgs/foot_nav.svg);
+    background-image: url(imgs/footer.svg);
     background-position: center;
     background-size: cover;
     display: flex;
     justify-content: space-between;
-    padding: 23px;
+    padding: 39px;
 }
 
 .main_footer {

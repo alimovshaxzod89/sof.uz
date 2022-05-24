@@ -30,7 +30,7 @@ $posts = PostProvider::getLastPosts(7);
                 <?php
                     $urlEnCode = urlencode($mainPost->getShortViewUrl());
                 ?>
-                <div class="share" style="cursor:pointer;" id="myBtnPost"></div>
+                <div class="share" style="cursor:pointer;" id="myBtn"></div>
                 <div class="social">
                     <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="tg"></div>

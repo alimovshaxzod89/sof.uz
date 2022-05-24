@@ -66,7 +66,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                                     <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
                                         <div class="fc"></div>
                                     </a>
-                                    <a href="" target="_blank">
+                                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
                                         <div class="insta"></div>
                                     </a>
                                 </div>
@@ -225,7 +225,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
         /* Select the text field */
         copyText.select();
-        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+        copyText.setSelectionRange(0, 99999); /*Долзарб For mobile devices */
 
         /* Copy the text inside the text field */
         navigator.clipboard.writeText(copyText.value);
