@@ -27,7 +27,7 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
     <div class="mini_post_popular">
         <a href="">
             <!-- todo: bossa ishlaydigan qilish-->
-            <div class="button_more">Ko'proq ko'rish</div>
+            <div class="button_more"><?= __('Кўпроқ кўриш') ?></div>
             <!-- <div class="button_more">Кўпроқ кўриш</div>-->
         </a>
     </div>
