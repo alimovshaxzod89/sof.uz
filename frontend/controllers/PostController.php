@@ -111,7 +111,8 @@ class PostController extends BaseController
         $model = $this->findShortModel($short);
         if ($model != null) {
             $this->getView()->params['post'] = $model;
-            $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
+//            $view                            = !$model->is_sidebar ? 'news_sidebar' : 'news';
+            $view                            = 'view';
 
             return $this->render($view, [
                 'model' => $model,
