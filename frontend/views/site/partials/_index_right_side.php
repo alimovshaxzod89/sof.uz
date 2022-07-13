@@ -1,5 +1,6 @@
 <?php
 $posts = \frontend\models\PostProvider::getLastPosts(7);
+use frontend\widgets\Banner;
 ?>
 
 <div class="popular_news">
@@ -31,6 +32,11 @@ $posts = \frontend\models\PostProvider::getLastPosts(7);
             <!-- <div class="button_more">Кўпроқ кўриш</div>-->
         </a>
     </div>
+
+    <?= Banner::widget([
+        'place'   => 'before_sidebar',
+        'options' => ['class' => 'ads-wrapper']
+    ]) ?>
 
 <!--    <div class="reklama"><h4> Reklama </h4></div>-->
 

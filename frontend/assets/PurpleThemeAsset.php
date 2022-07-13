@@ -19,10 +19,10 @@ class PurpleThemeAsset extends AssetBundle
     ];
 
     public $js = ASSET_BUNDLE ? [
-        'script.js?version=8',
+        'script.js?version=9',
         'modal.js?version=7',
     ] : [
-        'script.js?version=8',
+        'script.js?version=9',
         'modal.js?version=7',
     ];
 

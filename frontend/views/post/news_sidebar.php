@@ -111,9 +111,9 @@ $this->registerJs($js);
                 </article>
             </div>
             <?= Banner::widget([
-                                   'place'   => 'after_content',
-                                   'options' => ['class' => 'ads-wrapper']
-                               ]) ?>
+               'place'   => 'after_content',
+               'options' => ['class' => 'ads-wrapper']
+           ]) ?>
         </div>
         <div class="col-md-3" id="sticky-sidebar">
             <?= $this->renderFile('@frontend/views/layouts/partials/sidebar.php', [
