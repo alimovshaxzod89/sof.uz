@@ -1,5 +1,6 @@
 <?php
 
+use frontend\widgets\Banner;
 use frontend\models\PostProvider;
 
 $posts = PostProvider::getPopularPosts(7);
@@ -28,5 +29,10 @@ $posts = PostProvider::getTopPost(7);
         </div>
         <hr>
     <?php endforeach; ?>
+
+    <?= Banner::widget([
+        'place'   => 'before_sidebar',
+        'options' => ['class' => 'ads-wrapper']
+    ]) ?>
 
 </div>
