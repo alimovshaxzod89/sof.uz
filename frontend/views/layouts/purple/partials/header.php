@@ -41,7 +41,7 @@ use yii\helpers\Url;
                             <button class="dropbtn"><?= $link->name ?></button>
                             <div class="dropdown-content">
                                 <?php foreach ($link->child as $item): ?>
-                                    <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>
+                                    <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a> <span class="break">|</span>
                                 <?php endforeach; ?>
                             </div>
                         </div>
