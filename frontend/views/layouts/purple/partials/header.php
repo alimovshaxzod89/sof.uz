@@ -31,7 +31,7 @@ use yii\helpers\Url;
         ?>
         <?php if (is_array($links) && count($links)): ?>
             <div class="nav__link hide">
-                <?php foreach ($links as $link): ?>
+                <?php foreach ($links as $i => $link): ?>
                     <?php if ($link->hasChild()): ?>
 
                         <!--                        <a href="--><? //= $link->getViewUrl() ?><!--" class="nav_link"-->
@@ -44,10 +44,12 @@ use yii\helpers\Url;
                                     <a href="<?= $item->getViewUrl() ?>"><?= $item->name ?></a>
                                 <?php endforeach; ?>
                             </div>
-                        </div> <span class="break">|</span>
+                        </div>
+                        <?php if( $i < (count($links) -1) || !empty($moreLinks)) echo '<span class="break">|</span>'; ?>
                     <?php else: ?>
                         <a href="<?= $link->getViewUrl() ?>" class="nav_link"
-                           style="color: white;"><?= $link->name ?></a> <span class="break">|</span>
+                           style="color: white;"><?= $link->name ?></a>
+                        <?php if( $i < (count($links) -1) || !empty($moreLinks)) echo '<span class="break">|</span>'; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
 
