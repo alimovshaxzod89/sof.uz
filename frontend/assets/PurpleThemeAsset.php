@@ -14,12 +14,12 @@ class PurpleThemeAsset extends AssetBundle
         'modal.css?version=8',
     ] : [
         'https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,700,700i|Roboto:300,300i,400,700,700i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext',
-        'style.css?version=39',
+        'style.css?version=40',
         'modal.css?version=7',
     ];
 
     public $js = ASSET_BUNDLE ? [
-        'script.js?version=40',
+        'script.js?version=9',
         'modal.js?version=7',
     ] : [
         'script.js?version=9',
