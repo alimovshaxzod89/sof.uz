@@ -2065,6 +2065,8 @@ input:checked + .slider:before {
 }
 .whole_post_page img, .whole_post_page iframe {
     width: 100%;
+}
+.whole_post_page img {
     height: auto;
 }
 
