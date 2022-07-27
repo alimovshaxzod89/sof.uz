@@ -47,35 +47,35 @@ $main_menu = Category::getCategoryTree([], Config::getRootCatalog());
         <meta name="description" content="<?= $description ?>">
         <meta name="keywords" content="<?= $keywords ?>">
 
-        <link rel="apple-touch-icon" sizes="57x57" href="<?= $this->getImageUrl('favicon/apple-icon-57x57.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="60x60" href="<?= $this->getImageUrl('favicon/apple-icon-60x60.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="72x72" href="<?= $this->getImageUrl('favicon/apple-icon-72x72.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="76x76" href="<?= $this->getImageUrl('favicon/apple-icon-76x76.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="114x114"
-              href="<?= $this->getImageUrl('favicon/apple-icon-114x114.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="120x120"
-              href="<?= $this->getImageUrl('favicon/apple-icon-120x120.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="144x144"
-              href="<?= $this->getImageUrl('favicon/apple-icon-144x144.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="152x152"
-              href="<?= $this->getImageUrl('favicon/apple-icon-152x152.png') ?>?v=1">
-        <link rel="apple-touch-icon" sizes="180x180"
-              href="<?= $this->getImageUrl('favicon/apple-icon-180x180.png') ?>?v=1">
-        <link rel="icon" type="image/png" sizes="192x192"
-              href="<?= $this->getImageUrl('favicon/android-icon-192x192.png') ?>?v=1">
+<!--        <link rel="apple-touch-icon" sizes="57x57" href="--><?php //echo $this->getImageUrl('favicon/apple-icon-57x57.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="60x60" href="--><?php //echo $this->getImageUrl('favicon/apple-icon-60x60.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="72x72" href="--><?php //echo $this->getImageUrl('favicon/apple-icon-72x72.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="76x76" href="--><?php //echo $this->getImageUrl('favicon/apple-icon-76x76.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="114x114"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/apple-icon-114x114.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="120x120"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/apple-icon-120x120.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="144x144"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/apple-icon-144x144.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="152x152"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/apple-icon-152x152.png') ?><!--?v=1">-->
+<!--        <link rel="apple-touch-icon" sizes="180x180"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/apple-icon-180x180.png') ?><!--?v=1">-->
+<!--        <link rel="icon" type="image/png" sizes="192x192"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/android-icon-192x192.png') ?><!--?v=1">-->
         <link rel="icon" type="image/png" sizes="32x32"
-              href="<?= $this->getImageUrl('favicon/favicon-32x32.png') ?>?v=1">
-        <link rel="icon" type="image/png" sizes="96x96"
-              href="<?= $this->getImageUrl('favicon/favicon-96x96.png') ?>?v=1">
-        <link rel="icon" type="image/png" sizes="16x16"
-              href="<?= $this->getImageUrl('favicon/favicon-16x16.png') ?>?v=1">
-        <link rel="manifest" href="<?= $this->getImageUrl('favicon/manifest.json') ?>?v=1">
+              href="<?php echo Yii::getAlias('@web/favicon-32x32.png') ?>?v=2">
+<!--        <link rel="icon" type="image/png" sizes="96x96"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/favicon-96x96.png') ?><!--?v=1">-->
+<!--        <link rel="icon" type="image/png" sizes="16x16"-->
+<!--              href="--><?php //echo $this->getImageUrl('favicon/favicon-16x16.png') ?><!--?v=1">-->
+<!--        <link rel="manifest" href="--><?php //echo 'favicon/manifest.json') ?><!--?v=1">-->
         <meta name="msapplication-TileColor" content="#ffffff">
-        <meta name="msapplication-TileImage" content="<?= $this->getImageUrl('favicon/ms-icon-144x144.png') ?>?v=1">
+<!--        <meta name="msapplication-TileImage" content="--><?php //echo $this->getImageUrl('favicon/ms-icon-144x144.png') ?><!--?v=1">-->
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="shortcut icon" href="<?= $this->getImageUrl('favicon/favicon.ico') ?>?v=1" type="image/x-icon">
-        <link rel="icon" href="<?= $this->getImageUrl('favicon/favicon.ico') ?>?v=1" type="image/x-icon">
+        <link rel="shortcut icon" href="<?= Yii::getAlias('@web/favicon.ico') ?>?v=2" type="image/x-icon">
+        <link rel="icon" href="<?= Yii::getAlias('@web/favicon.ico') ?>?v=2" type="image/x-icon">
 
         <link rel="canonical" href="<?= $url ?>"/>
 
