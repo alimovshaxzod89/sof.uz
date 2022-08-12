@@ -10,6 +10,8 @@ services:
     networks:
       vpcbr:
         ipv4_address: 172.23.0.3
+    ports:
+      - 9004:80
     depends_on:
       - mongo
       - redis
@@ -19,6 +21,8 @@ services:
     networks:
       vpcbr:
         ipv4_address: 172.23.0.4
+    ports:
+      - 28017:27017
     volumes:
       - ./backups:/backups/sof
       - /var/www/docker/sof/mongodb/sof:/data/db
