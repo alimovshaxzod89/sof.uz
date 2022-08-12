@@ -1,5 +1,5 @@
 #!/bin/sh
-pName='sof'
+pName='sofuznew'
 
 rm -rf ./${pName}/
 OUTPUT="$(ls -t *.tgz | head -1)"

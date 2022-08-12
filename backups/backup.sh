@@ -1,5 +1,5 @@
 #!/bin/sh
-pName='sof'
+pName='sofuznew'
 
 OUTPUT="$(ls -t mon*5\-*\-*\_*_*.bak.tgz | head -1)"
 if [ -f $OUTPUT ]; then
