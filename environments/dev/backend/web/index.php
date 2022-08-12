@@ -1,4 +1,11 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+ini_set('display_startup_errors', 'on');
+
+defined('YII_DEBUG') or define('YII_DEBUG', true);
+defined('YII_ENV') or define('YII_ENV', 'dev');
+
 // Composer
 require(__DIR__ . '/../../vendor/autoload.php');
 
