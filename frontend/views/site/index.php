@@ -162,7 +162,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                         </div>
                         <?php if ($i == 1): ?>
                 </div>
-                <div class="nd_block">
+                <div class="st_block">
                     <?php endif; ?>
                     </article>
                 <?php endforeach; ?>
@@ -184,7 +184,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                 <?php foreach ($recommendedPosts as $i => $post): ?>
                     <article
                             class="post type-post status-publish format-standard has-post-thumbnail hentry category-design">
-                        <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_fourth') ?>">
+                        <div class="<?= $i == 0 ? 'block_news_third' : ($i == 1 ? 'block_news_second' : 'block_news_fourth') ?>">
                             <a href="<?= $post->getViewUrl() ?>">
                                 <div class="block_image"
                                     style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>

@@ -101,7 +101,7 @@ $post = array_shift($posts);
                     </div>
                     <?php if ($i == 1): ?>
                 </div>
-                <div class="nd_block">
+                <div class="st_block">
                     <?php endif; ?>
 
                     <?php endfor; ?>
