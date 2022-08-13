@@ -26,7 +26,7 @@ services:
       - 28017:27017
     volumes:
       - ./backups:/backups/sof
-      - /var/www/docker/sof/mongodb/sof:/data/db
+      # - /var/www/docker/sof/mongodb/sof:/data/db
 
   redis:
     image: redis:5.0

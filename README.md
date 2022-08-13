@@ -75,3 +75,5 @@ select your environment, after installation .env file automatically generated
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details
+
+docker-compose up -d
