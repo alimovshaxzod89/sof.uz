@@ -39,7 +39,7 @@ if (count($similarPosts) < $needed) {
     <div class="nd_block">
 
         <?php foreach ($posts as $i => $post): ?>
-            <div class="<?= $i == 0 ? 'block_news_first' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
+            <div class="<?= $i == 0 ? 'block_news_second' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
                 <div class="block_image"
                      style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
                     <div></div>
