@@ -51,24 +51,30 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
                     <div class="whole_post">
                         <div class="latest_img" style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                            <a href="<?= $mahalliyPost->getViewUrl() ?>" >
+                            <a href="<?= $mahalliyPost->getViewUrl() ?>">
                                 <div class="first"></div>
                             </a>
+                            
                             <div class="second">
-                                <?php
-                                $urlEnCode = urlencode($mahalliyPost->getShortViewUrl());
-                                ?>
-                                <div class="share" style="cursor:pointer;" id="myBtn"></div>
-                                <div class="social">
-                                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
-                                        <div class="tg"></div>
-                                    </a>
-                                    <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
-                                        <div class="fc"></div>
-                                    </a>
-                                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
-                                        <div class="insta"></div>
-                                    </a>
+                                <a href="<?= $mahalliyPost->getViewUrl() ?>">
+                                    <div class="second_for_main_link"></div>
+                                </a>
+                                <div class="second_for_s_media" style="display: flex; justify-content: space-between; width: 100%;">
+                                    <div class="share" style="cursor:pointer;" id="myBtn"></div>
+                                    <div class="social">
+                                        <?php
+                                        $urlEnCode = urlencode($mahalliyPost->getShortViewUrl());
+                                        ?>
+                                        <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
+                                            <div class="tg"></div>
+                                        </a>
+                                        <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
+                                            <div class="fc"></div>
+                                        </a>
+                                        <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
+                                            <div class="insta"></div>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
