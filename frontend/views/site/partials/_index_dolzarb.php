@@ -23,15 +23,14 @@ $posts = PostProvider::getLastPosts(7);
 
         <div class="main_img" style='background-image: url("<?= $mainPost->getCroppedImage(500, 350, 1) ?>")'>
             <div class="first">
-                <div></div>
                 <div class="big_tag"><?= $mainPost->category->name ?></div>
             </div>
-            <div class="second">
-                <?php
-                    $urlEnCode = urlencode($mainPost->getShortViewUrl());
-                ?>
+            <div class="second" style="display: flex; justify-content: space-between; width: 100%; align-items: end;"> 
                 <div class="share" style="cursor:pointer;" id="myBtn"></div>
                 <div class="social">
+                    <?php
+                        $urlEnCode = urlencode($mainPost->getShortViewUrl());
+                    ?>
                     <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
                         <div class="tg"></div>
                     </a>

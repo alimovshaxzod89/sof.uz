@@ -41,7 +41,7 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
     </style>
     <div class="latest_img_post" style='background-image: url("<?= $model->getCroppedImage(826, null) ?>")'>
         <div class="first"></div>
-        <div class="second">
+        <div class="second" style="display: flex; justify-content: space-between; width: 100%; align-items: end;">
             <?php
                 $urlEnCode = urlencode($model->getShortViewUrl());
             ?>
