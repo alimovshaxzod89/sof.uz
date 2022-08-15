@@ -51,7 +51,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
 
                     <div class="whole_post">
                         <div class="latest_img" style='background-image: url("<?= $mahalliyPost->getCroppedImage(500, 350, 1) ?>")'>
-                            <a href="<?= $mahalliyPost->getViewUrl() ?>" target="_blank">
+                            <a href="<?= $mahalliyPost->getViewUrl() ?>" >
                                 <div class="first"></div>
                             </a>
                             <div class="second">
