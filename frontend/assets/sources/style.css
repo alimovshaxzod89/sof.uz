@@ -1807,7 +1807,8 @@ input:checked + .slider:before {
     }
 
     .mini_post_popular {
-        margin-left: 5px;
+        display: flex;
+        justify-content: center;
     }
 
     
