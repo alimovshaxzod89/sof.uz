@@ -20,7 +20,7 @@ $posts = PostProvider::getLastPosts(7);
         </div>
 
         <?php if ($mainPost instanceof PostProvider): ?>
-
+        <a href="<?= $mainPost->getViewUrl() ?>">
         <div class="main_img" style='background-image: url("<?= $mainPost->getCroppedImage(500, 350, 1) ?>")'>
             <div class="first">
                 <div class="big_tag"><?= $mainPost->category->name ?></div>
@@ -43,6 +43,7 @@ $posts = PostProvider::getLastPosts(7);
                 </div>
             </div>
         </div>
+        </a>
 
         <div class="main_text">
             <div class="date_post_bold">
