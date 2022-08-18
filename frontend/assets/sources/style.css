@@ -1620,6 +1620,9 @@ input:checked + .slider:before {
     /* .block_news_second {
         margin-left: 6px;
     } */
+    .mini_news .st_block{
+        display: block;
+    }
 
     
 
