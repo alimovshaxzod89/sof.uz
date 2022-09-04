@@ -713,6 +713,7 @@ input:checked + .slider:before {
     flex-wrap: wrap;
     justify-content: center;
 }
+
 /* my_fix */
 /* .nd_block {
     display: inline;
