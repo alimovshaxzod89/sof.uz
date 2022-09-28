@@ -20,29 +20,37 @@ $posts = PostProvider::getLastPosts(7);
         </div>
 
         <?php if ($mainPost instanceof PostProvider): ?>
-
+        <a href="<?= $mainPost->getViewUrl() ?>">
         <div class="main_img" style='background-image: url("<?= $mainPost->getCroppedImage(500, 350, 1) ?>")'>
+            
             <div class="first">
                 <div class="big_tag"><?= $mainPost->category->name ?></div>
             </div>
-            <div class="second" style="display: flex; justify-content: space-between; width: 100%; align-items: end;"> 
-                <div class="share" style="cursor:pointer;" id="myBtn"></div>
-                <div class="social">
-                    <?php
+
+            <div class="second" > 
+                <a href="<?= $mainPost->getShortViewUrl() ?>">
+                    <div class="second_for_main_link"></div>
+                </a>
+                <div class="second_for_s_media" style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="share" style="cursor:pointer;" id="myBtn"></div>
+                    <div class="social">
+                        <?php
                         $urlEnCode = urlencode($mainPost->getShortViewUrl());
-                    ?>
-                    <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
-                        <div class="tg"></div>
-                    </a>
-                    <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
-                        <div class="fc"></div>
-                    </a>
-                    <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
-                        <div class="insta"></div>
-                    </a>
+                        ?>
+                        <a href="https://t.me/share/url?url=<?= $urlEnCode ?>" target="_blank">
+                            <div class="tg"></div>
+                        </a>
+                        <a  href="<?= 'https://www.facebook.com/sharer.php?u=' . $urlEnCode ?>" target="_blank">
+                            <div class="fc"></div>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url=<?= $urlEnCode ?>" target="_blank">
+                            <div class="insta"></div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
+        </a>
 
         <div class="main_text">
             <div class="date_post_bold">

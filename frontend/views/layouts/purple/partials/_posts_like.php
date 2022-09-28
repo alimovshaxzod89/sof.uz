@@ -40,11 +40,13 @@ if (count($similarPosts) < $needed) {
 
         <?php foreach ($posts as $i => $post): ?>
             <div class="<?= $i == 0 ? 'block_news_second' : ($i == 1 ? 'block_news_second' : 'block_news_third') ?>">
-                <div class="block_image"
-                     style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
-                    <div></div>
-                    <div class="tag_bigger"><?= $post->category->name ?></div>
-                </div>
+                <a href="<?= $post->getViewUrl() ?>">
+                    <div class="block_image"
+                        style='background-image: url("<?= $post->getCroppedImage(500, 350, 1) ?>")'>
+                        <div></div>
+                        <div class="tag_bigger"><?= $post->category->name ?></div>
+                    </div>
+                </a>
                 <div class="date_post_bold">
                     <div class="calendar_icon"></div>
                     <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>

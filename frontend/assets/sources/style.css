@@ -697,6 +697,10 @@ input:checked + .slider:before {
     justify-content: space-between;
     margin-top: 24px;
 }
+.mini_news .st_block{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 
 .st_block_search {
     width: 100%;
@@ -709,6 +713,7 @@ input:checked + .slider:before {
     flex-wrap: wrap;
     justify-content: center;
 }
+
 /* my_fix */
 /* .nd_block {
     display: inline;
@@ -1616,6 +1621,9 @@ input:checked + .slider:before {
     /* .block_news_second {
         margin-left: 6px;
     } */
+    .mini_news .st_block{
+        display: block;
+    }
 
     
 

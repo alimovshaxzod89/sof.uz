@@ -185,7 +185,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
                 </div>
             </div>
 
-            <div class="nd_block">
+            <div class="nd_block" style="flex-wrap: nowrap; ">
 
                 <?php foreach ($recommendedPosts as $i => $post): ?>
                     <article
@@ -249,3 +249,13 @@ $recommendedPosts = PostProvider::getTopPost(3);
     }
 </script>
 <?= $this->render('partials/_index_videos') ?>
+<style>
+    .nd_block{
+        flex-wrap: nowrap !important;
+    }
+    @media screen and (max-width: 600px){
+    .nd_block{
+        flex-wrap: wrap !important;
+    }
+}
+</style>
