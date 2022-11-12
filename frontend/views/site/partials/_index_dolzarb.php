@@ -56,8 +56,8 @@ $posts = PostProvider::getLastPosts(7);
             <div class="date_post_bold">
                 <div class="calendar_icon"></div>
                 <div class="date_text"><?= $mainPost->getShortFormattedDate() ?>, &nbsp;</div>
-                            <div class="eye_icon"></div>
-                            <div class="date_text"><?= $mainPost->getViewLabel() ?></div>
+                            <div class="eye_icon d-none"></div>
+                            <div class="date_text d-none"><?= $mainPost->getViewLabel() ?></div>
             </div>
             <a href="<?= $mainPost->getViewUrl() ?>">
                 <div class="bigger_title"><?= $mainPost->title ?></div>
@@ -86,8 +86,8 @@ $posts = PostProvider::getLastPosts(7);
                 <div class="date_post_bold">
                     <div class="calendar_icon"></div>
                     <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
-                    <div class="eye_icon"></div>
-                    <div class="date_text"><?= $post->getViewLabel() ?></div>
+                    <div class="eye_icon d-none"></div>
+                    <div class="date_text d-none"><?= $post->getViewLabel() ?></div>
                 </div>
                 <div class="paragraph_bold">
                     <a href="<?= $post->getViewUrl() ?>">

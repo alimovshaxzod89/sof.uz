@@ -113,8 +113,8 @@ $this->addBodyClass('post-template-default single single-post single-format-stan
         <div class="date_post_whole">
             <div class="calendar_icon"></div>
             <div class="date_text"><?= $model->getShortFormattedDate() ?>, &nbsp;</div>
-            <div class="eye_icon"></div>
-            <div class="date_text"><?= $model->getViewLabel() ?></div>
+            <div class="eye_icon d-none"></div>
+            <div class="date_text d-none"><?= $model->getViewLabel() ?></div>
         </div>
         <div class="paragraph_whole">
             <?= $model->content ?>

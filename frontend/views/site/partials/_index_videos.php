@@ -30,8 +30,8 @@ $videoPosts = PostProvider::getTopVideos(4);
                         <div class="date_post_bold">
                             <div class="calendar_icon"></div>
                 <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
-                <div class="eye_icon"></div>
-                <div class="date_text"><?= $post->getViewLabel() ?></div>
+                <div class="eye_icon d-none"></div>
+                <div class="date_text d-none"><?= $post->getViewLabel() ?></div>
                         </div>
                         <div class="paragraph_bold">
                             <a href="<?= $post->getViewUrl() ?>">

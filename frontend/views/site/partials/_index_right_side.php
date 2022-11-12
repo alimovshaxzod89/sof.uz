@@ -16,8 +16,8 @@ use frontend\widgets\Banner;
             <div class="date_post_popular">
                 <div class="calendar_icon"></div>
                 <div class="date_text"><?= $post->getShortFormattedDate() ?>, &nbsp;</div>
-                <div class="eye_icon"></div>
-                <div class="date_text"><?= $post->getViewLabel() ?></div>
+                <div class="eye_icon d-none"></div>
+                <div class="date_text d-none"><?= $post->getViewLabel() ?></div>
             </div>
             <a href="<?= $post->getViewUrl() ?>"><p class="title_mini_popular"><?= $post->title ?></p></a>
         </div>
