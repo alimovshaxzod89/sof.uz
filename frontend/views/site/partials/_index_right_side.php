@@ -1,5 +1,5 @@
 <?php
-$posts = \frontend\models\PostProvider::getLastPosts(7);
+$posts = \frontend\models\PostProvider::getLastPosts(5);
 use frontend\widgets\Banner;
 ?>
 
