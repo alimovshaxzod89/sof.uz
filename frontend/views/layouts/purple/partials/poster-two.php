@@ -1,7 +1,7 @@
 
 <!---- Poster  -->
 
-<div class="poster">
+<div class="poster poster_image">
 </div>
 
 

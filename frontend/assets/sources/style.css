@@ -1308,6 +1308,9 @@ input:checked + .slider:before {
     padding-right: 60px;
     align-items: center;
 }
+.poster_image{
+    background-image: url(imgs/posterr.jpg);
+}
 
 .addvert {
     width: 372px;
