@@ -1309,7 +1309,20 @@ input:checked + .slider:before {
     align-items: center;
 }
 .poster_image{
-    background-image: url(imgs/posterr.jpg);
+    max-width: 1300px;
+    height: 225px;
+    margin: auto;
+    background-image: url(imgs/posterr.jpg) !important; 
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 60px;
+    align-items: center;
 }
 
 .addvert {
