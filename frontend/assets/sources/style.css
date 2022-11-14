@@ -1296,7 +1296,7 @@ input:checked + .slider:before {
     max-width: 1300px;
     height: 225px;
     margin: auto;
-    background-image: url(imgs/background.png);
+    background-image: url(imgs/posterr.jpg);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;

@@ -221,6 +221,7 @@ $recommendedPosts = PostProvider::getTopPost(3);
     <?= $this->render('partials/_index_right_side') ?>
 
 </div>
+<?= $this->renderFile('@frontend/views/layouts/purple/partials/poster-two.php') ?>
 
 <?= $this->render('partials/_index_dolzarb') ?>
 <script>
