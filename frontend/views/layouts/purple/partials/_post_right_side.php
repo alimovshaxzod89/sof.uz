@@ -3,8 +3,8 @@
 use frontend\widgets\Banner;
 use frontend\models\PostProvider;
 
-$posts = PostProvider::getPopularPosts(7);
-$posts = PostProvider::getTopPost(7);
+$posts = PostProvider::getPopularPosts(5);
+$posts = PostProvider::getTopPost(5);
 ?>
 
 <div class="post_popular_block">

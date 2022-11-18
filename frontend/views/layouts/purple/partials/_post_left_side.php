@@ -2,7 +2,7 @@
 
 use frontend\models\PostProvider;
 
-$posts = PostProvider::getLastPosts(7);
+$posts = PostProvider::getLastPosts(5);
 ?>
 
 <div class="suggested_news_post">
