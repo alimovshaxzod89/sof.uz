@@ -1324,6 +1324,21 @@ input:checked + .slider:before {
     padding-right: 60px;
     align-items: center;
 }
+.poster_three_image{
+    max-width: 1300px;
+    height: 135px;
+    margin: auto;
+    background-image: url(imgs/poster-three.png) !important; 
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 60px;
+    align-items: center;
+}
 
 .addvert {
     width: 372px;

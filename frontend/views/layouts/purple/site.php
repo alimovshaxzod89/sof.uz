@@ -26,6 +26,7 @@ if (isset($this->params['category'])) $globalVars['c'] = $this->params['category
 $this->registerJs('var globalVars=' . \yii\helpers\Json::encode($globalVars) . ';', View::POS_HEAD);
 $this->beginContent('@app/views/layouts/purple/main.php');
 ?>
+<?= $this->renderFile('@frontend/views/layouts/purple/partials/poster-three.php') ?>
 
 <?= $this->renderFile('@frontend/views/layouts/purple/partials/before_header.php') ?>
 
