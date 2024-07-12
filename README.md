@@ -76,4 +76,4 @@ select your environment, after installation .env file automatically generated
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details
 
-docker-compose up -d
+docker-compose up -d# sof.uz
